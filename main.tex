@@ -9,277 +9,263 @@
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 
-% Draft-only markers. Remove all \todo{} commands before submission.
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\method}{AudioMimic}
+\newcommand{\cof}{Commit Forcing}
+\newcommand{\papertodo}[1]{%
+\par\smallskip\noindent\begin{minipage}{\linewidth}
+\textcolor{red!75!black}{\textbf{TODO:} #1}
+\end{minipage}\smallskip\par}
 
-\title{AudioMimic: Execution-Aware Streaming Music-to-Dance Generation for Humanoid Robots}
+\title{AudioMimic: Factorized Motion Coding, Commit Forcing, and Anticipatory Music Conditioning for Streaming Humanoid Dance}
 
-% \author{\IEEEauthorblockN{Tianhu Peng, \todo{complete author list}}
-% \IEEEauthorblockA{UCL Robotics Institute, University College London\\
-% \todo{emails}}}
+% \author{\IEEEauthorblockN{Tianhu Peng et al.}
+% \IEEEauthorblockA{UCL Robotics Institute, University College London}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Generating humanoid dance from live music is not only a sequence-generation problem: the system must operate causally, meet a fixed replanning budget, preserve support over long horizons, and continue from states caused by its own previous outputs. We present \method, a robot-native streaming framework that repeatedly plans short Unitree G1 motion segments and commits only an executable prefix before replanning. The motion representation separates a discrete structural token from a continuous residual, while a state-conditioned decoder reconstructs G1 root, joint, and contact references. To reduce the training--deployment mismatch induced by repeated self-generated context, we introduce \emph{Commit Forcing}, which performs a second training forward pass from an atomically committed discrete--continuous prefix and its reconstructed physical boundary state. Across 39 strict-causal 60-s rollouts from 13 held-out motions, Commit Forcing reduces mean motion error by 69.6\%, tail error by 92.3\%, and no-support rate by 66.8\% relative to a matched one-forward control. Its 135.1-ms replanning p95 remains below the 266.7-ms commit interval. These results establish the motion-only streaming backbone. The full system further introduces causal anticipatory beat conditioning and execution-state feedback through a whole-body tracker; their audio-conditioned and physical-robot evaluations are ongoing and are not included in the current quantitative claims.
+Online humanoid dance is not offline choreography played one window at a time: a streaming system must preserve motion structure and detail, continue from its own committed motion, and prepare for musical development without observing future audio. \method{} addresses these requirements as one causal planning chain. A factorized robot-motion codec represents each plan with a discrete structural token and a continuous detail residual; \cof{} trains continuation from generated motion history and its reconstructed robot state; and a causal music forecaster supplies observed and predicted-future conditions from arrived audio alone. Matched interventions across two independent training seeds show that structural-token changes have approximately 1.41 times the declared structural effect of residual changes, while the residual preserves complementary full-body variation. The integrated motion foundation completes 156 strict-causal one-minute rollouts with finite, upright motion and without a boundary-specific discontinuity. Together, these results establish a stable robot-native basis for streaming dance and a causally valid route to anticipatory music conditioning.
 \end{abstract}
 
 % ================================================================
 \section{Introduction}
 % ================================================================
-Music-to-dance methods commonly generate an entire motion sequence using access to the complete audio track. This setting is useful for choreography but mismatched to a live humanoid: future audio has not yet arrived, generation must finish before the next action deadline, and the next plan should reflect what the robot actually executed. Directly concatenating independently generated windows creates seams, whereas training only from ground-truth histories exposes the model to contexts that will not exist during deployment.
+Music-to-dance systems are commonly designed as offline sequence generators: the complete song is available, a complete motion is synthesized, and physical execution is handled afterward. A live humanoid changes the problem. Future audio has not arrived, each plan must finish before the next action deadline, and every executed segment changes the state from which the next segment begins. A streaming dancer must therefore solve three coupled questions: how to represent a plan without losing either structure or detail, how to learn from its own evolving motion history, and how to prepare for music that has not yet been heard.
 
-The problem is especially pronounced for humanoids. A visually plausible character animation may still contain unsupported flight, foot sliding, joint discontinuities, or root motion that a physical controller cannot track. Moreover, beat response is anticipatory: a robot must begin shifting support and preparing a gesture before a musical accent arrives. Detecting a beat at its onset and reacting afterward is insufficient once perception, generation, communication, and actuation delays are included.
+\method{} follows the same three-part logic. Its factorized motion codec supplies a discrete structural vocabulary together with a continuous detail channel. \cof{} replaces purely teacher-provided history with the generated context produced by the streaming loop. The causal music interface then derives two complementary conditions from arrived audio: one summarizes what has been heard, and the other predicts what is likely to follow. Together, these modules turn an offline sequence problem into a repeating causal loop of listening, anticipating, planning, executing, and replanning.
 
-We therefore formulate online humanoid dance as \emph{strict-causal receding-horizon robot motion generation}. At each replanning cycle, the generator receives only committed motion history, the current physical boundary state, and causal conditions. It predicts a short future horizon, commits a prefix, discards the unused suffix, and replans, as summarized in Fig.~\ref{fig:streaming_architecture}. The present paper draft first establishes a stable motion-only backbone and defines the two remaining components required for the final system: causal beat anticipation and feedback from physics-based execution.
+The codec is the foundation of this loop. A single continuous stream can preserve local detail but provides no explicit structural variable for support transitions and large-scale pose changes. A discrete tokenizer provides a structural alphabet but can discard articulation and within-structure variation. We combine them and make their roles testable: the token is supervised through a robot-specific structural view, the residual restores complementary full-body detail, and their combination reconstructs native G1 motion from the current robot state.
 
-The intended paper contributions are:
+The next challenge is continuation. At every cycle, the system predicts 0.53~s of motion, executes 0.27~s, reconstructs the resulting robot state, and replans. \cof{} trains across this same generated-history transition, so the model learns to recover from the context created by its earlier plans rather than seeing clean ground-truth history throughout training. The third challenge is anticipation. Since true future audio is unavailable, \method{} rolls a causal music model forward from the observed prefix and conditions motion on the resulting predicted-future state. This is a forecast, not hidden waveform lookahead. Figure~\ref{fig:architecture} summarizes the complete story.
+
+Our contributions are:
 \begin{itemize}
-    \item A strict-causal, robot-native receding-horizon formulation for live humanoid dance: the model predicts a future horizon, atomically commits a discrete--continuous prefix, updates motion history and physical boundary state from that prefix, and replans without future audio or motion.
-    \item Commit Forcing, an execution-consistent extension of generated-context training in which the second forward pass starts from the same atomically committed D+C prefix and reconstructed physical state used at deployment. This is the central contribution currently supported by 60-s experiments.
-    \item \todo{To validate} BeatAhead, an uncertainty-aware causal beat predictor and prepare--hit--release conditioner that gives a physical humanoid lead time to prepare for future accents, rather than reacting only after a beat is observed.
-    \item \todo{To validate} execution-state closure, which replans from the state actually produced by the tracker/robot and quantifies how tracking error propagates back into online generation.
+    \item a factorized robot-motion codec that gives the planner a discrete structural vocabulary and a continuous detail channel, with projector supervision and intervention tests that verify their distinct roles;
+    \item \cof{}, a generated-history training procedure that learns each new plan from the motion history and reconstructed robot state produced by previous model outputs;
+    \item an anticipatory causal music interface that derives observed and predicted-future music states from arrived audio and assigns them to the structural and detail branches.
 \end{itemize}
-The discrete--continuous latent and the whole-body tracker are enabling components rather than standalone novelty: related work already studies hybrid motion representations and direct audio-conditioned humanoid policies. Our novelty claim therefore rests on causal long-horizon planning, commit-consistent training, anticipatory beat use, and execution closure. We retain uncompleted components in the draft because they determine the final ICRA system, but mark their experiments explicitly.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=\textwidth]{figures/audiomimic-streaming-architecture-iclr.png}
-    \caption{\textbf{Robot-native streaming architecture.} A committed K64 discrete--continuous history and the S66 physical boundary state condition a causal discrete structure planner and a continuous detail generator. Each H8 plan decodes to 16 G1 frames; only C4 (eight frames, 0.267~s) is committed. The unused suffix is discarded, history and state are updated from the commit, and the system replans.}
-    \label{fig:streaming_architecture}
-\end{figure*}
+\papertodo{Isolate the effects of generated-history training and predicted-future music under frozen, matched controls.}
 
 % ================================================================
 \section{Related Work}
 % ================================================================
 \subsection{Music-Conditioned Dance Generation}
-EDGE~\cite{tseng2023edge} combines a Transformer diffusion model with Jukebox features to generate editable, arbitrarily long dance sequences and introduces contact consistency training and a Physical Foot Contact metric. MEGADance~\cite{yang2025megadance} instead targets genre-aware offline choreography using FSQ-based motion quantization, kinematic--dynamic reconstruction constraints, and a genre-routed MoE with a Mamba--Transformer backbone. AIST++~\cite{li2021aist} and FineDance~\cite{li2023finedance} provide paired music--motion data used by these methods. These works establish strong offline music-to-human-motion baselines, but neither defines a deployment-faithful loop in which only arrived audio is available and each new plan is conditioned on the robot state caused by previously committed outputs.
+FACT on AIST++~\cite{li2021aist} established large-scale music-conditioned 3D dance generation, and Bailando~\cite{siyao2022bailando} introduced discrete choreographic memory with an autoregressive dance prior. EDGE~\cite{tseng2023edge} uses Jukebox features~\cite{dhariwal2020jukebox} and Transformer diffusion for editable long-form dance, while FineDance~\cite{li2023finedance} provides fine-grained full-body choreography data. LODGE~\cite{li2024lodge} organizes long dance through coarse-to-fine primitives; MEGADance~\cite{yang2025megadance} and OpenDance~\cite{zhang2026opendance} extend genre control and multimodal choreography. These systems establish strong offline generation and data foundations. Our target is the complementary deployment problem in which a native robot-motion prefix is committed before the next causal plan is produced.
 
-\subsection{Streaming Motion Generation}
-MotionStreamer~\cite{xiao2025motionstreamer} introduced causal motion latents and Two-Forward training to reduce autoregressive exposure bias. DiscoForcing~\cite{ji2026discoforcing} studies real-time audio-responsive character control using a causal music encoder and diffusion forcing. We build on the general idea of training from generated histories but focus on the commit semantics required by a receding-horizon robot planner: discrete structure and continuous detail must be committed together, and the next forward pass must use a physical state reconstructed from that same committed action prefix.
+\subsection{Learning from Generated History}
+Scheduled Sampling~\cite{bengio2015scheduled}, Professor Forcing~\cite{lamb2016professor}, and Diffusion Forcing~\cite{chen2024diffusionforcing} address the mismatch between teacher-provided training histories and generated inference histories. MotionStreamer~\cite{xiao2025motionstreamer} and MotionStream~\cite{jiang2025motionstream} extend causal generation to streaming motion, while DiscoForcing~\cite{ji2026discoforcing} combines causal music encoding with diffusion-forcing schedules for real-time character control. These methods establish causal tokenization and streaming generation. \cof{} targets a distinct robot-state transition: the committed latent prefix is decoded into native reference motion, that motion reconstructs the next boundary state, and the following plan is learned from this generated history--state pair. The supervision therefore includes the physical consequence of commitment, not only a generated token prefix.
 
-\subsection{Hybrid Motion Representations and Humanoid Tracking}
-Purely discrete motion tokenizers provide structural abstraction but lose continuous detail, whereas continuous diffusion preserves detail without an explicit symbolic layout. DC-Motion~\cite{wang2026dcmotion} factorizes human motion into discrete structural tokens and continuous residuals. We adapt this principle to causal G1 motion planning with contacts and a state-conditioned decoder. For physical execution, general humanoid trackers such as SONIC~\cite{luo2025sonic} provide an interface between kinematic references and whole-body control. In our final system, the tracker is not only an output module: its executed state closes the next planning cycle.
+\subsection{Factorized Motion and Humanoid Generation}
+VQ-VAE~\cite{vandenOord2017vqvae} provides the standard learned discrete codebook. T2M-GPT~\cite{zhang2023t2mgpt} and MoMask~\cite{guo2024momask} use quantized motion tokens, whereas MLD~\cite{chen2023mld} models motion in a continuous latent space. DisCoRD~\cite{cho2025discord} connects discrete tokens to continuous flow decoding. Most closely, DC-Motion~\cite{wang2026dcmotion} separates human-motion structure from detail through discrete and continuous components. Our contribution is not the decomposition alone: we turn it into a robot-native streaming planning interface. Robot-specific structural supervision assigns each component a measurable role, intervention audits test that role directly, and the decoded combination determines the boundary state from which the next causal plan begins.
 
-\subsection{Direct Audio-Conditioned Humanoid Control}
-RoboPerform~\cite{li2026roboperform} is the closest robot-control work. It aligns audio and motion latents with an InfoNCE adaptor, trains a residual mixture-of-experts teacher, and distills a two-step diffusion student that directly outputs G1 joint targets. It demonstrates Isaac Gym training, MuJoCo transfer, and physical Unitree G1 execution with low per-action latency. Consequently, direct audio-to-action mapping, retargeting-free execution, and real-robot dancing cannot by themselves be our novelty. Our problem is complementary: RoboPerform trains and evaluates aligned 10-s audio--motion clips and does not formulate strict-causal streaming, repeated horizon commit, exposure to self-generated planning history, explicit future-beat uncertainty, or replanning from measured execution state. \method{} retains an explicit reference-planning layer to model long-horizon choreographic structure, then closes that planner around the tracker.
+Physics-guided motion generation and humanoid tracking connect kinematic references to executable behavior. PhysDiff~\cite{yuan2023physdiff} injects physical projection into motion diffusion; PHC~\cite{luo2023phc}, ExBody2~\cite{ji2024exbody2}, KungfuBot~\cite{xie2026kungfubot}, BeyondMimic~\cite{liao2025beyondmimic}, and SONIC~\cite{luo2026sonic} develop scalable whole-body tracking and control. RoboPerform~\cite{li2026roboperform} directly maps audio to humanoid locomotion. \method{} instead generates persistent robot-native references under a strict causal commit contract, leaving low-level tracking to the execution layer.
+
+\subsection{Anticipatory Music Representation}
+Live Music Models~\cite{gdmlyria2025live} introduce a causal architecture for continuous music generation. Magenta RealTime~2~\cite{magenta2026mrt2} combines the SpectroStream codec~\cite{li2025spectrostream} with a frame-autoregressive music model. \method{} repurposes this model as a forecaster rather than an audio renderer: prefix states summarize observed music, while a short autoregressive rollout represents a likely future. This creates anticipatory motion conditioning without access to future waveform samples.
 
 % ================================================================
 \section{Problem Formulation}
 % ================================================================
-Let $a_{\leq t}$ denote audio that has arrived by time $t$, $\hat{x}_{<t}$ the robot motion prefix already committed by the planner, and $s_t$ the physical state at the current plan boundary. The objective is to sample a future robot reference horizon
+Let $\hat{x}_{<t}$ be the G1 motion already committed at time $t$, $b_t$ the boundary state derived from the final committed frames, $m_t^{\mathrm{obs}}$ the music state encoded from arrived audio, and $m_t^{\mathrm{pred}}$ a future state sampled from the causal music model using only that arrived prefix. The generator samples a future reference horizon
 \begin{equation}
-    \hat{x}_{t:t+H-1} \sim p_\theta\!\left(x_{t:t+H-1}\mid
-    \hat{x}_{<t},s_t,a_{\leq t}\right),
+    \hat{x}_{t:t+H-1} \sim p_\theta\!\left(
+    x_{t:t+H-1}\mid \hat{x}_{<t},b_t,
+    m_t^{\mathrm{obs}},m_t^{\mathrm{pred}}\right).
     \label{eq:causal_objective}
 \end{equation}
-without reading future audio or future ground-truth motion. Only the first $C<H$ steps are committed. The remaining plan suffix is discarded, the boundary state is updated, and Eq.~\eqref{eq:causal_objective} is evaluated again.
+Only the first $C<H$ latent steps are committed. The unused suffix is discarded, the committed prefix updates the latent history and boundary state, and Eq.~\eqref{eq:causal_objective} is evaluated again.
 
-The current implementation uses the following fixed contract:
+The streaming contract is expressed in reader-facing time units:
 \begin{itemize}
-    \item $K=64$ committed latent steps (approximately 4.27~s) as motion history;
-    \item a 66-D physical boundary state $s_t$ containing root height, velocity and acceleration, 29 joint positions, and 29 joint velocities;
-    \item an $H=8$ latent-step plan, decoded to 16 motion frames;
-    \item a $C=4$ latent-step commit, corresponding to eight frames or approximately 266.7~ms.
+    \item 4.27~s of recently committed motion history;
+    \item a 0.53-s future plan containing 16 G1 frames;
+    \item execution of the first 0.27~s, or eight frames, before replanning; and
+    \item zero future-motion or future-waveform lookahead in deployable routes.
 \end{itemize}
-This action chunking allows each committed action to consider a short future while keeping the replanning interval bounded.
-
-% ================================================================
-\section{Robot-Native Streaming Generation}
-% ================================================================
-\subsection{Discrete--Continuous Motion Latent}
-Each causal motion step is represented by a discrete structural prototype $q_t$ and a continuous residual $r_t$:
-\begin{equation}
-    z_t = e(q_t) + r_t,
-    \qquad q_t\in\{1,\ldots,512\},\quad r_t\in\mathbb{R}^{256},
-    \label{eq:dc_latent}
-\end{equation}
-where $e(\cdot)$ is a learned codebook. The discrete component is intended to capture coarse motion stage and support transition, while the residual preserves joint detail and local dynamics not represented by the selected code.
-
-A state-conditioned robot-native decoder maps the combined latent and boundary state to G1 motion and contact:
-\begin{equation}
-    (\hat{x}_{t:t+1},\hat{c}_{t:t+1}) =
-    D_\psi\!\left(z_t,s_t\right),
-    \label{eq:decoder}
-\end{equation}
-where $\hat{x}$ contains a 34-D G1 motion representation and $\hat{c}\in\mathbb{R}^{2}$ contains left/right foot-contact logits. Figure~\ref{fig:dc_latent} illustrates the decomposition and shared decoder. The generator therefore operates directly in robot motion space at inference time; human-to-G1 retargeting is used only when constructing the training set.
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{figures/dc-motion-latent-iclr.png}
-    \caption{\textbf{Discrete--continuous robot motion latent.} A state-conditioned encoder compresses a 16-frame, 34-D G1 segment into eight latent steps. A single 512-entry codebook represents coarse structure, while the continuous quantization residual preserves joint detail, velocity profile, contact timing, and local articulation. The shared robot-native decoder reconstructs either the full D+C motion or the structure-only counterpart for analysis.}
-    \label{fig:dc_latent}
+    \includegraphics[width=\textwidth]{figures/audiomimic-mainline-architecture.png}
+    \caption{\textbf{AudioMimic as a causal listening--planning loop.} The factorized motion codec provides a discrete structural token and continuous detail residual. \cof{} teaches the planner to continue from its generated history and reconstructed robot state. The music interface converts arrived audio into observed and predicted-future states without future-waveform access. The minute-long evaluation in Sec.~VII validates the motion foundation through the exact-null music path; the anticipatory branch is currently validated for causality and runtime, with its effect on choreography assigned to the matched study.}
+    \label{fig:architecture}
 \end{figure*}
 
-\subsection{Factorized Future Generation}
-The structural branch is a 12-layer causal Transformer with width 768 and 12 attention heads. It autoregressively predicts the eight future $q$ tokens. Conditioned on the sampled structure, committed history, and $s_t$, a continuous diffusion branch jointly generates the corresponding eight residuals. The continuous model uses a temporal context network followed by nine AdaLN denoising blocks and is trained with a cosine-noise, $x_0$-prediction objective:
+% ================================================================
+\section{A Factorized Motion Codec for Planning}
+% ================================================================
+The codec is not merely a compression front end. It defines the language in which future motion is planned: a structural token selects the organization of the movement, a continuous residual restores variation within that structure, and the robot boundary state anchors both components to the pose from which execution continues.
+\subsection{Native Motion and Boundary State}
+The decoder predicts a 34-D G1 motion vector at 30~Hz,
 \begin{equation}
-    \mathcal{L}_{\mathrm{res}}=
-    \mathbb{E}_{r_0,\epsilon,n}
-    \left[\left\|f_\theta(r_n,n,q,h,s_t)-r_0\right\|_2^2\right].
-    \label{eq:diffusion_loss}
+    x_t = [\Delta p^{\mathrm{local}}_{xy},\; h,\;
+    \sin \Delta\psi,\;\cos \Delta\psi,\;q^{1:29}],
+    \label{eq:g1_motion}
 \end{equation}
-Training uses 1000 diffusion levels; current inference uses DDIM with NFE=10. The discrete and continuous outputs form one inseparable plan and must use the same commit boundary.
+where $\Delta p^{\mathrm{local}}_{xy}$ is heading-local planar displacement, $h$ is root height, $\Delta\psi$ is yaw change, and $q^{1:29}$ are G1 joint angles. Global planar position and absolute yaw are reconstructed by a deterministic $\mathrm{SE}(2)$ accumulator.
 
-\subsection{Receding-Horizon Commit}
-For each cycle, the model produces
+The compact robot boundary state is
 \begin{equation}
-    P_t=\{(q_{t+i},r_{t+i})\}_{i=0}^{H-1}.
+    b_t=[h,\;v^{\mathrm{local}}_{xy},\;v_z,\;\dot{\psi},\;
+    q^{1:29},\;\dot{q}^{1:29}].
+    \label{eq:boundary_state}
 \end{equation}
-The decoder causally reconstructs the corresponding 16-frame G1 reference. Only
-\begin{equation}
-    P_t^{\mathrm{commit}}=
-    \{(q_{t+i},r_{t+i})\}_{i=0}^{C-1}
-    \label{eq:atomic_commit}
-\end{equation}
-is appended to history. Both latent components are committed atomically; mixing a discrete prefix from one plan with residuals from another would change the represented motion. The new physical boundary state is computed from the decoded committed prefix. During final deployment, this idealized reconstruction will be replaced or augmented by measured tracker/robot state.
+It contains the pose and first-order motion required to continue the sequence. Planar and yaw acceleration remain evaluation signals rather than network inputs. The state is recomputed from the committed motion and detached before the next planning cycle.
 
-\subsection{Commit Forcing}
-One-forward training predicts the next horizon from ground-truth history, although inference conditions on self-generated commits. Commit Forcing makes this mismatch explicit (Fig.~\ref{fig:commit_forcing}). Given ground-truth context $h_t$ and state $s_t$, the first forward pass samples
+\subsection{Discrete Structure and Continuous Detail}
+The encoder maps a 16-frame segment and its boundary state to an eight-step 16-D latent. Each step is decomposed as
 \begin{equation}
-    \tilde{P}_t\sim p_\theta(P_t\mid h_t,s_t).
+    z_t=e(q_t)+r_t,
+    \qquad q_t\in\{1,\ldots,512\},\quad r_t\in\mathbb{R}^{16},
+    \label{eq:dc_latent}
 \end{equation}
-We stop gradients through this sample, atomically commit its first $C$ steps, causally decode them, and construct generated context
-\begin{equation}
-    (\tilde{h}_{t+C},\tilde{s}_{t+C})
-    =\mathcal{U}(h_t,s_t,\tilde{P}_t^{\mathrm{commit}}),
-    \label{eq:generated_context}
-\end{equation}
-where $\mathcal{U}$ is the same history/state update used at deployment. A second forward pass predicts the subsequent target from this generated context:
-\begin{equation}
-    \mathcal{L}_{\mathrm{CF}}=
-    \mathcal{L}_{q}\!\left(p_\theta(q_{t+C:t+C+H}\mid
-    \tilde{h}_{t+C},\tilde{s}_{t+C})\right)
-    +\lambda_r\mathcal{L}_{\mathrm{res}}.
-    \label{eq:commit_forcing}
-\end{equation}
-Residual rebasing keeps the full target latent unchanged when the generated discrete prototype differs from its ground-truth counterpart: the residual target is recomputed relative to the generated codebook vector. This prevents the two latent components from representing inconsistent target motions.
+where $e(q_t)$ is a codebook vector and $r_t$ is its continuous residual. A state-conditioned decoder $D_\psi(z_t,b_t)$ reconstructs two native G1 frames. The discrete and residual streams are parallel components of one latent; neither is decoded or committed with a different horizon.
 
+\subsection{Robot-Specific Projectors}
+We supervise the representation through deterministic views of the predicted native motion. The full projector $\Phi_f$ contains normalized native motion, boundary-aware velocities, current-root-relative positions of all 29 non-root links and two sole points, and their velocities. The structural projector $\Phi_s\subset\Phi_f$ retains root, leg, and waist channels together with torso, wrist, and sole geometry. This target concentrates the discrete stream on support, root movement, coarse pose, and endpoint organization while leaving complementary articulation to the residual.
+
+For encoder output $z$, quantized embedding $e$, and residual $r=z-\mathrm{sg}(e)$, the training reconstructions are
+\begin{align}
+    x_{\mathrm{full}} &=D_\psi(\mathrm{sg}(e)+r,b),\\
+    x_{q} &=D_\psi(z+\mathrm{sg}(e-z),b),\\
+    x_{\mathrm{robust}} &=D_\psi(\mathrm{sg}(e)+\mathcal{C}(r),b),
+\end{align}
+where $\mathrm{sg}$ stops gradients and $\mathcal{C}$ either removes the residual or adds small channel-scaled noise. The objective is
+\begin{equation}
+    \mathcal{L}=\mathcal{L}_{\mathrm{full}}+
+    \mathcal{L}_{q\text{-}\mathrm{structure}}+
+    0.25\mathcal{L}_{\mathrm{res\text{-}robust}}+
+    \mathcal{L}_{\mathrm{VQ}}.
+    \label{eq:codec_loss}
+\end{equation}
+Here $\mathcal{L}_{\mathrm{full}}$ is the mean squared error between the normalized blocks of $\Phi_f(x_{\mathrm{full}})$ and $\Phi_f(x)$. Both $\mathcal{L}_{q\text{-}\mathrm{structure}}$ and $\mathcal{L}_{\mathrm{res\text{-}robust}}$ compare the corresponding normalized blocks of $\Phi_s$ with the target structural view. Finally, $\mathcal{L}_{\mathrm{VQ}}$ is the codebook loss plus a 0.25-weighted commitment loss. Averaging each normalized block before combining them prevents high-dimensional geometry from dominating the native-motion terms.
+
+\subsection{Measuring Factorization}
+We audit the division of labor by swapping latent components between different test plans. Let $\Delta_q$ be structural displacement after replacing $q$ while retaining $r$, and $\Delta_r$ the displacement after replacing $r$ while retaining $q$. We define
+\begin{equation}
+    \mathrm{SD}=\frac{\mathbb{E}[\Delta_q]}{\mathbb{E}[\Delta_r]}.
+    \label{eq:structure_dominance}
+\end{equation}
+$\mathrm{SD}>1$ means the discrete stream has the larger effect on the declared structural view. We pair this measure with the detail recovered by the residual, within-token residual variation, effective residual rank, and noise sensitivity so that a high ratio cannot be obtained by collapsing either branch.
+
+% ================================================================
+\section{Learning to Continue with Commit Forcing}
+% ================================================================
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{figures/commit-forcing-iclr.png}
-    \caption{\textbf{Commit Forcing.} Forward~1 generates an H8 D+C plan, stops gradients, decodes it, and atomically commits C4. The committed prefix updates K64 and reconstructs S66. Forward~2 learns the next H8 plan from this generated deployment context. Residual rebasing preserves the target full latent when the generated discrete code differs from the ground-truth code.}
+    \includegraphics[width=0.88\textwidth]{figures/commit-forcing-generated-history.png}
+    \caption{\textbf{Commit Forcing learns continuation from generated history.} A stop-gradient pass produces a deployment-form motion prefix, updated history, and reconstructed robot state. The following plan is then learned from that generated context. Residual rebasing preserves the target full motion when the generated structural token differs from the target token.}
     \label{fig:commit_forcing}
 \end{figure*}
 
-% ================================================================
-\section{Causal Anticipatory Music Conditioning}
-% ================================================================
-\subsection{Why Current-Beat Conditioning Is Insufficient}
-The current validated results are motion-only. Earlier offline ablations showed that richer or higher-dimensional beat features can change dance behavior, but beat alignment, motion distribution, and physical quality do not improve together. A live robot additionally requires lead time: support transfer must begin before the target accent. We therefore treat beat anticipation, rather than feature dimensionality alone, as the next research question.
+\subsection{Factorized Planner}
+A causal Transformer autoregressively predicts eight future structural tokens. Conditioned on the sampled structure, committed history, and boundary state, a continuous diffusion branch jointly predicts the corresponding eight residuals. The residual model uses $x_0$ prediction and DDIM sampling~\cite{song2021ddim} with ten function evaluations. Decoding produces a 0.53-s plan of 16 G1 frames.
 
-\subsection{BeatAhead}
-\todo{Implementation and quantitative evaluation ongoing.}
-A causal audio encoder reads only $a_{\leq t}$ and predicts $M$ hypotheses for upcoming rhythmic events:
+\subsection{Receding-Horizon Commit}
+At cycle $t$, the eight-step latent plan is
 \begin{equation}
-    \mathcal{B}_t=
-    \left\{(\Delta t_m,p_m,d_m,u_m,\sigma_m)\right\}_{m=1}^{M},
-    \label{eq:beat_hypotheses}
+    P_t=\{(q_{t+i},r_{t+i})\}_{i=0}^{7}.
 \end{equation}
-where $\Delta t_m$ is time-to-beat, $p_m$ the hypothesis probability, $d_m$ the downbeat probability, $u_m$ the accent strength, and $\sigma_m$ timing uncertainty. We currently plan $M=3$ to retain alternatives under syncopation or tempo changes.
+The system executes the first four latent steps,
+\begin{equation}
+    P_t^{\mathrm{commit}}=\{(q_{t+i},r_{t+i})\}_{i=0}^{3},
+    \label{eq:commit_prefix}
+\end{equation}
+decodes the eight committed motion frames, updates the recent history, and constructs the next boundary state using Eq.~\eqref{eq:boundary_state}. The two latent components advance together, preserving the codec's structural-detail decomposition while making the state transition used for replanning explicit.
 
-Each hypothesis is converted to an asymmetric prepare--hit--release field $\Phi_m(t)$. Preparation grows before a candidate beat, the hit component peaks near the event, and release decays afterward. A lead-time policy suppresses actions that can no longer be safely prepared: full preparation is allowed above 150~ms, shortened gestures are used between 50 and 150~ms, and late accents below 50~ms are not chased aggressively.
+\subsection{Commit Forcing}
+\cof{} aligns training with this generated-history transition, as shown in Fig.~\ref{fig:commit_forcing}. A first forward pass samples a deployment-form plan $\tilde{P}_t$. Gradients are stopped through the sample, the executed prefix is decoded, and the same causal state update used at inference produces
+\begin{equation}
+    (\tilde{h}_{t+C},\tilde{b}_{t+C})
+    =\mathcal{U}(h_t,b_t,\tilde{P}_t^{\mathrm{commit}}).
+    \label{eq:generated_context}
+\end{equation}
+A second forward pass learns the following horizon from this generated context. Let $z_i^*=e(q_i^*)+r_i^*$ be the target full latent and $\tilde q_i$ the structural token supplied by the generated context. The rebased residual target is
+\begin{equation}
+    \tilde r_i^*=z_i^*-e(\tilde q_i),
+    \qquad e(\tilde q_i)+\tilde r_i^*=z_i^*.
+    \label{eq:residual_rebasing}
+\end{equation}
+This preserves the target full motion while expressing its detail relative to the structural token the planner will actually receive. The central idea is that continuation is learned from the consequence of a model-generated plan---decoded motion, updated history, and reconstructed robot state---rather than from another clean ground-truth window.
 
-The structural token generator receives beat-slot cross-attention, while the continuous residual branch receives a FiLM/AdaLN modulation. This separation lets predicted rhythmic structure influence phase transitions while continuous conditioning controls local timing and intensity.
+\papertodo{Run the matched \cof{} ablation for long-horizon quality, recovery, and boundary continuity.}
 
 % ================================================================
-\section{Physics-Based Execution Closure}
+\section{Anticipating Music without Future Audio}
 % ================================================================
-\todo{SONIC simulation and physical-G1 results to be added.}
-The generated G1 reference is passed to a universal whole-body motion tracker such as SONIC~\cite{luo2025sonic}. A purely feed-forward interface would leave the next generator state equal to the planned reference even when the controller lags or deviates. We instead define execution closure:
-\begin{equation}
-    s_{t+C}^{\mathrm{next}} =
-    \begin{cases}
-    s_{t+C}^{\mathrm{ref}}, & \text{reference-state baseline},\\
-    s_{t+C}^{\mathrm{exec}}, & \text{execution-aware planning},
-    \end{cases}
-    \label{eq:execution_closure}
-\end{equation}
-where $s^{\mathrm{exec}}$ is estimated from simulated or physical robot state. The final online loop is
-\begin{equation}
-\begin{aligned}
-    a_{\leq t} &\rightarrow \text{BeatAhead}
-    \rightarrow \method \rightarrow \text{commit}\\
-    &\rightarrow \text{tracker}
-    \rightarrow s^{\mathrm{exec}}_{t+C}
-    \rightarrow \method.
-\end{aligned}
-\end{equation}
-The comparison in Eq.~\eqref{eq:execution_closure} isolates whether closing the planner around actual execution prevents long-horizon drift under tracking error and disturbances.
+A causal dancer needs both reaction and preparation. The observed-music state answers what has just happened; the predicted-future music state estimates what is likely to happen during the next motion plan. The latter is produced entirely from the arrived prefix and therefore supplies anticipation without violating causality.
+
+Arrived audio is converted into discrete music tokens by SpectroStream, after which a frozen Magenta RealTime~2 temporal model provides the two conditions. The \emph{observed-music state} summarizes hidden states produced by the real audio prefix. The \emph{predicted-future music state} is obtained by rolling the same causal model forward far enough to cover the next short motion plan. Both states are aligned to motion time before entering the planner.
+
+The structural planner receives reactive and future states through cross-attention. The residual generator receives time-aware pooled conditions through FiLM~\cite{perez2018film}. Each branch has an exact-null bypass, so disabling music recovers the motion parent without changing its random state or commit history. Audio inference runs asynchronously: the motion loop consumes the newest completed immutable snapshot at or before the current cutoff and records its age, rather than serializing a large music model inside the 0.27-s replanning path.
+
+\papertodo{Compare observed-only, predicted-future, shifted, shuffled, and exact-null music conditions using matched seeds.}
 
 % ================================================================
 \section{Experiments}
 % ================================================================
-\subsection{Motion-Only Protocol}
-We evaluate 13 held-out source motions with three sampling seeds, producing 39 strict-causal 60-s closed-loop rollouts per trained method. All methods use the same $K64/H8/C4/S66$ streaming contract. Two Commit-Forcing models are trained from independent random initializations to test repeatability.
+The experiments follow the method's three-part story. The codec audit asks whether structure and detail have acquired distinct, non-collapsed roles. The streaming study asks whether the complete generated-history system remains coherent over a minute. The music-interface study asks whether future states can be produced causally and within the planning budget; its effect on choreography remains the explicit final experiment.
 
-We report mean and 95th-percentile motion MSE, joint jerk, root drift, no-support rate, and p95 replanning latency. Motion MSE measures deviation from the corresponding evaluation motion under the current aligned protocol; because dance continuation is multimodal, we do not interpret MSE alone as perceptual quality. No-support rate is the fraction of frames in which neither foot has reliable near-ground support.
+\subsection{Protocol}
+We train on the canonical FineDance-to-G1 pipeline~\cite{li2023finedance} at 30~Hz. Codec comparisons use two matched training seeds. The complete streaming study crosses two codec seeds with two downstream generator seeds; each chain is evaluated with three sampling seeds on 13 held-out sources. This produces 156 strict-causal 60-s rollouts with 4.27~s of history, a 0.53-s future plan, and a 0.27-s executed prefix. All reported physical metrics are computed from native motion through the same G1 forward-kinematics implementation.
 
-\subsection{Long-Horizon Results}
-Table~\ref{tab:motion_results} reports the current validated results. Commit Forcing substantially reduces both average and tail error relative to the matched one-forward control. The improvement is reproduced by an independently trained model. The one-forward model obtains lower joint jerk, but its much larger motion error, drift, and no-support rate show that this reflects loss of activity in failed long rollouts rather than superior motion quality.
+Following the distributional-quality, diversity, and physical-plausibility evaluation families used in dance generation~\cite{li2021aist,li2023finedance}, the current result reports distribution distance, motion diversity, foot--ground plausibility, long-horizon completion, and generation latency. Because the output is native G1 motion rather than SMPL motion, the available distribution and diversity values are computed in a fixed robot-motion feature space. Factorization interventions and boundary smoothness are reported separately as mechanism-specific diagnostics. Qualitative review includes representative and difficult 60-s renders rather than selected short clips.
 
-\begin{table*}[t]
-\centering
-\caption{Strict-causal 60-s evaluation on 13 held-out motions with three sampling seeds. Lower is better for all reported metrics.}
-\label{tab:motion_results}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lcccccc}
-\toprule
-Method & Mean motion MSE & P95 motion MSE & Joint jerk & Root drift (m) & No-support (\%) & Replan p95 (ms)\\
-\midrule
-Commit Forcing & \textbf{0.294} & \textbf{0.448} & 450 & 0.996 & \textbf{7.0} & 135.1\\
-Commit Forcing (independent repeat) & 0.313 & 0.466 & 463 & \textbf{0.759} & 7.4 & 132.2\\
-One-Forward control & 0.966 & 5.815 & \textbf{366} & 1.376 & 21.1 & 135.5\\
-Previous discrete streaming baseline & 0.361 & 0.489 & 833 & 1.691 & 7.9 & \textbf{44.6}\\
-\bottomrule
-\end{tabular}}
-\end{table*}
+\papertodo{Add standard motion FID, physical-foot-contact, BeatAlign, diversity, and extractor provenance.}
 
-Relative to One-Forward, the main Commit-Forcing model reduces mean motion MSE by 69.6\%, p95 motion MSE by 92.3\%, and no-support rate by 66.8\%. Its 135.1-ms p95 replanning time is below the 266.7-ms commit interval, establishing feasibility at the reference-planning layer. This timing does not yet include the complete audio and physical-control stack.
+\subsection{Factorization Audit}
+This experiment tests the codec's defining claim: changing the structural token should reorganize motion more strongly than changing the residual, while the residual must still retain meaningful variation. Figure~\ref{fig:codec_evidence} reports the matched intervention audit. Both independent seeds place the 95\% confidence interval for structure dominance above one. The residual contributes 45.4\% complementary-detail gain, retains 76.6\% within-token variation, and uses 15.15 of 16 effective dimensions.
 
-\subsection{Required Commit-Forcing Ablation}
-The current comparison establishes the effect of the full procedure but does not yet isolate its constituent operations. Before submission we will compare: (i) One-Forward; (ii) latent-only Two-Forward; (iii) atomic D+C commit; (iv) generated-history update; (v) reconstructed $S66$; and (vi) full Commit Forcing.
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.88\textwidth]{figures/codec-factorization-evidence.pdf}
+    \caption{\textbf{Intervention evidence for the factorized motion codec.} (a) Replacing the structural token changes the declared structural motion view more strongly than replacing the residual for both training seeds; error bars are paired-bootstrap 95\% confidence intervals. (b) Complementary-detail gain, within-token variation, and effective rank show that the continuous residual remains informative rather than collapsing.}
+    \label{fig:codec_evidence}
+\end{figure*}
+
+For the compact-state representation, the mean structural displacements from discrete and residual swaps are 0.5916 and 0.4182. Removing the residual increases structural error by approximately 43\% and complementary-detail error by approximately 83\%. Adding 3\% channel-scaled residual noise changes structural and detail error by 0.12\% and 0.40\%, respectively. Together, these results show that the discrete stream controls the declared structure while the residual carries stable, complementary variation.
+
+\subsection{Long-Horizon Streaming}
+This experiment tests whether the codec and generated-history training loop remain coherent beyond a single planning window. All four crossed training chains complete structural-token learning, residual refinement, and \cof{} training, including exact continuation after interruption. Across the twelve canonical evaluation suites, every rollout remains finite and upright, with no inversion or tilt above $30^\circ$. Table~\ref{tab:streaming} reports the canonical median together with typical replanning latency. These results validate the integrated motion system; the isolated effect of \cof{} remains assigned to the TODO ablation in Sec.~V-C.
 
 \begin{table}[t]
 \centering
-\caption{Planned attribution ablation. Values marked ``--'' are not yet available.}
-\label{tab:cf_ablation}
-\begin{tabular}{lccc}
+\caption{Strict-causal one-minute motion results. Distribution and diversity use a fixed native-robot feature space.}
+\label{tab:streaming}
+\begin{tabular}{lr}
 \toprule
-Variant & Mean MSE & No-support & Drift\\
+Metric & Result\\
 \midrule
-One-Forward & 0.966 & 21.1\% & 1.376\\
-Latent-only Two-Forward & -- & -- & --\\
-+ atomic D+C commit & -- & -- & --\\
-+ generated $K64$ & -- & -- & --\\
-+ reconstructed $S66$ & -- & -- & --\\
-Full Commit Forcing & 0.294 & 7.0\% & 0.996\\
+Distribution distance $\downarrow$ & 15.64\\
+Motion diversity $\uparrow$ & 23.88\\
+Ground penetration $\downarrow$ & 0.068\\
+Finite and upright rate $\uparrow$ & 100\%\\
+Typical replanning latency p95 $\downarrow$ & 133--145~ms\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Planned Audio Evaluation}
-\todo{Populate after BeatAhead training.}
-Audio evaluation will compare motion-only generation, current-beat pulse, a causal audio embedding without explicit prediction, a single predicted beat, multi-hypothesis BeatAhead, oracle future beats, and a non-causal audio upper bound. In addition to BAS and Beat F1, we will report motion-to-audio lead/lag, downbeat alignment, accent--motion intensity correlation, tempo-change recovery time, and abrupt-switch response time. Physical metrics will be reported jointly to prevent improved synchronization from hiding foot sliding or unsupported motion.
+As a transition-specific diagnostic, the median boundary/interior jerk ratio is 0.985, showing no boundary-specific discontinuity at the commit transition. Typical replanning p95 is 133--145~ms under the 266.7-ms execution interval. Together with the 100\% finite and upright rate, these results show that the robot-native motion foundation sustains causal replanning over a full minute.
 
-\subsection{Planned Physics and Real-Robot Evaluation}
-\todo{Populate after SONIC integration.}
-We will compare reference-state and executed-state feedback in simulation under nominal tracking, delay, perturbations, and tracking noise. Metrics include joint tracking RMSE, root and contact error, fall/intervention rate, joint-limit violations, survival duration, executed-trajectory beat alignment, and end-to-end latency. The target physical evaluation uses unseen songs, repeated 30--60-s trials, and synchronized audio/video evidence without access to future audio.
+\subsection{Music-Interface Systems Validation}
+This experiment tests whether future-music prediction is genuinely causal and computationally usable before asking whether it improves dance. The interface passes prefix equivalence, post-cutoff mutation invariance, deterministic save/restore, future-hidden alignment, and exact-null motion tests for both the 230M and 2.4B Magenta RealTime~2 models. On GH200 hardware, steady predicted-state throughput is 75.7 frames/s for the 230M model and 17.8 frames/s for the 2.4B model. Since synchronous refresh would require 101.25 frames/s, the system uses the asynchronous snapshot interface shown in Fig.~\ref{fig:architecture}. This preserves the motion replanning deadline while exposing snapshot age as an explicit runtime measurement.
 
 % ================================================================
-\section{Discussion and Limitations}
+\section{Discussion}
 % ================================================================
-The current evidence supports stable robot-reference planning, not yet autonomous physical dancing. First, the motion-only evaluation does not demonstrate music responsiveness. Second, $S66$ is reconstructed from the committed reference rather than measured execution, so current rollouts close the generator around its outputs but not around robot dynamics. Third, aligned motion MSE is useful for diagnosing rollout divergence but is not a complete quality metric for multimodal dance. Fourth, sampled discrete planning is currently the validated decoding route; alternative decoding strategies may have different long-horizon behavior. Finally, the 13-motion evaluation should be expanded with more held-out motions, music genres, training seeds, and confidence intervals.
+The completed evidence establishes two links of the proposed causal chain. The factorized codec has a measured structural-detail division of labor, and the complete codec--\cof{} motion system remains coherent in strict-causal minute-long generation. The factorization audit is decisive because it measures intervention effects rather than assigning semantic roles from reconstruction loss alone. The long rollouts establish the capability of the integrated motion foundation; the matched history ablation will identify the specific contribution of \cof{}.
 
-These limitations motivate rather than invalidate the next stages. BeatAhead tests whether causal future-beat hypotheses create measurable preparation before an accent. Execution closure tests whether the same planner remains stable when the boundary state is produced by a tracker and physical dynamics. Together they convert the validated streaming backbone into the intended real-time music-to-robot system.
+The generated boundary state is reconstructed from committed robot-native reference motion, making the transition used by the next plan explicit. This paper studies reference generation under that causal contract; controller-in-the-loop execution is assigned to the next evaluation layer.
+
+The future-music interface completes the architectural story but not yet the empirical one. It supplies a causal, latency-aware path from arrived audio to both structural and detail generation. The decisive remaining test is whether the predicted-future state improves music--motion correspondence over observed-only conditioning while preserving the motion, support, diversity, and long-horizon properties established here.
+
+\papertodo{Add controller-in-the-loop or real-G1 evidence before making hardware or closed-loop claims.}
 
 % ================================================================
 \section{Conclusion}
 % ================================================================
-We presented the current stage of \method, a robot-native receding-horizon generator for online humanoid dance. A discrete--continuous representation combines structural planning with continuous detail, and Commit Forcing trains the generator from the same committed latent and physical-state context it encounters during deployment. Current 60-s strict-causal experiments show large and repeatable improvements over one-forward training while meeting the reference-planning latency budget. The remaining work is deliberately scoped: causal anticipatory beat conditioning, attribution ablations, and execution-state closure through simulation and a physical G1. These additions will determine whether the stable motion generator becomes a complete real-time music-responsive humanoid system.
-
+We presented \method{} as a three-part route from offline choreography to streaming humanoid dance. A factorized motion codec supplies a verified structural vocabulary and complementary detail channel. \cof{} continues planning from generated motion history and its reconstructed robot state. A causal music model supplies both observed and predicted-future states, giving the planner a mechanism for anticipation without future-waveform access. Multi-seed intervention audits and 156 one-minute rollouts establish a stable robot-native motion foundation, while causal and runtime tests establish that future-music prediction can enter the same streaming loop. \method{} therefore provides a unified basis for listening, anticipating, committing motion, and continuing from its consequences.
 
 \bibliographystyle{IEEEtran}
 \bibliography{Reference}
