@@ -291,21 +291,29 @@ distributions rather than to a universal absolute score.
 
 \begin{table}[t]
 \centering
-\caption{Preliminary placeholder: M3 generator-side evaluation on six 60-s G1
-references. M3 is not the final model. All values are means over two songs and
-three sampling seeds per song.}
+\caption{Preliminary two-axis evaluation of the M3 generator on six 60-s G1
+references. M3 is not the final model; values are means over two songs and three
+sampling seeds per song.}
 \label{tab:m3_reference_eval}
-\scriptsize
+\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.16\columnwidth}p{0.29\columnwidth}p{0.47\columnwidth}@{}}
+\begin{tabular}{@{}p{0.47\columnwidth}p{0.47\columnwidth}@{}}
 \toprule
-Evaluation block & Question & M3 $M_{\mathrm{ref}}$ (mean) \\
+\multicolumn{1}{c}{\textbf{Music adaptation}} &
+\multicolumn{1}{c}{\textbf{Dance quality}} \\
 \midrule
-Validity & Can the generator produce a usable G1 sequence? & finite motion rate: $1.000$ \\
-\midrule
-Dance quality & Is the generated motion physically plausible and sufficiently expressive? & D score$^\dagger$: $51.6$; root drift: $1.535$ m; foot sliding: $0.505$ m \\
-\midrule
-Music adaptation & Does the motion respond to the paired music and its beat structure? & M score$^\dagger$: $62.9$; BAS: $0.258$; precision / recall: $0.304 / 0.187$; Beat F1: $0.227$; timing: $-0.049 \pm 1.448$ frames \\
+\textbf{Question.} Does the motion respond to the paired music and its beat
+structure?\par\smallskip
+\textbf{M3 result.} M score$^\dagger$: $62.9$; BAS: $0.258$; Beat F1: $0.227$;
+precision / recall: $0.304 / 0.187$; timing: $-0.049 \pm 1.448$ frames.\par\smallskip
+\textbf{Reading.} Beat events are centered, but recall is low and offbeat
+responses are frequent: partial rhythmic response, not complete beat coverage. &
+\textbf{Question.} Is the motion physically plausible, continuous, and expressive?\par\smallskip
+\textbf{M3 result.} D score$^\dagger$: $51.6$; root drift: $1.535$ m; foot
+sliding: $0.505$ m; mean joint jerk: $446.8$; range violation: $1.03\%$;
+finite motion rate: $1.000$.\par\smallskip
+\textbf{Reading.} The sequence is valid, but evidence for strong dynamic dance
+expression is limited. Jerk is a diagnostic, not a standalone beauty score. \\
 \bottomrule
 \end{tabular}
 \par\vspace{1mm}
