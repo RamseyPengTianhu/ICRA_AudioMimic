@@ -246,37 +246,26 @@ The completed experiment tests whether coarse structure and fine detail acquire 
 
 \begin{table*}[!t]
 \centering
-\caption{Two primary outcomes and the current M3 pilot evidence. The final endpoints
-define the evidence required for the paper claim. Pilot values are means over six
-60-s G1 references (two songs, three sampling seeds per song) and are reported only
-to verify the evaluator and expose failure modes; they are not a model comparison.}
+\caption{Generator-side M3 pilot results on six 60-s G1 references
+(two songs, three sampling seeds per song). Values are means.}
 \label{tab:m3_reference_eval}
 \small
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{@{}p{0.13\textwidth}p{0.31\textwidth}p{0.27\textwidth}p{0.21\textwidth}@{}}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular*}{0.92\textwidth}{@{\extracolsep{\fill}}lrlr@{}}
 \toprule
-Primary outcome & Final paper endpoints & Current M3 pilot & Supported inference \\
+\multicolumn{2}{c}{\textbf{Music adaptation}} &
+\multicolumn{2}{c}{\textbf{Dance quality}} \\
+\cmidrule(lr){1-2}\cmidrule(lr){3-4}
+Metric & M3 & Metric & M3 \\
 \midrule
-\textbf{Music adaptation} &
-BAS with beat precision/recall/F1 and timing; onset response and lag; tempo/phase;
-paired--wrong--shifted audio controls; retrieval and blinded music-fit ratings. &
-BAS $0.258$; precision $0.304$; recall $0.187$; Beat F1 $0.227$; matched-event
-timing $-0.049\pm1.448$ frames; offbeat rate $0.696$. &
-Detected events are well centred, but coverage is low and offbeat responses are
-frequent. This supports partial rhythmic response only; semantic, structural, and
-style adaptation remain untested. \\
-\addlinespace
-\textbf{Dance quality} &
-FID$_k$/FID$_g$ and Div$_k$/Div$_g$ against matched $O_{\mathrm{G1}}$; PFC/FSR;
-energy, jerk, freezing, repetition, and boundary continuity; blinded naturalness and
-expressiveness ratings. &
-Finite-motion rate $1.000$; joint-range violation $1.03\%$; root drift $1.535$ m;
-foot sliding $0.505$ m; mean joint jerk $446.8$. &
-The representation is numerically valid, but realism, diversity, smoothness, and
-aesthetic quality cannot be established without matched GT distributions and human
-judgement. \\
+BAS $\uparrow$                         & 0.258                  & Finite motion $\uparrow$              & 100\%  \\
+Beat precision $\uparrow$              & 0.304                  & Joint-range violations $\downarrow$   & 1.03\% \\
+Beat recall $\uparrow$                 & 0.187                  & Foot sliding (m) $\downarrow$         & 0.505  \\
+Beat F1 $\uparrow$                     & 0.227                  & Ground penetration (m) $\downarrow$   & 0.043  \\
+Beat timing (frames) $\rightarrow 0$   & $-0.049\pm1.448$      & Root displacement (m)                 & 1.535  \\
+Offbeat rate $\downarrow$              & 0.696                  & Mean joint jerk                        & 446.8  \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
 \end{table*}
 
 \subsection{Protocol}
