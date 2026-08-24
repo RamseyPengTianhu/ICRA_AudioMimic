@@ -251,38 +251,33 @@ The completed experiment tests whether coarse structure and fine detail acquire 
 score is used.}
 \label{tab:evaluation_matrix}
 \small
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.13\textwidth}
-                    >{\raggedright\arraybackslash}p{0.32\textwidth}
-                    >{\raggedright\arraybackslash}p{0.13\textwidth}
-                    >{\raggedright\arraybackslash}p{0.32\textwidth}@{}}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.455\textwidth}
+                    @{\hspace{0.03\textwidth}}
+                    >{\raggedright\arraybackslash}p{0.455\textwidth}@{}}
 \toprule
-\multicolumn{2}{c}{\textbf{Music adaptation}} &
-\multicolumn{2}{c}{\textbf{Dance quality}} \\
-\cmidrule(lr){1-2}\cmidrule(lr){3-4}
-Facet & Endpoints & Facet & Endpoints \\
+\multicolumn{1}{c}{\textbf{Music adaptation}} &
+\multicolumn{1}{c}{\textbf{Dance quality}} \\
 \midrule
-\textbf{Rhythm} & BAS $\uparrow$; beat precision/recall/F1 $\uparrow$; timing
-$\rightarrow0$; offbeat rate $\downarrow$ &
-\textbf{Realism} & FID$_k$/FID$_g$ $\downarrow$ against matched ground truth \\
-\textbf{Tempo and phase} & BPM/period error $\downarrow$; accent phase error $\downarrow$ &
-\textbf{Diversity} & Div$_k$/Div$_g$ and same-song diversity $\rightarrow$ GT \\
-\textbf{Dynamics} & Onset--impact correlation $\uparrow$; response lag
-$\rightarrow0$; energy-envelope response $\uparrow$ &
-\textbf{Smoothness} & Velocity/acceleration and jerk $\rightarrow$ GT; jitter and
-boundary discontinuity $\downarrow$ \\
-\textbf{Musical structure} & Phrase/section response $\uparrow$; transition timing
-$\rightarrow0$; long-horizon fit $\uparrow$ &
-\textbf{Activity} & Motion energy, static/freezing ratio, and repetition $\rightarrow$ GT \\
-\textbf{Cross-modal semantics} & Audio--motion R@K $\uparrow$; multimodal distance
-(MMDist) $\downarrow$ &
-\textbf{Physical plausibility} & PFC, FSR, and penetration $\downarrow$; root and
-joint-limit stability $\uparrow$ \\
-\textbf{Style and emotion} & Frozen genre/mood agreement and blinded fit ratings
-$\uparrow$ &
-\textbf{Perception} & Blinded naturalness, aesthetics, smoothness, and expressiveness
-$\uparrow$ \\
+\textbf{Rhythm}\quad BAS, Beat-P/R/F1 $\uparrow$; $|$timing$|$, offbeat $\downarrow$ &
+\textbf{Realism}\quad FID$_k$, FID$_g$ $\downarrow$ \\
+\textbf{Tempo/phase}\quad BPM, period, accent-phase error $\downarrow$ &
+\textbf{Diversity}\quad Div$_k$, Div$_g$, same-song diversity $\leftrightarrow$GT \\
+\textbf{Dynamics}\quad Onset--impact and envelope $r$ $\uparrow$; $|$lag$|$ $\downarrow$ &
+\textbf{Kinematics}\quad Velocity/acceleration/jerk $\leftrightarrow$GT;
+\mbox{jitter/C4 jump $\downarrow$} \\
+\textbf{Structure}\quad Section response and long-horizon fit $\uparrow$;
+\mbox{transition lag $\downarrow$} &
+\textbf{Activity}\quad Energy, freezing, repetition $\leftrightarrow$GT \\
+\textbf{Semantics}\quad Audio--motion R@K $\uparrow$; MMDist $\downarrow$ &
+\textbf{Physicality}\quad PFC, FSR, penetration, stability violations $\downarrow$ \\
+\textbf{Style/affect}\quad Genre/mood agreement and blinded fit $\uparrow$ &
+\textbf{Perception}\quad Naturalness, aesthetics, smoothness,
+\mbox{expressiveness $\uparrow$} \\
 \bottomrule
+\multicolumn{2}{@{}l@{}}{\footnotesize $\uparrow$: higher is better; $\downarrow$:
+lower is better; $\leftrightarrow$GT: match the paired ground-truth distribution.} \\
 \end{tabular}
 \end{table*}
 
