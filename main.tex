@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{array}
 \usepackage{cite}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
@@ -246,26 +247,43 @@ The completed experiment tests whether coarse structure and fine detail acquire 
 
 \begin{table*}[!t]
 \centering
-\caption{Generator-side M3 pilot results on six 60-s G1 references
-(two songs, three sampling seeds per song). Values are means.}
-\label{tab:m3_reference_eval}
+\caption{Evaluation endpoints for music adaptation and dance quality. No aggregate
+score is used.}
+\label{tab:evaluation_matrix}
 \small
-\setlength{\tabcolsep}{8pt}
-\begin{tabular*}{0.92\textwidth}{@{\extracolsep{\fill}}lrlr@{}}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.13\textwidth}
+                    >{\raggedright\arraybackslash}p{0.32\textwidth}
+                    >{\raggedright\arraybackslash}p{0.13\textwidth}
+                    >{\raggedright\arraybackslash}p{0.32\textwidth}@{}}
 \toprule
 \multicolumn{2}{c}{\textbf{Music adaptation}} &
 \multicolumn{2}{c}{\textbf{Dance quality}} \\
 \cmidrule(lr){1-2}\cmidrule(lr){3-4}
-Metric & M3 & Metric & M3 \\
+Facet & Endpoints & Facet & Endpoints \\
 \midrule
-BAS $\uparrow$                         & 0.258                  & Finite motion $\uparrow$              & 100\%  \\
-Beat precision $\uparrow$              & 0.304                  & Joint-range violations $\downarrow$   & 1.03\% \\
-Beat recall $\uparrow$                 & 0.187                  & Foot sliding (m) $\downarrow$         & 0.505  \\
-Beat F1 $\uparrow$                     & 0.227                  & Ground penetration (m) $\downarrow$   & 0.043  \\
-Beat timing (frames) $\rightarrow 0$   & $-0.049\pm1.448$      & Root displacement (m)                 & 1.535  \\
-Offbeat rate $\downarrow$              & 0.696                  & Mean joint jerk                        & 446.8  \\
+\textbf{Rhythm} & BAS $\uparrow$; beat precision/recall/F1 $\uparrow$; timing
+$\rightarrow0$; offbeat rate $\downarrow$ &
+\textbf{Realism} & FID$_k$/FID$_g$ $\downarrow$ against matched ground truth \\
+\textbf{Tempo and phase} & BPM/period error $\downarrow$; accent phase error $\downarrow$ &
+\textbf{Diversity} & Div$_k$/Div$_g$ and same-song diversity $\rightarrow$ GT \\
+\textbf{Dynamics} & Onset--impact correlation $\uparrow$; response lag
+$\rightarrow0$; energy-envelope response $\uparrow$ &
+\textbf{Smoothness} & Velocity/acceleration and jerk $\rightarrow$ GT; jitter and
+boundary discontinuity $\downarrow$ \\
+\textbf{Musical structure} & Phrase/section response $\uparrow$; transition timing
+$\rightarrow0$; long-horizon fit $\uparrow$ &
+\textbf{Activity} & Motion energy, static/freezing ratio, and repetition $\rightarrow$ GT \\
+\textbf{Cross-modal semantics} & Audio--motion R@K $\uparrow$; multimodal distance
+(MMDist) $\downarrow$ &
+\textbf{Physical plausibility} & PFC, FSR, and penetration $\downarrow$; root and
+joint-limit stability $\uparrow$ \\
+\textbf{Style and emotion} & Frozen genre/mood agreement and blinded fit ratings
+$\uparrow$ &
+\textbf{Perception} & Blinded naturalness, aesthetics, smoothness, and expressiveness
+$\uparrow$ \\
 \bottomrule
-\end{tabular*}
+\end{tabular}
 \end{table*}
 
 \subsection{Protocol}
@@ -297,7 +315,8 @@ Each column answers a separate mechanism question. Structure NRMSE tests coarse-
 \papertodo{Train matched discrete-only, continuous-only, and direct motion-space generators under the selected compact-state contract. Add them only as one complete representation comparison. The matched Commit-Forcing and music studies follow their predeclared protocols above. Keep contact and project-specific diagnostic metrics out of paper tables.}
 
 \subsection{Outcome-Centred Evaluation}
-We predefine two primary outcomes and do not collapse them into a weighted score.
+Table~\ref{tab:evaluation_matrix} freezes two primary outcomes, which we do not
+collapse into a weighted score.
 \textbf{Dance quality} asks whether a motion is realistic, diverse, continuous,
 physically plausible, and perceptually recognizable as dance without listening to the
 audio. Its final evidence combines kinetic and geometric distribution distances
@@ -311,6 +330,10 @@ rhythm and music--dance fit. BAS is therefore a primary rhythm measure, but neve
 surrogate for either overall outcome. This endpoint selection follows the common
 distributional, physical, rhythmic, and perceptual evidence used in FACT, EDGE, LODGE,
 DiscoForcing, and RoboPerform~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}.
+
+Music-conditioning features are not evaluation metrics. Beat descriptors, MERT, and
+Wav2CLIP may condition the generator, but music adaptation is measured with independent
+frozen evaluators, paired-audio controls, and blinded ratings to avoid circular scoring.
 
 We observe these outcomes at four stages: paired human motion
 ($O_{\mathrm{Human}}$), its GMR-retargeted G1 counterpart ($O_{\mathrm{G1}}$), the
@@ -332,11 +355,11 @@ quantitative inference.
 \subsection{Pilot M3 Reference Analysis}
 We apply this framework to the current MRT2-conditioned generator before controller
 execution. All six 60-s references are finite and conform to the native G1 schema.
-The rhythm suite localizes the present failure: timing error is small for matched
-events, whereas low recall and a high offbeat rate indicate insufficient coverage and
-selectivity. The motion diagnostics expose drift, sliding, and high-order dynamics,
-but none is interpretable as ``beauty'' in isolation. In particular, low jerk can also
-arise from over-smoothed or low-energy motion.
+The available rhythm diagnostics (BAS $0.258$, Beat F1 $0.227$, recall $0.187$, and
+offbeat rate $0.696$) localize insufficient coverage and selectivity. Motion validity
+is finite for all samples, with $1.03\%$ joint-range violations, but FID/Div,
+music semantics, structure, style, emotion, and human ratings are not yet available.
+We therefore report no complete music-adaptation or dance-quality result for M3.
 
 This pilot establishes that the inference and evaluation paths operate end to end; it
 does not establish superiority over FACT, EDGE, LODGE, DiscoForcing, or
