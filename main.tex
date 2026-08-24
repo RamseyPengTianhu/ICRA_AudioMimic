@@ -11,10 +11,14 @@
 
 \newcommand{\method}{AudioMimic}
 \newcommand{\cof}{Commit Forcing}
+\newif\ifshowpapertodos
+\showpapertodosfalse
 \newcommand{\papertodo}[1]{%
+\ifshowpapertodos
 \par\smallskip\noindent
 {\color{red!75!black}\textbf{TODO:} #1}
-\smallskip\par}
+\smallskip\par
+\fi}
 
 \title{AudioMimic: Commit Forcing for Causal Streaming Humanoid Dance}
 
@@ -207,7 +211,15 @@ A second pass learns the following horizon from this generated history--state pa
 \end{equation}
 This preserves the target full motion while expressing its detail relative to the structural token the planner will actually receive. Sampler, commit, and state closure are coupled: removing any one of them reintroduces a training context that differs from the deployed transition.
 
-\papertodo{Use a two-row headline table to compare the final d16 method with matched Teacher Forcing on matched 60-s free-running rollouts. Split every rollout into three non-overlapping 20-s windows and evaluate all windows with standard kinetic/geometric FID and diversity through one frozen, documented G1-FK-to-canonical mapping and identical extractor. For each metric, choose a validation-only sampling seed that maximizes the correctly oriented paired margin over Teacher Forcing and freeze it before final evaluation. Use that seed only to select the best 25\% of eligible source tracks, with at least eight distinct tracks, shared by both methods; for FID and diversity use deterministic backward elimination on the actual set-level margin. Compute displayed values and paired rollout-block intervals only from the other two sampling seeds. Use a dagger only when the ordinary paired 95\% interval excludes zero and keep full intervals in supplementary evidence. Separately retrain removals of deployment sampling, atomic structure--detail commitment, residual rebasing, and reconstructed-state closure under the same parents, data, budget, seeds, and evaluation. Give the component table its own metric-specific top-quarter manifests selected against the strongest removal under the same selection/evaluation-seed split. Keep four 60-s aggregate columns. Insert the complete table only when full Commit Forcing ranks best against every removal in all four columns, every removal is significantly worse in at least one cell, every cell retains the correct direction in all three 20-s window positions, and no aggregate or window-specific interval significantly reverses. Mark every significantly degraded cell with a dagger, make no familywise claim, and otherwise omit the entire table and narrow component-level claims. Keep project-specific transition diagnostics out of paper tables.}
+\papertodo{Compare the final d16 method with matched Teacher Forcing on the complete
+preregistered held-out manifest of 60-s free-running rollouts. Use one frozen G1-FK
+mapping, one feature extractor, and identical source tracks, sampling seeds, and
+durations for all methods. Report track-level point estimates and paired 95\%
+confidence intervals over all eligible tracks; use non-overlapping 20-s windows only
+for long-horizon degradation analysis. Retrain each Commit-Forcing removal under the
+same parent, data, budget, and seeds. Do not select tracks or metrics according to the
+observed test margin, and keep project-specific transition diagnostics outside the
+headline table.}
 
 % ================================================================
 \section{Anticipating Music without Future Audio}
@@ -218,12 +230,54 @@ Each forecast state retains its physical lead time and is consumed without inter
 
 Timestamp-aware conditioning projects the native forecast states in place and injects them into both the structural planner and the continuous-detail generator through content and physical-time interactions. An alternative temporal-prefix injection uses the same forecast and remains an ablation under evaluation. Both paths are zero-initialized and have an exact-null bypass, so absent, expired, or deliberately disabled music recovers the frozen motion parent. The asynchronous snapshot interface keeps the causal forecast outside the 0.27-s replanning critical path.
 
-\papertodo{Complete the frozen ListenAhead-MRT2 B0--B8 Wave C matrix and exact-resume B8 to 100k before admitting any music result. Use the current eight source-stratified Wave C windows only to select and freeze routes, checkpoints, validation seeds, and each metric's dedicated screening seed; do not report them as the final paper test. For each metric, choose the Wave C sampling seed that maximizes the correctly oriented paired margin over its strongest required control; for deployable music use the weaker gain over observed-history and static-now controls. Evaluate the frozen four- or five-row comparison on every eligible FineDance held-out track that supports matched 60-second generation. Freeze and checksum this complete source manifest before inspecting final metrics or renders. At each horizon, use each metric's selected seed only to retain the best 25\% of eligible source tracks, with at least eight distinct tracks, shared by every route; the 30- and 60-second manifests may differ. For FID and diversity, select sources by deterministic backward elimination on the actual set-level margin. Compute displayed values and paired intervals only from the other two sampling seeds. Average horizon-specific point estimates 50/50 and obtain combined uncertainty by averaging independent horizon-level method-difference draws, not by treating the different source sets as matched duration pairs. After the full evidence closes, select B5 or B8 under the approved rhythm, quality, timing, parameter, and latency rules. Deployable prediction must improve Beat Alignment over observed-history and static-now controls at both horizons, with the combined paired test carrying significance. No kinetic/geometric FID or diversity metric may significantly degrade at either horizon or in the combined estimate. The table uses the best proof-role-selected validation seed for each route. Retain oracle future only as a genuine upper bound; otherwise use the four-row fallback. Selectors freeze before final test, and unsuccessful evidence cannot be reselected. No current music number is admissible.}
+\papertodo{Complete and freeze the ListenAhead-MRT2 control matrix before admitting a
+music claim. Select routes, checkpoints, and hyperparameters on validation data only;
+then checksum one complete held-out source manifest before inspecting final metrics or
+renders. Compare unconditional, static-now, observed-history, predicted-future, and
+oracle-future routes on every eligible track with matched seeds and durations. Report
+paired track-level effects and 95\% confidence intervals at 30 and 60 s. Predicted
+future must improve music adaptation over both causal controls without degrading dance
+quality. No source, seed, or metric may be reselected after test evaluation.}
 
 % ================================================================
 \section{Experiments}
 % ================================================================
 The completed experiment tests whether coarse structure and fine detail acquire distinct, non-collapsed roles and whether both the representation split and its kinematics-guided training are necessary. Matched \cof{} and music-conditioning results are withheld until their final controls are complete.
+
+\begin{table*}[!t]
+\centering
+\caption{Two primary outcomes and the current M3 pilot evidence. The final endpoints
+define the evidence required for the paper claim. Pilot values are means over six
+60-s G1 references (two songs, three sampling seeds per song) and are reported only
+to verify the evaluator and expose failure modes; they are not a model comparison.}
+\label{tab:m3_reference_eval}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{0.13\textwidth}p{0.31\textwidth}p{0.27\textwidth}p{0.21\textwidth}@{}}
+\toprule
+Primary outcome & Final paper endpoints & Current M3 pilot & Supported inference \\
+\midrule
+\textbf{Music adaptation} &
+BAS with beat precision/recall/F1 and timing; onset response and lag; tempo/phase;
+paired--wrong--shifted audio controls; retrieval and blinded music-fit ratings. &
+BAS $0.258$; precision $0.304$; recall $0.187$; Beat F1 $0.227$; matched-event
+timing $-0.049\pm1.448$ frames; offbeat rate $0.696$. &
+Detected events are well centred, but coverage is low and offbeat responses are
+frequent. This supports partial rhythmic response only; semantic, structural, and
+style adaptation remain untested. \\
+\addlinespace
+\textbf{Dance quality} &
+FID$_k$/FID$_g$ and Div$_k$/Div$_g$ against matched $O_{\mathrm{G1}}$; PFC/FSR;
+energy, jerk, freezing, repetition, and boundary continuity; blinded naturalness and
+expressiveness ratings. &
+Finite-motion rate $1.000$; joint-range violation $1.03\%$; root drift $1.535$ m;
+foot sliding $0.505$ m; mean joint jerk $446.8$. &
+The representation is numerically valid, but realism, diversity, smoothness, and
+aesthetic quality cannot be established without matched GT distributions and human
+judgement. \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \subsection{Protocol}
 We train on the canonical FineDance-to-G1 pipeline~\cite{li2023finedance} at 30~Hz. Representation comparisons use two matched training seeds and 512 deterministic held-out plans per seed. The structure view uses frozen designated native channels together with torso, wrist, and foot geometry; the detail view is its exact complement. All NRMSE values use train-split statistics and the equal-weight block definition in Eq.~\eqref{eq:view_nrmse}. Donor pairs, data order, representation width, and evaluation plans are matched.
@@ -253,95 +307,56 @@ Each column answers a separate mechanism question. Structure NRMSE tests coarse-
 
 \papertodo{Train matched discrete-only, continuous-only, and direct motion-space generators under the selected compact-state contract. Add them only as one complete representation comparison. The matched Commit-Forcing and music studies follow their predeclared protocols above. Keep contact and project-specific diagnostic metrics out of paper tables.}
 
-\subsection{Evaluation Protocol}
-We evaluate the system at four explicitly separated stages: the original paired human
-motion and audio ($O_{\mathrm{Human}}$), the same motion after GMR retargeting to G1
-($O_{\mathrm{G1}}$), the generated native G1 reference ($M_{\mathrm{ref}}$), and the
-motion executed by SONIC ($M_{\mathrm{exec}}$). This separation prevents retargeting
-error, generator error, and tracking error from being reported as one undifferentiated
-motion error. Because the generator is trained directly on G1 motion, $M_{\mathrm{ref}}$
-is not retargeted a second time.
+\subsection{Outcome-Centred Evaluation}
+We predefine two primary outcomes and do not collapse them into a weighted score.
+\textbf{Dance quality} asks whether a motion is realistic, diverse, continuous,
+physically plausible, and perceptually recognizable as dance without listening to the
+audio. Its final evidence combines kinetic and geometric distribution distances
+(FID$_k$/FID$_g$), diversity relative to matched ground truth (Div$_k$/Div$_g$),
+contact and foot-skating measures, motion dynamics and long-horizon continuity, and
+blinded ratings of naturalness and expressiveness. \textbf{Music adaptation} asks
+whether the dance is appropriate for the paired soundtrack. Its final evidence combines
+beat proximity with event coverage and timing, onset--motion response, tempo and phase
+consistency, cross-modal retrieval or paired-audio controls, and blinded ratings of
+rhythm and music--dance fit. BAS is therefore a primary rhythm measure, but never a
+surrogate for either overall outcome. This endpoint selection follows the common
+distributional, physical, rhythmic, and perceptual evidence used in FACT, EDGE, LODGE,
+DiscoForcing, and RoboPerform~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}.
 
-The evaluation is organized into four metric groups. Dance quality (D) measures
-distribution realism, diversity, continuity, activity, freezing, repetition, and
-physical plausibility. Music adaptation (M) measures beat alignment, beat event
-precision/recall/F1, tempo and phase error, onset--motion correlation, response lag,
-and, when available, cross-modal retrieval and style/emotion consistency. Execution
-(X) measures G1 feasibility, tracking error, stability, and the retention of motion
-energy, amplitude, contact, and rhythmic features from $M_{\mathrm{ref}}$ to
-$M_{\mathrm{exec}}$. Online system behavior (R) measures causal lookahead, stage
-latency, deadline misses, packet loss, state age, and real-time factor.
+We observe these outcomes at four stages: paired human motion
+($O_{\mathrm{Human}}$), its GMR-retargeted G1 counterpart ($O_{\mathrm{G1}}$), the
+native G1 generator output ($M_{\mathrm{ref}}$), and SONIC execution
+($M_{\mathrm{exec}}$). This design isolates losses introduced by retargeting,
+generation, and tracking. The generator is trained directly in the G1 domain, so
+$M_{\mathrm{ref}}$ is not retargeted again. All stages share a frozen audio clock,
+motion representation, beat detector, feature extractors, sequence duration, and
+aggregation rule.
 
-The GT sets are not treated as a single universal scalar oracle. AIST++ and FineDance
-are calibrated separately and further stratified by available tempo and style labels.
-Model outputs are compared with the matched GT distribution for the same song and
-stratum. BAS is a central beat-alignment measure, but it is always reported together
-with event coverage and timing statistics; no single metric is used as a proxy for
-overall dance quality. All reference and execution comparisons use the same frozen
-evaluator, audio clock, sequence duration, beat detector, and aggregation rule.
+The source track, rather than the frame, is the unit of analysis. Sampling seeds are
+treated as repeated measurements within a track, avoiding frame-wise
+pseudoreplication. Final comparisons use a preregistered held-out manifest, report all
+eligible tracks, and provide paired track-level effect estimates with 95\% confidence
+intervals. AIST++ and FineDance are calibrated separately and stratified by available
+tempo and style metadata; qualitative showcase selection is kept separate from
+quantitative inference.
 
-\subsection{Music-Conditioned G1 Reference Evaluation}
-As a preliminary placeholder for the future music-conditioned model, we evaluate the
-current MRT2-conditioned stack at the generator boundary,
-before controller execution. The evaluation contains six 60-s native G1 references,
-covering two songs (012 and 065) and three sampling seeds per song. We report the
-robot-native beat suite together with motion-quality and validity diagnostics; all
-values are computed with one frozen evaluator and are compared to matched O-G1 GT
-distributions rather than to a universal absolute score.
+\subsection{Pilot M3 Reference Analysis}
+We apply this framework to the current MRT2-conditioned generator before controller
+execution. All six 60-s references are finite and conform to the native G1 schema.
+The rhythm suite localizes the present failure: timing error is small for matched
+events, whereas low recall and a high offbeat rate indicate insufficient coverage and
+selectivity. The motion diagnostics expose drift, sliding, and high-order dynamics,
+but none is interpretable as ``beauty'' in isolation. In particular, low jerk can also
+arise from over-smoothed or low-energy motion.
 
-\begin{table}[t]
-\centering
-\caption{Preliminary two-axis evaluation of the M3 generator on six 60-s G1
-references. M3 is not the final model; values are means over two songs and three
-sampling seeds per song.}
-\label{tab:m3_reference_eval}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.47\columnwidth}p{0.47\columnwidth}@{}}
-\toprule
-\multicolumn{1}{c}{\textbf{Music adaptation}} &
-\multicolumn{1}{c}{\textbf{Dance quality}} \\
-\midrule
-\textbf{Question.} Does the motion respond to the paired music and its beat
-structure?\par\smallskip
-\textbf{M3 result.} M score$^\dagger$: $62.9$; BAS: $0.258$; Beat F1: $0.227$;
-precision / recall: $0.304 / 0.187$; timing: $-0.049 \pm 1.448$ frames.\par\smallskip
-\textbf{Reading.} Beat events are centered, but recall is low and offbeat
-responses are frequent: partial rhythmic response, not complete beat coverage. &
-\textbf{Question.} Is the motion physically plausible, continuous, and expressive?\par\smallskip
-\textbf{M3 result.} D score$^\dagger$: $51.6$; root drift: $1.535$ m; foot
-sliding: $0.505$ m; mean joint jerk: $446.8$; range violation: $1.03\%$;
-finite motion rate: $1.000$.\par\smallskip
-\textbf{Reading.} The sequence is valid, but evidence for strong dynamic dance
-expression is limited. Jerk is a diagnostic, not a standalone beauty score. \\
-\bottomrule
-\end{tabular}
-\par\vspace{1mm}
-\parbox{0.96\columnwidth}{\scriptsize Higher is better for D, M, BAS, precision, recall,
-and Beat F1; lower is better for drift and foot sliding; ideal beat timing is zero.
-$^\dagger$D and M are calibrated proximity scores: 100 means close to the matched GT
-stratum center, not a percentage of dance quality.}
-\end{table}
-
-The matched beat events are temporally centered (mean error $-0.049$ frames and
-standard deviation $1.448$ frames), but event recall is low and the offbeat false-positive
-rate is $0.696$. Thus the current reference demonstrates partial music-conditioned
-rhythmic response, not yet complete beat coverage. The motion-side diagnostics are a
-root drift of $1.535$ m, mean joint jerk of $446.8$, foot sliding of $0.505$ m, and
-joint-range violation of $1.03\%$. These values indicate a valid G1 trajectory with
-limited evidence for strong dynamic expression; jerk alone is not interpreted as
-smoothness without energy and GT-stratified comparison.
-
-This table occupies the reference-evaluation slot for the current draft; it will be
-replaced by the final matched music-conditioned model after the checkpoint, song,
-seed, and control matrix is frozen. The numbers are not directly comparable to headline results in FACT, EDGE, LODGE,
-DiscoForcing, or RoboPerform~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}:
-those works use different datasets, sequence lengths, feature extractors, beat
-detectors, and statistical protocols, and commonly include FID/Div, retrieval, or
-human studies that are not yet present in this M3 pilot. The current result is therefore
-a reference-side calibration and failure analysis. SONIC execution, tracking retention,
-and real-time latency are intentionally excluded from this table and require a paired
-evaluation under the same protocol.
+This pilot establishes that the inference and evaluation paths operate end to end; it
+does not establish superiority over FACT, EDGE, LODGE, DiscoForcing, or
+RoboPerform~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}.
+Those comparisons require the same dataset, duration, extractor, detector, and
+statistical protocol, together with matched controls and human evaluation. SONIC
+execution, feature retention, stability, and real-time latency form a subsequent
+paired analysis of $M_{\mathrm{ref}}$ and $M_{\mathrm{exec}}$ and are intentionally
+excluded from this generator-side pilot.
 
 % ================================================================
 \section{Discussion}
@@ -352,7 +367,11 @@ The generated boundary state is reconstructed from committed robot-native refere
 
 The \cof{} and future-music components complete the architectural story but not yet the empirical one. Their decisive tests are the matched Teacher-Forcing comparison and the predicted-future route against separately trained observed-history and static-now music controls, respectively. Until those controls are complete, the paper makes no numerical claim for either component.
 
-\textbf{Evaluation-scope note.} Unless stated otherwise, quantitative tables report the most favorable quarter of eligible source tracks (at least eight), selected with a validation-chosen sampling seed, rather than aggregate performance over the full held-out set; different metrics, and the two music horizons, may use different selected source sets. Within each reported metric and setting all methods use the same sources, while two held-out sampling seeds produce the displayed values and intervals. The differences therefore compare methods on selected settings rather than estimating average or overall FineDance performance. Complete evaluated outcomes and selection records are retained separately.
+\textbf{Evaluation-scope note.} Quantitative claims aggregate every eligible track in a
+preregistered held-out manifest. All compared methods share the same tracks, durations,
+audio offsets, and sampling seeds, and uncertainty is computed over source tracks.
+Qualitative showcases may be selected for clarity, but are labelled as such and never
+enter numerical estimates. Complete outcomes, including failures, are retained.
 
 \papertodo{Before submission, add one edited real-G1 hero video assembled from the strongest selected moments under one frozen controller and safety protocol. Keep playback at real speed, make cuts visible, and retain at least five continuous seconds per shot. Use it only to establish local physical plausibility; do not claim uninterrupted 60-second execution, long-horizon hardware stability, style coverage, representative success, quantitative hardware benefit, controller robustness, success rate, or superiority over Teacher Forcing. Retain all unedited source captures, cuts, failures, interventions, and the selection record, and add this requirement to the final consolidated GitHub experiment issue. Until the video is accepted, retain the current reference-generation scope.}
 
