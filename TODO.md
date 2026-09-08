@@ -42,11 +42,17 @@ the two-seed codec study do not demonstrate a CF training benefit.
 
 ### T03. D+C and structural interpretation
 
+- [ ] Link the standalone D+C contribution to native kinematic supervision,
+  complementary structure/detail views, shared decoding/commitment, and branch
+  intervention evidence; distinguish this from prior discrete+continuous methods.
 - [ ] Complete recursive discrete-only rollout, updating history and state from
   its actual zero-residual output.
 - [ ] Train independent continuous-only and direct motion-space controls with
   matched data, compute, boundary state, and generation duration.
 - [ ] Compare reconstruction and generated quality, not only fixed-q0 decoding.
+- [ ] Evaluate D+C controls across MMR, music adaptation, and dance quality;
+  verify that detail improvements survive SONIC without assuming that less jerk
+  or larger diversity implies better aesthetics.
 - [ ] Audit cross-song q0 semantics only if a genre/style-token claim is retained.
 
 **Available:** codec mechanism study and fixed-q0 residual counterfactual.
@@ -61,6 +67,9 @@ the two-seed codec study do not demonstrate a CF training benefit.
 - [ ] Separate RMS/FMS content changes from AJ/AM startup-training changes.
 - [ ] Check correct/null, wrong-song, and wrong-time responses for *appropriate*
   adaptation rather than merely changed motion or changed q0 tokens.
+- [ ] Generate matched-history/noise D_A and D_B, score each with both songs,
+  and test correct-pair fit margins using same-style/similar-tempo and cross-style
+  negatives. Repeat for measured execution with the original audio clock fixed.
 
 **Blocked claims:** FiLM is universally best; predicted future outperforms causal
 history controls; changed conditions guarantee correct musical adaptation.
@@ -131,6 +140,20 @@ do not relabel official SONIC as our new policy.
 
 ### T09. Metric calibration
 
+- [ ] Complete and publish the three-block coverage matrix (MMR, music
+  adaptation, dance quality/aesthetics) per cohort and gen/exec layer; mark
+  unavailable or unvalidated endpoints N/A, not zero or silently omitted.
+- [ ] Freeze MMR evaluator hash, feature/normalization versions, candidate pools,
+  multiple-positive rules, crop length, and aligned one-second temporal segments.
+  Do not label a global-only fallback as full MMR-MS; preserve the implemented
+  square root of 0.7 global squared distance plus 0.3 temporal norm sum.
+- [ ] Declare BAS direction, event extraction, smoothing, sigma, and any
+  precision/recall matching tolerance. Do not impose one motion accent per beat
+  or promote undefined Beat-F1 to a mandatory choreography score.
+- [ ] Validate tempo/phase handling (including half/double tempo), genre probes,
+  contact proxies, and the planned phrase/affect endpoints before ranking models.
+- [ ] Keep learned FID/diversity and same-song multimodality in the dance-quality
+  block, distinct from music--motion matching; report GT and sample counts.
 - [ ] Close per-dataset gates for the multi-dataset evaluator, including the
   AIST++ song-level controls whose confidence intervals still cross zero.
 - [ ] Keep music identity distinct from performance identity and avoid same-song
@@ -141,6 +164,9 @@ do not relabel official SONIC as our new policy.
 
 ### T10. Human evaluation and videos
 
+- [ ] Separate silent-video naturalness/smoothness/expressiveness/aesthetics
+  from soundtrack-on rhythm/dynamics/overall music fit; include cross-paired
+  soundtrack controls and paired generated-versus-executed clips.
 - [ ] Conduct blinded dance-quality, matched-audio musicality, and
   reference-versus-execution retention studies with randomized presentation.
 - [ ] Match camera, rig, fps, duration, and audio time; preserve real playback speed.

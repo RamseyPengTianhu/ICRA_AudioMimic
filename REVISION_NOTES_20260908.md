@@ -93,3 +93,56 @@ and `\showpapertodostrue` makes linked TODOs visible in the compiled manuscript.
 Set `\showpapertodosfalse` only when preparing an appropriately reviewed clean
 version; hiding annotations does not close evidence gaps. Author information
 remains commented out as in the existing draft and has not been invented.
+
+## D+C and three-block evaluation revision
+
+- Fetched again and fast-forwarded to `ba1b79f`, preserving the two remote
+  Overleaf commits and their new `V1.tex`. This revision edits `main.tex`, not
+  that preserved version. Overleaf must compile `main.tex` to display this draft.
+- Recentered the abstract, motivation, contributions, and conclusion on
+  music-appropriate, expressive robot dance. D+C is now a standalone core
+  contribution alongside Commit Forcing and causal music-to-robot execution.
+- Expanded the D+C rationale: native kinematic supervision, complementary
+  structure/detail roles, shared decoding and atomic commitment. No claim of
+  inventing all discrete+continuous representations or proven q0 genre semantics.
+- Explained the 30-to-50-Hz C4 reference interface, fixed SONIC policy ownership,
+  reference-derived generator state versus measured controller feedback, and
+  why tracking accuracy alone cannot prove music-adaptive expression.
+- Replaced the two-outcome table with three explicit evaluation blocks:
+  MMR matching/retrieval; music adaptation; dance quality/aesthetics. Added
+  reported/implemented-exploratory/planned status to prevent a protocol wishlist
+  from being mistaken for a completed experiment matrix.
+- Specified MMR-MS, MMDist and retrieval definitions; BAS direction and event
+  caveats; onset/impact response; distribution/diversity/multimodality; dynamics,
+  continuity and physical proxies; and separate human music-fit/aesthetic tests.
+- Added matched cross-paired audio controls to test appropriate adaptation,
+  not only changed trajectories. The protocol applies to both generation and
+  execution; completion remains T04/T09/T10, not a reported result.
+- Kept runtime/forecast-age/valid-horizon and fixed-tracker measurements as
+  supporting diagnostics, without conflating them with the three quality blocks.
+- Preserved existing numeric results; no new model run, metric computation,
+  controller change, or performance gain was produced by this writing revision.
+
+### Additional definition sources
+
+| Definition or status | Audited source in parent workspace |
+|---|---|
+| Metric organization and limitations | `docs/evaluation/METRIC_TAXONOMY_MUSIC_DANCE_G1.md`; `docs/evaluation/EVALUATION_MAP_MUSIC_TO_G1.md` |
+| MMR-MS, paired centroid distance, retrieval and multimodality | `eval/metrics/learned_music_motion.py` |
+| Frozen G1 evaluator and training controls | `eval/metrics/music_motion_evaluator.py` |
+| BAS, onset/impact, contact and skating proxies | `eval/sonic/analyze_motion_music_execution.py` |
+| Formal metric availability and sample limitations | `eval/results/benchmark_v1/formal/all_generator_routes_comparison/REPORT_ZH.md` |
+
+The MMR-MS attribution was checked against the primary SoulNet paper,
+*Music-Aligned Holistic 3D Dance Generation via Hierarchical Motion Modeling*
+(ICCV 2025; https://arxiv.org/abs/2507.14915), and added to `Reference.bib`.
+Our G1 evaluator is not claimed to be the original human-motion checkpoint.
+This manuscript organization does not modify the frozen internal metric taxonomy
+or existing metric implementations. Remaining validation is tracked in `TODO.md`.
+
+The expanded three-block draft compiles to 12 pages including references and
+visible TODOs. `latexmk` and `git diff --check` pass; there are no overfull boxes
+or undefined references/citations. The pre-existing missing-author warning,
+underfull line warnings, and MRT2 bibliography type warning remain. The metric
+table and adjacent formula pages were visually checked. Final venue-length
+compression and authorship remain T12 rather than being silently resolved.
