@@ -31,6 +31,14 @@ execution conclusions based on the incorrect joint conversion.
 
 ### T02. Commit Forcing versus Teacher Forcing
 
+- [x] Audit ordinary music-conditioned CF: rebasing preserves the target latent,
+  not decoded motion across changed boundary states. Next dataset targets are
+  unchanged; first-pass window transitions are sampled independently. See
+  `METHOD_AUDIT_20260908.md` for source paths and focused CPU tests.
+- [ ] Measure target decoding under dataset versus generated boundaries and
+  reference pose/velocity jumps after generated commits. Compare ordinary
+  latent rebasing with the separate state-matched target objective under matched
+  training; do not assume target re-encoding is active in the reported music path.
 - [ ] Compare TF/CF using matched representation, parents, data, update budget,
   training seeds, inference NFE, sampling seeds, and startup.
 - [ ] Remove sampler, commit, and state closure separately under matched training.
@@ -42,6 +50,13 @@ the two-seed codec study do not demonstrate a CF training benefit.
 
 ### T03. D+C and structural interpretation
 
+- [x] Rename the legacy comparator overlapping supervision and document its
+  channels, weights, auxiliary head, and differences from the proposed objective
+  in `supervision_details.tex`. Historical checkpoint-to-table binding remains T01.
+- [ ] Audit planner residual norms/tails, discrete mismatch, and rebasing
+  correction-to-original residual magnitude. Repeat branch interventions in
+  recursive generation, not only in codec reconstruction, to test whether
+  residuals primarily compensate structural sampling errors.
 - [ ] Link the standalone D+C contribution to native kinematic supervision,
   complementary structure/detail views, shared decoding/commitment, and branch
   intervention evidence; distinguish this from prior discrete+continuous methods.
@@ -128,6 +143,13 @@ do not relabel official SONIC as our new policy.
 
 ### T08. Cohort, reliability, and statistical protocol
 
+- [x] Put existing three-model generator means into a primary-outcome matrix;
+  leave matched execution outcomes explicitly missing rather than replacing
+  them with the A--D one-song tracking diagnostics.
+- [ ] PRIORITY: complete the same-cohort generated/executed MMR, beat/dynamic
+  response, dance quality, and cross-paired music-fit results; add song-cluster
+  uncertainty and independent blinded judgments. This is the central outcome
+  evidence, ahead of expanding the diagnostic metric catalogue.
 - [ ] Audit the per-model/per-song recording inventory and failed/incomplete
   runs before declaring a complete multi-model comparison.
 - [ ] Freeze final songs not repeatedly used for tuning; verify style labels
@@ -150,8 +172,9 @@ do not relabel official SONIC as our new policy.
 - [ ] Declare BAS direction, event extraction, smoothing, sigma, and any
   precision/recall matching tolerance. Do not impose one motion accent per beat
   or promote undefined Beat-F1 to a mandatory choreography score.
-- [ ] Validate tempo/phase handling (including half/double tempo), genre probes,
-  contact proxies, and the planned phrase/affect endpoints before ranking models.
+- [ ] Validate tempo/phase handling (including half/double tempo) and contact
+  proxies before ranking models. Genre, phrase, and affect endpoints are optional;
+  validate them if retained, otherwise narrow the associated claims.
 - [ ] Keep learned FID/diversity and same-song multimodality in the dance-quality
   block, distinct from music--motion matching; report GT and sample counts.
 - [ ] Close per-dataset gates for the multi-dataset evaluator, including the
@@ -194,7 +217,9 @@ Hardware is a claim-dependent gate, not a blanket requirement to train a new tra
   primary sources; confirm shared work attribution with Yukun.
 - [ ] Align title, abstract, and contributions with completed evidence. Do not
   claim novelty or superiority merely because components are integrated.
-- [ ] Update figures for reference-state versus measured-state loops and timing.
+- [x] Replace framework figures with editable native diagrams: both-branch FiLM,
+  discrete-to-continuous conditioning, reference-derived state, separate fixed
+  SONIC physical feedback, and latent-only CF target rebasing.
 - [ ] Finalize authorship, venue-specific template, page budget, and reference format.
 - [ ] Compress the expanded draft; visible review TODOs are not final paper content.
 - [ ] Prepare reproducible public artifacts without assuming parent-workspace

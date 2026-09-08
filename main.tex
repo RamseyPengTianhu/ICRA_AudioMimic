@@ -8,6 +8,8 @@
 \usepackage{array}
 \usepackage{cite}
 \usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage[hidelinks]{hyperref}
 
 \newcommand{\method}{AudioMimic}
@@ -32,7 +34,7 @@
 \maketitle
 
 \begin{abstract}
-Humanoid dance should be coherent and expressive, appropriate to the music being heard, and realizable by a physical controller. We present \method{}, a robot-native causal dance generation and execution system. Its kinematics-guided discrete--continuous (D+C) representation assigns complementary coarse-structure and fine-detail roles through explicit supervision and jointly decodes both into native robot motion. \cof{} trains continuation from a complete sampled commit and its reconstructed boundary state, matching the reference-generation process used at deployment. A frozen causal music model supplies timestamped forecasts from arrived audio, and a reference bridge connects committed motion to a fixed SONIC whole-body tracker. We organize evaluation into music--motion retrieval and matching (MMR), music adaptation, and dance quality and aesthetics, assessed separately from timing and tracking reliability. A two-training-seed representation study supports the intended D+C division of labor. Formal generator comparisons and matched cache/live and reference/execution diagnostics expose conditioning-age sensitivity and loss of motion dynamics during tracking. These measurements establish mechanisms and remaining limitations, not overall perceptual superiority. Matched learning ablations, validated standing startup, and blinded evaluation of music-appropriate executed dance remain open evidence gates.
+Humanoid dance should be coherent and expressive, appropriate to the music being heard, and realizable by a physical controller. We present \method{}, a robot-native causal dance generation and execution system. Its kinematics-guided discrete--continuous (D+C) representation assigns complementary coarse-structure and fine-detail roles through explicit supervision and jointly decodes both into native robot motion. \cof{} constructs sampled reference transitions and trains continuation from their committed history and reconstructed boundary states. A frozen causal music model supplies timestamped forecasts from arrived audio, and a reference bridge connects committed motion to a fixed SONIC whole-body tracker. Evaluation separates music--motion matching, explicit rhythmic and dynamic adaptation, and dance quality at generation and execution layers. Formal generator comparisons and controlled replay characterize musical matching and downstream tracking limitations. In a two-training-seed codec study, adding the continuous branch reduces structure/detail reconstruction error by approximately 30\%/45\% relative to discrete-only decoding. The proposed supervision raises the discrete-to-continuous structural intervention ratio from 1.20 to 1.41, while continuous-code effective rank reaches 15.1 of 16, supporting a measurable complementary representation.
 \end{abstract}
 
 \papertodo{Working draft, not submission-ready. Open evidence gates are indexed
@@ -117,8 +119,8 @@ The mask retains frames with positive lead under the implemented timestamp conve
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{figures/audiomimic-mainline-architecture.png}
-    \caption{\textbf{AudioMimic as a causal listening--planning loop.} Kinematics-guided coarse-to-fine decoupling assigns coarse motion structure to a discrete code and finer details to a continuous code at both representation and training levels. \cof{} teaches the planner to continue from its generated history and reconstructed robot state. The music interface rolls arrived audio forward into timestamped future-state forecasts without future-waveform access.}
+    \input{figures/architecture_v2.tex}
+    \caption{\textbf{Causal generation and fixed-controller execution.} The main pure-FiLM route supplies deadline-valid FMS14 to both branches; the residual generator also conditions on sampled discrete structure. Committed references update the generator's reference-derived history and boundary state. A separate bridge sends references to SONIC, whose physical feedback loop uses measured G1 state. No measured-state arrow feeds the generator in the reported route. LCA and RMS/FMS variants are separate controls.}
     \label{fig:architecture}
 \end{figure*}
 
@@ -179,7 +181,7 @@ where $\mathrm{sg}$ stops gradients and $\mathcal{C}$ either removes the residua
 \end{equation}
 Here $\mathcal{L}_{\mathrm{full}}$ is the mean squared error between the normalized blocks of $\Phi_f(x_{\mathrm{full}})$ and $\Phi_f(x)$. Both $\mathcal{L}_{q\text{-}\mathrm{structure}}$ and $\mathcal{L}_{\mathrm{res\text{-}robust}}$ compare the corresponding normalized blocks of $\Phi_s$ with the target structural view. Finally, $\mathcal{L}_{\mathrm{VQ}}$ is the codebook loss plus a 0.25-weighted commitment loss. Averaging each normalized block before combining them prevents high-dimensional geometry from dominating the native-motion terms.
 
-The downstream planner preserves the same training-level decoupling. A causal classifier learns the discrete structure code with cross-entropy, while a conditional diffusion model learns the continuous detail code given the selected structure. Structure is therefore planned first and finer detail is generated within that structure. This separation is used for learning and sampling; the two outputs are reunited before decoding and are always committed as one motion block.
+The downstream planner retains separate structure and residual objectives. A causal classifier learns the discrete structure code with cross-entropy, while a conditional diffusion model learns the continuous code given the selected structure. Structure is sampled first; the two outputs are reunited before decoding and are committed as one motion block. Codec-level role separation is not assumed to transfer unchanged to planner samples: residual rebasing can also compensate for structural-token errors, motivating the generated-branch audit below.
 
 \subsection{Measuring Coarse--Fine Decoupling}
 The representation table uses three mechanism measures, each with one proof role. Let $\bar\Phi^S_b$ and $\bar\Phi^F_b$ denote train-split-standardized block $b$ of the declared structure view and its exact detail complement, respectively. The four equally weighted blocks are native motion, native velocity, forward-kinematic positions, and forward-kinematic velocity. For $v\in\{S,F\}$, we report
@@ -202,8 +204,8 @@ $R_{D/C}>1$ means that the discrete branch has the larger intervention effect on
 % ================================================================
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.88\textwidth]{figures/commit-forcing-generated-history.png}
-    \caption{\textbf{Commit Forcing closes the deployed transition during training.} A stop-gradient pass uses the deployment sampler, commits structure and detail as one block, decodes the committed motion, and reconstructs the resulting robot state. The following plan is learned from this complete generated transition. Residual rebasing preserves the target full motion when its structural token differs from the sampled token.}
+    \input{figures/commit_forcing_v2.tex}
+    \caption{\textbf{Commit Forcing matches the construction of a reference transition.} A stop-gradient pass samples structure and residual, commits them jointly, and derives the next reference state. The second pass uses this context while retaining the next dataset target latent. Residual rebasing preserves that latent, not decoded motion across different boundary states. Batched one-transition replacement does not imply equality with the long-horizon deployment-state distribution.}
     \label{fig:commit_forcing}
 \end{figure*}
 
@@ -220,12 +222,12 @@ The system commits the first four latent steps as references,
     P_t^{\mathrm{commit}}=\{(q_{t+i},r_{t+i})\}_{i=0}^{3},
     \label{eq:commit_prefix}
 \end{equation}
-decodes the eight committed motion frames, updates the recent history, and constructs the next boundary state using Eq.~\eqref{eq:boundary_state}. The coarse structure and fine detail advance together, preserving the decoupling while making the state transition used for replanning explicit.
+decodes the eight committed motion frames, updates the recent history, and constructs the next boundary state using Eq.~\eqref{eq:boundary_state}. Both branches advance together, making the reference-state transition used for replanning explicit without assuming that generated samples retain the codec's measured division of labor.
 
 \subsection{Commit Forcing}
 \cof{} aligns training with this generated-history transition through three coupled closures, as shown in Fig.~\ref{fig:commit_forcing}.
 
-\textbf{Sampler closure.} A stop-gradient first pass generates $\tilde{P}_t$ with the same free-running structural sampler and multi-step residual sampler used at deployment. It does not obtain a deployment history from teacher-conditioned point predictions. The structural plan supplied to the following prediction is likewise sampled autoregressively from the generated context.
+\textbf{Sampler closure.} A stop-gradient first pass generates $\tilde{P}_t$ with the autoregressive structural sampler and multi-step residual sampler used at deployment, rather than replacing a commit with teacher-conditioned point predictions. The audited ordinary CF implementation samples each training-window transition independently from its supplied context, generally a dataset history and state. It does not recursively unroll all batch transitions into one generated trajectory. Prefix-aware training can change these starting contexts without changing this distinction. The structural plan supplied to the second prediction is sampled autoregressively from the constructed generated context.
 
 \textbf{Commit closure.} The first four structural tokens and their residuals form one indivisible C4 commit. During the curriculum, a transition uses either the complete generated commit or the complete target commit; structure, detail, and the corresponding state are never mixed within that transition. The generated-commit probability rises to one, and the selected final method retains no target-history floor.
 
@@ -241,12 +243,38 @@ A second pass learns the following horizon from this generated history--state pa
     \qquad e(\tilde q_i)+\tilde r_i^*=z_i^*.
     \label{eq:residual_rebasing}
 \end{equation}
-This preserves the target full motion while expressing its detail relative to the structural token the planner will actually receive. Sampler, commit, and state closure are coupled: removing any one of them reintroduces a training context that differs from the deployed transition.
+This identity preserves only the \emph{complete target latent}. The audited
+music-conditioned CF path copies the next dataset $q_i^*,r_i^*$ unchanged into
+the generated context and normalizes the rebased residual for diffusion
+supervision. It does not re-encode the next target under $\tilde b$ or construct
+a boundary-matched target trajectory. Since the decoder is state-conditioned,
+\begin{equation}
+ D_\psi(z_i^*,\tilde b)\ \not\equiv\ D_\psi(z_i^*,b^*).
+ \label{eq:cf_state_limit}
+\end{equation}
+State closure ensures that the conditioning state agrees with the committed
+\emph{reference}, not that the retained GT continuation is dynamically or
+kinematically compatible with every generated boundary. Continuity is learned
+through state conditioning and generated-context exposure, not guaranteed by
+rebasing. Pose/velocity jumps and target reconstruction under both boundaries
+must therefore be measured. State-matched re-encoding is a distinct objective
+variant, not an implicit step of the reported CF route.
+
+\textbf{Residual compensation.} The correction can be written as
+$\tilde r_i^*=r_i^*+[e(q_i^*)-e(\tilde q_i)]$. Thus a structural error can be
+absorbed by the residual target. To test whether generated D+C still exhibits
+the codec's division of labor, the planned audit reports residual norm and
+tails, correction-to-original-residual magnitude on labelled windows, code
+mismatch rate, and discrete/residual interventions during recursive generation.
+This is separate from the existing fixed-decoder codec audit. The closures
+match the form and construction of one generated transition; neither target
+compatibility nor long-horizon context-distribution equality follows automatically.
 
 \papertodo{T02: run matched Teacher Forcing versus Commit Forcing and remove sampler,
 commit, and state closure separately. Match parents, data, training budgets and
-seeds, inference NFE, and startup. Report song-level uncertainty and long-horizon
-degradation; a successful rollout alone does not prove the training benefit.}
+seeds, inference NFE, and startup. Test target compatibility under generated
+boundaries and residual compensation, alongside song-level uncertainty and
+long-horizon degradation.}
 
 % ================================================================
 \section{Anticipating Music without Future Audio}
@@ -255,7 +283,7 @@ A causal dancer must prepare without reading future audio. Arrived audio is conv
 
 Each forecast state retains its native timestamp and is consumed without interpolation onto the motion grid. The deployable route uses the newest completed forecast from an earlier audio cutoff, masks states whose effective lead has expired according to Eq.~\eqref{eq:effective_lead}, and records age and valid-frame count. Cached forecasts are previously computed predictions, not oracle encodings of actual future audio. Zero-age cache replay is a latency-free diagnostic, not a deployable full-song baseline.
 
-The pure-FiLM route injects predicted FMS14 into both the structural and detail generators through FrameFiLM~\cite{perez2018film}. Film-AM uses this architecture with prefix-aware retraining. The older DC-FILM-F release and Film-AJ have identical audited model tensors; they are not independent trained baselines. Hybrid-AJ/AM instead use local cross-attention for the structural branch and FrameFiLM for detail. The local DC-RF-EQ route combines RMS100 observed-history states and FMS14 forecasts through FiLM-family conditioning. Here RMS denotes music states, not waveform root-mean-square amplitude. Architecture, music inputs, and startup training are separate experimental factors. In particular, Film-to-Hybrid comparisons must account for their different parameter counts.
+The main pure-FiLM route injects predicted FMS14 into both the structural and detail generators through FrameFiLM~\cite{perez2018film}; its prefix-aware variant retains that architecture. A hybrid control instead uses local cross-attention for the structural branch and FrameFiLM for detail. An RMS+FMS control combines 100 observed music-history states and 14 forecast states through FiLM-family conditioning. Here RMS denotes music states, not waveform root-mean-square amplitude. Architecture, music inputs, and startup training are separate experimental factors; FiLM-to-hybrid comparisons must account for their different parameter counts.
 
 The service and generator run asynchronously, but their interaction is still constrained by freshness. We denote the publication target period and generator scheduling budget by S and B. S100-B140 uses a 100-ms snapshot target and starts planning with a 140-ms budget before the deadline. Reducing B can allow a newer forecast to be selected; it does not accelerate the network and reduces tolerance to compute jitter. Future-rollout timings alone exclude front-end processing, state updates, scheduling, transport, and tracking. Increasing the forecast horizon may recover lead, but also increases cost and predictive uncertainty; it is not assumed to solve this tradeoff.
 
@@ -295,7 +323,12 @@ The generator updates a reference-derived boundary state, whereas SONIC closes t
 \subsection{Recorded Layers and Reconstruction Audit}
 We distinguish raw generator motion $M_{\mathrm{gen}}$, the resampled reference sent by the bridge $M_{\mathrm{sent}}$, the controller's consumed target $M_{\mathrm{target}}$, and measured execution $M_{\mathrm{exec}}$. Simulated root state and feedback arrival times are retained alongside joint data. Generation-to-adaptation, delivery-to-consumption, and target-to-execution discrepancies must not be conflated.
 
-The feedback contract also distinguishes named target/measured fields in absolute MuJoCo joint order from raw body-state fields with different ordering and offsets. A duplicate conversion previously corrupted reconstructed visualizations; rendering and anatomical grouping were corrected before the grouped results reported here. Historical startup deltas require rechecking under the corrected contract. This was an interface/evaluation correction, not a modification to the official tracking policy.
+The feedback contract distinguishes named target/measured fields in absolute
+MuJoCo joint order from raw fields with different ordering and offsets.
+Reconstruction is checked against the simulator before anatomical grouping
+and startup comparisons. Joint-conversion debugging history and field-level
+provenance are retained in the research record, not interpreted as controller
+or training improvements.
 
 \papertodo{T01: audit named and fallback feedback fields, units, default offsets,
 root/quaternion conventions, and timestamps against original records. Recheck
@@ -304,61 +337,70 @@ rendered motion against the simulator and recompute affected startup/group metri
 % ================================================================
 \section{Experiments}
 % ================================================================
-We separate representation evidence, formal generator comparisons, and controlled system diagnostics. These cohorts answer different questions and are not pooled into a single ranking. The matched \cof{} versus Teacher-Forcing study remains incomplete; the timing and tracking pilots below do not substitute for it.
+We ask three questions: whether the generated dance fits its soundtrack,
+whether D+C/CF improve generation under matched controls, and whether musical
+expression survives controller execution. Table~\ref{tab:primary_outcomes}
+front-loads the available generator outcomes and the missing matched execution
+rows. Representation and timing/tracking diagnostics then explain mechanisms;
+their cohorts are not pooled into the primary comparison.
 
-\begin{table*}[!t]
+\begin{table*}[t]
 \centering
-\caption{Three complementary evaluation blocks. R: reported in existing formal
-or diagnostic cohorts; I: implemented or exploratory, but final validation or
-coverage is incomplete; P: planned. R does not mean that every model, song, and
-execution layer has been evaluated. No aggregate quality score is used.}
-\label{tab:evaluation_matrix}
+\caption{Primary-outcome matrix, currently partial. Generator-only correct-condition
+means are transcribed from the formal 18-song, three-sampling-seed report;
+they are not new online execution results. Execution rows require the same cohort
+and metric protocol, not substitution of the one-song A--D tracking pilot.
+Song-level intervals and human judgments remain pending for this matrix;
+no model is highlighted as a statistically established winner.}
+\label{tab:primary_outcomes}
 \small
-\renewcommand{\arraystretch}{1.16}
-\setlength{\tabcolsep}{0pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}
-                    @{\hspace{0.02\textwidth}}
-                    >{\raggedright\arraybackslash}p{0.36\textwidth}
-                    @{\hspace{0.02\textwidth}}
-                    >{\raggedright\arraybackslash}p{0.45\textwidth}@{}}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}llccccc@{}}
 \toprule
-\textbf{Block} & \textbf{Metrics and direction} & \textbf{Question and evidence status} \\
+Model & Layer & MMR-MS $\downarrow$ & BAS $\uparrow$ & Onset--impact $r$ & FID$_k$ $\downarrow$ & FID$_g$ $\downarrow$\\
 \midrule
-\textbf{1. MMR} & MMR-MS, MMDist $\downarrow$; audio-to-motion and motion-to-audio R@K $\uparrow$, median/mean rank $\downarrow$ &
-Does an independent learned evaluator associate the motion with its music?
-\textbf{R:} FineDance matching/retrieval subsets. \textbf{I:} cross-dataset calibration;
-not a direct aesthetic judgment. \\
+Old D+C, FMS-FiLM & Generated & 1.367 & 0.244 & 0.067 & 276.285 & 269.407\\
+Prefix-aware D+C, FMS-FiLM & Generated & 1.357 & 0.257 & 0.072 & 319.827 & 270.164\\
+D+C, RMS+FMS-FiLM & Generated & 1.323 & 0.240 & 0.072 & 293.709 & 235.578\\
 \midrule
-\textbf{2. Music adaptation} & BAS $\uparrow$; beat-event coverage and timing; onset--motion correlation and response lag &
-Does the movement respond to the soundtrack's rhythm and dynamics?
-\textbf{R:} BAS and beat diagnostics in formal cohorts; onset/impact diagnostics in
-layer analysis. Event coverage is not a mandatory one-to-one beat assignment. \\
-& Tempo/phase, section response, style/affect fit; correct versus swapped-audio preference &
-\textbf{I:} tempo/style diagnostics. \textbf{P:} validated phrase/affect endpoints
-and blinded cross-paired music-fit study at generation and execution. \\
-\midrule
-\textbf{3. Dance quality and aesthetics} & FID$_k$/FID$_g$/FID$_L$ $\downarrow$;
-Div$_k$/Div$_g$/Div$_L$ and same-song multimodality $\leftrightarrow$GT &
-Is the motion distribution plausible and varied? \textbf{R:} kinetic/geometric
-and learned-metric subsets. Small GT cohorts limit FID interpretation. \\
-& Velocity, acceleration, jerk, activity and repetition $\leftrightarrow$GT;
-boundary jumps and physical violations $\downarrow$ &
-\textbf{R:} motion-dynamics and continuity diagnostics. \textbf{I:} contact/skating
-proxies and standardized physical checks. Low activity or low jerk alone is not success. \\
-& Blinded naturalness, smoothness, expressiveness and aesthetics $\uparrow$ &
-\textbf{P:} silent-video quality study and paired reference/execution study;
-no perceptual superiority is claimed from existing proxy scores. \\
+Old D+C, FMS-FiLM & Executed & -- & -- & -- & -- & --\\
+Prefix-aware D+C, FMS-FiLM & Executed & -- & -- & -- & -- & --\\
+D+C, RMS+FMS-FiLM & Executed & -- & -- & -- & -- & --\\
 \bottomrule
-\multicolumn{3}{@{}l@{}}{\footnotesize $\uparrow$: higher is better; $\downarrow$:
-lower is better; $\leftrightarrow$GT: match the paired ground-truth distribution.} \\
 \end{tabular}
 \end{table*}
+
+The available outcomes are mixed: prefix-aware FiLM has a higher mean BAS than
+the old FiLM model, but a worse kinetic FID; RMS+FMS has a lower learned matching
+distance without the highest BAS. Onset--impact correlations are small, and
+FID estimates use only 18 matched GT trajectories against 54 generated samples.
+Thus these means motivate paired music controls and perceptual inspection,
+not an overall quality ranking. The available song-bootstrap BAS comparison
+is reported below. Completing the executed rows, song-level intervals, and
+cross-paired music-fit/blinded-quality tests is the primary result priority.
+
+\papertodo{T02--T04/T07--T10: complete matched D-only, continuous-only and TF/CF
+generation controls, then the paired generation/execution outcome matrix.
+Use held-out songs and independent tracker resets; do not fill missing rows
+with results from incompatible diagnostic cohorts.}
+
 
 \subsection{Protocol}
 We train on the canonical FineDance-to-G1 pipeline~\cite{li2023finedance} at 30~Hz. Representation comparisons use two matched training seeds and 512 deterministic held-out plans per seed. The structure view uses frozen designated native channels together with torso, wrist, and foot geometry; the detail view is its exact complement. All NRMSE values use train-split statistics and the equal-weight block definition in Eq.~\eqref{eq:view_nrmse}. Donor pairs, data order, representation width, and evaluation plans are matched.
 
 \subsection{Coarse--Fine Decoupling Audit}
-This experiment tests whether both branches and the proposed kinematics-guided objective are necessary. The D-only row zeros the continuous code at decoding; it is a component ablation of the selected codec, not a separately trained discrete-only model. The two full-state D+C rows compare the legacy overlapping objective with our clean objective, while the compact-state row reports the selected representation.
+This experiment tests complementary branch roles and the effect of the
+supervision design. The D-only row zeros the continuous code at decoding; it
+is a component ablation, not an independently trained discrete-only model.
+The two full-state D+C rows compare \emph{overlapping supervision} with the
+proposed projector-based supervision. Overlapping supervision trains the
+discrete reconstruction on all 34 native channels with nonzero weights,
+including arm detail, whereas the proposed discrete and residual-robust losses
+use only the declared structural view. The full branch retains full-view
+supervision. The proposed bundle also removes the auxiliary contact head and
+legacy endpoint/physical penalties; this is not a single-loss toggle.
+Appendix~\ref{app:supervision} lists channels and coefficients. The compact-state
+row then changes the boundary representation under the proposed supervision.
 
 \begin{table}[t]
 \centering
@@ -371,7 +413,7 @@ This experiment tests whether both branches and the proposed kinematics-guided o
 Variant & \shortstack{Struct.\\NRMSE $\downarrow$} & \shortstack{Detail\\NRMSE $\downarrow$} & $R_{D/C}$ $\uparrow$\\
 \midrule
 D only ($C=0$) & 0.361 & 0.449 & --\\
-D+C, w/o our objective & 0.303 & 0.270 & 1.20\\
+D+C, overlapping supervision & 0.303 & 0.270 & 1.20\\
 D+C, proposed objective & \textbf{0.250} & \textbf{0.243} & 1.41\\
 Ours, compact state & 0.252 & 0.245 & \textbf{1.41}\\
 \bottomrule
@@ -385,199 +427,24 @@ and direct motion-space controls under a matched contract. Audit historical
 representation-table receipts. Fixed-q0 zero-residual decoding is only a component
 counterfactual; q0 genre semantics remain unproven.}
 
-\subsection{Shared Evaluation Contract}
-Table~\ref{tab:evaluation_matrix} separates three questions: learned cross-modal
-matching (MMR), explicit music adaptation, and dance quality/aesthetics. They are
-complementary, not independent quantities that can be added into one score.
-The third block concerns the motion itself; the first two concern its relation
-to the soundtrack. Distributional, rhythmic, physical, and perceptual evidence
-follows established dance evaluation practice~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}.
+\subsection{Three-Block Outcome Protocol}
+The primary outcomes are (1) frozen MMR matching, (2) rhythm and dynamic response
+to the soundtrack, and (3) dance quality. We prioritize MMR-MS and matched-audio
+preference, BAS and onset--impact correlation, and motion distribution/diversity
+with blinded aesthetics. These are assessed on both generated references and
+measured execution under matched songs, sampling seeds, duration, and audio
+time. No post-hoc music shift improves a primary score. Startup is evaluated
+separately rather than only trimmed away. Detailed definitions, calibration,
+and status are in Appendix~\ref{app:evaluation}.
 
-The calibration chain comprises paired human motion ($O_{\mathrm{Human}}$), its
-GMR-retargeted G1 counterpart ($O_{\mathrm{G1}}$), and execution of that G1 target
-($O_{\mathrm{Exec}}$). Generated motion is evaluated through the recorded
-$M_{\mathrm{gen}}$--$M_{\mathrm{sent}}$--$M_{\mathrm{target}}$--$M_{\mathrm{exec}}$
-chain. The generator is trained directly in the G1 domain; online output is not
-retargeted again. The final protocol applies all three blocks to both
-$M_{\mathrm{gen}}$ and $M_{\mathrm{exec}}$ where the evaluator's domain calibration
-permits it. Existing tracking recordings do not imply that this complete scoring
-matrix has already been computed.
-
-Audio time, crop duration, rig, feature normalization, evaluator checkpoint, and
-aggregation rules are fixed within a comparison. Music scores use the recorded
-audio--action clock, without independently shifting each video to improve fit.
-Lag-compensated tracking is a separate diagnostic. Startup is reported untrimmed
-and separately from the post-startup interval. Missing inputs, unsupported
-domains, and unvalidated endpoints are marked N/A, not treated as zero-quality
-samples or silently removed. Music-conditioning features are not evaluation
-metrics; the learned evaluator is frozen independently of generator fitting.
-
-The source song, rather than the frame, is the statistical unit. Sampling seeds
-are repeated measurements within a song, distinct from training seeds and
-tracker resets. Final comparisons require a held-out manifest, all eligible
-songs, paired song-level effects with 95\% confidence intervals, and tempo/style
-strata based on verified metadata. Demonstration selection is separate from
-quantitative inference. Different human/G1 feature spaces or evaluator versions
-must not share a numerical ranking. Generated-to-GT joint RMSE is not an overall
-choreography score because valid dance is one-to-many.
-
-\subsection{Block 1: MMR Matching and Retrieval}
-\textbf{Purpose and evaluator.} Music--motion retrieval (MMR) tests whether
-corresponding audio and motion are closer than controlled mismatches in an
-independently learned space. Our implemented evaluator uses 35-D Librosa
-temporal audio descriptors and frozen MuQ-large global audio features with
-native G1 motion features; its two towers
-are fitted on paired training GT, then frozen for scoring. Global/local
-contrastive and time-shift controls calibrate correspondence. Music identity,
-not dancer or performance identity, defines positives. The model is an
-evaluation instrument, not a new generator contribution or a substitute for
-human judgment. Offline evaluation may inspect the complete scored segment;
-these evaluator features are not supplied to the causal generator. This does
-not grant future-waveform access to any deployable conditioning route.
-
-\textbf{Paired matching.} Let $u_g,v_g$ be global music/motion embeddings and
-$u_t,v_t$ their aligned, non-overlapping one-second segment embeddings. We use
-the global--temporal matching distance adopted from SoulNet~\cite{li2025soulnet}:
-\begin{align}
- D_{\mathrm{temp}} &= \sum_{t=2}^{T}
- \left\|(u_t-u_{t-1})-(v_t-v_{t-1})\right\|_2,\\
- d_{\mathrm{MMR}} &=
- \sqrt{0.7\|u_g-v_g\|_2^2+0.3D_{\mathrm{temp}}}.
- \label{eq:mmr_score}
-\end{align}
-MMR-MS averages this per-pair distance; lower is better. We also retain the
-global and temporal terms to expose their different behavior. The temporal
-term is a sum of norms, not squared norms or a time average; crop length must
-therefore be matched. A global-only fallback is not the full MMR-MS.
-MMDist separately measures mean paired global Euclidean distance; where
-multiple matching candidates exist, the implementation uses their centroid.
-It is not maximum mean discrepancy (MMD) and not a retrieval success rate.
-
-\textbf{Retrieval.} We report audio-to-motion and motion-to-audio R@K for
-$K\in\{1,2,3,5,10\}$, together with median and mean rank. A query succeeds if a
-valid same-music candidate appears among its first $K$ results. Candidate pools,
-query counts, distance convention, and multiple-positive rules remain fixed;
-the first valid positive defines the rank. Chance comparisons must reflect
-the actual pool and number of positives. Correct versus wrong-track and
-wrong-time margins test whether the evaluator detects more than generic
-movement, genre similarity, or performance identity.
-
-\textbf{Status and limits.} FineDance-only matching/retrieval results are
-available for formal generator subsets. A multi-dataset candidate has not
-closed all AIST++ calibration gates, as detailed below. No cross-dataset or
-executed-motion aesthetic ranking follows automatically from a lower MMR-MS.
-Evaluator identity, training/test music separation, feature versions, and
-temporal-embedding availability accompany each reported score.
-
-\subsection{Block 2: Music Adaptation}
-\textbf{Rhythmic alignment.} For motion-accent times $\mathcal{B}_x$ and
-audio-beat times $\mathcal{B}_a$, motion-to-music Beat Alignment Score is
-\begin{equation}
- \mathrm{BAS}=\frac{1}{|\mathcal{B}_x|}
- \sum_{b\in\mathcal{B}_x}
- \exp\!\left(-\frac{\min_{a\in\mathcal{B}_a}(b-a)^2}{2\sigma^2}\right).
- \label{eq:bas}
-\end{equation}
-The event extractor, smoothing, and $\sigma$ are frozen and recorded with the
-metric version. The layer analyzer derives motion accents from minima of
-smoothed mean joint speed and uses $\sigma=0.10$~s. Reverse-direction BAS is
-labelled separately; historical scores require their own extractor/version
-audit before pooling.
-We retain event counts, beat density, nearest-event timing and offbeat
-diagnostics: a high BAS with very few events does not establish sustained
-rhythmic dance. Historical Beat-P/R/F1 values describe event coverage under a
-specified matching tolerance; without an explicit beat-assignment protocol
-they are not mandatory quality endpoints. Dance need not hit every audio beat,
-and half-time or double-time phrasing is not inherently incorrect.
-
-\textbf{Dynamics, tempo, and structure.} We measure zero-lag audio-onset
-correlation with joint-speed and motion-impact curves. The implemented impact
-proxy is the smoothed absolute derivative of the speed curve, not a measured
-contact force. Best-lag correlation and its lag diagnose delayed response;
-a lag from weak correlation is unreliable and is not used to retime the main
-music score. Tempo/period and accent-phase diagnostics complement beat proximity
-but require declared half/double-tempo handling. Phrase/section transition
-response, annotated style fit, and affect agreement are further endpoints,
-not inferred from BAS or motion energy. Validated phrase and affect evaluation
-remains pending; human facial-expression metrics are not directly applicable
-to G1's unactuated face.
-
-\textbf{Appropriate adaptation rather than mere change.} Current formal
-correct/null, wrong-track, wrong-time, and shifted-condition controls test
-music dependence. The final cross-paired protocol additionally generates
-$D_A,D_B$ from songs $A,B$ with matched motion history and sampling noise, and
-scores both dances with both soundtracks. For a higher-is-better fit score $s$,
-\begin{align}
- \Delta_{\mathrm{fit}}=\tfrac12\big[&s(A,D_A)-s(B,D_A)\nonumber\\
-                              +&s(B,D_B)-s(A,D_B)\big].
- \label{eq:cross_music_fit}
-\end{align}
-For a distance metric, $s=-d$. Positive matched preference is sought together
-with dance quality, not merely a large $\|D_A-D_B\|$. Same-style/similar-tempo
-negatives test fine musical specificity; cross-style pairs test broader
-response. This design is repeated for generated and executed dances without
-changing their audio alignment. Blinded listeners rate rhythm, accent/dynamic
-response, and overall music--dance fit; these perceptual controls remain TODO.
-
-\subsection{Block 3: Dance Quality and Aesthetics}
-\textbf{Distribution and diversity.} FID$_k$ and FID$_g$ compare generated and
-held-out GT feature distributions using kinetic and geometric G1 descriptors,
-respectively. FID$_L$ applies the same mean/covariance distance in an independent
-frozen motion-embedding space. Div$_k$, Div$_g$, and Div$_L$ measure pairwise
-feature distances and are interpreted relative to matched GT, not maximized
-without bound. Same-song multimodality is the mean pairwise motion-embedding
-distance across sampling seeds, macro-averaged over eligible songs; the formal
-protocol uses at least three seeds. Here multimodality (MM) is distinct from
-cross-modal MMR. Global diversity cannot show that one song admits diverse
-valid dances. Small GT samples, including the current 18-song cohort, make FID
-auxiliary evidence rather than a robust standalone superiority claim.
-
-\textbf{Local and long-horizon motion.} We retain joint/root velocity,
-acceleration and jerk distributions, high-frequency jitter, and position and
-velocity discontinuities at C4 boundaries. Activity is measured using joint
-excursion and squared angular velocity; static-window fraction and repeated
-motion expose freezing or looping. These values are compared with GT and
-controlled corruptions: standing still minimizes jerk but is not a good dance,
-and high activity can be jitter. Reconstruction NRMSE, branch-swap sensitivity,
-and continuous-code effective rank test the D+C mechanism, while the three
-evaluation blocks test generated outcomes. They are not interchangeable.
-
-\textbf{Physical plausibility.} Contact-weighted skating, penetration,
-joint/dynamic-limit violations, root drift, and stability complement motion
-statistics. The current G1 analyzer includes a physical-foot-contact (PFC)
-proxy combining planar root acceleration and foot motion, and foot-skating
-rate (FSR) proxies based on estimated contact. Their ground height, contact
-threshold, speed threshold, and world/body frame must be disclosed; they are
-not silently equated with standardized human-motion benchmarks. Kinematic
-plausibility does not prove dynamic feasibility. Actual survival, falls, and
-interventions are measured in controller execution.
-
-\textbf{Perceptual quality.} A planned blinded silent-video study rates
-naturalness, continuity/smoothness, expressiveness, and overall aesthetic
-quality separately from the soundtrack-fit study. A second paired study asks
-whether execution retains the reference's expressive movement. Presentation
-matches rig, camera, duration, fps, and real playback speed, with randomized
-order and participant/song-aware analysis. Low FID, low jerk, and high tracking
-retention do not individually prove that dance is beautiful. No completed
-human-quality result is claimed in this draft.
-
-\subsection{Execution and Timing as Supporting Diagnostics}
-Tracking and runtime measurements accompany, rather than replace, the three
-quality blocks. We report unaligned and lag-aligned joint RMSE, root drift,
-target-to-execution lag, joint-wise amplitude and velocity-power retention,
-and limb/frequency-band attenuation. Startup and post-startup results are
-separate. Audio cutoff, forecast publication/fetch, action deadlines, condition
-age, valid FMS count, planning-time tails, deadline misses, holds/aborts, and
-simulation real-time factor establish whether the intended online contract
-was realized. Recording coverage and resource logs qualify comparisons;
-successful retries alone cannot estimate reliability. A stable robot with
-attenuated accents may track acceptably while scoring poorly on music fit.
-
-\papertodo{T04/T08--T10: complete the three-block score matrix for generated and
-executed motion; freeze event tolerances, windows, evaluator hashes, and
-small-sample reporting. Run the cross-paired music-fit test and blinded aesthetic
-study. Exploratory tempo/style/contact metrics and planned phrase/affect metrics
-must not be presented as fully validated results.}
+Music-change tests must demonstrate appropriate adaptation rather than merely
+different trajectories: each of two generated dances is paired with both
+soundtracks, with histories and random draws controlled. Correct-pair preference
+must survive SONIC execution and agree with independent listening judgments.
+Blinded motion-only viewing separately tests naturalness and aesthetics.
+Phrase and affect endpoints are optional extensions, not prerequisites for the
+core rhythm/dynamics/music-fit claim. Confidence intervals use songs as clusters;
+sampling seeds are repeated measurements, not independent songs.
 
 \subsection{Generator Cohorts and Evaluator Calibration}
 The current formal generator matrix compares old DC-FILM-F, Film-AM, and
@@ -767,8 +634,7 @@ judgments are still needed.
 and deadline-effective music conditioning before adding model branches. If
 tracking-aware reference adaptation is pursued, it should preserve validated
 musical events under a fixed controller and be compared with simple smoothing
-and clipping. A new tracker is neither implemented here nor required merely
-to label the system a robotics contribution. The final held-out set must be
+and clipping. The controller remains fixed in the present study. The final held-out set must be
 separate from songs repeatedly used to tune the present diagnostics.
 
 \papertodo{T11/T12: obtain real-G1 records only if hardware claims are retained;
@@ -791,6 +657,15 @@ representation and layered studies support specific mechanisms, not a claim
 that online executed dance already matches offline animation. Matched learning
 ablations, learned-startup validation, and music-fit and aesthetic judgments at
 both generation and execution remain necessary for that broader conclusion.
+
+\appendices
+\section{Detailed Evaluation Definitions and Coverage}
+\label{app:evaluation}
+\input{evaluation_details.tex}
+
+\section{Overlapping and Projector-Based Supervision}
+\label{app:supervision}
+\input{supervision_details.tex}
 
 \bibliographystyle{IEEEtran}
 \bibliography{Reference}

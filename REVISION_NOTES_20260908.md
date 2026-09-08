@@ -146,3 +146,43 @@ or undefined references/citations. The pre-existing missing-author warning,
 underfull line warnings, and MRT2 bibliography type warning remain. The metric
 table and adjacent formula pages were visually checked. Final venue-length
 compression and authorship remain T12 rather than being silently resolved.
+
+## Reviewer-response revision: CF, diagrams, and primary outcomes
+
+- Audited the ordinary music-conditioned CF and prefix-aware wrapper against
+  implementation. Corrected the claimed invariant to the complete target latent,
+  not full target motion under a changed decoder boundary. Documented unchanged
+  next dataset targets, independent first-pass transitions, and the distinct
+  state-matched target variant. `METHOD_AUDIT_20260908.md` gives source anchors.
+- Added planner-level residual compensation and boundary-continuity experiments
+  to T02/T03. Codec mechanism results do not establish planner role separation.
+- Renamed the legacy Table II comparator to overlapping supervision and added
+  explicit channel/weight/gradient-bundle differences in an appendix. Historical
+  numeric results have not been regenerated or retrospectively attributed to a
+  single isolated loss change.
+- Replaced both referenced figures with editable TikZ diagrams. The architecture
+  distinguishes two-branch FiLM, D-to-C conditioning, reference commitment/state,
+  the reference bridge, fixed SONIC, and its separate measured-state loop.
+  The CF figure no longer equates training/deployment distributions or decoded
+  motion across different boundary states. Original bitmap assets are retained.
+- Front-loaded an honest, partial primary-outcome matrix: existing three-model
+  generator means, explicitly missing matched execution rows, and priority for
+  song-level intervals, cross-paired music fit, and blinded judgments. The
+  one-song A--D diagnostics are not used to fill final outcome gaps.
+- Kept MMR, music adaptation, and dance quality as the three core evaluation
+  blocks; moved their detailed definitions and evidence-coverage table into
+  `evaluation_details.tex`. Phrase/affect endpoints are optional, not new gates
+  that must all be closed for submission.
+- Ended the abstract with supported codec findings, removed internal tracker
+  contribution commentary, and retained the material limits in the results,
+  Discussion, and TODO checklist. This remains an expanded research draft.
+- No training run, new music/SONIC evaluation, or controller modification was
+  performed. Three existing focused CF CPU tests passed. `V1.tex` is untouched;
+  Overleaf must compile `main.tex` to show this revision.
+
+The revised draft builds to 14 pages with visible TODOs, appendices starting
+on page 10, and references. Both diagrams and the primary-outcome/representation
+table page were visually checked. There are no overfull boxes or unresolved
+references/citations; existing author/underfull warnings remain. This is not
+yet a venue-length submission version, and the appendices still require a final
+main-paper versus supplementary-material decision.
