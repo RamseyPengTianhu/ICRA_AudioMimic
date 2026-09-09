@@ -1,0 +1,62 @@
+% Code-native diagram: reference and physical feedback are separate loops.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+ x=1cm,y=1cm,font=\sffamily\small,
+ box/.style={draw=black!60,fill=white,rounded corners=2pt,align=center,
+             text width=2.5cm,minimum height=0.95cm,inner sep=5pt},
+ flow/.style={-{Latex[length=2.2mm]},thick},
+ music/.style={flow,draw=teal!75!black},
+ ref/.style={flow,draw=blue!65!black},
+ physical/.style={flow,draw=red!65!black},
+ note/.style={align=center,font=\sffamily\footnotesize,fill=white,inner sep=2pt}]
+\node[anchor=west,font=\sffamily\bfseries] at (0,8.2) {CAUSAL MUSIC CONDITIONING};
+\node[box] (audio) at (1.5,7.3) {Arrived audio\\SpectroStream tokens};
+\node[box,text width=2.8cm] (mrt) at (5,7.3) {Frozen MRT2\\state update + forecast};
+\node[box,text width=3cm,draw=teal!75!black] (mask) at (8.7,7.3)
+ {Timestamped FMS14\\deadline-valid lead mask};
+\node[note,text width=4.4cm] at (13.5,7.3)
+ {Main route: pure FiLM / Film-AM\\Forecasts use no future waveform.};
+\draw[music] (audio) -- (mrt);
+\draw[music] (mrt) -- (mask);
+\node[anchor=west,font=\sffamily\bfseries] at (0,6.2) {REFERENCE GENERATION};
+\node[box,text width=2.5cm] (context) at (1.5,4.8)
+ {Committed history $h_t$\\reference-derived $b_t$};
+\node[box,draw=blue!65!black] (d) at (5,5.1)
+ {Discrete structure\\autoregressive $q$};
+\node[box,draw=blue!65!black] (c) at (8.7,5.1)
+ {Continuous residual\\DDIM $r\mid q,h_t,b_t$};
+\node[box,text width=2.2cm] (decode) at (12,5.1)
+ {Native decoder\\$D_\psi(z,b_t)$\\16 frames at 30 Hz};
+\node[box,text width=2.1cm,draw=blue!65!black] (commit) at (15,5.1)
+ {Commit Reference\\Prefix: C4\\8 frames / 0.267 s};
+\draw[ref] (context.east) -- (d.west);
+\draw[ref] (d) -- node[note,above] {sampled $q$} (c);
+\draw[ref] (c) -- node[note,above] {$z$} (decode);
+\draw[ref] (decode) -- (commit);
+\draw[music] (mask.west) -- (6.7,7.3) -- (6.7,5.95) -- (5,5.95)
+ -- node[note,left] {FrameFiLM} (d.north);
+\draw[music] (mask.south) -- node[note,right] {FrameFiLM} (c.north);
+\draw[ref] (context.south) -- (1.5,3.9) -- (8.7,3.9)
+ -- node[note,right] {$h_t,b_t$} (c.south);
+\draw[ref] (8.7,3.9) -- (12,3.9) -- node[note,right] {$b_t$} (decode.south);
+\node[box,text width=5.8cm,minimum height=0.7cm] (update) at (7.5,2.95)
+ {Append committed D+C; derive state from committed native frames};
+\draw[ref] (commit.south) -- (15,2.95) -- (update.east);
+\draw[ref] (update.west) -- (0,2.95) -- (0,4.8) -- (context.west);
+\node[anchor=west,font=\sffamily\bfseries] at (0,2) {PHYSICAL EXECUTION};
+\node[box,text width=2.7cm] (bridge) at (14.4,0.9)
+ {Our reference bridge\\30 $\rightarrow$ 50 Hz; timestamps\\C4 packets: 13/14 frames};
+\node[box,text width=2.7cm,draw=red!65!black] (sonic) at (9.9,0.9)
+ {Fixed SONIC tracker\\reference + measured state};
+\node[box,text width=2.6cm,draw=red!65!black] (plant) at (5.5,0.9)
+ {G1 plant in MuJoCo\\measured motion $M_{\rm exec}$};
+\node[note,text width=2.6cm] at (1.5,0.7)
+ {No measured-state feedback\\to the generator\\in this route.};
+\draw[ref] (commit.east) -- (16.5,5.1) -- (16.5,0.9) -- (bridge.east);
+\draw[ref] (bridge) -- node[note,above] {reference} (sonic);
+\draw[physical] (sonic) -- node[note,above] {motor commands} (plant);
+\draw[physical] (plant.south) -- (5.5,-0.4) --
+ node[note,below] {measured-state feedback: controller loop only} (9.9,-0.4)
+ -- (sonic.south);
+\end{tikzpicture}%
+}

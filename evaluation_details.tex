@@ -1,0 +1,242 @@
+\begin{table*}[!t]
+\centering
+\caption{Three complementary evaluation blocks. R: reported in existing formal
+or diagnostic cohorts; I: implemented or exploratory, but final validation or
+coverage is incomplete; P: planned. R does not mean that every model, song, and
+execution layer has been evaluated. No aggregate quality score is used.}
+\label{tab:evaluation_matrix}
+\small
+\renewcommand{\arraystretch}{1.16}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.15\textwidth}
+                    @{\hspace{0.02\textwidth}}
+                    >{\raggedright\arraybackslash}p{0.36\textwidth}
+                    @{\hspace{0.02\textwidth}}
+                    >{\raggedright\arraybackslash}p{0.45\textwidth}@{}}
+\toprule
+\textbf{Block} & \textbf{Metrics and direction} & \textbf{Question and evidence status} \\
+\midrule
+\textbf{1. MMR} & MMR-MS, MMDist $\downarrow$; audio-to-motion and motion-to-audio R@K $\uparrow$, median/mean rank $\downarrow$ &
+Does an independent learned evaluator associate the motion with its music?
+\textbf{R:} FineDance matching/retrieval subsets. \textbf{I:} cross-dataset calibration;
+not a direct aesthetic judgment. \\
+\midrule
+\textbf{2. Music adaptation} & BAS $\uparrow$; beat-event coverage and timing; onset--motion correlation and response lag &
+Does the movement respond to the soundtrack's rhythm and dynamics?
+\textbf{R:} BAS and beat diagnostics in formal cohorts; onset/impact diagnostics in
+layer analysis. Event coverage is not a mandatory one-to-one beat assignment. \\
+& Tempo/phase, section response, style/affect fit; correct versus swapped-audio preference &
+\textbf{I:} tempo/style diagnostics. \textbf{P:} validated phrase/affect endpoints
+and blinded cross-paired music-fit study at generation and execution. \\
+\midrule
+\textbf{3. Dance quality and aesthetics} & FID$_k$/FID$_g$/FID$_L$ $\downarrow$;
+Div$_k$/Div$_g$/Div$_L$ and same-song multimodality $\leftrightarrow$GT &
+Is the motion distribution plausible and varied? \textbf{R:} kinetic/geometric
+and learned-metric subsets. Small GT cohorts limit FID interpretation. \\
+& Velocity, acceleration, jerk, activity and repetition $\leftrightarrow$GT;
+boundary jumps and physical violations $\downarrow$ &
+\textbf{R:} motion-dynamics and continuity diagnostics. \textbf{I:} contact/skating
+proxies and standardized physical checks. Low activity or low jerk alone is not success. \\
+& Blinded naturalness, smoothness, expressiveness and aesthetics $\uparrow$ &
+\textbf{P:} silent-video quality study and paired reference/execution study;
+no perceptual superiority is claimed from existing proxy scores. \\
+\bottomrule
+\multicolumn{3}{@{}l@{}}{\footnotesize $\uparrow$: higher is better; $\downarrow$:
+lower is better; $\leftrightarrow$GT: match the paired ground-truth distribution.} \\
+\end{tabular}
+\end{table*}
+
+\subsection{Shared Evaluation Contract}
+Table~\ref{tab:evaluation_matrix} separates three questions: learned cross-modal
+matching (MMR), explicit music adaptation, and dance quality/aesthetics. They are
+complementary, not independent quantities that can be added into one score.
+The third block concerns the motion itself; the first two concern its relation
+to the soundtrack. Distributional, rhythmic, physical, and perceptual evidence
+follows established dance evaluation practice~\cite{li2021aist,tseng2023edge,li2024lodge,ji2026discoforcing,li2026roboperform}.
+
+The calibration chain comprises paired human motion ($O_{\mathrm{Human}}$), its
+GMR-retargeted G1 counterpart ($O_{\mathrm{G1}}$), and execution of that G1 target
+($O_{\mathrm{Exec}}$). Generated motion is evaluated through the recorded
+$M_{\mathrm{gen}}$--$M_{\mathrm{sent}}$--$M_{\mathrm{target}}$--$M_{\mathrm{exec}}$
+chain. The generator is trained directly in the G1 domain; online output is not
+retargeted again. The final protocol applies all three blocks to both
+$M_{\mathrm{gen}}$ and $M_{\mathrm{exec}}$ where the evaluator's domain calibration
+permits it. Existing tracking recordings do not imply that this complete scoring
+matrix has already been computed.
+
+Audio time, crop duration, rig, feature normalization, evaluator checkpoint, and
+aggregation rules are fixed within a comparison. Music scores use the recorded
+audio--action clock, without independently shifting each video to improve fit.
+Lag-compensated tracking is a separate diagnostic. Startup is reported untrimmed
+and separately from the post-startup interval. Missing inputs, unsupported
+domains, and unvalidated endpoints are marked N/A, not treated as zero-quality
+samples or silently removed. Music-conditioning features are not evaluation
+metrics; the learned evaluator is frozen independently of generator fitting.
+
+The source song, rather than the frame, is the statistical unit. Sampling seeds
+are repeated measurements within a song, distinct from training seeds and
+tracker resets. Final comparisons require a held-out manifest, all eligible
+songs, paired song-level effects with 95\% confidence intervals, and tempo/style
+strata based on verified metadata. Demonstration selection is separate from
+quantitative inference. Different human/G1 feature spaces or evaluator versions
+must not share a numerical ranking. Generated-to-GT joint RMSE is not an overall
+choreography score because valid dance is one-to-many.
+
+\subsection{Block 1: MMR Matching and Retrieval}
+\textbf{Purpose and evaluator.} Music--motion retrieval (MMR) tests whether
+corresponding audio and motion are closer than controlled mismatches in an
+independently learned space. Our implemented evaluator uses 35-D Librosa
+temporal audio descriptors and frozen MuQ-large global audio features with
+native G1 motion features; its two towers
+are fitted on paired training GT, then frozen for scoring. Global/local
+contrastive and time-shift controls calibrate correspondence. Music identity,
+not dancer or performance identity, defines positives. The model is an
+evaluation instrument, not a new generator contribution or a substitute for
+human judgment. Offline evaluation may inspect the complete scored segment;
+these evaluator features are not supplied to the causal generator. This does
+not grant future-waveform access to any deployable conditioning route.
+
+\textbf{Paired matching.} Let $u_g,v_g$ be global music/motion embeddings and
+$u_t,v_t$ their aligned, non-overlapping one-second segment embeddings. We use
+the global--temporal matching distance adopted from SoulNet~\cite{li2025soulnet}:
+\begin{align}
+ D_{\mathrm{temp}} &= \sum_{t=2}^{T}
+ \left\|(u_t-u_{t-1})-(v_t-v_{t-1})\right\|_2,\\
+ d_{\mathrm{MMR}} &=
+ \sqrt{0.7\|u_g-v_g\|_2^2+0.3D_{\mathrm{temp}}}.
+ \label{eq:mmr_score}
+\end{align}
+MMR-MS averages this per-pair distance; lower is better. We also retain the
+global and temporal terms to expose their different behavior. The temporal
+term is a sum of norms, not squared norms or a time average; crop length must
+therefore be matched. A global-only fallback is not the full MMR-MS.
+MMDist separately measures mean paired global Euclidean distance; where
+multiple matching candidates exist, the implementation uses their centroid.
+It is not maximum mean discrepancy (MMD) and not a retrieval success rate.
+
+\textbf{Retrieval.} We report audio-to-motion and motion-to-audio R@K for
+$K\in\{1,2,3,5,10\}$, together with median and mean rank. A query succeeds if a
+valid same-music candidate appears among its first $K$ results. Candidate pools,
+query counts, distance convention, and multiple-positive rules remain fixed;
+the first valid positive defines the rank. Chance comparisons must reflect
+the actual pool and number of positives. Correct versus wrong-track and
+wrong-time margins test whether the evaluator detects more than generic
+movement, genre similarity, or performance identity.
+
+\textbf{Status and limits.} FineDance-only matching/retrieval results are
+available for formal generator subsets. A multi-dataset candidate has not
+closed all AIST++ calibration gates, as detailed below. No cross-dataset or
+executed-motion aesthetic ranking follows automatically from a lower MMR-MS.
+Evaluator identity, training/test music separation, feature versions, and
+temporal-embedding availability accompany each reported score.
+
+\subsection{Block 2: Music Adaptation}
+\textbf{Rhythmic alignment.} For motion-accent times $\mathcal{B}_x$ and
+audio-beat times $\mathcal{B}_a$, motion-to-music Beat Alignment Score is
+\begin{equation}
+ \mathrm{BAS}=\frac{1}{|\mathcal{B}_x|}
+ \sum_{b\in\mathcal{B}_x}
+ \exp\!\left(-\frac{\min_{a\in\mathcal{B}_a}(b-a)^2}{2\sigma^2}\right).
+ \label{eq:bas}
+\end{equation}
+The event extractor, smoothing, and $\sigma$ are frozen and recorded with the
+metric version. The layer analyzer derives motion accents from minima of
+smoothed mean joint speed and uses $\sigma=0.10$~s. Reverse-direction BAS is
+labelled separately; historical scores require their own extractor/version
+audit before pooling.
+We retain event counts, beat density, nearest-event timing and offbeat
+diagnostics: a high BAS with very few events does not establish sustained
+rhythmic dance. Historical Beat-P/R/F1 values describe event coverage under a
+specified matching tolerance; without an explicit beat-assignment protocol
+they are not mandatory quality endpoints. Dance need not hit every audio beat,
+and half-time or double-time phrasing is not inherently incorrect.
+
+\textbf{Dynamics, tempo, and structure.} We measure zero-lag audio-onset
+correlation with joint-speed and motion-impact curves. The implemented impact
+proxy is the smoothed absolute derivative of the speed curve, not a measured
+contact force. Best-lag correlation and its lag diagnose delayed response;
+a lag from weak correlation is unreliable and is not used to retime the main
+music score. Tempo/period and accent-phase diagnostics complement beat proximity
+but require declared half/double-tempo handling. Phrase/section transition
+response, annotated style fit, and affect agreement are further endpoints,
+not inferred from BAS or motion energy. Validated phrase and affect evaluation
+remains pending; human facial-expression metrics are not directly applicable
+to G1's unactuated face.
+
+\textbf{Appropriate adaptation rather than mere change.} Current formal
+correct/null, wrong-track, wrong-time, and shifted-condition controls test
+music dependence. The final cross-paired protocol additionally generates
+$D_A,D_B$ from songs $A,B$ with matched motion history and sampling noise, and
+scores both dances with both soundtracks. For a higher-is-better fit score $s$,
+\begin{align}
+ \Delta_{\mathrm{fit}}=\tfrac12\big[&s(A,D_A)-s(B,D_A)\nonumber\\
+                              +&s(B,D_B)-s(A,D_B)\big].
+ \label{eq:cross_music_fit}
+\end{align}
+For a distance metric, $s=-d$. Positive matched preference is sought together
+with dance quality, not merely a large $\|D_A-D_B\|$. Same-style/similar-tempo
+negatives test fine musical specificity; cross-style pairs test broader
+response. This design is repeated for generated and executed dances without
+changing their audio alignment. Blinded listeners rate rhythm, accent/dynamic
+response, and overall music--dance fit; these perceptual controls remain TODO.
+
+\subsection{Block 3: Dance Quality and Aesthetics}
+\textbf{Distribution and diversity.} FID$_k$ and FID$_g$ compare generated and
+held-out GT feature distributions using kinetic and geometric G1 descriptors,
+respectively. FID$_L$ applies the same mean/covariance distance in an independent
+frozen motion-embedding space. Div$_k$, Div$_g$, and Div$_L$ measure pairwise
+feature distances and are interpreted relative to matched GT, not maximized
+without bound. Same-song multimodality is the mean pairwise motion-embedding
+distance across sampling seeds, macro-averaged over eligible songs; the formal
+protocol uses at least three seeds. Here multimodality (MM) is distinct from
+cross-modal MMR. Global diversity cannot show that one song admits diverse
+valid dances. Small GT samples, including the current 18-song cohort, make FID
+auxiliary evidence rather than a robust standalone superiority claim.
+
+\textbf{Local and long-horizon motion.} We retain joint/root velocity,
+acceleration and jerk distributions, high-frequency jitter, and position and
+velocity discontinuities at C4 boundaries. Activity is measured using joint
+excursion and squared angular velocity; static-window fraction and repeated
+motion expose freezing or looping. These values are compared with GT and
+controlled corruptions: standing still minimizes jerk but is not a good dance,
+and high activity can be jitter. Reconstruction NRMSE, branch-swap sensitivity,
+and continuous-code effective rank test the D+C mechanism, while the three
+evaluation blocks test generated outcomes. They are not interchangeable.
+
+\textbf{Physical plausibility.} Contact-weighted skating, penetration,
+joint/dynamic-limit violations, root drift, and stability complement motion
+statistics. The current G1 analyzer includes a physical-foot-contact (PFC)
+proxy combining planar root acceleration and foot motion, and foot-skating
+rate (FSR) proxies based on estimated contact. Their ground height, contact
+threshold, speed threshold, and world/body frame must be disclosed; they are
+not silently equated with standardized human-motion benchmarks. Kinematic
+plausibility does not prove dynamic feasibility. Actual survival, falls, and
+interventions are measured in controller execution.
+
+\textbf{Perceptual quality.} A planned blinded silent-video study rates
+naturalness, continuity/smoothness, expressiveness, and overall aesthetic
+quality separately from the soundtrack-fit study. A second paired study asks
+whether execution retains the reference's expressive movement. Presentation
+matches rig, camera, duration, fps, and real playback speed, with randomized
+order and participant/song-aware analysis. Low FID, low jerk, and high tracking
+retention do not individually prove that dance is beautiful. No completed
+human-quality result is claimed in this draft.
+
+\subsection{Execution and Timing as Supporting Diagnostics}
+Tracking and runtime measurements accompany, rather than replace, the three
+quality blocks. We report unaligned and lag-aligned joint RMSE, root drift,
+target-to-execution lag, joint-wise amplitude and velocity-power retention,
+and limb/frequency-band attenuation. Startup and post-startup results are
+separate. Audio cutoff, forecast publication/fetch, action deadlines, condition
+age, valid FMS count, planning-time tails, deadline misses, holds/aborts, and
+simulation real-time factor establish whether the intended online contract
+was realized. Recording coverage and resource logs qualify comparisons;
+successful retries alone cannot estimate reliability. A stable robot with
+attenuated accents may track acceptably while scoring poorly on music fit.
+
+\papertodo{T04/T08--T10: complete the three-block score matrix for generated and
+executed motion; freeze event tolerances, windows, evaluator hashes, and
+small-sample reporting. Run the cross-paired music-fit test and blinded aesthetic
+study. Exploratory tempo/style/contact metrics and planned phrase/affect metrics
+must not be presented as fully validated results.}
+

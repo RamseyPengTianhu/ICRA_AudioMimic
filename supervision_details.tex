@@ -1,0 +1,38 @@
+The full-state comparison in Table~\ref{tab:decoupling_audit} changes a
+supervision bundle, not the presence versus absence of training. The audited
+legacy route applies weighted native reconstruction, derivatives, sparse FK,
+contact, boundary, endpoint and residual penalties. Its q-only reconstruction
+uses weighted Huber loss over all 34 native channels: root channels have weight
+2.0, leg channels 1.5, waist channels 1.25, and the remaining arm channels 0.5.
+Thus fine native articulation remains in the structural objective. That term
+also includes native first-difference loss (0.5) and contact BCE (0.1), before
+its outer coefficient of 0.5.
+
+The frozen legacy trainer specifies full-reconstruction coefficients of 1.0
+for native motion, 0.5 for velocity, 0.1 for acceleration, 0.5 for FK, 0.1 for
+contact BCE, 0.2 for contact height, 0.1 for contact slide, 1.0 for VQ, and 0.2
+for the amplitude guard. Boundary loss has outer weight 1.0 and internal
+velocity/acceleration/jerk weights 1.0/0.5/0.25. Additional coefficients are
+0.5 for the q-only endpoint-state loss, 0.25 for critical-state invariance,
+and 0.01 for residual rate. Training corruption keeps the residual unchanged
+with probability 0.55, removes it with probability 0.30, and adds channel-scaled
+noise with probability 0.15. On this legacy path, corrupted reconstructions
+can still be trained toward the full target.
+
+In contrast, the proposed supervision uses only the four terms of
+Eq.~\eqref{eq:codec_loss}. Full reconstruction uses normalized native motion,
+boundary-aware velocity, all-link/sole geometry and geometry velocity.
+The discrete and corrupted-residual reconstructions are supervised only on
+the declared structure projector, excluding its exact detail complement.
+Each projector loss equally averages its four normalized blocks. The outer
+coefficients are 1.0 for full reconstruction, 1.0 for discrete structure,
+0.25 for residual robustness, and 1.0 for VQ; the VQ commitment coefficient
+is 0.25. The contact head and the separate legacy physical, endpoint,
+invariance, amplitude, and residual-rate penalties are absent. Physical
+diagnostics remain evaluation measures rather than hidden extra losses.
+
+The source definitions and frozen experiment contract establish these
+supervision differences. Exact checkpoint/launch-argument binding remains part
+of the historical table provenance audit. This comparison supports the effect
+of the supervision bundle; attributing it to any one removed penalty would
+require an additional controlled ablation.

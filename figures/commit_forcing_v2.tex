@@ -1,0 +1,56 @@
+% Ordinary music-conditioned CF; no state-matched target re-encoding.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+ x=1cm,y=1cm,font=\sffamily\small,
+ box/.style={draw=black!60,fill=white,rounded corners=2pt,align=center,
+             text width=2.8cm,minimum height=1.05cm,inner sep=5pt},
+ flow/.style={-{Latex[length=2.2mm]},thick},
+ target/.style={flow,dashed,draw=teal!75!black},
+ note/.style={align=center,font=\sffamily\footnotesize,fill=white,inner sep=2pt}]
+\node[anchor=west,font=\sffamily\bfseries] at (0,8.05)
+ {1. CONSTRUCT ONE GENERATED TRANSITION (STOP GRADIENT)};
+\node[box] (start) at (1.7,6.8)
+ {Supplied window context\\$h_t,b_t$, music condition};
+\node[box] (sample) at (5.9,6.8)
+ {Deployment-form samplers\\AR discrete $\tilde q$\\DDIM residual $\tilde r\mid\tilde q$};
+\node[box] (commit) at (10,6.8)
+ {Decode native plan\\Commit Reference Prefix\\first 4 D+C latent steps};
+\node[box] (update) at (14.1,6.8)
+ {Append committed history\\derive reference boundary\\$\tilde h_{t+C},\tilde b_{t+C}$};
+\draw[flow] (start) -- (sample);
+\draw[flow] (sample) -- (commit);
+\draw[flow] (commit) -- (update);
+\node[note,text width=12cm] at (8,5.5)
+ {Each supplied transition is sampled independently; not a full recursive training rollout.};
+\node[anchor=west,font=\sffamily\bfseries] at (0,4.65)
+ {2. LEARN THE NEXT PLAN UNDER THE CONSTRUCTED CONTEXT};
+\node[box] (context) at (1.7,2.95)
+ {Generated history + state\\$\tilde h_{t+C},\tilde b_{t+C}$\\next music condition};
+\node[box] (q) at (5.9,2.95)
+ {Structure model\\sample next $\hat q$\\and compute logits};
+\node[box] (res) at (10,2.95)
+ {Residual denoiser\\conditioned on $\hat q$\\and generated context};
+\node[box] (loss) at (14.1,2.95)
+ {Update generator\\CE against dataset $q^*$\\diffusion against rebased $r^*$};
+\draw[flow,draw=blue!65!black] (update.east) -- (16,6.8) -- (16,5.05)
+ -- (0,5.05) -- (0,2.95) -- (context.west);
+\draw[flow] (context) -- (q);
+\draw[flow] (q) -- node[note,above] {sampled $\hat q$} (res);
+\draw[flow] (res) -- (loss);
+\draw[flow] (q.north) -- (5.9,4.05) -- node[note,above] {structural logits} (14.1,4.05) -- (loss.north);
+\draw[flow] (context.south) -- (1.7,1.9) -- (10,1.9) -- (res.south);
+\node[box,text width=3.2cm] (gt) at (1.9,0.65)
+ {Unchanged next dataset target\\$z^*=e(q^*)+r^*$};
+\node[box,text width=4.5cm,draw=teal!75!black] (rebase) at (9.4,0.65)
+ {Latent-only residual rebasing\\$r^*_{\rm rebased}=z^*-e(\hat q)$\\No re-encoding under $\tilde b$};
+\draw[target] (gt) -- node[note,above] {$z^*$} (rebase);
+\draw[target] (q.south) -- (5.9,1.45) -- (9.4,1.45) -- (rebase.north);
+\draw[target] (rebase.east) -- (14.1,0.65) -- (loss.south);
+\draw[target] (gt.south) -- (1.9,-0.35) -- (16,-0.35) -- (16,2.95)
+ -- node[note,above] {$q^*$} (loss.east);
+\node[note,text width=14cm] at (8,-0.95)
+ {Matched transition construction and context format, not equal long-horizon state distributions.\\
+ $e(\hat q)+r^*_{\rm rebased}=z^*$ does not imply
+ $D_\psi(z^*,\tilde b)=D_\psi(z^*,b^*)$.};
+\end{tikzpicture}%
+}
