@@ -1,0 +1,7 @@
+{
+  "remote": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/am_098.mp4",
+  "local": "/Users/lambertwang/Downloads/music2dance-report/videos/foredance-finedance/am_098.mp4",
+  "sha256": "0055f86d3d480fd93a878ba953d34b1b1b8fd117619f1582d38fb940c3f22603",
+  "verification": "Matched remote SHA256 before atomic move",
+  "use": "selected current model case, not TF/CoF or heard/predicted comparison"
+}

@@ -1,0 +1,22 @@
+{
+  "active_assets_sha256": {
+    "dc-bodyparts.png": "4817b33951be190e8318228afbbbce8ad5e4edd7377fdb24028cbb38b2312d5e",
+    "cof-v2.png": "7a13062b2bf3d0a8aee2a3e0e028a8db6bd2d880499368c700db67f6c853f68a",
+    "sequence-10.png": "fe96301f4a849fabfe96eaebd9aa30b376fc4ee1af9d5c39aafab78518aa0206",
+    "sequence-30.png": "52d6a921defd4009ed4b65b863004ae19c9eeac66a1838285598e1005339697e",
+    "sequence-50.png": "9eed86433e4312f6cf1659c300090be6157b8a6ab60d68643cba4c0235e06227",
+    "overview.png": "b636d014e2337b8ae210b24e2ae71fc47b202b892d25e27b8fa8530fd6c71af6"
+  },
+  "diagram_mode": "built-in imagegen; model and quality selectors unavailable",
+  "dc_user_decisions": [
+    "two principal reconstruction paths only",
+    "corrupted detail in prose only",
+    "joint and geometry body-part views follow current representation-specific code"
+  ],
+  "overview_decisions": [
+    "Combined task and architecture",
+    "Future-score visual language",
+    "Schematic G1-style robots and code-aligned body supervision",
+    "Four main manuscript figures"
+  ]
+}

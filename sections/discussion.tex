@@ -1,0 +1,12 @@
+\section{Discussion}
+\paragraph{Anticipation as a conditioning interface.}
+\method{} makes predicted musical context available before the corresponding audio is observed. This is useful at the interface between musical planning and irreversible motion commitment: each forecast guides a short plan while subsequent decisions incorporate newly arrived music. The no-music comparisons show that the generator uses this forecast-derived information under both startup settings. Their scope is music-condition use; determining the incremental benefit over heard-music features requires the matched forecast comparison.
+
+\paragraph{Connecting motion organization and continuation.}
+The structural objective expresses body organization in both joint and Cartesian views, allowing arm articulation to vary while constraining wrist placement. Shared decoding then combines these views into one motion trajectory. CoF carries that coupling across decisions by deriving the next boundary state from the same structure--detail prefix that enters the history. The representation and continuation comparisons remain pending, so these mechanisms motivate the design without yet establishing their separate quantitative gains.
+
+\paragraph{Scope of the evaluation.}
+All numerical results use the complete fixed cohort of 18 FineDance test tracks; the long-sequence illustration is a selected case. The reported intervals reflect training-seed and track variation under the paired protocol. Distribution, diversity, matching, and contact measure different properties: the FHC results illustrate a distribution--smoothness tradeoff rather than a uniform improvement. The study evaluates robot-native reference generation. The rendered example does not establish controller execution, and the generation schedule alone does not establish computational throughput.
+
+\section{Conclusion}
+We introduced \method{}, a framework that connects causal music forecasting with structured streaming dance generation. Predicted music states guide discrete structure and continuous detail; kinematic reconstruction objectives define their complementary roles; and \cof{} trains continuation through jointly committed motion and its reconstructed state. FineDance results demonstrate improved music--motion matching over matched no-music training under two startup settings. Together, the method and these findings support a concrete interface for using musical forecasts while generating an evolving dance from committed motion.

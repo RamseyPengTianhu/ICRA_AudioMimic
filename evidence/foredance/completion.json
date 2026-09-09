@@ -1,0 +1,18 @@
+{
+  "evaluation_contract_sha256": "c9db5ab8e61550f2ad1c72eb6e57bc6d68fff837b0f8c7ba00a5c144581fd7b2",
+  "evaluation_leaves": 860,
+  "guard_evidence": [
+    "q0_transition_and_repetition",
+    "cross_sample_distribution_diversity",
+    "root_drift_and_streaming_boundaries",
+    "frozen_switch_continuity_at_20s_and_40s"
+  ],
+  "human_agreement": "not_applicable_after_failed_gt_promotion_gate",
+  "human_pack": "frozen_manifest_unrendered",
+  "representation": "yaw-anchor absolute 38D + B71",
+  "schema": "issue49_downstream_completion_v1",
+  "scientific_verdict": "not_assigned",
+  "standard_render_videos": 16,
+  "status": "complete_unreviewed",
+  "survival_leaves": 60
+}

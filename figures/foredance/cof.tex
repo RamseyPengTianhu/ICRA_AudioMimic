@@ -1,0 +1,18 @@
+\resizebox{\textwidth}{!}{\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\small,
+ box/.style={draw=black!45,rounded corners=2pt,align=center,text width=2.8cm,minimum height=.8cm,inner sep=4pt},arr/.style={-{Latex[length=2mm]},thick}]
+\node[anchor=west,font=\sffamily\bfseries,text=black!70] at (0,4.5) {TEACHER FORCING};
+\node[box,fill=black!4] (gt) at (1.7,3.6) {Recorded history\\recorded boundary};
+\node[box] (tf) at (6.2,3.6) {Learn next plan\\under recorded context};
+\node[box,fill=black!4] (tgt) at (12.8,3.6) {Next dataset target\\structure + full latent};
+\draw[arr] (gt)--(tf);\draw[arr,dashed] (tgt)--(tf);
+\draw[black!20] (0,2.8)--(14.5,2.8);
+\node[anchor=west,font=\sffamily\bfseries,text=state] at (0,2.4) {COMMIT FORCING};
+\node[box,fill=structure!8,text width=2.4] (sample) at (1.5,1.4) {Sample structure\\and detail plan};
+\node[box,fill=state!8,text width=2.4] (commit) at (4.9,1.4) {Joint prefix commit\\decode native motion};
+\node[box,fill=state!8,text width=2.4] (update) at (8.3,1.4) {Append history\\reconstruct boundary};
+\node[box,fill=state!8,text width=2.7] (learn) at (12.6,1.4) {Learn next plan\\under generated context};
+\draw[arr] (sample)--(commit);\draw[arr] (commit)--(update);\draw[arr] (update)--(learn);
+\draw[arr,dashed] (tgt.south)--(learn.north);
+\node[align=center,font=\sffamily\footnotesize,text=black!65] at (4.9,.6) {Stop-gradient construction of each supplied transition};
+\node[draw=detail,fill=detail!7,rounded corners,align=center,text width=13.4cm,inner sep=6pt] at (7.2,-.35) {\textbf{Residual rebasing:} $r^*_{\rm rebased}=z^*-e(\hat q)$ preserves the next target latent.\\The dataset target is unchanged; decoding still depends on the generated boundary.};
+\end{tikzpicture}}

@@ -1,0 +1,56 @@
+\section{Representation and Training Details}
+\label{app:training}
+\paragraph{Motion representation.}
+We use 38-dimensional native motion and a 71-dimensional boundary state. Pelvis orientation is absolute within one fixed yaw anchor for the sequence. The encoder and decoder are boundary-conditioned, and the next state is reconstructed from committed reference motion. The codebook has 512 embeddings and a 16-dimensional continuous residual. At 30\,Hz and two frames per latent step, the generator retains 64 history steps, plans eight steps, and commits four steps.
+
+\paragraph{Kinematic reconstruction losses.}
+The full view contains four blocks: native motion, native velocity, forward-kinematics positions, and geometry velocity. Each block is standardized with training-split statistics. For a view $\Phi$ with blocks $\Phi^{(k)}$, define the reconstruction error
+\begin{equation}
+\mathcal E_{\Phi}(\hat x,x)=\frac{1}{4}\sum_{k=1}^{4}
+\operatorname{mean}\!\left[\left(\Phi^{(k)}(\hat x)-\Phi^{(k)}(x)\right)^2\right].
+\end{equation}
+This gives $\mathcal L_f=\mathcal E_{\Phi_f}(x_f,x)$, $\mathcal L_s=\mathcal E_{\Phi_s}(x_s,x)$, and $\mathcal L_{\rm robust}=\mathcal E_{\Phi_s}(x_c,x)$. Equal block weights prevent the number of geometric coordinates from determining their relative contribution. The VQ term is the codebook loss plus 0.25 times the commitment loss.
+
+For the auxiliary robustness objective, the residual is zeroed with probability 0.5. Otherwise, Gaussian noise is added with scale sampled uniformly from 0.01--0.05 times the residual channel standard deviation. The resulting reconstruction is supervised on the structural view. This codec objective is separate from FHC, which regularizes the generator's motion history.
+
+The boundary loss supervises the first three decoded frames relative to the supplied boundary. It combines normalized smooth-$L_1$ errors for velocity, acceleration, and jerk with weights 1, 0.5, and 0.25, respectively, plus pelvis-rotation geodesic error with weight 1. These quantities explicitly penalize a reconstructed segment whose beginning is inconsistent with the target transition.
+
+\paragraph{Body-part supervision views.}
+In the native block, structure selects the first 24 of 38 coordinates: nine root coordinates, twelve leg joints, and three waist joints. The remaining 14 coordinates are the bilateral shoulder (three per arm), elbow (one), and wrist (three) joints. In the 35-dimensional velocity block, structure selects the first 21 coordinates: root linear/angular velocity and the same 15 leg/waist joint velocities. The other 14 are arm-joint velocities.
+
+The geometry block contains 31 points: 29 non-root body origins and two lowest-foot geometry points. Structure selects the torso, the two wrist-yaw body origins, and the two lowest-foot points. Detail selects the remaining 26 points. Geometry velocity uses the same partition. These are supervision and analysis views, not independent anatomical decoders. In particular, the structural geometry view can constrain wrist placement while the complementary native view describes arm articulation.
+
+\paragraph{Generator optimization and initialization.}
+Each reported training run uses 300,000 windows, batch size 48, and 6,250 updates. We train three seeds and sample each model with three seeds. Forecast states enter both branches through frame-wise modulation; the music model remains frozen. The residual sampler uses ten DDIM steps with guidance fixed at 1.0. Mixed-start training draws 20\% song-origin/prefix starts and 80\% ordinary windows. Continuation-start training uses ordinary windows throughout.
+
+\paragraph{History regularization.}
+FHC applies to the complete 64-step history with probability 0.5 per example. The discrete embeddings and continuous residual history share a severity timestep sampled from 850--999, with independent Gaussian noise. Their masks and timestamps are preserved, as are the boundary state and forecast conditions. Corruption is applied in the supervised pass after CoF context construction and is disabled at inference.
+
+\paragraph{Constructing CoF transitions.}
+Each training example independently samples a first-pass transition from its supplied context. The committed discrete and residual prefixes enter the history together, and their decoded motion determines the next boundary state. The next recorded structural and latent targets remain fixed. Residual rebasing expresses that latent target relative to the sampled structure; it does not re-encode the target under the generated boundary. This construction trains local continuation after a generated commit without requiring a fully recursive long training rollout.
+
+\section{Evaluation Protocol}
+\label{app:scope}
+The numerical tables use all 18 tracks in the fixed FineDance test cohort. The common source-supported segment is 23\,s, beginning at source frame 264. Each method has three training seeds and three sampling seeds per training run, giving 162 paired track-level outputs. Methods within a comparison share source identities, segment boundaries, and sampling settings.
+
+For the music-condition comparison, the no-music controls are separately trained models. They are not obtained by removing the condition from a forecast-trained model at inference. This controls for the learning procedure associated with the absence of music, while preserving the distinction from the pending heard-music comparison.
+
+MMR-MS is a frozen learned matching distance using independently trained G1 motion features. It follows the alignment motivation of SoulNet but uses a robot-motion evaluator rather than the original human-motion checkpoint. Feature extraction and normalization are held fixed throughout the comparisons. Lower MMR-MS denotes better matching; beat alignment supplies a complementary rhythmic measure.
+
+We compute paired 95\% intervals using 10,000 hierarchical bootstrap draws. Each draw resamples training seeds with replacement, then tracks within each sampled training seed. The repeated sampling-seed outputs are averaged within each track. This retains training variation while avoiding the treatment of individual motion frames as independent experimental samples.
+
+The reported numerical tables use the complete cohort without favorable-track filtering. Figure~\ref{fig:sequence} is a selected qualitative example from a separate 60\,s rollout. Three original frames are taken at 10, 30, and 50\,s from the same generated trajectory. The comparison layouts in the main text identify studies with pending results; they do not contribute to the reported estimates or intervals.
+
+\section{History-Corruption Results}
+\label{app:fhc}
+Table~\ref{tab:training} compares FHC with clean-history training under both startup settings. In mixed-start training, FHC reduces both distribution distances and increases kinetic diversity, while PFC and jerk favor clean history. Under continuation-start training, distribution changes are smaller and the diversity measures move in different directions. The FHC-versus-clean-history intervals for MMR-MS include zero in both settings. The distribution changes therefore inform the choice of history regularization without establishing a corresponding improvement in music matching.
+
+\begin{table}[h]
+\centering\small
+\caption{\textbf{Effect of history corruption on the full 18-track cohort.} Lower is favorable for MMR-MS, FID, and PFC. Diversity describes motion spread and is interpreted together with fidelity.}
+\label{tab:training}
+\begin{tabular}{@{}llrrrrrr@{}}\toprule
+Startup & History & MMR-MS & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
+\inputtable{evidence/foredance/training_rows.tex}
+\bottomrule\end{tabular}
+\end{table}

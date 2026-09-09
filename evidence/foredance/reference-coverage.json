@@ -1,0 +1,13 @@
+{
+  "bibliography_entries": 39,
+  "cited_entries": 39,
+  "missing_entries": [],
+  "uncited_entries": [],
+  "duplicate_keys": [],
+  "added_citations_existing_entries": 15,
+  "new_method_sources": [
+    "zhou2019rotation",
+    "ho2020ddpm"
+  ],
+  "scope": "Active main.tex and sections; historical evidence planning excluded"
+}

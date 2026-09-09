@@ -1,0 +1,56 @@
+{
+  "name": "am_098",
+  "title": "AM history conditioning, standard 60s: 098",
+  "purpose": "compare fully corrupted, clean, and dropout histories",
+  "media_type": "video",
+  "media": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/am_098.mp4",
+  "comparison_mp4": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/am_098.mp4",
+  "gif_preview": null,
+  "preview": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/am_098.jpg",
+  "start_seconds": 0.0,
+  "duration_seconds": 60.0,
+  "layout": "grid2x2",
+  "render_backend": "mujoco",
+  "g1_mujoco_gl": "egl",
+  "tile_width": 640,
+  "tile_height": 480,
+  "gif_fps": 15,
+  "panels": [
+    {
+      "label": "GT",
+      "role": "reference",
+      "verdict": "context",
+      "motion": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/leaves/standard60/FD-DF-L-AM-HDROP/train1234/sample1234/cfg1p0/correct/motions/target/005_098_f000000.pkl",
+      "video": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/panels/00_GT/0_0_GT_g1.mp4",
+      "frames": 1800,
+      "fps": 30.0
+    },
+    {
+      "label": "HDROP",
+      "role": "candidate",
+      "verdict": "context",
+      "motion": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/leaves/standard60/FD-DF-L-AM-HDROP/train1234/sample1234/cfg1p0/correct/motions/generated/005_098_f000000.pkl",
+      "video": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/panels/01_HDROP/0_1_HDROP_g1.mp4",
+      "frames": 1800,
+      "fps": 30.0
+    },
+    {
+      "label": "HCLEAN",
+      "role": "candidate",
+      "verdict": "context",
+      "motion": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/leaves/standard60/FD-DF-L-AM-HCLEAN/train1234/sample1234/cfg1p0/correct/motions/generated/005_098_f000000.pkl",
+      "video": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/panels/02_HCLEAN/0_2_HCLEAN_g1.mp4",
+      "frames": 1800,
+      "fps": 30.0
+    },
+    {
+      "label": "FHC",
+      "role": "candidate",
+      "verdict": "context",
+      "motion": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/leaves/standard60/FD-DF-L-AM-FHC/train1234/sample1234/cfg1p0/correct/motions/generated/005_098_f000000.pkl",
+      "video": "/lus/lfs1aip2/projects/u6og/yukunwang.u6og/runtime/EXP-20260904-v6f-aq-tmmr-direct-condition/evaluation/standard_renders/mp4/am_098/panels/03_FHC/0_3_FHC_g1.mp4",
+      "frames": 1800,
+      "fps": 30.0
+    }
+  ]
+}

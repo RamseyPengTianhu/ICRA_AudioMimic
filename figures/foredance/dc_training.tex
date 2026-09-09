@@ -1,0 +1,24 @@
+% Editable schematic companion; active publication image: dc-bodyparts.png.
+% Joint view: root + legs + waist / arm joints.
+% Geometry view: torso + wrist-yaw endpoints + lowest soles / remaining non-root body points.
+% These are supervision masks, not hard decoder body restrictions.
+\resizebox{\textwidth}{!}{\begin{tikzpicture}[font=\sffamily\small,x=1cm,y=1cm,
+ box/.style={draw=black!45,rounded corners=2pt,text width=2.2cm,minimum height=.8cm,align=center,inner sep=4pt},arr/.style={-{Latex[length=2mm]},thick}]
+\node[box] (input) at (1.3,2.6) {Native motion $x$\\boundary state $b$};
+\node[box] (enc) at (4.2,2.6) {Encoder\\$z=e(q)+r$};
+\draw[arr] (input)--(enc);
+\node[box,fill=structure!9,draw=structure] (str) at (7.2,4) {Discrete structure\\$e(q)$};
+\node[box,fill=detail!10,draw=detail] (det) at (7.2,1.2) {Continuous detail\\$r$};
+\draw[arr,structure] (enc.east)--(5.7,2.6)|-(str.west);
+\draw[arr,detail] (5.7,2.6)|-(det.west);
+\node[box,text width=2.3] (full) at (10.3,4) {Full reconstruction\\$D(e+r,b)$};
+\node[box,text width=2.3] (only) at (10.3,2.6) {Discrete-only\\$D(e,b)$};
+\draw[arr,structure] (str)--(full);
+\draw[arr,structure] (str.east)--(8.6,4)|-(only.west);
+\draw[arr,detail] (det.east)--(8.2,1.2)--(8.2,4.6)--(10.3,4.6)--(full.north);
+\node[box,fill=black!4,text width=2.6] (fv) at (14,4) {Full motion view\\structure + detail};
+\node[box,fill=structure!9,draw=structure,text width=2.6] (sv) at (14,1.9) {Structural view\\root, body organization,\\endpoint geometry};
+\draw[arr] (full)--node[above,font=\sffamily\footnotesize]{supervise}(fv);
+\draw[arr,structure] (only.east)--(12,2.6)|-(sv.west);
+\node[align=center,font=\sffamily\small,text=black!65] at (8,-.15) {One shared decoder and boundary state. Full reconstruction also receives boundary-transition supervision.};
+\end{tikzpicture}}

@@ -1,0 +1,95 @@
+\section{Experiments}
+\label{sec:experiments}
+Our evaluation centers on three questions: whether forecast conditioning adds value beyond heard music, whether kinematic supervision produces complementary structure and detail, and whether learning from committed transitions improves continuation over TF. We report completed music-condition and history-training comparisons on FineDance and specify the matched component studies whose results are pending.
+
+\subsection{Data, Controls, and Metrics}
+We use FineDance motion retargeted to G1 and represented as in Eq.~\eqref{eq:motion}. The quantitative cohort comprises 18 official test tracks, with three independently trained models and three sampling seeds per model. Each track contributes the same source-supported 23\,s segment across compared methods. The 60\,s qualitative sequence is evaluated separately from this quantitative cohort. Startup training is either \emph{mixed-start} (song-origin starts mixed with ordinary windows) or \emph{continuation-start} (ordinary continuation windows).
+
+\paragraph{Music matching.}
+Our frozen G1 music--motion retrieval evaluator, inspired by SoulNet's matching formulation~\cite{li2025soulnet}, scores compatibility between audio and generated motion. Its MMR-MS distance is lower for better matching; it combines sequence-level and temporal features. The evaluator is independent of generator optimization. We report this as the primary matching measure, accompanied by beat alignment (BAS). These complementary measures assess sequence compatibility and rhythmic correspondence, respectively.
+
+\paragraph{Motion quality and continuation.}
+Kinetic and geometric Fr\'echet distances measure distribution similarity; their corresponding diversity measures describe motion variation. Root motion, contact/grounding proxies, and abrupt changes characterize properties that distribution scores do not resolve. The CoF comparison is designed to assess boundary continuity and all three non-overlapping 20\,s portions of a 60\,s rollout. Appendix~\ref{app:scope} details the paired evaluation and uncertainty estimates.
+
+\subsection{Anticipatory Music Conditioning}
+\label{sec:music_results}
+\paragraph{Does the generator use its music forecast?}
+A forecast is useful to the dance generator only if its information changes the resulting music--motion correspondence. Table~\ref{tab:music_use} compares forecast-conditioned training with separately trained no-music controls. Mixed-start training reduces MMR-MS by 0.782, with a 95\% interval of [0.294, 1.285]; continuation-start training reduces it by 1.123, with an interval of [0.621, 1.649]. All three training seeds agree in direction under both settings. The agreement across startup settings supports the use of forecast-derived music information beyond a particular initialization policy.
+
+\begin{table}[t]
+\centering\small
+\caption{\textbf{Music-condition use.} Reduction in MMR-MS relative to matched no-music training; positive is favorable. Paired hierarchical 95\% intervals use the complete 18-track cohort.}
+\label{tab:music_use}
+\begin{tabular}{@{}lcc@{}}\toprule
+Startup & Improvement & 95\% interval\\\midrule
+\inputtable{evidence/foredance/music_use_rows.tex}
+\bottomrule\end{tabular}
+\end{table}
+
+\paragraph{Isolating anticipation.}
+The stronger question is whether the forecast contributes beyond information already present in heard music. The matched design in Table~\ref{tab:anticipation} changes the music states while holding representation, CoF, conditioning capacity, training budget, history policy, and sampling settings fixed. Wrong-song conditioning provides a complementary specificity control. Results for the matched heard-versus-predicted comparison are pending; the completed no-music comparison establishes condition use.
+
+\begin{table*}[t]
+\centering\small
+\caption{\textbf{Forecast versus heard-music conditioning.} Matched comparison design; results are pending (---). Each metric uses identical sources and sampling conditions across methods.}
+\label{tab:anticipation}
+\begin{tabular}{@{}lcccccc@{}}\toprule
+Condition & MMR-MS $\downarrow$ & BAS $\uparrow$ & FID$_k$ $\downarrow$ & FID$_g$ $\downarrow$ & Div$_k$ & Div$_g$\\\midrule
+Heard-music states & \pendingcell & \pendingcell & \pendingcell & \pendingcell & \pendingcell & \pendingcell\\
+Predicted-music states & \pendingcell & \pendingcell & \pendingcell & \pendingcell & \pendingcell & \pendingcell\\\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{D+C Representation and Training}
+\label{sec:dc_results}
+\paragraph{Complementary roles.}
+The structural objective is intended to preserve body organization while allowing complementary articulation. To test this mechanism, the study design combines reconstruction in the two kinematic views with swaps of discrete and continuous codes. A stronger structural response to a discrete-code swap than to a detail-code swap would support the intended division of labor. Reconstruction quality, residual contribution, and effective rank must be considered together so that an apparently selective response is not explained by a collapsed branch. These mechanism results remain pending.
+
+\paragraph{Generation benefit.}
+Table~\ref{tab:dc} specifies the complementary generation test: separately trained discrete-only and continuous-only generators against D+C with its paired supervision. The comparison uses the same full-orientation motion representation and matched training and evaluation settings. Unlike zeroing a residual at inference, separately trained alternatives test how each representation supports generation when optimized in its own right. Results are pending.
+
+\begin{table}[t]
+\centering\small
+\caption{\textbf{Representation and training comparison.} Matched generator results are pending (---).}
+\label{tab:dc}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lcccc@{}}\toprule
+Representation & FID$_k$ $\downarrow$ & FID$_g$ $\downarrow$ & Div$_k$ & Div$_g$\\\midrule
+Discrete only & -- & -- & -- & --\\
+Continuous only & -- & -- & -- & --\\
+D+C with paired training & -- & -- & -- & --\\\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Commit Forcing versus Teacher Forcing}
+\label{sec:cof_results}
+The TF comparison isolates the consequence of learning from a complete generated transition. Its design holds music conditions, D+C codec, startup, history corruption, optimization budget, and inference sampler fixed, changing how the next training history and state are constructed. The intended evaluation spans 60\,s, reporting distribution and diversity alongside boundary statistics and all three 20\,s positions. This tests whether a benefit persists as generated context accumulates instead of being confined to the start of a rollout. Matched TF/CoF results are pending (Table~\ref{tab:cof}).
+
+\begin{table}[t]
+\centering\small
+\caption{\textbf{Commit Forcing versus Teacher Forcing.} Matched 60\,s rollout results are pending (---).}
+\label{tab:cof}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccc@{}}\toprule
+Training & FID$_k$ $\downarrow$ & FID$_g$ $\downarrow$ & Div$_k$ & Div$_g$\\\midrule
+Teacher Forcing & -- & -- & -- & --\\
+Commit Forcing & -- & -- & -- & --\\\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Effect of History Corruption}
+We compare clean-history training with FHC to examine how regularizing the motion context affects the generated distribution. Under mixed-start training, FHC reduces kinetic/geometric FID from 208.599/0.482 to 162.831/0.410, with favorable directions across all training seeds. The continuation-start changes are smaller, from 156.218/0.372 to 154.180/0.361. This shows that the distribution-level effect depends on the startup policy.
+
+The matching and physical proxies give a more specific interpretation. MMR-MS point estimates improve under both startup settings, but the paired intervals for FHC versus clean history include zero. Mixed-start contact and jerk measures favor clean history. FHC therefore changes the distribution--smoothness tradeoff; its distribution gains do not establish a separate gain in musical matching. Appendix~\ref{app:fhc} reports the complete metric values.
+
+\subsection{Long-Sequence Generation}
+\label{sec:showcase}
+Figure~\ref{fig:sequence} illustrates one 60\,s ForeDance generation. Snapshots at 10, 30, and 50\,s show the evolving reference poses across the stream. The sequence demonstrates the output format and provides a qualitative view of one generated dance; it is not a comparative estimate of long-horizon quality.
+\begin{figure*}[t]
+\centering
+\input{figures/foredance/sequence.tex}
+\caption{\textbf{A 60-second ForeDance generation.} Original frames at 10, 30, and 50\,s from a selected FineDance sequence. The images show rendered reference motion.}
+\label{fig:sequence}
+\end{figure*}
+
+The native references include the configuration and motion information needed by a separate whole-body tracker. The present illustration evaluates reference generation; a corresponding controller-execution case remains pending.

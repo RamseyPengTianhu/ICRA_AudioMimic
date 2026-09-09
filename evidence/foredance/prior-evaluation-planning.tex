@@ -1,0 +1,31 @@
+For future favorable-set tables, the selection count is the larger of eight independent tracks and the ceiling of one quarter of eligible tracks, provided sufficient eligible tracks exist. All methods within a metric receive the same sources and sampling policy. A metric's screening-seed assignment is chosen using validation evidence and the correctly oriented paired advantage over its strongest required baseline. The remaining disjoint seeds are used for estimates. Set-level FID/diversity selection follows deterministic backward elimination, with stable source identifiers breaking exact ties and every step retained. Final-outcome-informed source selection is post-hoc and must be disclosed even if the screening seed was chosen on validation data.
+
+Music horizons at 30 and 60\,s may use distinct eligible selected sets, with one screening seed per metric across both horizons and separate horizon-level paired uncertainty. Different source sets are not matched duration pairs. The equal-horizon aggregate is formed from paired method differences. CoF uses 60\,s trajectories and their three 20\,s windows. These target paper protocols do not change the identity of the currently populated 23\,s result.
+
+\section{Supporting History-Training Results}
+\label{app:fhc}
+Table~\ref{tab:training} reproduces the accepted current-system training comparison from the original aggregate. It supports recipe selection; it is neither an anticipation-versus-history test nor a CoF-versus-TF test. Mixed-start FHC improves distribution distances but worsens PFC and jerk relative to clean history. The primary matching differences between FHC and clean history have intervals crossing zero, so they are described as point-estimate changes.
+
+\begin{table}[h]
+\centering\small
+\caption{\textbf{Supporting training comparison, full 18-track cohort.} Lower is favorable for MMR-MS, FID, and PFC. Diversity describes spread and is interpreted jointly with fidelity. No row-level overall winner is implied.}
+\label{tab:training}
+\begin{tabular}{@{}llrrrrrr@{}}\toprule
+Startup & History & MMR-MS & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
+\inputtable{evidence/foredance/training_rows.tex}
+\bottomrule\end{tabular}
+\end{table}
+
+\section{Evidence Completion Map}
+\begin{center}\small
+\begin{tabular}{@{}p{.08\textwidth}p{.35\textwidth}p{.49\textwidth}@{}}\toprule
+ID & Proof role & Required record\\\midrule
+M1 & Advantage of forecast conditioning & Matched heard/predicted models; shared source and metric manifests; music and quality results.\\
+D1 & Structural/detail division of labor & Current-representation reconstruction, branch interventions, non-collapse and supervision controls.\\
+D2 & D+C generation value & Separately trained discrete-only and continuous-only controls, matched to the full model.\\
+C1 & CoF continuation benefit & Matched TF/CoF on current FineDance; complete 60\,s and all three 20\,s windows.\\
+V1 & Qualitative comparison & Matching long trajectories, original playback speed, source identity and case-selection record.\\
+V2 & Robot execution case & Current model reference plus corresponding controller record, explicitly simulation or hardware.\\\bottomrule
+\end{tabular}
+\end{center}
+These are writing evidence requirements, not authorization to launch new experiments. The manuscript source, fetched aggregates, file hashes, and detailed internal provenance are maintained together. Previously reported values from a different representation are preserved in the backup, not relabeled as current results.
