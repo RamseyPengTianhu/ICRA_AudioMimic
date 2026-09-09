@@ -1,0 +1,22 @@
+% Adapted from the execution path in teammate figures/architecture_v2.tex.
+% Keep measured controller feedback separate from reference-only generation.
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\small,
+ box/.style={draw=structure!75,fill=structure!4,rounded corners=2pt,align=center,text width=3cm,minimum height=1.25cm,inner sep=5pt},
+ flow/.style={-{Latex[length=2.4mm]},thick,draw=structure},
+ control/.style={flow,draw=detail},
+ note/.style={font=\sffamily\footnotesize,align=center,fill=white,inner sep=3pt}]
+\node[box] (ref) at (0,0) {Committed reference\\Native motion at 30\,Hz reference\\8 frames per commit};
+\node[box] (bridge) at (4.3,0) {Reference bridge\\Root / joint conversion\\Continuous 50\,Hz grid};
+\node[box,draw=detail!80,fill=detail!5] (sonic) at (8.6,0) {Fixed SONIC controller\\Reference tracking\\with measured state};
+\node[box,draw=detail!80,fill=detail!5] (plant) at (12.9,0) {G1 in MuJoCo\\Executed motion};
+\draw[flow] (ref) -- (bridge);
+\draw[flow] (bridge) -- node[note,above,yshift=18pt,text width=1.6cm] {Delivered\\reference} (sonic);
+\draw[control] (sonic) -- node[note,above] {Actions} (plant);
+\draw[control] (plant.south) -- (12.9,-1.65) -- node[note,below] {Measured robot state} (8.6,-1.65) -- (sonic.south);
+\node[box,text width=5.5cm,minimum height=.65cm] (context) at (1.8,1.9) {Generator history and boundary state};
+\draw[flow] (ref.north) -- (context.south);
+\node[note,anchor=west,text=structure] at (4.9,1.9) {Updated from committed references};
+\node[note,anchor=west,text=detail] at (-1.6,-1.85) {Measured feedback remains inside the controller loop.};
+\end{tikzpicture}%
+}

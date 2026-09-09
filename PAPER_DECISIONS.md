@@ -1609,3 +1609,7 @@ Music issue #33 remains the B0--B8 execution ledger. The published request is:
 ## Latest authority and integration decision — 2026-09-10
 
 User-approved: ForeDance generation narrative, representation, training and main figure are authoritative; teammate execution is authoritative for the fixed-controller interface and its reported measurements. Merge the two into the existing main branch and publish after validation. The refreshed upstream is d12a5c0, not the previously compared 0cc6cee. Retain our title and active figures, adapt execution conversion to 38D absolute orientation, and identify historical 34D MuJoCo replay diagnostics separately in the supplement. These do not close the current-model execution evidence gap.
+
+## Teammate figures retained (2026-09-10)
+
+The main paper now includes an execution-interface diagram adapted from the teammate editable architecture, and the supplement includes their corrected Commit Forcing training diagram unchanged. The ForeDance overview remains the main figure. Historical 34D raster diagrams and codec results are not relabeled as current evidence.

@@ -27,7 +27,14 @@ Each reported training run uses 300,000 windows, batch size 48, and 6,250 update
 FHC applies to the complete 64-step history with probability 0.5 per example. The discrete embeddings and continuous residual history share a severity timestep sampled from 850--999, with independent Gaussian noise. Their masks and timestamps are preserved, as are the boundary state and forecast conditions. Corruption is applied in the supervised pass after CoF context construction and is disabled at inference.
 
 \paragraph{Constructing CoF transitions.}
-Each training example independently samples a first-pass transition from its supplied context. The committed discrete and residual prefixes enter the history together, and their decoded motion determines the next boundary state. The next recorded structural and latent targets remain fixed. Residual rebasing expresses that latent target relative to the sampled structure; it does not re-encode the target under the generated boundary. This construction trains local continuation after a generated commit without requiring a fully recursive long training rollout.
+Figure~\ref{fig:cof_training_detail} details the construction. Each training example independently samples a first-pass transition from its supplied context. The committed discrete and residual prefixes enter the history together, and their decoded motion determines the next boundary state. The next recorded structural and latent targets remain fixed. Residual rebasing expresses that latent target relative to the sampled structure; it does not re-encode the target under the generated boundary. This construction trains local continuation after a generated commit without requiring a fully recursive long training rollout.
+
+\begin{figure}[p]
+\centering
+\input{figures/commit_forcing_v2}
+\caption{\textbf{Commit Forcing transition construction and supervision.} A sampled, jointly committed structure--detail prefix supplies the next history and reference boundary. The next dataset latent remains fixed; residual rebasing expresses it relative to the sampled next structure. This preserves the latent target, while the changed boundary can change its decoded motion. The two stages are constructed independently for each supplied training example.}
+\label{fig:cof_training_detail}
+\end{figure}
 
 \section{Evaluation Protocol}
 \label{app:scope}

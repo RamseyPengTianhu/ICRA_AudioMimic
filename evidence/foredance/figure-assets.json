@@ -7,7 +7,7 @@
     "sequence-50.png": "9eed86433e4312f6cf1659c300090be6157b8a6ab60d68643cba4c0235e06227",
     "overview.png": "b636d014e2337b8ae210b24e2ae71fc47b202b892d25e27b8fa8530fd6c71af6"
   },
-  "diagram_mode": "built-in imagegen; model and quality selectors unavailable",
+  "diagram_mode": "Existing imagegen figures with teammate-authored editable TikZ diagrams",
   "dc_user_decisions": [
     "two principal reconstruction paths only",
     "corrupted detail in prose only",
@@ -17,6 +17,21 @@
     "Combined task and architecture",
     "Future-score visual language",
     "Schematic G1-style robots and code-aligned body supervision",
-    "Four main manuscript figures"
-  ]
+    "Five main manuscript figures and one supplementary training diagram"
+  ],
+  "teammate_figures": {
+    "execution": {
+      "source": "figures/architecture_v2.tex",
+      "active": "figures/foredance/teammate-execution.tex",
+      "adaptation": "Execution path extracted and aligned with current reference interface"
+    },
+    "cof": {
+      "active": "figures/commit_forcing_v2.tex",
+      "adaptation": "Original corrected editable diagram retained unchanged in supplement"
+    }
+  },
+  "teammate_assets_sha256": {
+    "figures/foredance/teammate-execution.tex": "529d74befa60f365c405dbc9acf0c19206ad6c2afc8ecd05e69c2e40725bf7cb",
+    "figures/commit_forcing_v2.tex": "1264b401b07e8d7cf1a954e9fc4413b2118487b326b1254f1c4662648b581bc7"
+  }
 }

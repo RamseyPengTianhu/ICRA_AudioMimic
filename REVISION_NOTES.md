@@ -62,3 +62,7 @@ Merged latest Overleaf revision d12a5c0 into the current ForeDance paper. Genera
 Numeric transcription is checked against the archived source table with a source hash. Original controller logs were not recomputed. All-current-cohort statements now apply specifically to generator results. Main overview image is unchanged. No new experiment, blind evaluation, runtime study or hardware claim was introduced. User authorized GitHub publication after successful checks.
 
 Final checks: 14-page PDF rendered and visually reviewed, 39 cited references, no overfull lines, missing glyphs or unresolved references. Current generation table bytes and the overview image match the pre-merge version. Supplementary tracking rows match the archived teammate table exactly. ForeDance.pdf is the checked reading copy for GitHub.
+
+## Teammate figures retained (2026-09-10)
+
+The main paper now includes an execution-interface diagram adapted from the teammate editable architecture, and the supplement includes their corrected Commit Forcing training diagram unchanged. The ForeDance overview remains the main figure. Historical 34D raster diagrams and codec results are not relabeled as current evidence.
