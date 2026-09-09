@@ -92,4 +92,10 @@ Figure~\ref{fig:sequence} illustrates one 60\,s ForeDance generation. Snapshots 
 \label{fig:sequence}
 \end{figure*}
 
-The native references include the configuration and motion information needed by a separate whole-body tracker. The present illustration evaluates reference generation; a corresponding controller-execution case remains pending.
+The native references include the configuration and motion information needed by a separate whole-body tracker. The present illustration evaluates reference generation; a matched current-model controller-execution case remains pending. Section~\ref{sec:execution_results} separately examines the execution interface.
+
+\subsection{Reference Execution with a Fixed Controller}
+\label{sec:execution_results}
+The execution interface asks whether the delivered reference retains its motion characteristics after tracking. We distinguish the generated motion, the bridge's sent reference, the controller's consumed target, and measured execution. This separates changes introduced by representation conversion and delivery from target-tracking error.
+
+A separate MuJoCo replay study of an earlier 34-dimensional generator configuration provides supporting measurements of this interface (Appendix~\ref{app:execution}). Four previously generated trajectories were replayed through the same fixed SONIC controller with the same reference-delivery settings. The reported motion-amplitude and velocity-variation measurements show why tracking should be examined beyond joint-position error. Because these are fixed-reference replays, their comparison addresses tracking of the supplied motion, not online music inference during execution. They are also separate from the current 38-dimensional ForeDance cohort. A matched recording of the current generated reference and its execution remains to be evaluated; the rendered sequence in Fig.~\ref{fig:sequence} is reference motion.

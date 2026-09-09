@@ -31,7 +31,7 @@ Each training example independently samples a first-pass transition from its sup
 
 \section{Evaluation Protocol}
 \label{app:scope}
-The numerical tables use all 18 tracks in the fixed FineDance test cohort. The common source-supported segment is 23\,s, beginning at source frame 264. Each method has three training seeds and three sampling seeds per training run, giving 162 paired track-level outputs. Methods within a comparison share source identities, segment boundaries, and sampling settings.
+The current-generator numerical tables use all 18 tracks in the fixed FineDance test cohort. The common source-supported segment is 23\,s, beginning at source frame 264. Each method has three training seeds and three sampling seeds per training run, giving 162 paired track-level outputs. Methods within a comparison share source identities, segment boundaries, and sampling settings.
 
 For the music-condition comparison, the no-music controls are separately trained models. They are not obtained by removing the condition from a forecast-trained model at inference. This controls for the learning procedure associated with the absence of music, while preserving the distinction from the pending heard-music comparison.
 
@@ -39,7 +39,7 @@ MMR-MS is a frozen learned matching distance using independently trained G1 moti
 
 We compute paired 95\% intervals using 10,000 hierarchical bootstrap draws. Each draw resamples training seeds with replacement, then tracks within each sampled training seed. The repeated sampling-seed outputs are averaged within each track. This retains training variation while avoiding the treatment of individual motion frames as independent experimental samples.
 
-The reported numerical tables use the complete cohort without favorable-track filtering. Figure~\ref{fig:sequence} is a selected qualitative example from a separate 60\,s rollout. Three original frames are taken at 10, 30, and 50\,s from the same generated trajectory. The comparison layouts in the main text identify studies with pending results; they do not contribute to the reported estimates or intervals.
+The reported current-generator numerical tables use the complete cohort without favorable-track filtering. Figure~\ref{fig:sequence} is a selected qualitative example from a separate 60\,s rollout. Three original frames are taken at 10, 30, and 50\,s from the same generated trajectory. The comparison layouts in the main text identify studies with pending results; they do not contribute to the reported estimates or intervals.
 
 \section{History-Corruption Results}
 \label{app:fhc}
@@ -54,3 +54,5 @@ Startup & History & MMR-MS & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midru
 \inputtable{evidence/foredance/training_rows.tex}
 \bottomrule\end{tabular}
 \end{table}
+
+\input{sections/execution_supplement}

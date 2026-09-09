@@ -1,13 +1,29 @@
 {
-  "bibliography_entries": 39,
+  "bibliography_entries": 53,
   "cited_entries": 39,
   "missing_entries": [],
-  "uncited_entries": [],
+  "uncited_entries": [
+    "copet2023musicgen",
+    "huang2022mulan",
+    "jiang2025harmon",
+    "li2022music2vec",
+    "li2023mert",
+    "mcfee2015librosa",
+    "shi2026gpc",
+    "won2023musicfm",
+    "wu2022clap",
+    "xu2025parc",
+    "zhang2026wholebody",
+    "zhu2023ncp",
+    "zhu2025muq",
+    "zhuang2025humanoid"
+  ],
   "duplicate_keys": [],
   "added_citations_existing_entries": 15,
   "new_method_sources": [
     "zhou2019rotation",
     "ho2020ddpm"
   ],
-  "scope": "Active main.tex and sections; historical evidence planning excluded"
+  "scope": "Active main.tex and sections; archived teammate manuscripts excluded",
+  "uncited_reason": "Additional teammate bibliography retained during merge; no forced citations or bibliography-only inclusion."
 }

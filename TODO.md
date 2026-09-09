@@ -11,6 +11,10 @@ These are manuscript evidence gaps, not new experiment-launch authorization. Kee
 | V1 | Matched qualitative long sequences for the displayed comparison | The current 60-second case is genuine generation, but no matched TF result is supplied. |
 | V2 | Current generated reference and corresponding fixed-controller recording, explicitly simulation or hardware | Short execution case; kinematic rendering does not establish execution. |
 
-Current populated numbers use the complete 18-track, 23-second condition-use cohort with three training and three sampling seeds. Do not relabel those as the planned 30/60-second headline evaluation or apply a favorable subset without its exact common-method manifests and selection record.
+Current-generator populated numbers use the complete 18-track, 23-second condition-use cohort with three training and three sampling seeds. Do not relabel those as the planned 30/60-second headline evaluation or apply a favorable subset without its exact common-method manifests and selection record.
 
 Do not add wrong-time tests, human blind evaluation, runtime tables, an OMG result section, or additional mandatory CoF component training. The D+C image contains only the two principal reconstruction paths; corrupted-detail training is described in the text.
+
+## Execution integration status
+
+The fixed-controller interface follows teammate revision d12a5c0, adapted to the current 38D representation. Appendix replay values are transcribed from the separate 34D study in 0cc6cee; they do not close V2. The exact source table and recorded metrics path are in evidence/foredance/team-execution/. Before admitting a current-model execution result, reconcile reference/checkpoint identity, the existing T01 joint-order/offset/timestamp audit, and recording coverage. No new training, human study, timing study, or hardware launch is authorized by this manuscript integration.

@@ -1,0 +1,792 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\method}{AudioMimic}
+\newcommand{\cof}{Commit Forcing}
+\newif\ifshowpapertodos
+% Keep evidence gaps visible in the collaborative draft; disable only after review.
+\showpapertodostrue
+\newcommand{\papertodo}[1]{%
+\ifshowpapertodos
+\par\smallskip\noindent
+{\color{red!75!black}\textbf{TODO:} #1}
+\smallskip\par
+\fi}
+
+% Research draft updated 2026-09-08; see REVISION_NOTES_20260908.md.
+\title{Duet: Discrete–Continuous Motion Generation for Music-Driven Humanoid Dance}
+
+% \author{\IEEEauthorblockN{Tianhu Peng et al.}
+% \IEEEauthorblockA{UCL Robotics Institute, University College London}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Humanoid dance should be coherent and expressive, appropriate to the music being heard, and realizable by a physical controller. We present \method{}, a robot-native causal dance generation and execution system. Its kinematics-guided discrete--continuous (D+C) representation assigns complementary coarse-structure and fine-detail roles through explicit supervision and jointly decodes both into native robot motion. \cof{} constructs sampled reference transitions and trains continuation from their committed history and reconstructed boundary states. A frozen causal music model supplies timestamped forecasts from arrived audio, and a reference bridge connects committed motion to a fixed SONIC whole-body tracker. Evaluation separates music--motion matching, explicit rhythmic and dynamic adaptation, and dance quality at generation and execution layers. Formal generator comparisons and controlled replay characterize musical matching and downstream tracking limitations. In a two-training-seed codec study, adding the continuous branch reduces structure/detail reconstruction error by approximately 30\%/45\% relative to discrete-only decoding. The proposed supervision raises the discrete-to-continuous structural intervention ratio from 1.20 to 1.41, while continuous-code effective rank reaches 15.1 of 16, supporting a measurable complementary representation.
+\end{abstract}
+
+\papertodo{Working draft, not submission-ready. Open evidence gates are indexed
+as T01--T12 in TODO.md. Existing pilot results must not be promoted to general
+performance, hardware, or safety claims before the corresponding gates close.}
+\section{Introduction}
+% ================================================================
+Humanoid robots are increasingly able to translate external
+information into coordinated whole-body behavior.
+Language-conditioned motion generation enables robots to perform
+actions described in natural language~\cite{jiang2025harmon},
+while vision-based control allows them to adapt their movements
+to terrain and obstacles~\cite{zhuang2025humanoid}.
+These advances motivate richer forms of embodied interaction,
+including movement guided by music. Music-responsive dance
+requires a robot to transform an evolving auditory signal into
+coherent physical expression, with movements that reflect the
+soundtrack as it unfolds.
+
+Music provides a distinctive conditioning signal. It typically
+does not prescribe a unique action sequence; instead, rhythm,
+accents, and dynamic variation guide when and how movements
+unfold. Multiple dances can suit the same soundtrack, but
+appropriate responses must combine musical correspondence with
+coordinated and varied motion. For a physical humanoid, this
+relationship must also accommodate the robot's body and remain
+perceptible after execution. The objective is therefore to
+generate dance whose musical suitability is expressed through
+the robot's actual movement.
+
+Music-to-dance models have made substantial progress in
+choreographic quality, genre modeling, and whole-body
+coordination~\cite{tseng2023edge,li2023finedance,
+yang2025megadance,li2025soulnet}.
+Recent work has further established important foundations for
+robotic performance. DiscoForcing generates motion causally
+from streaming audio and transfers human-format motion to a
+humanoid through retargeting and tracking~\cite{ji2026discoforcing}.
+RoboPerform integrates audio-conditioned expression into a
+teacher--student action policy for music-driven dance and
+speech-accompanying gestures~\cite{li2026roboperform}.
+These approaches demonstrate complementary routes from sound
+to embodied behavior.
+
+An open methodological question is how to learn a robot-native
+dance reference generator that preserves both whole-body
+organization and music-dependent local variation throughout
+recursive generation. Generating in a human motion space leaves
+the mapping of these properties to the robot to a downstream
+retargeting stage. Integrating expression directly into an
+action policy couples its realization to the learned controller.
+We investigate a complementary design in which musical motion
+is planned directly in the robot's native space and delivered
+to an independently trained whole-body controller.
+This requires more than removing an online conversion step:
+the representation must accommodate structural coordination
+and expressive detail, and the continuation model must preserve
+their consistency as its own outputs become future inputs.
+Whether these properties survive tracking is a further
+question that must be evaluated at the execution level.
+
+We address the representation problem with a kinematics-guided
+discrete--continuous (D+C) design learned from dance data
+retargeted to the robot. A discrete vocabulary captures reusable
+motion patterns, while a continuous residual supplies variation
+beyond quantization. Our supervision explicitly encourages
+complementary roles: designated coarse kinematic structure is
+supervised through the discrete branch, while the combined
+representation reconstructs the full motion. Structural
+supervision under residual corruption further encourages this
+organization to remain robust to changes in the continuous
+component. During generation, both branches receive music
+conditions; a discrete planner predicts structure, and a
+conditional diffusion model generates the residual given that
+structure and the available reference context. Their combination
+is decoded into native robot motion by a shared
+state-conditioned decoder.
+
+Preserving this organization over time requires training on
+the context created by motion commitment. Teacher-forced
+histories differ from the model-generated histories encountered
+during recursive inference, a challenge addressed broadly by
+generated-history and diffusion-forcing
+methods~\cite{bengio2015scheduled,chen2024diffusionforcing}.
+For our generator, however, a reference transition comprises
+discrete codes, continuous residuals, and the boundary state
+derived from their decoded motion. We introduce \cof{} to
+construct these components jointly during training.
+A first pass samples and commits a complete D+C reference
+prefix, updating both the latent history and the reference
+boundary state. A second pass learns continuation from this
+generated context. This procedure exposes the continuation
+model to the coupled consequences of its own structural and
+detail predictions.
+
+We integrate these components into a causal music-to-robot
+system, illustrated in Fig.~\ref{fig:architecture}.
+A frozen music forecaster provides predicted conditioning
+features from observed audio without accessing future
+waveforms. The generator continuously plans and commits
+robot-native references, which are delivered to the fixed
+SONIC whole-body controller~\cite{luo2026sonic}.
+The generator maintains its committed reference context,
+while SONIC uses measured robot state for physical feedback
+control. Our evaluation connects the proposed mechanisms
+to three outcomes: motion quality, musical suitability,
+and their retention during execution. Representation
+interventions and matched continuation-training comparisons
+examine the roles of D+C and \cof{}, while controlled music
+pairings and reference--execution comparisons assess whether
+the resulting dance responds appropriately to its soundtrack.
+
+Our contributions are:
+\begin{itemize}
+    \item \textbf{Kinematics-guided robot-native D+C generation:}
+    a motion representation and music-conditioned generator
+    that establish complementary structural and detail roles
+    through explicit kinematic supervision.
+
+    \item \textbf{Commit Forcing for consistent continuation:}
+    a training procedure that jointly commits generated
+    structure and detail and reconstructs the corresponding
+    reference boundary state, enabling continuation learning
+    from complete model-generated reference transitions.
+
+    \item \textbf{Causal musical performance with paired
+    generation--execution evaluation:}
+    a streaming system connecting predicted music conditions
+    and robot-native planning to fixed whole-body control,
+    together with an evaluation protocol that examines
+    musical suitability and motion quality at both layers.
+\end{itemize}
+\papertodo{T02--T04: close matched learning and music controls before claiming
+Commit-Forcing gains, complete D+C superiority, or an injection-architecture winner.}
+
+% ================================================================
+\section{Related Work}
+% ================================================================
+
+\subsection{Learning Whole-Body Control and Generative Planning}
+
+Reinforcement learning provides an effective framework for
+learning humanoid control, while motion imitation supplies
+demonstrations of coordinated behaviors that are difficult to
+specify through task rewards alone.
+PHC develops reusable motion tracking for simulated
+humanoids~\cite{luo2023phc}, and ExBody2, BeyondMimic, and
+SONIC advance expressive, agile, and scalable control on
+humanoid robots~\cite{ji2024exbody2,liao2025beyondmimic,
+luo2026sonic}.
+These approaches establish the physical execution capabilities
+on which higher-level motion generation can build.
+
+Generative models extend this repertoire beyond replaying
+individual reference clips.
+BeyondMimic combines motion tracking with latent state--action
+diffusion, using guidance to compose behaviors and satisfy
+downstream objectives~\cite{liao2025beyondmimic}.
+An alternative is to retain an explicit motion reference
+between planning and control.
+Zhang et al.~\cite{zhang2026wholebody} generate terrain-aware
+robot references with diffusion, track them using RL, and
+fine-tune the tracker with a frozen generator in a closed-loop
+setting.
+PARC uses physics-based tracking to correct generated motions
+and iteratively expand the training dataset for terrain
+traversal~\cite{xu2025parc}.
+These works demonstrate complementary ways to connect
+generative motion models with physical control.
+Our work adopts reference-based execution with a fixed
+SONIC controller and focuses on music-conditioned robot-native
+generation. Commit Forcing updates generated reference
+context during training; it does not use physically executed
+trajectories to refine the generator or tracker.
+
+\subsection{Motion Representations and Reusable Motor Priors}
+
+Learned motion representations support both generative
+modeling and reusable physical skills.
+Neural Categorical Priors learn a discrete skill space through
+RL-based imitation and use prior shifting to improve
+behavioral coverage for downstream control~\cite{zhu2023ncp}.
+GPC jointly learns an FSQ-based motion vocabulary and a
+control policy through RL, then models skill sequences with
+an autoregressive transformer~\cite{shi2026gpc}.
+These representations provide latent interfaces to
+physics-based control policies.
+Our latent representation instead decodes into an explicit
+robot motion reference that is executed by a separate tracker.
+
+For kinematic motion generation, T2M-GPT and MoMask use
+discrete motion tokens~\cite{zhang2023t2mgpt,guo2024momask},
+whereas MLD performs diffusion in a continuous latent
+space~\cite{chen2023mld}.
+Hybrid approaches connect these modeling choices in different
+ways. DisCoRD reconstructs continuous motion from discrete
+tokens through rectified-flow decoding~\cite{cho2025discord}.
+Most closely, DC-Motion represents human motion using
+discrete structural tokens and continuous residual latents,
+with masked structural prediction followed by conditional
+residual diffusion~\cite{wang2026dcmotion}.
+Our work shares the motivation for complementary discrete
+and continuous components, while studying their roles in
+robot-native streaming generation.
+We introduce designated robot-kinematic supervision for the
+discrete and residual-corrupted reconstructions, and condition
+decoding on the reference boundary state.
+The resulting components are generated and committed
+jointly, allowing their structural and detail roles to be
+examined through controlled interventions.
+
+\subsection{Music Representations, Dance Generation, and Robotic Performance}
+
+Music conditioning ranges from explicit signal descriptors
+to learned audio representations.
+Features such as onset strength, tempo, and chroma,
+available through librosa~\cite{mcfee2015librosa}, provide
+interpretable rhythmic and spectral information.
+Pretrained representations offer complementary information:
+EDGE uses embeddings from the generative music model
+Jukebox~\cite{tseng2023edge,dhariwal2020jukebox}, while
+Music2Vec, MERT, MusicFM, and MuQ learn transferable
+music representations through self-supervised
+training~\cite{li2022music2vec,li2023mert,
+won2023musicfm,zhu2025muq}.
+CLAP, MuLan, and MuQ-MuLan align audio with natural
+language, supporting semantic retrieval and
+conditioning~\cite{wu2022clap,huang2022mulan,zhu2025muq}.
+These approaches provide different sources of acoustic
+and semantic information; their suitability for streaming
+dance additionally depends on temporal resolution,
+accessible audio context, and inference latency.
+
+Music-conditioned dance generation builds on these
+representations to model movement and musical correspondence.
+FACT and Bailando develop sequence generation and discrete
+choreographic modeling~\cite{li2021aist,siyao2022bailando},
+while EDGE introduces diffusion-based editable
+choreography~\cite{tseng2023edge}.
+FineDance expands fine-grained full-body dance
+data~\cite{li2023finedance}; LODGE, MEGADance, and SoulNet
+address long-form generation, genre-aware modeling,
+and coordinated holistic motion,
+respectively~\cite{li2024lodge,yang2025megadance,
+li2025soulnet}.
+These advances establish foundations for expressive dance
+generation and music--motion matching.
+
+Generative audio models also offer a route to predictive
+conditioning.
+MusicGen models compressed audio-token sequences for
+controllable music synthesis~\cite{copet2023musicgen},
+while Live Music Models and Magenta RealTime~2 support
+streaming music generation~\cite{gdmlyria2025live,
+magenta2026mrt2}.
+In our system, a frozen MRT2 model forecasts music states
+from arrived audio, which condition subsequent motion
+generation.
+This use of predicted states makes audio visibility and
+the remaining forecast lead explicit parts of the
+music-to-motion interface.
+
+Conditioned motion generation has further reached
+physical humanoids.
+HARMON generates robot whole-body motion from language
+descriptions~\cite{jiang2025harmon}.
+RoboPerform uses audio-conditioned style within a
+teacher--student control framework for dance and
+speech-accompanying gestures~\cite{li2026roboperform}.
+DiscoForcing connects causal streaming audio to
+human-format motion generation and humanoid execution
+through retargeting and tracking~\cite{ji2026discoforcing}.
+Our approach performs retargeting during data preparation
+and learns a robot-native D+C reference generator, with
+music conditioning both discrete planning and continuous
+residual generation.
+We study musical suitability and motion quality through
+paired generation--execution evaluation with a fixed
+whole-body controller.
+
+\subsection{Streaming Generation and Training with Generated Context}
+
+Recursive generation introduces a mismatch between
+dataset-provided training histories and model-generated
+inference histories.
+Scheduled Sampling progressively substitutes model predictions
+for observed sequence inputs~\cite{bengio2015scheduled}.
+Professor Forcing uses adversarial training to align recurrent
+dynamics between teacher-forced and free-running
+modes~\cite{lamb2016professor}.
+Diffusion Forcing trains sequence models with independent
+per-token noise levels, supporting causal generation and
+flexible conditioning on partially noised
+histories~\cite{chen2024diffusionforcing}.
+In motion synthesis, MotionStreamer combines causal motion
+compression with autoregressive diffusion and a Two-Forward
+strategy that replaces a subset of ground-truth latents with
+first-pass predictions~\cite{xiao2025motionstreamer}.
+DiscoForcing further develops temporal scheduling and
+history guidance to balance continuity with responsiveness
+to changing audio~\cite{ji2026discoforcing}.
+
+Commit Forcing addresses a specific reference-construction
+problem within this broader setting.
+A committed D+C transition contains discrete structure,
+continuous detail, and a boundary state reconstructed from
+their jointly decoded motion.
+We sample the structural and residual components with the
+deployment samplers, commit their shared prefix, and train
+the next continuation using the updated reference context.
+This explicitly links history replacement to motion decoding
+and boundary-state reconstruction.
+The feedback remains within the reference-generation process;
+measured physical state is used by the downstream controller.
+% ================================================================
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Overview and Problem Formulation}
+
+Our framework generates robot-native dance references
+from causally available music and executes them through
+a fixed whole-body controller.
+Figure~\ref{fig:architecture} summarizes representation
+learning and online generation and execution.
+Training proceeds in two stages: we first learn a
+kinematics-guided discrete--continuous (D+C) motion
+codec from retargeted human dance, and then train a
+music-conditioned generator with Commit Forcing to
+learn continuation from generated reference contexts.
+
+At planning cycle $k$, the generator receives committed
+latent history $\mathcal{H}_k$, reference boundary state
+$b_k$, and predicted music condition $m_k$.
+Let $P_k=\{(q_{0,k,i},r_{k,i})\}_{i=1}^{H}$ denote
+an $H$-step latent plan, where $q_0$ is a discrete
+code index and $r$ is a continuous residual.
+We sample
+\begin{equation}
+    P_k \sim
+    p_\theta(\cdot\mid\mathcal{H}_k,b_k,m_k).
+    \label{eq:planning_objective}
+\end{equation}
+Only the first $C<H$ steps are committed.
+Their decoded motion and latent codes update the
+reference context before replanning.
+The boundary state is derived from committed references;
+physical state feedback is handled by the downstream
+controller.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]
+    {figures/mainline_architecture.png}
+    \caption{
+    \textbf{Overview of the proposed framework.}
+    \textbf{(A)} FineDance human motion is retargeted to
+    Unitree G1 to learn a kinematics-guided D+C
+    representation. Discrete embeddings and continuous
+    residuals share a state-conditioned decoder.
+    \textbf{(B)} Predicted music states from frozen MRT2
+    condition discrete planning and residual diffusion
+    through FrameFiLM. The generator, trained with Commit
+    Forcing, commits a reference prefix and updates its
+    reference context. A bridge delivers references to
+    frozen SONIC, whose physical feedback loop uses
+    measured robot state.
+    }
+    \label{fig:architecture}
+\end{figure*}
+
+\subsection{Kinematics-Guided Discrete--Continuous
+Motion Representation}
+\label{sec:dc_representation}
+
+\paragraph{Robot-native motion.}
+We use paired music and human dance from
+FineDance~\cite{li2023finedance}, with offline motion
+retargeting to obtain Unitree G1 trajectories.
+Each motion frame is represented by
+\begin{equation}
+    x_n =
+    [\Delta p^{\mathrm{local}}_{xy},\,h,\,
+    \sin\Delta\psi,\,\cos\Delta\psi,\,
+    \boldsymbol{\vartheta}],
+    \label{eq:native_motion}
+\end{equation}
+where $\Delta p^{\mathrm{local}}_{xy}$ is heading-local
+planar displacement, $h$ is root height, $\Delta\psi$
+is yaw change, and
+$\boldsymbol{\vartheta}\in\mathbb{R}^{29}$ contains
+joint angles.
+This 34-dimensional representation describes motion
+relative to the evolving root frame.
+Global planar position and heading are recovered
+through deterministic $\mathrm{SE}(2)$ accumulation.
+
+To condition continuation on the preceding reference,
+we define the boundary state
+\begin{equation}
+    b =
+    [h,\,v^{\mathrm{local}}_{xy},\,v_z,\,
+    \dot{\psi},\,\boldsymbol{\vartheta},\,
+    \dot{\boldsymbol{\vartheta}}].
+    \label{eq:boundary_state}
+\end{equation}
+It contains pose and first-order motion information
+and conditions both encoding and decoding.
+
+\paragraph{Discrete--continuous decomposition.}
+A state-conditioned encoder maps a motion segment
+to a latent sequence $z=E_\phi(x,b)$ with a temporal
+downsampling factor of two.
+Each latent vector is decomposed using a learned
+codebook:
+\begin{equation}
+\begin{split}
+    q_{0,i}
+    &=\arg\min_j\|z_i-e(j)\|_2^2,\\
+    r_i
+    &=z_i-\operatorname{sg}(e(q_{0,i})),
+\end{split}
+\label{eq:dc_decomposition}
+\end{equation}
+where $e(j)$ is a codebook embedding and
+$\operatorname{sg}$ denotes stop-gradient.
+The discrete embeddings and residuals are combined
+and decoded jointly:
+\begin{equation}
+    \hat{x}=D_\psi(e(q_0)+r,b).
+    \label{eq:shared_decoding}
+\end{equation}
+The resulting representation couples a finite motion
+vocabulary with continuous reconstruction capacity.
+
+\paragraph{Kinematics-guided supervision.}
+Full-motion reconstruction alone does not assign
+explicit kinematic responsibilities to the two
+components.
+We therefore supervise discrete reconstruction on
+a designated structural view while retaining
+full-motion supervision for their joint reconstruction.
+
+The full view $\Phi_f$ contains native motion,
+boundary-aware velocities, current-root-relative
+link and sole positions, and their velocities.
+The structural view $\Phi_s$ selects root, leg,
+and waist channels together with torso, wrist,
+and sole geometry.
+It specifies which aspects of whole-body organization
+the discrete component is encouraged to preserve.
+
+Let $e=e(q_0)$ and $r=z-\operatorname{sg}(e)$.
+We construct three training paths:
+\begin{align}
+    \hat{x}_{f}
+    &=D_\psi(\operatorname{sg}(e)+r,b),
+    \label{eq:full_path}\\
+    \hat{x}_{s}
+    &=D_\psi(z+\operatorname{sg}(e-z),b),
+    \label{eq:structure_path}\\
+    \hat{x}_{r}
+    &=D_\psi(\operatorname{sg}(e)+\mathcal{C}(r),b),
+    \label{eq:robust_path}
+\end{align}
+where $\mathcal{C}$ removes the residual or adds
+small channel-scaled noise.
+The discrete-only path uses a straight-through
+estimator, while the corrupted-residual path
+encourages structural reconstruction to remain
+robust to residual variation.
+
+For view $v\in\{f,s\}$, define
+\begin{equation}
+    d_v(\hat{x},x)
+    =
+    \frac{1}{|\mathcal{B}_v|}
+    \sum_{a\in\mathcal{B}_v}
+    \operatorname{MSE}
+    \bigl(
+    \bar{\Phi}_{v,a}(\hat{x}),
+    \bar{\Phi}_{v,a}(x)
+    \bigr),
+    \label{eq:kinematic_distance}
+\end{equation}
+where $\mathcal{B}_v$ indexes the native-motion,
+velocity, kinematic-position, and kinematic-velocity
+blocks of that view.
+The bar denotes normalization using training-set
+statistics.
+Averaging within each block before combining them
+prevents high-dimensional geometry from dominating
+the objective.
+
+The codec loss is
+\begin{equation}
+\begin{split}
+    \mathcal{L}_{\mathrm{codec}}
+    ={}&d_f(\hat{x}_f,x)
+    +\lambda_s d_s(\hat{x}_s,x)\\
+    &+\lambda_r d_s(\hat{x}_r,x)
+    +\mathcal{L}_{\mathrm{VQ}},
+\end{split}
+\label{eq:codec_objective}
+\end{equation}
+where $\mathcal{L}_{\mathrm{VQ}}$ comprises codebook
+and commitment losses~\cite{vandenOord2017vqvae}.
+This objective encourages discrete codes to preserve
+designated structure and residuals to provide
+complementary detail, without imposing independent
+decoding of the two components.
+
+\subsection{Causal Music-Conditioned Motion Generation}
+\label{sec:music_generation}
+
+\paragraph{Predicted music states.}
+Arrived audio is tokenized with
+SpectroStream~\cite{li2025spectrostream} and supplied
+to a frozen Magenta RealTime~2
+model~\cite{magenta2026mrt2}.
+We roll the observed prefix forward and retain
+14 predicted temporal music states, denoted FMS14.
+These conditions are computed without accessing
+future waveform samples.
+
+\paragraph{Timing-aware conditioning.}
+The forecaster and generator operate asynchronously.
+Each predicted state retains its native timestamp,
+so the nominal prediction horizon can be distinguished
+from the lead remaining when a reference is due.
+For forecast-state timestamp $\tau_j$ and reference
+delivery deadline $d_k$, expressed on the same
+audio-time axis, the effective lead is
+\begin{equation}
+    \ell_{k,j}=\tau_j-d_k.
+    \label{eq:effective_lead}
+\end{equation}
+The generator selects the newest completed forecast
+and masks states whose effective lead has expired.
+The resulting music condition $m_k$ is supplied
+to both motion branches.
+
+We use FrameFiLM to introduce this condition through
+feature-wise modulation~\cite{perez2018film}.
+For an intermediate motion feature $u$, the
+modulation has the form
+\begin{equation}
+    \operatorname{FiLM}(u;m_k)
+    =
+    \gamma(m_k)\odot u+\beta(m_k),
+    \label{eq:music_film}
+\end{equation}
+where $\gamma$ and $\beta$ are learned conditioning
+mappings.
+Music thus influences both discrete planning and
+continuous residual generation.
+
+\paragraph{Discrete planning and residual diffusion.}
+Let $c_k=(\mathcal{H}_k,b_k,m_k)$ denote the shared
+generation context.
+We factorize the plan distribution as
+\begin{equation}
+\begin{split}
+    p_\theta(q_{0,1:H},r_{1:H}\mid c_k)
+    ={}&
+    \prod_{i=1}^{H}
+    p_{\theta_D}(q_{0,i}\mid q_{0,<i},c_k)\\
+    &\cdot
+    p_{\theta_C}(r_{1:H}\mid q_{0,1:H},c_k).
+\end{split}
+\label{eq:generator_factorization}
+\end{equation}
+A causal Transformer samples the discrete sequence
+autoregressively.
+A conditional diffusion model then generates the
+residual sequence using the sampled structure
+and the shared context.
+The discrete branch uses cross-entropy supervision.
+The residual branch predicts clean residuals from
+noised inputs and uses DDIM
+sampling~\cite{song2021ddim} at inference.
+The sampled embeddings and residuals are combined
+through Eq.~\eqref{eq:shared_decoding} to produce
+one robot-native reference plan.
+
+\subsection{Commit Forcing for Streaming Generation}
+\label{sec:commit_forcing}
+
+\paragraph{Generated reference transitions.}
+Streaming inference continues from previously
+sampled structure, residuals, and their decoded
+boundary state.
+Teacher-forced training instead provides dataset
+reference contexts.
+Commit Forcing exposes the generator to a complete
+generated reference transition before supervising
+its continuation.
+
+\paragraph{First pass: sample and commit.}
+A stop-gradient first pass samples an $H$-step
+D+C plan with the deployment sampling procedures.
+Its first $C$ discrete codes and corresponding
+residuals form one committed prefix.
+The reference context is updated as
+\begin{equation}
+    (\tilde{\mathcal{H}}_{k+1},\tilde b_{k+1})
+    =
+    \mathcal{U}
+    (\mathcal{H}_k,b_k,\tilde P_k^{1:C}),
+    \label{eq:commit_update}
+\end{equation}
+where $\mathcal{U}$ appends the committed latent
+prefix, retains the prescribed history length,
+and reconstructs the next boundary state from
+the decoded reference.
+The unused plan suffix is discarded.
+
+A training curriculum selects either a complete
+generated transition or a complete dataset
+transition, with the probability of selecting
+the generated transition increasing to one.
+Discrete codes, residuals, and their corresponding
+boundary state are selected together.
+
+\paragraph{Second pass: learn continuation.}
+The second pass uses the updated reference context
+and the music condition for the next horizon.
+The discrete branch is supervised against the
+next dataset code sequence.
+A structural sequence is also sampled
+autoregressively from the updated context to
+condition residual training.
+
+The dataset residual is defined relative to its
+dataset code embedding.
+When conditioning on a sampled code, we therefore
+rebase the residual target.
+Let $z_i^*=e(q_{0,i}^*)+r_i^*$ be the next dataset
+target latent and $\tilde q_{0,i}$ the sampled
+continuation code.
+The rebased target is
+\begin{equation}
+    \tilde r_i^*=z_i^*-e(\tilde q_{0,i}),
+    \label{eq:residual_rebasing}
+\end{equation}
+so that the sampled embedding and its residual
+target sum to the complete target latent.
+After residual normalization, the continuation
+objective combines classification and denoising:
+\begin{equation}
+    \mathcal{L}_{\mathrm{gen}}
+    =
+    \mathcal{L}_{\mathrm{CE}}
+    +\lambda_{\mathrm{diff}}\mathcal{L}_{\mathrm{diff}}.
+    \label{eq:generator_objective}
+\end{equation}
+
+Each training window contains one sampled reference
+transition followed by a supervised continuation.
+The continuation retains the dataset target latent
+under the updated boundary state; no
+boundary-dependent re-encoding is performed.
+Consequently, rebasing preserves the target latent,
+while continuity across generated boundaries is
+learned through state conditioning and exposure
+to generated reference contexts.
+
+\subsection{Robot Reference Integration and Execution}
+\label{sec:robot_execution}
+
+The generator operates in robot-native reference
+space, and a dedicated bridge converts committed
+motion into inputs for the pretrained SONIC
+whole-body controller~\cite{luo2026sonic}.
+The bridge accumulates heading-local root
+displacements and yaw changes, maps joint references
+to the controller convention, and resamples the
+30-Hz motion onto a continuous 50-Hz reference grid.
+Only committed motion is delivered; the uncommitted
+plan suffix is excluded.
+
+SONIC remains fixed and combines the consumed
+reference with measured robot state to produce
+control actions.
+The generator separately updates its latent
+history and boundary state from committed reference
+motion.
+Thus, reference continuation and physical tracking
+use distinct feedback paths: generated references
+condition subsequent planning, while measured
+execution closes the controller loop.
+The reference delivery and controller configuration
+are held fixed in paired execution comparisons.
+
+% ================================================================
+\section{Discussion}
+% ================================================================
+\textbf{What is supported.} The representation ablation supports complementary
+structure/detail roles. The matched replay demonstrates sensitivity to
+consumption age even when condition content is held fixed. Tracking the same
+recorded trajectories reveals another loss of motion dynamics. Improving
+condition timing therefore does not, by itself, establish preserved physical
+expression; conversely, ideal-age cached conditions do not eliminate tracking
+attenuation.
+
+\textbf{What remains unresolved.} The age-attribution study uses one song and one
+sampling seed with an artificial empty-history start. Its trajectory RMSE is
+not an aesthetic score. Physical tracking results are MuJoCo measurements,
+not a real-hardware validation or safety guarantee. The learned standing-start
+candidate has not passed its generation/execution gates. FineDance formal
+comparisons, smaller mechanism pilots, and the two-training-seed codec study
+have different cohorts and cannot be pooled. Additional architecture and
+Commit-Forcing ablations, a calibrated cross-dataset evaluator, and human
+judgments are still needed.
+
+\textbf{Research direction.} We prioritize startup train--deployment consistency
+and deadline-effective music conditioning before adding model branches. If
+tracking-aware reference adaptation is pursued, it should preserve validated
+musical events under a fixed controller and be compared with simple smoothing
+and clipping. The controller remains fixed in the present study. The final held-out set must be
+separate from songs repeatedly used to tune the present diagnostics.
+
+\papertodo{T11/T12: obtain real-G1 records only if hardware claims are retained;
+separate edited showcases from continuous trials and report interventions. Finalize
+authorship, primary-source citations, figures, venue format and page budget.
+Disable visible TODOs only after each retained claim has evidence or is narrowed.}
+
+% ================================================================
+\section{Conclusion}
+% ================================================================
+We presented \method{} toward coherent, expressive robot dance that responds
+appropriately to music as it arrives. Kinematics-guided D+C modeling assigns
+complementary coarse-structure and fine-detail roles in native robot motion;
+\cof{} trains continuation from jointly committed generated references and
+their boundary states. Timestamped causal forecasts and a reference bridge
+connect this generator to fixed SONIC execution. The evaluation separates MMR,
+explicit music adaptation, and dance quality/aesthetics, with runtime and
+tracking diagnostics identifying where intended behavior is lost. Existing
+representation and layered studies support specific mechanisms, not a claim
+that online executed dance already matches offline animation. Matched learning
+ablations, learned-startup validation, and music-fit and aesthetic judgments at
+both generation and execution remain necessary for that broader conclusion.
+
+\appendices
+\section{Detailed Evaluation Definitions and Coverage}
+\label{app:evaluation}
+\input{evaluation_details.tex}
+
+\section{Overlapping and Projector-Based Supervision}
+\label{app:supervision}
+\input{supervision_details.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{Reference}
+\end{document}

@@ -53,3 +53,12 @@ PDF 已成功编译，逐页检查了 11 页的文字、五张图、表格、公
 Reconciled the bibliography with active Related Work: 15 previously uncited entries now have explanatory citations, and two foundational method references were added for six-dimensional rotations and denoising diffusion. There are 39 cited bibliography entries. Updated RTC and KungfuBot to NeurIPS 2025 records, SONIC to its journal record, and corrected the RSS Diffusion Policy author list. Primary-source audit and coverage record are in evidence/foredance/REFERENCE_AUDIT.md and reference-coverage.json. Long reference URLs use flexible line breaking.
 
 Final validation: 12 pages, 39 rendered references, no missing citations, bibliography warnings, missing glyphs, or overfull lines. Rendered pages are retained in build/qa-references/.
+
+
+## Teammate execution integration — 2026-09-10
+
+Merged latest Overleaf revision d12a5c0 into the current ForeDance paper. Generation method, title, narrative and active main figures follow the current local draft. Retained the incoming bibliography additions, architecture asset (inactive), and deletion of obsolete V1.tex. Adapted the teammate execution interface to current absolute pelvis orientation instead of old yaw-increment accumulation. Added a method interface subsection, a separately scoped execution subsection, and supplementary reference-delivery/measurement definitions with the previously reported four-row MuJoCo table. The old table is explicitly an earlier 34D configuration, not current ForeDance or live music execution. Removed no evidence limits; the current paired execution case remains pending. The newer teammate revision had removed the experiment block, so no old table was restored as a current-model main result.
+
+Numeric transcription is checked against the archived source table with a source hash. Original controller logs were not recomputed. All-current-cohort statements now apply specifically to generator results. Main overview image is unchanged. No new experiment, blind evaluation, runtime study or hardware claim was introduced. User authorized GitHub publication after successful checks.
+
+Final checks: 14-page PDF rendered and visually reviewed, 39 cited references, no overfull lines, missing glyphs or unresolved references. Current generation table bytes and the overview image match the pre-merge version. Supplementary tracking rows match the archived teammate table exactly. ForeDance.pdf is the checked reading copy for GitHub.

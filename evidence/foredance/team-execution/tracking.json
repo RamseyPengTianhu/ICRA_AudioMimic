@@ -1,0 +1,45 @@
+{
+  "source_revision": "0cc6cee55521bec0785ba2cf3d0e0d60a4f1c6ec",
+  "interface_revision": "d12a5c062e0d1877cf3b203ac65e106673116832",
+  "source_table": "tab:tracking_retention",
+  "status": "Teammate-reported historical interface diagnostics; transcription verified, not independently recomputed from raw records",
+  "generator_representation": "earlier 34-dimensional native motion",
+  "environment": "MuJoCo fixed-reference SONIC replay",
+  "current_foredance_result": false,
+  "source_tracks": 1,
+  "sampling_seeds": 1,
+  "runs_per_condition": 1,
+  "trim_start_seconds": 2,
+  "rows": [
+    {
+      "source_id": "A",
+      "label": "Cached forecast, ideal age",
+      "aligned_rmse_rad": 0.1421,
+      "median_amplitude_retention": 0.869,
+      "median_squared_velocity_retention": 0.496
+    },
+    {
+      "source_id": "B",
+      "label": "Cached forecast, earlier age trace",
+      "aligned_rmse_rad": 0.1281,
+      "median_amplitude_retention": 0.858,
+      "median_squared_velocity_retention": 0.428
+    },
+    {
+      "source_id": "C",
+      "label": "Cached forecast, revised age trace",
+      "aligned_rmse_rad": 0.1394,
+      "median_amplitude_retention": 0.877,
+      "median_squared_velocity_retention": 0.412
+    },
+    {
+      "source_id": "D",
+      "label": "Live forecast, revised age trace",
+      "aligned_rmse_rad": 0.1431,
+      "median_amplitude_retention": 0.901,
+      "median_squared_velocity_retention": 0.411
+    }
+  ],
+  "raw_metrics_path_from_teammate_record": "eval/results/diagnostics/age_attribution_v1/film_am_098/sonic_c4_r04/comparison_trim2s_mujoco_order/metrics.json",
+  "source_sha256": "55ebcd2a36079fbdd2c57aa3133eedc9ff8e74343f4451acf400117a876da027"
+}
