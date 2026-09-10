@@ -1,0 +1,22 @@
+{
+  "schema": "mmr_g1_finedance_domain_cohort_v1",
+  "status": "frozen",
+  "parent_experiment_id": "EXP-20260901-od-listenahead-hyb-start-cohort-v2",
+  "start_policy": "native_finedance_island_origin",
+  "required_frames": 1936,
+  "duration_seconds": 60.0,
+  "selection": "all 11 SHA-disjoint eligible FineDance test logical islands with at least 1936 contiguous native frames, sorted by OD sequence id",
+  "windows": [
+    {"sequence_id":"04e67b4a773c81c14c482cdc970930ffd5b6f24c31b909ebb92b6c6b2d8b3148","start_frame":0,"source_family":"finedance","source_group":"071_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:071_retarget:island:0000:0:4920"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/071.wav"},
+    {"sequence_id":"079b368d20901c972c416fe1632d77f36f478a2b5320b1888dc02a343d912343","start_frame":0,"source_family":"finedance","source_group":"014_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:014_retarget:island:0000:0:6840"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/014.wav"},
+    {"sequence_id":"19249d94dc1ae98405e014eed71cd8f28f9a8f33f8253b4b68b2dab456fd39ab","start_frame":0,"source_family":"finedance","source_group":"162_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:162_retarget:island:0000:0:3840"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/162.wav"},
+    {"sequence_id":"21e1e00d1bceccdb45cf8c68019db42e5eab7b97889b3139a9ad915120295043","start_frame":0,"source_family":"finedance","source_group":"100_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:100_retarget:island:0000:0:7200"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/100.wav"},
+    {"sequence_id":"4c178f413740a16b7bf14421a443f91a891a898a82f75b0028bf522d25a27cdd","start_frame":0,"source_family":"finedance","source_group":"008_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:008_retarget:island:0000:0:3960"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/008.wav"},
+    {"sequence_id":"7283ade72c8d1d42c7874520be9550091334326be6c22f9d50d42b26d513b3b0","start_frame":0,"source_family":"finedance","source_group":"184_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:184_retarget:island:0000:0:2760"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/184.wav"},
+    {"sequence_id":"84639b8ed1c96f2332abff174c0be805fa61805cd155e5e2830f72989e382bbb","start_frame":960,"source_family":"finedance","source_group":"051_retarget","native_start_frame":960,"motion_start_frame":0,"od_sequence_ids":["finedance_test:source:051_retarget:island:0001:960:3840"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/051.wav"},
+    {"sequence_id":"8f503037c65963ac46ff60251305ce2ae46c27dd542a02536bc43b7c85f98e3e","start_frame":840,"source_family":"finedance","source_group":"211_retarget","native_start_frame":840,"motion_start_frame":0,"od_sequence_ids":["finedance_test:source:211_retarget:island:0000:840:3240"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/211.wav"},
+    {"sequence_id":"9045b0021bf6f3105232b222563c8423a77af2b093cb05686fb23752a1758b29","start_frame":0,"source_family":"finedance","source_group":"007_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:007_retarget:island:0000:0:3720"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/007.wav"},
+    {"sequence_id":"bd1420c895b88f8b02fbf96f51a0a6acc520370b8a99b158c63da0341dc856e1","start_frame":0,"source_family":"finedance","source_group":"019_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:019_retarget:island:0000:0:5400"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/019.wav"},
+    {"sequence_id":"efcbe1a6086031ca8f1e75b9218d8bc695bae568557c5eafb0a4c1faffdc6217","start_frame":0,"source_family":"finedance","source_group":"012_retarget","native_start_frame":0,"od_sequence_ids":["finedance_test:source:012_retarget:island:0000:0:2880"],"source_path":"/lus/lfs1aip2/projects/u6og/yukunwang.u6og/Musics2Dance/data/finedance/music_wav/012.wav"}
+  ]
+}

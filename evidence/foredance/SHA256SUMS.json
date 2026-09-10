@@ -9,7 +9,12 @@
   "overview-routing-revision.json": "fdf2a81f5b334a62cc7662013d8f134a02f1684a1e2694f535d0b20953a2348c",
   "reference-coverage.json": "238384c98d65f1f6c238d4126a0836e6cc529c3f5d86146679f582ee12aaa3ce",
   "figure-assets.json": "e0aeab7edcbbf21bc1ea65cdf7a9eeb447c228a846afcaf93ce0dc4a1cb6f462",
+  "overview-vector-validation.json": "4569e1b2c714e9d0b08e55b3b0f9483ea04936dd20e4a7e0fdd50ceed4dd3bef",
   "completion.json": "004d13ff85292e645938870d85a1d30952e491fb4635e4c49d4f0ff40752f607",
   "condition-analysis.json": "00ccc9f94f346eecdf930dda87e8ece03265e0367727807f6fc0c7bb53acc1ce",
+  "mmr-accepted/cohort.json": "5a945f5d05936672ac27d1f1f32dd6080fb78ce256c2ec3da31cd441e3eb1a7a",
+  "mmr-accepted/evaluator-comparison.json": "8f19bc8290d2f02c5a46eaf381720d885d936dd5ef71748f746e36be8364081a",
+  "mmr-accepted/verification.json": "136125d9fd680e196fa15f4824c5cbd6a37e1807980e91a4cefa6736eb8c0be4",
+  "mmr-accepted/generator-aggregate.json": "6021e06195384fd5845dba97093a00020ff6e9f950e63696354718ce7e359af1",
   "team-execution/tracking.json": "ce9f6d5f52bb211a64afd5653ba8a8b006fa076b0ec11ceea15d551097a75469"
 }

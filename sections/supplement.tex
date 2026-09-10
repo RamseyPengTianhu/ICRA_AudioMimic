@@ -37,52 +37,65 @@ Figure~\ref{fig:cof_training_detail} details the construction. Each training exa
 
 \section{Evaluation Protocol}
 \label{app:scope}
-The cohort in Section~\ref{sec:experimental_setup} yields 162 track-level
-outputs per configuration. For each training seed and track, sampling repeats
-are averaged before computing paired method differences. Bootstrap sampling
-retains these pairs, resampling training seeds with replacement and tracks
-within each sampled seed. Percentiles 2.5 and 97.5 define the reported 95\%
-interval. Qualitative examples and unfilled comparisons do not enter these
-estimates.
+The primary correspondence cohort yields 99 trajectories per startup variant:
+three generator training seeds, three sampling seeds, and eleven tracks.
+For every motion, the intended audio is compared with all ten wrong-track
+donors at matched relative windows, preserving each source's native audio
+offset. Means are formed over windows and donors, then sampling repeats within
+training-seed/query-track cells, and finally the three training seeds and
+11 query tracks. Each bootstrap draw resamples three training seeds and eleven
+query tracks with replacement; the same sampled query-track list is applied
+across the selected training seeds. Percentiles 2.5 and 97.5 over 10,000 draws
+define descriptive 95\% intervals. The gallery of donors remains fixed.
+The separate 18-track motion-quality cohort yields 162 outputs per configuration;
+its sampling repeats and uncertainty are handled within that cohort.
 
-\subsection{Metric Construction and Version Boundaries}
+\subsection{Music--Motion Evaluator}
 \label{app:metric_construction}
-\paragraph{Learned evaluator construction}
-The archived G1 evaluation pipeline combines 35-dimensional librosa temporal
-audio descriptors with frozen MuQ-large global audio
-features~\cite{mcfee2015librosa,zhu2025muq}. Audio and native G1 motion branches
-are fitted on paired training data with global/local contrastive objectives
-and temporal-misalignment controls, then frozen for scoring. Music identity,
-rather than dancer or performance identity, determines valid positives.
-These are evaluation features, not additional inputs to the causal generator.
+\paragraph{Frozen representation and readout}
+The G1-native evaluator receives paired five-second windows: 150 audio feature
+frames at 30\,Hz and 100 motion feature frames at 20\,Hz. Motion features are
+extracted once from each complete trajectory, then normalized with frozen
+training-split statistics before windowing. The continuous 357-dimensional
+frontend retains full root rotation in $\mathrm{SO}(3)$; it does not reset the
+orientation anchor separately for every scoring window. The two encoders
+produce deterministic posterior means for each window in FP32 inference.
+For evaluator instance $k$, denote these embeddings by
+$\mu^{a,k}_w$ and $\mu^{x,k}_w$. The adopted score is
+\begin{equation}
+ s_w(x,a)=\frac{1}{3}\sum_{k=1}^{3}
+ \frac{\langle\mu^{x,k}_w,\mu^{a,k}_w\rangle}
+ {\|\mu^{x,k}_w\|_2\,\|\mu^{a,k}_w\|_2}.
+ \label{eq:mmr_cosine_score}
+\end{equation}
+Scores are averaged across the three independently trained evaluator instances
+before pairwise ranking; embeddings and final accuracies are not averaged
+instead. The checkpoints use standard content-group sampling and the final
+training update (14,500) for each seed, with no best-seed choice. Encoder weights and
+normalization remain fixed across both generator startup variants.
+An absolute score difference of at most $10^{-7}$ is treated as a tie and
+receives half credit. This specifies the correspondence statistic in
+Eq.~\eqref{eq:mmr_margin} without conflating it with retrieval recall.
 
-The archived global--temporal matching definition, following
-SoulNet~\cite{li2025soulnet}, is
-\begin{align}
-D_{\mathrm{temp}}&=\sum_{t=2}^{T}
-\| (u_t-u_{t-1})-(v_t-v_{t-1})\|_2,\\
-d_{\mathrm{MMR}}&=\sqrt{0.7\|u_g-v_g\|_2^2+0.3D_{\mathrm{temp}}},
-\label{eq:archived_mmr_score}
-\end{align}
-where $u_g,v_g$ are global audio/motion embeddings and $u_t,v_t$ describe aligned,
-non-overlapping one-second segments. MMR-MS averages paired distances. The
-temporal term sums norms, not squared norms or time-averaged norms, so durations
-must match. A global-only distance is not this complete score. The current
-23\,s results are retained from their archived summaries without recomputation;
-binding their evaluator receipt to this exact formula, feature fusion, input
-channels, and normalization remains a metric-provenance check before submission.
+\paragraph{Evaluator calibration}
+On reference motion from a 30-content-group calibration cohort, the adopted
+score obtains 68.41\% ordinary wrong-music pairwise accuracy and 64.08\% with
+confusing music donors. Each task contains 15 disjoint song pairs; the cohort
+contains 3,661 windows. These are evaluator-characterization measurements,
+separate from the generated-motion gallery. Multiple evaluator configurations
+were inspected on this cohort, so the values are descriptive as stated in the
+Discussion. The fixed standard-trained ensemble is retained for generation
+scoring; calibration and generated-motion scores do not establish perceptual
+validity on executed robot trajectories.
 
-\paragraph{Calibration}
-Correct-versus-wrong-song and wrong-time margins, retrieval with declared
-candidate pools, and controlled motion degradation test metric sensitivity.
-Same-song multiple performances are valid positives, not false negatives.
-The earlier FineDance+AIST++ candidate was calibrated on 28 independent songs
-(18 FineDance and ten AIST++). Aggregate and FineDance gates passed, but several
-AIST++ wrong-song, same-style, and same-tempo confidence intervals included zero.
-It is not accepted for cross-dataset model ranking. This calibration is separate
-from generation generalization, and neither establishes evaluator validity on
-executed trajectories. The final evaluator training, calibration, and test-song
-manifests must make any reuse explicit.
+\paragraph{Reproducible score aggregation}
+Each of the eighteen generator-training/sampling combinations supplies an
+$11\times11\times56$ music--motion score array. Its diagonal contains intended
+pairs and each off-diagonal column supplies the ten donors for one fixed
+motion. All 198 per-motion scores, margins, and accuracies are reproduced from
+these arrays; no source or window is removed based on its score. The frozen
+cohort, evaluator version, per-track records, and complete arrays are retained
+with the evaluation evidence.
 
 \paragraph{G1 distribution and local-motion features}
 Kinetic descriptors summarize motion dynamics, while geometric descriptors
@@ -116,10 +129,6 @@ curve, not contact force. Zero-lag correlation with audio onset strength measure
 aligned dynamic response; best-lag correlation and its lag are diagnostics, not
 permission to retime primary music scores.
 
-% TODO: Bind the current-cohort evaluator/extractor receipts to the detailed
-% construction above. Do not infer metric equivalence from shared names or
-% import historical scores into the current 38D cohort without re-evaluation.
-
 \section{History-Corruption Results}
 \label{app:fhc}
 Table~\ref{tab:training} provides the full values for the comparison in
@@ -127,10 +136,10 @@ Section~\ref{sec:matching_quality}.
 
 \begin{table*}[t]
 \centering\small
-\caption{\textbf{Effect of history corruption on the full 18-track cohort.} Lower is favorable for MMR-MS, FID, and PFC. Diversity describes motion spread and is interpreted together with fidelity.}
+\caption{\textbf{Effect of history corruption on the full 18-track cohort.} Lower is favorable for FID and PFC. Diversity describes motion spread and is interpreted together with fidelity.}
 \label{tab:training}
-\begin{tabular}{@{}llrrrrrr@{}}\toprule
-Startup & History & MMR-MS & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
+\begin{tabular}{@{}llrrrrr@{}}\toprule
+Startup & History & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
 \inputtable{evidence/foredance/training_rows.tex}
 \bottomrule\end{tabular}
 \end{table*}

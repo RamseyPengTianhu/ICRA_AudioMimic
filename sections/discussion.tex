@@ -1,25 +1,37 @@
 \section{Discussion}
-\paragraph{Music conditioning and motion quality}
-Forecast-conditioned models improve matching over separately trained no-music
-controls under both startup settings. The FHC results reveal a different
-tradeoff: distribution distances improve most under mixed-start training,
-while contact and jerk favor clean history. Matching, distributional fidelity,
-and smoothness therefore provide complementary evidence rather than an
-interchangeable measure of dance quality.
+\paragraph{Soundtrack correspondence and motion quality}
+Across the 198 generated references, the frozen evaluator favors intended
+music over the other gallery tracks under both startup settings. Positive
+margins in every generator training seed support correspondence beyond one
+sampled model. The motion-quality study addresses complementary properties:
+history corruption improves distribution distances most under mixed-start
+training, while contact and jerk favor clean history. Musical matching,
+distributional fidelity, and smoothness should therefore be assessed together.
 
-\paragraph{Scope and limitations}
-The numerical generation study covers 18 FineDance test tracks, while the
-60\,s sequence is a qualitative example. The no-music comparison establishes
-condition use, not the incremental benefit of forecasting over heard-music
-features. Matched D+C and TF/CoF ablations remain needed to isolate their gains.
-End-to-end musical adaptation and perceptual quality are not established by
-the current reference-generation results or supporting tracking measurements.
+\paragraph{Evidence scope and evaluator selection}
+The primary results rescore fixed generated motions in an eleven-track gallery;
+the complete available gallery and all training/sampling repeats are retained.
+The evaluator configuration was selected after inspection of a 30-content-group
+calibration cohort. Its calibration numbers and fixed-gallery bootstrap
+intervals are descriptive, rather than selection-independent confirmation of
+configuration superiority. The score has not been validated against human
+preference or executed trajectories. The 18-track motion-quality study is a
+separate cohort, and the illustrated sequence is a selected qualitative case.
+
+Rescoring fixed motion establishes soundtrack correspondence, while matched
+music-input interventions are needed to isolate conditional adaptation and
+the incremental benefit of forecasts over heard-music features. Matched
+representation and Teacher-Forcing/Commit-Forcing studies are likewise needed
+to attribute component gains. These distinctions keep the current reference
+results separate from causal method comparisons and physical execution.
 
 \section{Conclusion}
 We introduced \method{}, combining causal music forecasts with robot-native
-D+C generation and \cof{} continuation training. FineDance results show
-improved music--motion matching over no-music training under two startup
-settings, while history regularization exposes a distribution--smoothness
-tradeoff. The framework connects its committed reference stream to fixed
-whole-body control and provides a basis for evaluating musical expression
-through generation and execution.
+structure--detail generation and \cof{} continuation training. A frozen
+G1-native music--motion evaluator favors the intended soundtrack in 74.20\%
+and 75.01\% of pairwise comparisons for two startup variants on a fixed
+collection of 60\,s references, with positive score margins across all three
+generator training seeds. These results provide quantitative soundtrack
+correspondence evidence within the structured streaming framework.
+The reference interface connects the resulting motion to fixed whole-body
+control, enabling subsequent comparisons of generation and execution.

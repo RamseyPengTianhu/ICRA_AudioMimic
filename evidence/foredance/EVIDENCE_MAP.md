@@ -2,6 +2,10 @@
 
 Checked 2026-09-09 against the actual GitHub repositories and original Isambard outputs.
 
+## Current evaluation authority — 2026-09-11
+
+The paper now uses the owner-accepted MMR evaluator and results from method revision `911336680765c0c09fa62e4a0ffb3196671abbc5` on `codex/mmr-local-4090`. See `mmr-accepted/INTEGRATION.md` and its immutable source reviews, score matrices, per-track CSV, aggregate, and numerical verification. The main music evidence is 198 fixed 60-second motions, eleven tracks, and two startup variants. The 18-track, 23-second motion-quality study remains separate. Old MMR measurements and formulas below are historical provenance only and no longer appear in the compiled paper.
+
 ## Authoritative revisions
 
 - Method default branch `prior-dev`: [24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2](https://github.com/lbtwyk/Musics2Dance/tree/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2). The repository's branch literally named `main` was older; it was not substituted for the active default branch.

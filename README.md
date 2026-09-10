@@ -4,7 +4,7 @@ Current title: **ForeDance: Structured Streaming Dance Generation with Anticipat
 
 This FineDance manuscript now uses the official RA-L **initial/revised submission** format: `ieeeconf`, US Letter, 10 pt, two columns, an anonymous author byline, and IEEE numbered references. This is not the accepted-paper journal layout. The directory name is retained for compatibility. `main.tex` is the entry point; sections live in `sections/`. The working PDF is `build/main.pdf`; the checked-in reading copy is [ForeDance.pdf](ForeDance.pdf).
 
-The format conversion preserves the existing text, figures, result tables, and pending-result placeholders. It does not make the paper submission-ready. RA-L permits six pages plus at most two extra pages, **including references and all appendices**. The retained appendix files are compiled within that same manuscript, in two columns; they are not a separately admissible textual supplement. Content must still be reduced to the page limit and pending evidence completed before submission. Do not upload extra text/figures as multimedia to bypass the limit.
+The RA-L layout is retained while the accepted MMR correspondence evidence now supplies the main numerical music result. It does not make the paper submission-ready. RA-L permits six pages plus at most two extra pages, **including references and all appendices**. The retained appendix files are compiled within that same manuscript, in two columns; they are not a separately admissible textual supplement. Content must still be reduced to the page limit and pending evidence completed before submission. Do not upload extra text/figures as multimedia to bypass the limit.
 
 The three contributions are anticipatory music conditioning, kinematics-guided structure–detail decoupling with its paired training, and Commit Forcing. FHC and the MMR evaluator support the story. The manuscript is written as a contribution-led research paper. Generation follows the current ForeDance specification; the fixed-controller interface incorporates the teammate execution work. A separately identified earlier-configuration MuJoCo replay table is supporting evidence in the supplement, not a current-model result. It does not assume completed evidence for the three unfilled core comparisons; their status is stated briefly alongside the planned comparisons. Author instructions and historical evaluation planning are outside the compiled manuscript.
 
@@ -26,6 +26,7 @@ Regenerate the generation tables and verify the archived execution-table transcr
 
 ```sh
 python3 scripts/build_evidence_tables.py
+python3 scripts/build_mmr_tables.py
 ```
 
 The manuscript uses standard LaTeX packages; the official class and bibliography style are included locally so Overleaf does not depend on a system installation of `ieeeconf`.
@@ -58,7 +59,7 @@ No custom page geometry, title-space compression, caption package, or single-col
 
 Method diagrams were produced with the built-in imagegen tool and visually checked. The interface has no model or quality selector: the requested Image 2.5 / highest-level sunburst setting could not be verified. No generated illustration is used as measured dance or execution evidence.
 
-Figure 1 uses `figures/foredance/overview.pdf`, exported from the editable `overview.svg`. Labels and diagram geometry are vectors; the original robot artwork and official Magenta RealTime 2 application icon are embedded images. Author review replaced explanatory notes with visual cues and expanded the representation and training names. The current 12-page reading copy preserves the latest upstream PDF’s exact typography using `scripts/place_overview_in_pdf.py`; the local Tectonic build is 13 pages and is retained separately in `build/main.pdf`. The source image reference is updated for subsequent pdfLaTeX/Overleaf builds. Rebuild with `scripts/build_overview_vector.py`; see `evidence/foredance/OVERVIEW_VECTOR.md` for provenance and checks.
+Figure 1 uses `figures/foredance/overview.pdf`, exported from the editable `overview.svg`. Labels and diagram geometry are vectors; the original robot artwork and official Magenta RealTime 2 application icon are embedded images. Author review replaced explanatory notes with visual cues and expanded the representation and training names. The current reading copy is rebuilt from the full revised LaTeX source and matches `build/main.pdf`. The earlier layout-preserving PDF insertion script is retained for historical reproduction only. Rebuild with `scripts/build_overview_vector.py`; see `evidence/foredance/OVERVIEW_VECTOR.md` for provenance and checks.
 
 The editable `.tex` figure layouts are retained as schematic sources. They are not pixel-identical reproductions of the generated assets. Previous image drafts remain named separately and are not active manuscript figures.
 

@@ -6,6 +6,14 @@ experiments from silently entering the manuscript.
 
 Last reconciled: 2026-09-09
 
+## Active update — accepted MMR evidence, 2026-09-11
+
+The author requests the accepted standard-training MMR evaluator and completed results as the current evaluation mainline, removal of old MMR from the compiled paper, and publication to the existing paper remote. This overrides the older evaluator/numerical-result defaults below without changing the generator's method claims.
+
+Authority: method commit `911336680765c0c09fa62e4a0ffb3196671abbc5`, branch `codex/mmr-local-4090`, and owner acceptance [issue 50 comment](https://github.com/lbtwyk/Musics2Dance/issues/50#issuecomment-5618385423). The accepted identity is standard-trained five-second posterior-mean cosine with a three-checkpoint score ensemble. Its completed primary result is correct-versus-ten-wrong-track correspondence on 198 fixed 60-second motions from an eleven-track gallery, 74.20% and 75.01% for prefix-aware/direct-prefix startup. It does not turn fixed-motion rescoring into a causal forecast advantage, a startup winner, component superiority, or hardware evidence.
+
+Remove old MMR distances, formulas, and result interpretations from all compiled sections, including the appendix and the motion-quality table. Retain immutable old records only outside the manuscript. Keep the separate 18-track distribution/contact measurements as complementary motion evidence with its own cohort. Disclose evaluator selection and fixed-gallery inference scope once in Discussion. Preserve the reviewed vector overview. Rebuild the complete manuscript from the revised source; the earlier PDF-only figure insertion is historical, not this revision's build workflow.
+
 ## Active decision override — ForeDance revision
 
 The author-approved 2026-09-09 plan in ../PAPER_AUDIT_AND_REVISION_PLAN_20260909.md supersedes conflicting historical decisions below. The active narrative is anticipatory music conditioning for streaming dance, supported by kinematics-guided D+C representation and paired training, and Commit Forcing. Use ForeDance provisionally, a venue-neutral format, FineDance only, heard-versus-predicted music as the anticipation comparison, and CoF versus TF as the continuation comparison. FHC and MMR are supporting material. Do not add wrong-time tests, human blind evaluation, runtime tables, or new training launches. Keep evidence gaps explicit. D+C figures show full and structure-only reconstruction; corrupted-detail training stays in text.

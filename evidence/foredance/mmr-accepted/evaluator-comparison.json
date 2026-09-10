@@ -1,0 +1,338 @@
+{
+  "comparison": "H_cosine5 minus R_cosine5; fixed gallery, matched motions",
+  "audit": "396 records verified against 36 pair-score matrices",
+  "results": {
+    "FD-DF-L-AM-FHC": {
+      "score": {
+        "R": {
+          "mean": 0.21048144909070923,
+          "ci95": [
+            0.1253999488795312,
+            0.2944461138511904
+          ],
+          "per_training_seed": {
+            "1234": 0.2071404032623703,
+            "2345": 0.20844982528823805,
+            "3456": 0.21585411872151933
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.20572327254980233,
+          "ci95": [
+            0.13372910304445426,
+            0.2790551435474906
+          ],
+          "per_training_seed": {
+            "1234": 0.1978428007828368,
+            "2345": 0.20670917988989343,
+            "3456": 0.21261783697667672
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.004758176540906897,
+          "ci95": [
+            -0.022785953330764722,
+            0.016124389186612083
+          ],
+          "per_training_seed": {
+            "1234": -0.009297602479533507,
+            "2345": -0.0017406453983446215,
+            "3456": -0.0032362817448425563
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "wrong_track_score": {
+        "R": {
+          "mean": 0.03190387903906167,
+          "ci95": [
+            0.0232053823116133,
+            0.03996361427333206
+          ],
+          "per_training_seed": {
+            "1234": 0.03041418724480037,
+            "2345": 0.03448277313325106,
+            "3456": 0.030814676739133563
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.028696193101785224,
+          "ci95": [
+            0.023095168849772165,
+            0.03503262046669271
+          ],
+          "per_training_seed": {
+            "1234": 0.02479554524491807,
+            "2345": 0.030234955915657537,
+            "3456": 0.03105807814478007
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.003207685937276441,
+          "ci95": [
+            -0.010363421058221637,
+            0.004319625321253066
+          ],
+          "per_training_seed": {
+            "1234": -0.005618641999882306,
+            "2345": -0.004247817217593524,
+            "3456": 0.00024340140564650797
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "margin": {
+        "R": {
+          "mean": 0.17857757005164757,
+          "ci95": [
+            0.0938455865568627,
+            0.26334019402832104
+          ],
+          "per_training_seed": {
+            "1234": 0.17672621601756994,
+            "2345": 0.173967052154987,
+            "3456": 0.18503944198238573
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.17702707944801713,
+          "ci95": [
+            0.10499241412810544,
+            0.25070739896440397
+          ],
+          "per_training_seed": {
+            "1234": 0.17304725553791875,
+            "2345": 0.1764742239742359,
+            "3456": 0.18155975883189668
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.0015504906036304582,
+          "ci95": [
+            -0.0178402816968593,
+            0.017026244574230073
+          ],
+          "per_training_seed": {
+            "1234": -0.003678960479651211,
+            "2345": 0.0025071718192488965,
+            "3456": -0.0034796831504890604
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "preference_accuracy": {
+        "R": {
+          "mean": 74.20274170274172,
+          "ci95": [
+            63.77340367965368,
+            84.15413059163059
+          ],
+          "per_training_seed": {
+            "1234": 74.51839826839827,
+            "2345": 73.43614718614718,
+            "3456": 74.65367965367965
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 75.68722943722943,
+          "ci95": [
+            67.1374007936508,
+            83.8495670995671
+          ],
+          "per_training_seed": {
+            "1234": 75.75757575757575,
+            "2345": 75.15151515151514,
+            "3456": 76.15259740259741
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": 1.4844877344877345,
+          "ci95": [
+            -0.9632034632034634,
+            4.5599747474747465
+          ],
+          "per_training_seed": {
+            "1234": 1.2391774891774874,
+            "2345": 1.7153679653679672,
+            "3456": 1.4989177489177492
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      }
+    },
+    "FD-DF-L-AJ-FHC": {
+      "score": {
+        "R": {
+          "mean": 0.20571008039745647,
+          "ci95": [
+            0.12389353340712886,
+            0.2884478012588036
+          ],
+          "per_training_seed": {
+            "1234": 0.2043160120109107,
+            "2345": 0.20106608462487624,
+            "3456": 0.2117481445565824
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.20004933863760016,
+          "ci95": [
+            0.1369362398306579,
+            0.268551283916374
+          ],
+          "per_training_seed": {
+            "1234": 0.1975261019155465,
+            "2345": 0.2031717188413258,
+            "3456": 0.19945019515592824
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.0056607417598562885,
+          "ci95": [
+            -0.028942577184155882,
+            0.0219973029422263
+          ],
+          "per_training_seed": {
+            "1234": -0.006789910095364246,
+            "2345": 0.0021056342164495517,
+            "3456": -0.012297949400654177
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "wrong_track_score": {
+        "R": {
+          "mean": 0.027400835808698034,
+          "ci95": [
+            0.018796864685545867,
+            0.03511765874610015
+          ],
+          "per_training_seed": {
+            "1234": 0.031027360628632775,
+            "2345": 0.02436201116085635,
+            "3456": 0.02681313563660497
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.023186116098494775,
+          "ci95": [
+            0.01784036015531593,
+            0.028065405301705877
+          ],
+          "per_training_seed": {
+            "1234": 0.025984653056978165,
+            "2345": 0.02143939128427739,
+            "3456": 0.022134303954228777
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.004214719710203254,
+          "ci95": [
+            -0.01217046744029493,
+            0.0030717860739787276
+          ],
+          "per_training_seed": {
+            "1234": -0.005042707571654613,
+            "2345": -0.002922619876578959,
+            "3456": -0.004678831682376194
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "margin": {
+        "R": {
+          "mean": 0.17830924458875844,
+          "ci95": [
+            0.09833170190127034,
+            0.2608168441921409
+          ],
+          "per_training_seed": {
+            "1234": 0.17328865138227795,
+            "2345": 0.17670407346401992,
+            "3456": 0.1849350089199774
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 0.17686322253910539,
+          "ci95": [
+            0.1126235551037791,
+            0.24514311126747057
+          ],
+          "per_training_seed": {
+            "1234": 0.1715414488585683,
+            "2345": 0.18173232755704843,
+            "3456": 0.17731589120169944
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": -0.001446022049653031,
+          "ci95": [
+            -0.02325367246377266,
+            0.023888483948181424
+          ],
+          "per_training_seed": {
+            "1234": -0.0017472025237096345,
+            "2345": 0.005028254093028522,
+            "3456": -0.007619117718277982
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      },
+      "preference_accuracy": {
+        "R": {
+          "mean": 75.01262626262626,
+          "ci95": [
+            65.16937229437231,
+            84.12878787878788
+          ],
+          "per_training_seed": {
+            "1234": 74.52922077922078,
+            "2345": 75.02164502164501,
+            "3456": 75.48701298701299
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H": {
+          "mean": 76.79112554112555,
+          "ci95": [
+            69.35191197691196,
+            83.9438582251082
+          ],
+          "per_training_seed": {
+            "1234": 76.15800865800865,
+            "2345": 77.57575757575758,
+            "3456": 76.63961038961041
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        },
+        "H_minus_R": {
+          "mean": 1.7784992784992786,
+          "ci95": [
+            -1.6270292207792219,
+            5.96505230880231
+          ],
+          "per_training_seed": {
+            "1234": 1.6287878787878776,
+            "2345": 2.5541125541125553,
+            "3456": 1.1525974025974024
+          },
+          "bootstrap_scope": "training seeds and songs; sampling seeds averaged within cells; descriptive"
+        }
+      }
+    }
+  }
+}
