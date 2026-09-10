@@ -35,3 +35,36 @@ The following pages were checked live for the added descriptions and bibliograph
 - Magenta RealTime 2 recorded as a technical web resource; FiLM retains volume without an incompatible inproceedings issue number.
 
 The additions provide literature context, not claims of experimentally beating those systems. CoF versus TF remains the approved comparison.
+
+## Merged bibliography and author display (2026-09-10)
+
+Compared the supplied 51-entry BibTeX list with the current 53-entry library using a BibTeX parser. Every supplied key was already present. The current-only entries, `zhou2019rotation` and `ho2020ddpm`, are both used in the method and are retained. There are no duplicate keys, normalized titles, DOI fields, or URL fields. The compiled manuscript cites 38 literature entries, with no unresolved citation keys; uncited literature remains in the library without forced inclusion in the manuscript.
+
+### Reconciliation decisions
+
+- Keep RTC and KungfuBot as NeurIPS 2025 proceedings papers, and SONIC as Science Robotics 11(117), eaed4592 (2026), rather than reverting to the supplied preprint records. Their primary sources are linked above. Preserve all citation keys, including keys whose embedded year predates or differs from the publication year.
+- Keep MRT2 as a web resource (`@misc`), match the official title's ampersand, and identify the source as the Magenta blog rather than assigning a formal technical-report status. [Official release and suggested citation](https://magenta.withgoogle.com/magenta-realtime-2).
+- Keep FiLM as a proceedings paper with volume 32; do not merge issue 1 into an `@inproceedings` entry that already has a volume, which this IEEEtran style rejects. Add the verified DOI and publisher URL. [AAAI record](https://ojs.aaai.org/index.php/AAAI/article/view/11671).
+- Update MERT from arXiv 2023 to ICLR 2024, retaining its complete 20-author list and citation key. [ICLR record](https://proceedings.iclr.cc/paper_files/paper/2024/hash/33dffa2e3d2ab74a783d1a8c292f66d9-Abstract-Conference.html).
+- Update MusicGen to NeurIPS 2023, volume 36, pp. 47704--47720, with its proceedings DOI. [Official record](https://proceedings.neurips.cc/paper_files/paper/2023/hash/94b472a1842cd7c56dcb125fb2765fbd-Abstract-Conference.html) and [BibTeX export](https://proceedings.neurips.cc/paper_files/paper/22279-/bibtex).
+- Update MusicFM to ICASSP 2024, pp. 1226--1230. Its three authors are unchanged. The [authors' repository](https://github.com/minzwon/musicfm) confirms the venue; [publisher-deposited Crossref metadata](https://api.crossref.org/works/10.1109/ICASSP48485.2024.10448314) supplies DOI, year, authors, and pages.
+- Update CLAP to ICASSP 2023, pp. 1--5, using the six-author published version. The preprint lists an additional author, Marianna Nezhurina; that list must not be mixed with the conference metadata. This is a publication-version correction, not author truncation. [Institutional publication record](https://cris.bgu.ac.il/en/publications/large-scale-contrastive-language-audio-pretraining-with-feature-f-2/) and [publisher-deposited metadata](https://api.crossref.org/works/10.1109/ICASSP49357.2023.10095969).
+- Update MuLan to ISMIR 2022, pp. 559--566, preserving all six authors. [Conference paper](https://archives.ismir.net/ismir2022/paper/000067.pdf).
+- Record MAP-Music2Vec as an ISMIR 2022 late-breaking/demo extended abstract, not a main-track paper. The venue name explicitly preserves that distinction; all 14 authors are retained. [Conference archive](https://archives.ismir.net/ismir2022/latebreaking/000049.pdf).
+- Complete SoulNet's ICCV 2025 pages (14420--14430) and use its conference URL. [CVF record](https://openaccess.thecvf.com/content/ICCV2025/html/Li_Music-Aligned_Holistic_3D_Dance_Generation_via_Hierarchical_Motion_Modeling_ICCV_2025_paper.html).
+- Complete the rotation paper's CVPR 2019 pages (5745--5753). [CVF record](https://openaccess.thecvf.com/content_CVPR_2019/html/Zhou_On_the_Continuity_of_Rotation_Representations_in_Neural_Networks_CVPR_2019_paper.html).
+- Complete DDPM's NeurIPS 2020 pages (6840--6851) and Diffusion Forcing's NeurIPS 2024 pages (24081--24125), following the official exports. [DDPM BibTeX](https://proceedings.neurips.cc/paper_files/paper/10298-/bibtex), [Diffusion Forcing BibTeX](https://proceedings.neurips.cc/paper_files/paper/25298-/bibtex).
+- Add the official VQ-VAE proceedings link. Its [official BibTeX](https://proceedings.neurips.cc/paper_files/paper/2017/file/7a98af17e63a0ac09ce2e96d03992fbc-Bibtex.bib) supplies no page range, so none is guessed.
+
+The merge and citation-coverage checks cover the entire supplied/current library. External verification in this pass targets conflicting versions and the missing/outdated fields listed above; it is not a claim that every unchanged field in all 53 works was independently verified. Unconfirmed publication changes and missing optional metadata are left untouched.
+
+### Author-list policy
+
+Full author lists remain in `Reference.bib` for the selected publication versions. The official, unmodified `IEEEtran.bst` is controlled through `ForeDance:BSTcontrol`: forced et al. enabled, maximum displayed author count 3, first 3 names shown, repeated-name dashes disabled. `main.tex` activates the control before its first citation. Works with at most three authors display all authors. The control entry does not print or consume a reference number. This setting implements the requested manuscript display; it is not asserted to be a mandatory RA-L author-truncation rule.
+
+### Build checks
+
+- The main manuscript compiles with 38 references and no undefined citations or BibTeX warnings.
+- A separate ignored-build-directory smoke document compiles all 53 works. Checks of both generated `.bbl` files confirm three displayed authors plus et al. for longer lists, no truncation for at most three authors, and no numbered control entry.
+- `3D`, `Python`, and `librosa` are case-protected in titles so sentence-case bibliography formatting does not corrupt these names.
+- No scientific prose, result values, or citation keys are changed by this bibliography pass. The reading PDF is regenerated; the official class and bibliography style remain unchanged.

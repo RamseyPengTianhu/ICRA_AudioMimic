@@ -1,19 +1,19 @@
 \section{Reference Delivery and Supporting Execution Diagnostics}
 \label{app:execution}
-\paragraph{Replay setup.}
+\paragraph{Replay setup}
 Four generated trajectories from one FineDance track and one sampling seed
 are replayed in MuJoCo for approximately 60\,s each.
 
-\paragraph{Reference construction and delivery.}
+\paragraph{Reference construction and delivery}
 A four-step latent commit contains eight 30\,Hz frames. A continuous 50\,Hz time grid yields 13 or 14 reference samples per commit without resetting the sampling phase at each packet. The controller receives committed references rather than motor torques. The four diagnostic replays use the same fixed SONIC controller at real-time playback, with no uncommitted-plan preview, clipping, startup ramp, or alignment hold. Initial state, delivered future-reference access, and packet timestamps are part of the protocol; full-trajectory delivery and committed-prefix delivery are not interchangeable controls. The trajectories begin at an artificial continuation point with empty motion history, rather than at full-song onset.
 
-\paragraph{Observed layers.}
+\paragraph{Observed layers}
 Let $M_{\mathrm{gen}}$, $M_{\mathrm{sent}}$, $M_{\mathrm{target}}$, and
 $M_{\mathrm{exec}}$ denote generated, resampled, consumed, and measured motion.
 Target and measured joints use named fields in MuJoCo order, with matched
 coordinate conventions, offsets, and timestamps.
 
-\paragraph{Conditions and measurements.}
+\paragraph{Conditions and measurements}
 The first three trajectories share cached forecast content but use different
 age traces: ideal age, the earlier measured trace, and a revised measured trace.
 The fourth uses live forecast content with the revised trace. These labels
@@ -30,7 +30,7 @@ For active joint $j$, amplitude and velocity-variation retention are
 \end{align}
 Only joints with a target percentile range above 0.02\,rad enter the active-joint summary, and ratios with near-zero denominators are excluded. The reported retention values are medians of joint-wise ratios. The dynamic ratio measures squared joint velocity; it is not physical energy or a whole-body energy ratio. Joint-position RMSE is evaluated after time alignment. Alignment lag is estimated within $\pm0.5$\,s on the 50\,Hz grid; the four recorded estimates are 40\,ms, which is a case-specific alignment result rather than a general controller or system latency. Steady-state summaries exclude the first two seconds, so they do not establish startup behavior.
 
-\begin{table}[h]
+\begin{table*}[t]
 \centering\small
 \caption{\textbf{Supporting fixed-reference replay measurements.} Data from the earlier 34D generator, separate from the current 38D cohort. Each row is one MuJoCo replay through fixed SONIC, excluding its first two seconds; music inference is not run during replay.}
 \label{tab:execution_diagnostics}
@@ -38,9 +38,9 @@ Only joints with a target percentile range above 0.02\,rad enter the active-join
 Reference-generation condition & Aligned RMSE (rad) & Median $R^{\mathrm{amp}}$ & Median $R^{\mathrm{dyn}}$\\\midrule
 \inputtable{evidence/foredance/team-execution/tracking_rows.tex}
 \bottomrule\end{tabular}
-\end{table}
+\end{table*}
 
-\paragraph{Interpretation.}
+\paragraph{Interpretation}
 Amplitude retention ranges from 0.858 to 0.901, while squared-velocity retention
 ranges from 0.411 to 0.496. Position tracking thus coexists with dynamic
 attenuation. High-frequency variation can include articulation and jitter;

@@ -1,6 +1,6 @@
 \section{Representation and Training Details}
 \label{app:training}
-\paragraph{Kinematic reconstruction losses.}
+\paragraph{Kinematic reconstruction losses}
 The full view contains four blocks: native motion, native velocity, forward-kinematics positions, and geometry velocity. Each block is standardized with training-split statistics. For a view $\Phi$ with blocks $\Phi^{(k)}$, define the reconstruction error
 \begin{equation}
 \mathcal E_{\Phi}(\hat x,x)=\frac{1}{4}\sum_{k=1}^{4}
@@ -12,28 +12,28 @@ For the auxiliary robustness objective, the residual is zeroed with probability 
 
 The boundary loss supervises the first three decoded frames relative to the supplied boundary. It combines normalized smooth-$L_1$ errors for velocity, acceleration, and jerk with weights 1, 0.5, and 0.25, respectively, plus pelvis-rotation geodesic error with weight 1. These quantities explicitly penalize a reconstructed segment whose beginning is inconsistent with the target transition.
 
-\paragraph{Body-part supervision views.}
+\paragraph{Body-part supervision views}
 In the native block, structure selects the first 24 of 38 coordinates: nine root coordinates, twelve leg joints, and three waist joints. The remaining 14 coordinates are the bilateral shoulder (three per arm), elbow (one), and wrist (three) joints. In the 35-dimensional velocity block, structure selects the first 21 coordinates: root linear/angular velocity and the same 15 leg/waist joint velocities. The other 14 are arm-joint velocities.
 
 The geometry block contains 31 points: 29 non-root body origins and two lowest-foot geometry points. Structure selects the torso, the two wrist-yaw body origins, and the two lowest-foot points. Detail selects the remaining 26 points. Geometry velocity uses the same partition. These are supervision and analysis views, not independent anatomical decoders. In particular, the structural geometry view can constrain wrist placement while the complementary native view describes arm articulation.
 
-\paragraph{Generator optimization and initialization.}
+\paragraph{Generator optimization and initialization}
 The update budget in Section~\ref{sec:experimental_setup} corresponds to
 300,000 training windows. Residual sampling uses guidance fixed at 1.0;
 the music model remains frozen during generator training.
 
-\paragraph{History regularization.}
+\paragraph{History regularization}
 FHC applies to the complete 64-step history with probability 0.5 per example. The discrete embeddings and continuous residual history share a severity timestep sampled from 850--999, with independent Gaussian noise. Their masks and timestamps are preserved, as are the boundary state and forecast conditions. Corruption is applied in the supervised pass after CoF context construction and is disabled at inference.
 
-\paragraph{Constructing CoF transitions.}
+\paragraph{Constructing CoF transitions}
 Figure~\ref{fig:cof_training_detail} details the construction. Each training example independently samples a first-pass transition from its supplied context. The committed discrete and residual prefixes enter the history together, and their decoded motion determines the next boundary state. The next recorded structural and latent targets remain fixed. Residual rebasing expresses that latent target relative to the sampled structure; it does not re-encode the target under the generated boundary. This construction trains local continuation after a generated commit without requiring a fully recursive long training rollout.
 
-\begin{figure}[p]
+\begin{figure*}[t]
 \centering
 \input{figures/commit_forcing_v2}
 \caption{\textbf{Commit Forcing transition construction and supervision.} A sampled, jointly committed structure--detail prefix supplies the next history and reference boundary. The next dataset latent remains fixed; residual rebasing expresses it relative to the sampled next structure. This preserves the latent target, while the changed boundary can change its decoded motion. The two stages are constructed independently for each supplied training example.}
 \label{fig:cof_training_detail}
-\end{figure}
+\end{figure*}
 
 \section{Evaluation Protocol}
 \label{app:scope}
@@ -47,7 +47,7 @@ estimates.
 
 \subsection{Metric Construction and Version Boundaries}
 \label{app:metric_construction}
-\paragraph{Learned evaluator construction.}
+\paragraph{Learned evaluator construction}
 The archived G1 evaluation pipeline combines 35-dimensional librosa temporal
 audio descriptors with frozen MuQ-large global audio
 features~\cite{mcfee2015librosa,zhu2025muq}. Audio and native G1 motion branches
@@ -72,7 +72,7 @@ must match. A global-only distance is not this complete score. The current
 binding their evaluator receipt to this exact formula, feature fusion, input
 channels, and normalization remains a metric-provenance check before submission.
 
-\paragraph{Calibration.}
+\paragraph{Calibration}
 Correct-versus-wrong-song and wrong-time margins, retrieval with declared
 candidate pools, and controlled motion degradation test metric sensitivity.
 Same-song multiple performances are valid positives, not false negatives.
@@ -84,7 +84,7 @@ from generation generalization, and neither establishes evaluator validity on
 executed trajectories. The final evaluator training, calibration, and test-song
 manifests must make any reuse explicit.
 
-\paragraph{G1 distribution and local-motion features.}
+\paragraph{G1 distribution and local-motion features}
 Kinetic descriptors summarize motion dynamics, while geometric descriptors
 summarize body configurations and spatial relations in the G1 domain.
 FID compares feature means and covariances with those of retargeted references;
@@ -97,7 +97,7 @@ it is not a mean of single-song FIDs. For future execution scoring, generation
 and execution must use identical feature extraction. Exact feature lists and
 activity/contact thresholds require the corresponding implementation receipt.
 
-\paragraph{Beat and dynamic-response measures.}
+\paragraph{Beat and dynamic-response measures}
 For motion-event times $\mathcal B_x$ and music-beat times $\mathcal B_a$,
 the motion-to-music BAS definition is
 \begin{equation}
@@ -125,7 +125,7 @@ permission to retime primary music scores.
 Table~\ref{tab:training} provides the full values for the comparison in
 Section~\ref{sec:matching_quality}.
 
-\begin{table}[h]
+\begin{table*}[t]
 \centering\small
 \caption{\textbf{Effect of history corruption on the full 18-track cohort.} Lower is favorable for MMR-MS, FID, and PFC. Diversity describes motion spread and is interpreted together with fidelity.}
 \label{tab:training}
@@ -133,6 +133,6 @@ Section~\ref{sec:matching_quality}.
 Startup & History & MMR-MS & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
 \inputtable{evidence/foredance/training_rows.tex}
 \bottomrule\end{tabular}
-\end{table}
+\end{table*}
 
 \input{sections/execution_supplement}

@@ -21,13 +21,13 @@ sampling settings fixed. The downstream SONIC controller is fixed.
 
 \subsection{Evaluation Protocol}
 \label{sec:evaluation_protocol}
-\paragraph{Trajectory sources.}
+\paragraph{Trajectory sources}
 The protocol distinguishes retargeted references, generated motion, and their
 executed counterparts. Generated motion concatenates committed prefixes.
 All paired scores use the same soundtrack interval and preprocessing; execution
 comparisons additionally retain initialization and reference-preview settings.
 
-\paragraph{Music--motion matching.}
+\paragraph{Music--motion matching}
 A frozen G1 audio--motion evaluator, trained independently of the generator,
 maps paired music and motion to a shared space. Following the alignment
 motivation of SoulNet~\cite{li2025soulnet}, MMR-MS combines sequence-level
@@ -35,14 +35,14 @@ correspondence and temporal feature variation; lower is better.
 Appendix~\ref{app:metric_construction} describes the evaluator construction
 and calibration.
 
-\paragraph{Dance quality.}
+\paragraph{Dance quality}
 Kinetic and geometric Fr\'echet distances (FID$_k$, FID$_g$) compare G1 motion
 features with retargeted reference distributions. Diversity (Div$_k$, Div$_g$)
 uses pairwise distances in the same feature spaces. Feature extraction,
 normalization, and reference collections are fixed within each comparison.
 Joint jerk, activity, and root/contact proxies complement distribution scores.
 
-\paragraph{Rhythm and adaptation.}
+\paragraph{Rhythm and adaptation}
 Beat Alignment Score (BAS) measures the proximity of motion accents to music
 beats. Event coverage and onset--motion correlation complement rhythmic
 alignment. Controlled music interventions test whether generated movement
@@ -50,7 +50,7 @@ responds appropriately to the specified soundtrack.
 Primary music scores retain the audio timeline; lag alignment is used only
 for tracking diagnostics.
 
-\paragraph{Statistics.}
+\paragraph{Statistics}
 We use the complete test cohort and 10,000 hierarchical bootstrap draws,
 resampling training seeds and then tracks after averaging sampling repeats
 within each track. FID is evaluated on feature collections rather than
@@ -70,7 +70,7 @@ while mixed-start contact and jerk measures favor clean history.
 The results indicate a distribution--smoothness tradeoff rather than uniform
 improvement. Complete values appear in Appendix~\ref{app:fhc}.
 
-\paragraph{Qualitative generation.}
+\paragraph{Qualitative generation}
 \label{sec:showcase}
 Figure~\ref{fig:sequence} shows reference poses at 10, 30, and 50\,s from one
 selected 60\,s rollout.
@@ -81,14 +81,14 @@ selected 60\,s rollout.
 \label{fig:sequence}
 \end{figure*}
 
-\paragraph{Perceptual protocol.}
+\paragraph{Perceptual protocol}
 The planned blinded comparison separates silent-video ratings of naturalness
 and expressiveness from audio-enabled music-fit ratings, with matched
 presentation and randomized method order.
 
 \subsection{Music Adaptation}
 \label{sec:music_results}
-\paragraph{Music-condition use.}
+\paragraph{Music-condition use}
 Table~\ref{tab:music_use} compares forecast-conditioned models with separately
 trained no-music controls. Mixed-start training reduces MMR-MS by 0.782
 (95\% interval [0.294, 1.285]); continuation-start training reduces it by 1.123
@@ -103,7 +103,7 @@ Startup & Improvement & 95\% interval\\\midrule
 \bottomrule\end{tabular}
 \end{table}
 
-\paragraph{Forecast versus heard music.}
+\paragraph{Forecast versus heard music}
 The matched design in Table~\ref{tab:anticipation} varies the music states while
 fixing representation, conditioning capacity, CoF, startup, and training budget.
 \begin{table*}[t]
@@ -117,7 +117,7 @@ Predicted-music states & \pendingcell & \pendingcell & \pendingcell & \pendingce
 \end{tabular}
 \end{table*}
 
-\paragraph{Conditional specificity.}
+\paragraph{Conditional specificity}
 The paired intervention protocol uses correct, exact-null, same-track wrong-time,
 same-genre wrong-track, cross-genre wrong-track, and $\pm4$ music-frame shifts
 ($\pm160$\,ms). Initial history, boundary state, and sampling seed are matched;

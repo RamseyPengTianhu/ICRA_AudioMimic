@@ -1,5 +1,13 @@
+% Keep complete author lists; IEEEtran truncates only the printed bibliography.
+@IEEEtranBSTCTL{ForeDance:BSTcontrol,
+  CTLuse_forced_etal       = {yes},
+  CTLmax_names_forced_etal = {3},
+  CTLnames_show_etal       = {3},
+  CTLdash_repeated_names   = {no}
+}
+
 @inproceedings{li2021aist,
-  title     = {{AI Choreographer}: Music Conditioned 3D Dance Generation with {AIST++}},
+  title     = {{AI Choreographer}: Music Conditioned {3D} Dance Generation with {AIST++}},
   author    = {Li, Ruilong and Yang, Shan and Ross, David A. and Kanazawa, Angjoo},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
   pages     = {13401--13412},
@@ -8,7 +16,7 @@
 }
 
 @inproceedings{siyao2022bailando,
-  title     = {{Bailando}: 3D Dance Generation by Actor-Critic {GPT} with Choreographic Memory},
+  title     = {{Bailando}: {3D} Dance Generation by Actor-Critic {GPT} with Choreographic Memory},
   author    = {Siyao, Li and Yu, Weijiang and Gu, Tianpei and Lin, Chunze and Wang, Quan and Qian, Chen and Loy, Chen Change and Liu, Ziwei},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   pages     = {11050--11059},
@@ -33,7 +41,7 @@
 }
 
 @inproceedings{li2023finedance,
-  title     = {{FineDance}: A Fine-Grained Choreography Dataset for 3D Full Body Dance Generation},
+  title     = {{FineDance}: A Fine-Grained Choreography Dataset for {3D} Full Body Dance Generation},
   author    = {Li, Ronghui and Zhao, Junfan and Zhang, Yachao and Su, Mingyang and Ren, Zeping and Zhang, Han and Tang, Yansong and Li, Xiu},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
   pages     = {10234--10243},
@@ -49,7 +57,7 @@
 }
 
 @inproceedings{yang2025megadance,
-  title     = {{MEGADance}: Mixture-of-Experts Architecture for Genre-Aware 3D Dance Generation},
+  title     = {{MEGADance}: Mixture-of-Experts Architecture for Genre-Aware {3D} Dance Generation},
   author    = {Yang, Kaixing and Tang, Xulong and Peng, Ziqiao and Hu, Yuxuan and He, Jun and Liu, Hongyan},
   booktitle = {Advances in Neural Information Processing Systems},
   volume    = {38},
@@ -59,7 +67,7 @@
 }
 
 @inproceedings{zhang2026opendance,
-  title     = {{OpenDance}: Multimodal Controllable 3D Dance Generation with Large-Scale Internet Data},
+  title     = {{OpenDance}: Multimodal Controllable {3D} Dance Generation with Large-Scale Internet Data},
   author    = {Zhang, Jinlu and Kang, Zixi and Liu, Libin and Chang, Jianlong and Tian, Qi and Gao, Feng and Wang, Yizhou},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   pages     = {28860--28870},
@@ -90,6 +98,7 @@
   author    = {Chen, Boyuan and Mart{\'i} Mons{\'o}, Diego and Du, Yilun and Simchowitz, Max and Tedrake, Russ and Sitzmann, Vincent},
   booktitle = {Advances in Neural Information Processing Systems},
   volume    = {37},
+  pages     = {24081--24125},
   year      = {2024},
   doi       = {10.52202/079017-0759}
 }
@@ -161,7 +170,8 @@
   author    = {van den Oord, Aaron and Vinyals, Oriol and Kavukcuoglu, Koray},
   booktitle = {Advances in Neural Information Processing Systems},
   volume    = {30},
-  year      = {2017}
+  year      = {2017},
+  url       = {https://proceedings.neurips.cc/paper/2017/hash/7a98af17e63a0ac09ce2e96d03992fbc-Abstract.html}
 }
 
 @inproceedings{zhang2023t2mgpt,
@@ -181,7 +191,7 @@
 }
 
 @inproceedings{guo2024momask,
-  title     = {{MoMask}: Generative Masked Modeling of 3D Human Motions},
+  title     = {{MoMask}: Generative Masked Modeling of {3D} Human Motions},
   author    = {Guo, Chuan and Mu, Yuxuan and Javed, Muhammad Gohar and Wang, Sen and Cheng, Li},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   pages     = {1900--1910},
@@ -217,7 +227,9 @@
   booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
   volume    = {32},
   pages     = {3942--3951},
-  year      = {2018}
+  year      = {2018},
+  doi       = {10.1609/aaai.v32i1.11671},
+  url       = {https://ojs.aaai.org/index.php/AAAI/article/view/11671}
 }
 
 @inproceedings{yuan2023physdiff,
@@ -295,11 +307,11 @@
 }
 
 @misc{magenta2026mrt2,
-  title  = {{Magenta RealTime 2}: Open and Local Live Music Models},
+  title  = {{Magenta RealTime 2}: Open \& Local Live Music Models},
   author = {{Magenta Team}},
   year   = {2026},
   month  = jun,
-  note   = {Google DeepMind technical report},
+  howpublished = {Magenta blog},
   url    = {https://magenta.withgoogle.com/magenta-realtime-2}
 }
 
@@ -312,17 +324,19 @@
 }
 
 @inproceedings{li2025soulnet,
-  title     = {Music-Aligned Holistic 3D Dance Generation via Hierarchical Motion Modeling},
+  title     = {Music-Aligned Holistic {3D} Dance Generation via Hierarchical Motion Modeling},
   author    = {Li, Xiaojie and Li, Ronghui and Fang, Shukai and Xie, Shuzhao and Guo, Xiaoyang and Zhou, Jiaqing and Peng, Junkun and Wang, Zhi},
-  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages     = {14420--14430},
   year      = {2025},
-  url       = {https://arxiv.org/abs/2507.14915}
+  url       = {https://openaccess.thecvf.com/content/ICCV2025/html/Li_Music-Aligned_Holistic_3D_Dance_Generation_via_Hierarchical_Motion_Modeling_ICCV_2025_paper.html}
 }
 
 @inproceedings{zhou2019rotation,
   title = {On the Continuity of Rotation Representations in Neural Networks},
   author = {Zhou, Yi and Barnes, Connelly and Lu, Jingwan and Yang, Jimei and Li, Hao},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages = {5745--5753},
   year = {2019},
   url = {https://openaccess.thecvf.com/content_CVPR_2019/papers/Zhou_On_the_Continuity_of_Rotation_Representations_in_Neural_Networks_CVPR_2019_paper.pdf}
 }
@@ -332,6 +346,7 @@
   author = {Ho, Jonathan and Jain, Ajay and Abbeel, Pieter},
   booktitle = {Advances in Neural Information Processing Systems},
   volume = {33},
+  pages = {6840--6851},
   year = {2020},
   url = {https://proceedings.neurips.cc/paper/2020/hash/4c5bcfec8584af0d967f1ab10179ca4b-Abstract.html}
 }
@@ -397,7 +412,7 @@
 }
 
 @inproceedings{mcfee2015librosa,
-  title     = {librosa: Audio and Music Signal Analysis in Python},
+  title     = {{librosa}: Audio and Music Signal Analysis in {Python}},
   author    = {McFee, Brian and Raffel, Colin and Liang, Dawen
                and Ellis, Daniel P. W. and McVicar, Matt
                and Battenberg, Eric and Nieto, Oriol},
@@ -407,7 +422,7 @@
   url       = {https://proceedings.scipy.org/articles/Majora-7b98e3ed-003}
 }
 
-@article{li2022music2vec,
+@inproceedings{li2022music2vec,
   title   = {{MAP-Music2Vec}: A Simple and Effective Baseline
              for Self-Supervised Music Audio Representation Learning},
   author  = {Li, Yizhi and Yuan, Ruibin and Zhang, Ge
@@ -415,12 +430,12 @@
              and Ragni, Anton and Yin, Hanzhi and Hu, Zhijie
              and He, Haoyu and Benetos, Emmanouil and Gyenge, Norbert
              and Liu, Ruibo and Fu, Jie},
-  journal = {arXiv preprint arXiv:2212.02508},
+  booktitle = {Extended Abstracts for the Late-Breaking Demo Session of the 23rd International Society for Music Information Retrieval Conference},
   year    = {2022},
-  url     = {https://arxiv.org/abs/2212.02508}
+  url     = {https://archives.ismir.net/ismir2022/latebreaking/000049.pdf}
 }
 
-@article{li2023mert,
+@inproceedings{li2023mert,
   title   = {{MERT}: Acoustic Music Understanding Model
              with Large-Scale Self-supervised Training},
   author  = {Li, Yizhi and Yuan, Ruibin and Zhang, Ge
@@ -430,17 +445,19 @@
              and Dannenberg, Roger and Liu, Ruibo and Chen, Wenhu
              and Xia, Gus and Shi, Yemin and Huang, Wenhao
              and Wang, Zili and Guo, Yike and Fu, Jie},
-  journal = {arXiv preprint arXiv:2306.00107},
-  year    = {2023},
-  url     = {https://arxiv.org/abs/2306.00107}
+  booktitle = {International Conference on Learning Representations},
+  year    = {2024},
+  url     = {https://proceedings.iclr.cc/paper_files/paper/2024/hash/33dffa2e3d2ab74a783d1a8c292f66d9-Abstract-Conference.html}
 }
 
-@article{won2023musicfm,
+@inproceedings{won2023musicfm,
   title   = {A Foundation Model for Music Informatics},
   author  = {Won, Minz and Hung, Yun-Ning and Le, Duc},
-  journal = {arXiv preprint arXiv:2311.03318},
-  year    = {2023},
-  url     = {https://arxiv.org/abs/2311.03318}
+  booktitle = {Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing},
+  pages   = {1226--1230},
+  year    = {2024},
+  doi     = {10.1109/ICASSP48485.2024.10448314},
+  url     = {https://ieeexplore.ieee.org/document/10448314}
 }
 
 @article{zhu2025muq,
@@ -454,34 +471,39 @@
   url     = {https://arxiv.org/abs/2501.01108}
 }
 
-@article{wu2022clap,
+@inproceedings{wu2022clap,
   title   = {Large-scale Contrastive Language-Audio Pretraining
              with Feature Fusion and Keyword-to-Caption Augmentation},
   author  = {Wu, Yusong and Chen, Ke and Zhang, Tianyu
-             and Hui, Yuchen and Nezhurina, Marianna
-             and Berg-Kirkpatrick, Taylor and Dubnov, Shlomo},
-  journal = {arXiv preprint arXiv:2211.06687},
-  year    = {2022},
-  url     = {https://arxiv.org/abs/2211.06687}
+             and Hui, Yuchen and Berg-Kirkpatrick, Taylor and Dubnov, Shlomo},
+  booktitle = {Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing},
+  pages   = {1--5},
+  year    = {2023},
+  doi     = {10.1109/ICASSP49357.2023.10095969},
+  url     = {https://ieeexplore.ieee.org/document/10095969}
 }
 
-@article{huang2022mulan,
+@inproceedings{huang2022mulan,
   title   = {{MuLan}: A Joint Embedding of Music Audio
              and Natural Language},
   author  = {Huang, Qingqing and Jansen, Aren and Lee, Joonseok
              and Ganti, Ravi and Li, Judith Yue
              and Ellis, Daniel P. W.},
-  journal = {arXiv preprint arXiv:2208.12415},
+  booktitle = {Proceedings of the 23rd International Society for Music Information Retrieval Conference},
+  pages   = {559--566},
   year    = {2022},
-  url     = {https://arxiv.org/abs/2208.12415}
+  url     = {https://archives.ismir.net/ismir2022/paper/000067.pdf}
 }
 
-@article{copet2023musicgen,
+@inproceedings{copet2023musicgen,
   title   = {Simple and Controllable Music Generation},
   author  = {Copet, Jade and Kreuk, Felix and Gat, Itai
              and Remez, Tal and Kant, David and Synnaeve, Gabriel
              and Adi, Yossi and D{\'e}fossez, Alexandre},
-  journal = {arXiv preprint arXiv:2306.05284},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume  = {36},
+  pages   = {47704--47720},
   year    = {2023},
-  url     = {https://arxiv.org/abs/2306.05284}
+  doi     = {10.52202/075280-2066},
+  url     = {https://proceedings.neurips.cc/paper_files/paper/2023/hash/94b472a1842cd7c56dcb125fb2765fbd-Abstract-Conference.html}
 }

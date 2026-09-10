@@ -1,17 +1,16 @@
-\documentclass[10pt,twocolumn]{article}
-\usepackage[a4paper,margin=0.72in,columnsep=0.25in]{geometry}
+\documentclass[letterpaper,10pt,conference]{ieeeconf}
+\overrideIEEEmargins
 \usepackage[T1]{fontenc}
-\usepackage{lmodern,microtype}
+\usepackage{mathptmx,microtype}
 \usepackage{amsmath,amssymb,bm,graphicx,booktabs,array}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
-\usepackage[numbers,sort&compress]{natbib}
+\usepackage{cite}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
 \urlstyle{same}
-\usepackage{caption}
-\captionsetup{font=small,labelfont=bf}
+\hypersetup{pdftitle={ForeDance: Structured Streaming Dance Generation with Anticipatory Music Conditioning},pdfauthor={}}
 \definecolor{music}{HTML}{007F7A}
 \definecolor{structure}{HTML}{315DA8}
 \definecolor{detail}{HTML}{B76524}
@@ -23,15 +22,14 @@
 \newcommand{\inputtable}[1]{\@@input #1 }
 \makeatother
 \newcommand{\pendingcell}{\textemdash}
-\setlength{\parindent}{1em}
-\setlength{\textfloatsep}{11pt plus 2pt minus 2pt}
-\setlength{\floatsep}{9pt plus 2pt minus 2pt}
-\title{\vspace{-1.5em}\textbf{ForeDance: Structured Streaming Dance Generation\\with Anticipatory Music Conditioning}}
-\author{}
-\date{}
+\title{\LARGE\bfseries ForeDance: Structured Streaming Dance Generation\\with Anticipatory Music Conditioning}
+% Reserve the author byline without identifying information for double-anonymous review.
+\author{\vphantom{Anonymous Authors}}
 \begin{document}
-\raggedbottom
+\bstctlcite{ForeDance:BSTcontrol}
 \maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
 \begin{abstract}
 Streaming dance must prepare movements for music that has not yet arrived while continuing from an irrevocable motion prefix. This couples musical anticipation with the problem of generating coherent motion over successive decisions. We present \method{}, a streaming dance framework that obtains forward-looking conditions from a frozen causal music model. Forecast states guide a discrete structural planner and a continuous-detail generator, providing musical lookahead without access to future audio. To make these motion components complementary, we introduce kinematics-guided structure--detail decoupling together with its training objectives: structural reconstruction preserves designated body organization and endpoint geometry, while full reconstruction retains the complete motion. \cof{} trains continuation from jointly committed structure and detail and the boundary state reconstructed from their decoded movement. On FineDance, forecast-conditioned models reduce a frozen music--motion matching distance relative to matched no-music training by 0.782 and 1.123 under two startup settings, with positive paired 95\% intervals and consistent directions across three training seeds. These results establish that causal music forecasts provide usable conditioning within the structured streaming framework.
 \end{abstract}
@@ -40,10 +38,9 @@ Streaming dance must prepare movements for music that has not yet arrived while 
 \input{sections/method}
 \input{sections/experiments}
 \input{sections/discussion}
-\bibliographystyle{plainnat}
-\bibliography{Reference}
-\clearpage
-\appendix
-\onecolumn
+% Appendices remain part of the manuscript and count toward the eight-page maximum.
+\appendices
 \input{sections/supplement}
+\bibliographystyle{IEEEtran}
+\bibliography{Reference}
 \end{document}

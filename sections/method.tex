@@ -32,7 +32,7 @@ The forecaster remains frozen while the dance generator learns to interpret thes
 \label{sec:dc}
 The representation must retain both coordinated body motion and the articulation needed to realize it. We impose this division through kinematic reconstruction views, then use the resulting discrete and continuous codes in a coupled generator.
 
-\paragraph{Native motion and boundary state.}
+\paragraph{Native motion and boundary state}
 We represent motion directly in the robot's configuration space, including full pelvis orientation. A fixed yaw anchor $R_A$ is removed once for a motion sequence, and every frame stores absolute orientation in that anchor:
 \begin{align}
  R_t^A&=R_A^\top R_t^{\rm world},\\
@@ -49,7 +49,7 @@ The corresponding 71-dimensional boundary state is
 \end{equation}
 The state contains pelvis height, local planar and vertical velocities, orientation, angular velocity $\omega_t$, joint angles, and joint velocities. Conditioning on these quantities makes the starting pose and motion explicit at each segment boundary. They are reconstructed from the committed reference.
 
-\paragraph{Complementary latent roles.}
+\paragraph{Complementary latent roles}
 A boundary-conditioned encoder maps motion to a 16-dimensional latent per step:
 \begin{equation}
  z_i=e(q_i)+r_i,\qquad q_i\in\{1,\ldots,512\},\quad r_i\in\mathbb R^{16}.
@@ -57,7 +57,7 @@ A boundary-conditioned encoder maps motion to a 16-dimensional latent per step:
 \end{equation}
 Here $e(q_i)$ is the selected codebook embedding. A shared decoder $D_\psi(z,b)$ maps their sum to native motion. The discrete code supplies the structural hypothesis, and the residual adjusts the motion within that hypothesis. Their complementary roles are encouraged by the reconstruction objectives below; both contribute through the same decoder.
 
-\paragraph{Training the division of labor.}
+\paragraph{Training the division of labor}
 Let $\Phi_f$ contain native motion, boundary-aware motion velocities, forward-kinematics positions, and their velocities, each standardized using training data. In the native-motion and velocity blocks, the structural view $\Phi_s$ selects root quantities, both legs, and the waist; the complementary detail view contains the 14 arm-joint coordinates. In the geometry blocks, structure selects the torso, both wrist endpoints, and both sole points, while detail contains the remaining body points. Positions and their velocities use the same point partition. This couples body organization to endpoint placement: for example, wrist position is structural even though the corresponding arm-joint articulation lies in the complementary native view. The detail view is the exact complement within each block. Equal block weighting avoids letting a high-dimensional geometry block dominate.
 
 Let $\mathrm{sg}$ denote stop-gradient. For encoder output $z$, embedding $e$, and $r=z-\mathrm{sg}(e)$, we form full and structure-only reconstructions, together with an auxiliary residual-corrupted reconstruction:
@@ -84,7 +84,7 @@ The final term supervises boundary-transition derivatives and pelvis orientation
 \label{fig:dc}
 \end{figure*}
 
-\paragraph{Coupled generation.}
+\paragraph{Coupled generation}
 A causal Transformer samples structural tokens autoregressively. A continuous diffusion generator~\cite{ho2020ddpm} conditions on the sampled structure, history, state, and forecast music to predict residual detail. We use ten DDIM steps~\cite{song2021ddim}. The structural planner uses a classification objective, and the detail generator uses a denoising objective. Conditioning detail on the sampled structure connects their decisions before decoding. Committing the same prefix of both branches preserves that pairing across successive plans.
 
 \subsection{Commit Forcing}
@@ -95,7 +95,7 @@ A committed motion segment changes two inputs to the next decision: the latent h
 \end{equation}
 The next supervised plan receives this complete context. Substituting the whole transition avoids pairing generated codes with a boundary state taken from a different recorded transition.
 
-\paragraph{Residual targets under sampled structure.}
+\paragraph{Residual targets under sampled structure}
 For the next dataset target $z^*=e(q^*)+r^*$ and sampled structural token $\hat q$, define
 \begin{equation}
  r^*_{\rm rebased}=z^*-e(\hat q).
@@ -112,7 +112,7 @@ The key operation is the joint transition: generated structure, generated detail
 \label{fig:cof}
 \end{figure*}
 
-\paragraph{Supporting training choices.}
+\paragraph{Supporting training choices}
 Full-history corruption (FHC) perturbs the complete discrete-embedding and residual history during supervised training, while leaving boundary state and forecast music unchanged. It is applied after CoF context construction and is absent at inference. This regularizes the history input across the complete context window. We consider two startup settings---mixed song-origin starts and ordinary continuation---and report their effects separately in the experiments.
 
 \input{sections/execution_interface}
