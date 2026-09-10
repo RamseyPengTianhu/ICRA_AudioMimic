@@ -82,7 +82,7 @@ and dance quality at the generated-reference and executed-trajectory layers.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/foredance/overview.png}
+\includegraphics[width=\textwidth]{figures/foredance/overview.pdf}
 \caption{\textbf{ForeDance overview.} \textbf{Top:} heard audio supplies a causal forecast of upcoming music states. \textbf{Middle:} the forecast conditions both discrete structure and continuous detail; structure also conditions detail. Their sum passes through a shared decoder, and the committed prefix updates the motion history and reference-derived boundary state for the next decision. \textbf{Bottom:} kinematic supervision gives the two latent components complementary roles, while Commit Forcing trains continuation from a jointly generated history--state pair. Robot poses illustrate the representation and output interface; they are schematic, not experimental or hardware execution evidence.}
 \label{fig:overview}
 \end{figure*}

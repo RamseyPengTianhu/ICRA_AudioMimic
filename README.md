@@ -58,6 +58,8 @@ No custom page geometry, title-space compression, caption package, or single-col
 
 Method diagrams were produced with the built-in imagegen tool and visually checked. The interface has no model or quality selector: the requested Image 2.5 / highest-level sunburst setting could not be verified. No generated illustration is used as measured dance or execution evidence.
 
+Figure 1 uses `figures/foredance/overview.pdf`, exported from the editable `overview.svg`. Labels and diagram geometry are vectors; the original robot artwork and official Magenta RealTime 2 application icon are embedded images. Author review replaced explanatory notes with visual cues and expanded the representation and training names. The current 12-page reading copy preserves the latest upstream PDF’s exact typography using `scripts/place_overview_in_pdf.py`; the local Tectonic build is 13 pages and is retained separately in `build/main.pdf`. The source image reference is updated for subsequent pdfLaTeX/Overleaf builds. Rebuild with `scripts/build_overview_vector.py`; see `evidence/foredance/OVERVIEW_VECTOR.md` for provenance and checks.
+
 The editable `.tex` figure layouts are retained as schematic sources. They are not pixel-identical reproductions of the generated assets. Previous image drafts remain named separately and are not active manuscript figures.
 
 The original local manuscript and its uncommitted changes were backed up outside this repository in `../paper-backups/pre-foredance-20260909-203922.tar.gz`. No new training or controller experiment is part of this revision. The user authorized publishing the checked integration to GitHub on 2026-09-10.

@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-11",
+  "upstream_commit": "4b01016ef921f1b647c7ee0460ea5ee05498167a",
+  "upstream_page_count": 12,
+  "delivered_page_count": 12,
+  "changed_pages_vs_upstream_pdf": [
+    3
+  ],
+  "outside_figure_text_unchanged": true,
+  "delivery_method": "Replace overview drawing in the latest upstream PDF without typography reflow; source include points to vector PDF.",
+  "source_compile": "Succeeded with local Tectonic; 13 pages due to engine/layout differences. build/main.pdf retains this diagnostic build. Delivered ForeDance.pdf preserves upstream pdfTeX typography and 12 pages.",
+  "figure_raster_objects": 4,
+  "figure_vector_drawings": 613,
+  "svg_text_elements": 69,
+  "review_comments_applied": true,
+  "files": {
+    "figures/foredance/overview.png": "b636d014e2337b8ae210b24e2ae71fc47b202b892d25e27b8fa8530fd6c71af6",
+    "figures/foredance/overview.svg": "8f567e1663100281188a7c87d1ab22570aa3b1cb52476635fa5ebfb36e1b63fe",
+    "figures/foredance/overview.pdf": "c7d8dc3570a1e10dd42741867b3dd493c48751ed9a692a6198f280722e21ed14",
+    "figures/foredance/mrt2-official-app-icon.png": "e3b67a8f001930352b582d1676488991292b6bc6de069fd456cccdead4b0c8d7",
+    "ForeDance.pdf": "25457d9ebf0d244d689d703d54d1260263f4846f8796f5ab0df9709777dcc821"
+  }
+}
