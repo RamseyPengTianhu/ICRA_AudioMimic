@@ -1,8 +1,5 @@
 \section{Representation and Training Details}
 \label{app:training}
-\paragraph{Motion representation.}
-We use 38-dimensional native motion and a 71-dimensional boundary state. Pelvis orientation is absolute within one fixed yaw anchor for the sequence. The encoder and decoder are boundary-conditioned, and the next state is reconstructed from committed reference motion. The codebook has 512 embeddings and a 16-dimensional continuous residual. At 30\,Hz and two frames per latent step, the generator retains 64 history steps, plans eight steps, and commits four steps.
-
 \paragraph{Kinematic reconstruction losses.}
 The full view contains four blocks: native motion, native velocity, forward-kinematics positions, and geometry velocity. Each block is standardized with training-split statistics. For a view $\Phi$ with blocks $\Phi^{(k)}$, define the reconstruction error
 \begin{equation}
@@ -21,7 +18,9 @@ In the native block, structure selects the first 24 of 38 coordinates: nine root
 The geometry block contains 31 points: 29 non-root body origins and two lowest-foot geometry points. Structure selects the torso, the two wrist-yaw body origins, and the two lowest-foot points. Detail selects the remaining 26 points. Geometry velocity uses the same partition. These are supervision and analysis views, not independent anatomical decoders. In particular, the structural geometry view can constrain wrist placement while the complementary native view describes arm articulation.
 
 \paragraph{Generator optimization and initialization.}
-Each reported training run uses 300,000 windows, batch size 48, and 6,250 updates. We train three seeds and sample each model with three seeds. Forecast states enter both branches through frame-wise modulation; the music model remains frozen. The residual sampler uses ten DDIM steps with guidance fixed at 1.0. Mixed-start training draws 20\% song-origin/prefix starts and 80\% ordinary windows. Continuation-start training uses ordinary windows throughout.
+The update budget in Section~\ref{sec:experimental_setup} corresponds to
+300,000 training windows. Residual sampling uses guidance fixed at 1.0;
+the music model remains frozen during generator training.
 
 \paragraph{History regularization.}
 FHC applies to the complete 64-step history with probability 0.5 per example. The discrete embeddings and continuous residual history share a severity timestep sampled from 850--999, with independent Gaussian noise. Their masks and timestamps are preserved, as are the boundary state and forecast conditions. Corruption is applied in the supervised pass after CoF context construction and is disabled at inference.
@@ -38,19 +37,93 @@ Figure~\ref{fig:cof_training_detail} details the construction. Each training exa
 
 \section{Evaluation Protocol}
 \label{app:scope}
-The current-generator numerical tables use all 18 tracks in the fixed FineDance test cohort. The common source-supported segment is 23\,s, beginning at source frame 264. Each method has three training seeds and three sampling seeds per training run, giving 162 paired track-level outputs. Methods within a comparison share source identities, segment boundaries, and sampling settings.
+The cohort in Section~\ref{sec:experimental_setup} yields 162 track-level
+outputs per configuration. For each training seed and track, sampling repeats
+are averaged before computing paired method differences. Bootstrap sampling
+retains these pairs, resampling training seeds with replacement and tracks
+within each sampled seed. Percentiles 2.5 and 97.5 define the reported 95\%
+interval. Qualitative examples and unfilled comparisons do not enter these
+estimates.
 
-For the music-condition comparison, the no-music controls are separately trained models. They are not obtained by removing the condition from a forecast-trained model at inference. This controls for the learning procedure associated with the absence of music, while preserving the distinction from the pending heard-music comparison.
+\subsection{Metric Construction and Version Boundaries}
+\label{app:metric_construction}
+\paragraph{Learned evaluator construction.}
+The archived G1 evaluation pipeline combines 35-dimensional librosa temporal
+audio descriptors with frozen MuQ-large global audio
+features~\cite{mcfee2015librosa,zhu2025muq}. Audio and native G1 motion branches
+are fitted on paired training data with global/local contrastive objectives
+and temporal-misalignment controls, then frozen for scoring. Music identity,
+rather than dancer or performance identity, determines valid positives.
+These are evaluation features, not additional inputs to the causal generator.
 
-MMR-MS is a frozen learned matching distance using independently trained G1 motion features. It follows the alignment motivation of SoulNet but uses a robot-motion evaluator rather than the original human-motion checkpoint. Feature extraction and normalization are held fixed throughout the comparisons. Lower MMR-MS denotes better matching; beat alignment supplies a complementary rhythmic measure.
+The archived global--temporal matching definition, following
+SoulNet~\cite{li2025soulnet}, is
+\begin{align}
+D_{\mathrm{temp}}&=\sum_{t=2}^{T}
+\| (u_t-u_{t-1})-(v_t-v_{t-1})\|_2,\\
+d_{\mathrm{MMR}}&=\sqrt{0.7\|u_g-v_g\|_2^2+0.3D_{\mathrm{temp}}},
+\label{eq:archived_mmr_score}
+\end{align}
+where $u_g,v_g$ are global audio/motion embeddings and $u_t,v_t$ describe aligned,
+non-overlapping one-second segments. MMR-MS averages paired distances. The
+temporal term sums norms, not squared norms or time-averaged norms, so durations
+must match. A global-only distance is not this complete score. The current
+23\,s results are retained from their archived summaries without recomputation;
+binding their evaluator receipt to this exact formula, feature fusion, input
+channels, and normalization remains a metric-provenance check before submission.
 
-We compute paired 95\% intervals using 10,000 hierarchical bootstrap draws. Each draw resamples training seeds with replacement, then tracks within each sampled training seed. The repeated sampling-seed outputs are averaged within each track. This retains training variation while avoiding the treatment of individual motion frames as independent experimental samples.
+\paragraph{Calibration.}
+Correct-versus-wrong-song and wrong-time margins, retrieval with declared
+candidate pools, and controlled motion degradation test metric sensitivity.
+Same-song multiple performances are valid positives, not false negatives.
+The earlier FineDance+AIST++ candidate was calibrated on 28 independent songs
+(18 FineDance and ten AIST++). Aggregate and FineDance gates passed, but several
+AIST++ wrong-song, same-style, and same-tempo confidence intervals included zero.
+It is not accepted for cross-dataset model ranking. This calibration is separate
+from generation generalization, and neither establishes evaluator validity on
+executed trajectories. The final evaluator training, calibration, and test-song
+manifests must make any reuse explicit.
 
-The reported current-generator numerical tables use the complete cohort without favorable-track filtering. Figure~\ref{fig:sequence} is a selected qualitative example from a separate 60\,s rollout. Three original frames are taken at 10, 30, and 50\,s from the same generated trajectory. The comparison layouts in the main text identify studies with pending results; they do not contribute to the reported estimates or intervals.
+\paragraph{G1 distribution and local-motion features.}
+Kinetic descriptors summarize motion dynamics, while geometric descriptors
+summarize body configurations and spatial relations in the G1 domain.
+FID compares feature means and covariances with those of retargeted references;
+diversity measures pairwise distances in the same feature space. Extractor
+version, coordinate convention, normalization, crop length, and sample counts
+are part of each result. The earlier three-model table and current ForeDance
+results are not pooled: their numerical feature-scale equivalence has not been
+established. A multi-seed FID aggregation must retain how collections were formed;
+it is not a mean of single-song FIDs. For future execution scoring, generation
+and execution must use identical feature extraction. Exact feature lists and
+activity/contact thresholds require the corresponding implementation receipt.
+
+\paragraph{Beat and dynamic-response measures.}
+For motion-event times $\mathcal B_x$ and music-beat times $\mathcal B_a$,
+the motion-to-music BAS definition is
+\begin{equation}
+\mathrm{BAS}=\frac{1}{|\mathcal B_x|}\sum_{b\in\mathcal B_x}
+\exp\!\left(-\frac{\min_{a\in\mathcal B_a}(b-a)^2}{2\sigma^2}\right).
+\label{eq:protocol_bas}
+\end{equation}
+The earlier layer analyzer uses minima of smoothed mean joint speed with
+$\sigma=0.10$\,s. This does not automatically specify the extractor used for
+the current-generation BAS summaries, which retain their own metric version.
+Event counts, empty-event handling, smoothing, and any beat-matching tolerance
+must accompany reproducible scores. Beat precision/recall are auxiliary coverage
+diagnostics, not requirements that dance hit every audio beat.
+The layer analyzer's impact proxy is a smoothed absolute derivative of the speed
+curve, not contact force. Zero-lag correlation with audio onset strength measures
+aligned dynamic response; best-lag correlation and its lag are diagnostics, not
+permission to retime primary music scores.
+
+% TODO: Bind the current-cohort evaluator/extractor receipts to the detailed
+% construction above. Do not infer metric equivalence from shared names or
+% import historical scores into the current 38D cohort without re-evaluation.
 
 \section{History-Corruption Results}
 \label{app:fhc}
-Table~\ref{tab:training} compares FHC with clean-history training under both startup settings. In mixed-start training, FHC reduces both distribution distances and increases kinetic diversity, while PFC and jerk favor clean history. Under continuation-start training, distribution changes are smaller and the diversity measures move in different directions. The FHC-versus-clean-history intervals for MMR-MS include zero in both settings. The distribution changes therefore inform the choice of history regularization without establishing a corresponding improvement in music matching.
+Table~\ref{tab:training} provides the full values for the comparison in
+Section~\ref{sec:matching_quality}.
 
 \begin{table}[h]
 \centering\small

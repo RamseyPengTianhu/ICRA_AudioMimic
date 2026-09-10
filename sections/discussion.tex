@@ -1,15 +1,25 @@
 \section{Discussion}
-\paragraph{Anticipation as a conditioning interface.}
-\method{} makes predicted musical context available before the corresponding audio is observed. This is useful at the interface between musical planning and irreversible motion commitment: each forecast guides a short plan while subsequent decisions incorporate newly arrived music. The no-music comparisons show that the generator uses this forecast-derived information under both startup settings. Their scope is music-condition use; determining the incremental benefit over heard-music features requires the matched forecast comparison.
+\paragraph{Music conditioning and motion quality.}
+Forecast-conditioned models improve matching over separately trained no-music
+controls under both startup settings. The FHC results reveal a different
+tradeoff: distribution distances improve most under mixed-start training,
+while contact and jerk favor clean history. Matching, distributional fidelity,
+and smoothness therefore provide complementary evidence rather than an
+interchangeable measure of dance quality.
 
-\paragraph{Connecting motion organization and continuation.}
-The structural objective expresses body organization in both joint and Cartesian views, allowing arm articulation to vary while constraining wrist placement. Shared decoding then combines these views into one motion trajectory. CoF carries that coupling across decisions by deriving the next boundary state from the same structure--detail prefix that enters the history. The representation and continuation comparisons remain pending, so these mechanisms motivate the design without yet establishing their separate quantitative gains.
-
-\paragraph{Scope of the evaluation.}
-The current-generator numerical results use the complete fixed cohort of 18 FineDance test tracks; the long-sequence illustration is a selected case. The reported intervals reflect training-seed and track variation under the paired protocol. Distribution, diversity, matching, and contact measure different properties: the FHC results illustrate a distribution--smoothness tradeoff rather than a uniform improvement. The primary study evaluates robot-native reference generation. The separate four-run MuJoCo diagnostics in Appendix~\ref{app:execution} concern an earlier generator configuration and fixed-reference tracking; they are not pooled with the current generation cohort. The rendered current-model example does not establish controller execution, and the generation schedule alone does not establish computational throughput.
-
-\paragraph{From reference generation to execution.}
-The bridge connects committed motion to a fixed whole-body controller while keeping reference-derived planning state distinct from measured execution state. The supporting replay diagnostics show that reference amplitude and motion dynamics can be retained to different degrees, so joint-position error alone does not describe the executed motion. Their scope is the supplied references in simulation. Assessing the current generator through this interface requires a paired current-model reference and execution recording.
+\paragraph{Scope and limitations.}
+The numerical generation study covers 18 FineDance test tracks, while the
+60\,s sequence is a qualitative example. The no-music comparison establishes
+condition use, not the incremental benefit of forecasting over heard-music
+features. Matched D+C and TF/CoF ablations remain needed to isolate their gains.
+End-to-end musical adaptation and perceptual quality are not established by
+the current reference-generation results or supporting tracking measurements.
 
 \section{Conclusion}
-We introduced \method{}, a framework that connects causal music forecasting with structured streaming dance generation. Predicted music states guide discrete structure and continuous detail; kinematic reconstruction objectives define their complementary roles; and \cof{} trains continuation through jointly committed motion and its reconstructed state. FineDance results demonstrate improved music--motion matching over matched no-music training under two startup settings. Together, the method and these findings support a concrete interface for using musical forecasts while generating an evolving dance from committed motion. A separate reference bridge connects this output to fixed whole-body tracking, with execution diagnostics kept distinct from the current generator evaluation.
+We introduced \method{}, combining causal music forecasts with robot-native
+D+C generation and \cof{} continuation training. FineDance results show
+improved music--motion matching over no-music training under two startup
+settings, while history regularization exposes a distribution--smoothness
+tradeoff. The framework connects its committed reference stream to fixed
+whole-body control and provides a basis for evaluating musical expression
+through generation and execution.

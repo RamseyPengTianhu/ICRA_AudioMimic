@@ -1,16 +1,23 @@
 \section{Reference Delivery and Supporting Execution Diagnostics}
 \label{app:execution}
-\paragraph{Study identity and scope.}
-The execution measurements below come from a separate study of the earlier 34-dimensional native-motion generator and its SONIC reference bridge. They are retained as supporting interface diagnostics and are not results for the current 38-dimensional ForeDance model. This study uses one FineDance source track and one sampling seed, with four generated reference trajectories replayed in MuJoCo. It is separate from the 18-track, three-training-seed generation evaluation in Appendix~\ref{app:scope}; its runs are not pooled with that cohort or its uncertainty estimates. Each replay lasts approximately 60\,s. Music inference does not run during replay, including for the trajectory originally generated with live forecast conditions.
+\paragraph{Replay setup.}
+Four generated trajectories from one FineDance track and one sampling seed
+are replayed in MuJoCo for approximately 60\,s each.
 
 \paragraph{Reference construction and delivery.}
 A four-step latent commit contains eight 30\,Hz frames. A continuous 50\,Hz time grid yields 13 or 14 reference samples per commit without resetting the sampling phase at each packet. The controller receives committed references rather than motor torques. The four diagnostic replays use the same fixed SONIC controller at real-time playback, with no uncommitted-plan preview, clipping, startup ramp, or alignment hold. Initial state, delivered future-reference access, and packet timestamps are part of the protocol; full-trajectory delivery and committed-prefix delivery are not interchangeable controls. The trajectories begin at an artificial continuation point with empty motion history, rather than at full-song onset.
 
 \paragraph{Observed layers.}
-Let $M_{\mathrm{gen}}$ denote decoded generator motion, $M_{\mathrm{sent}}$ the resampled reference sent by the bridge, $M_{\mathrm{target}}$ the controller's consumed reference, and $M_{\mathrm{exec}}$ measured execution. Joint ordering, coordinate conventions, default offsets, and timestamps must agree before comparing these layers. The archived diagnostic summaries use named target and measured fields in MuJoCo joint order. This accounting distinguishes conversion, delivery, and tracking discrepancies. It does not imply that measured state is fed back into the generator.
+Let $M_{\mathrm{gen}}$, $M_{\mathrm{sent}}$, $M_{\mathrm{target}}$, and
+$M_{\mathrm{exec}}$ denote generated, resampled, consumed, and measured motion.
+Target and measured joints use named fields in MuJoCo order, with matched
+coordinate conventions, offsets, and timestamps.
 
 \paragraph{Conditions and measurements.}
-All four conditions use inferred musical forecasts, never ground-truth future audio. The first three share cached forecast content but differ in its consumption-age trace: an ideal-age reference, the earlier measured trace, and a revised measured trace. The fourth uses live forecast content with the revised trace. These labels identify how a trajectory was generated before replay. They do not turn a tracking comparison into a measure of musical quality.
+The first three trajectories share cached forecast content but use different
+age traces: ideal age, the earlier measured trace, and a revised measured trace.
+The fourth uses live forecast content with the revised trace. These labels
+identify the generation conditions of the saved trajectories.
 
 For active joint $j$, amplitude and velocity-variation retention are
 \begin{align}
@@ -25,7 +32,7 @@ Only joints with a target percentile range above 0.02\,rad enter the active-join
 
 \begin{table}[h]
 \centering\small
-\caption{\textbf{Supporting fixed-reference replay measurements for an earlier generator configuration.} Each row is one MuJoCo replay, excluding its first two seconds. Rows differ in the previously generated reference, not in the fixed SONIC controller. These measurements do not compare current ForeDance variants.}
+\caption{\textbf{Supporting fixed-reference replay measurements.} Data from the earlier 34D generator, separate from the current 38D cohort. Each row is one MuJoCo replay through fixed SONIC, excluding its first two seconds; music inference is not run during replay.}
 \label{tab:execution_diagnostics}
 \begin{tabular}{@{}lccc@{}}\toprule
 Reference-generation condition & Aligned RMSE (rad) & Median $R^{\mathrm{amp}}$ & Median $R^{\mathrm{dyn}}$\\\midrule
@@ -34,4 +41,7 @@ Reference-generation condition & Aligned RMSE (rad) & Median $R^{\mathrm{amp}}$ 
 \end{table}
 
 \paragraph{Interpretation.}
-Across these four references, the reported amplitude retention lies between 0.858 and 0.901, while squared-velocity retention lies between 0.411 and 0.496. Position tracking therefore coexists with attenuation of motion dynamics in this configuration. This does not identify which attenuated components carry musical expression: high-frequency variation may include both meaningful articulation and jitter. Nor do four single runs establish repeatability, a ranking of music conditions, or real-hardware performance. The measurements motivate paired inspection of target and executed motion; a current-model execution evaluation must retain its own reference identity, initialization, recording coverage, and coordinate checks.
+Amplitude retention ranges from 0.858 to 0.901, while squared-velocity retention
+ranges from 0.411 to 0.496. Position tracking thus coexists with dynamic
+attenuation. High-frequency variation can include articulation and jitter;
+these measurements alone do not determine the musical value of the attenuation.
