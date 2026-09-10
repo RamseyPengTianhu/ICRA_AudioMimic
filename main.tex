@@ -8,6 +8,7 @@
 \usepackage{array}
 \usepackage{cite}
 \usepackage{xcolor}
+\usepackage{booktabs}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage[hidelinks]{hyperref}
@@ -25,7 +26,7 @@
 \fi}
 
 % Research draft updated 2026-09-08; see REVISION_NOTES_20260908.md.
-\title{Duet: Discrete–Continuous Motion Generation for Music-Driven Humanoid Dance}
+\title{Duet: Causal Music-to-Dance Generation for Humanoid Robots}
 
 % \author{\IEEEauthorblockN{Tianhu Peng et al.}
 % \IEEEauthorblockA{UCL Robotics Institute, University College London}}
@@ -728,7 +729,623 @@ condition subsequent planning, while measured
 execution closes the controller loop.
 The reference delivery and controller configuration
 are held fixed in paired execution comparisons.
+\section{Experiments}
+\label{sec:experiments}
 
+We evaluate whether the generated dance matches its
+soundtrack, maintains motion quality, and preserves
+musical adaptation through robot execution.
+We further examine the contributions of D+C modeling
+and Commit Forcing, and distinguish generation quality
+from condition-timing, reference-delivery, and tracking
+effects.
+
+\subsection{Experimental Setup}
+\label{sec:experimental_setup}
+
+\paragraph{Data and generation settings.}
+We use paired music and retargeted Unitree G1 motion
+from FineDance~\cite{li2023finedance}.
+Motion is represented at 30~Hz.
+The generator maintains 64 committed latent steps,
+predicts an eight-step plan, and commits its first
+four steps, corresponding to 16 planned and eight
+committed motion frames.
+The residual model uses ten DDIM sampling steps.
+
+The available generator benchmark contains
+18 FineDance songs, three sampling seeds per song,
+and seven music-condition settings.
+It compares the original FMS-FiLM model, its
+prefix-aware training variant, and an RMS+FMS-FiLM
+variant.
+The first two share the music-input and injection
+architecture; the third additionally incorporates
+observed music-history states.
+Sampling seeds repeat inference from a checkpoint
+and are distinguished from independent training seeds.
+
+% TODO: Specify song IDs, train/validation/test splits,
+% clip boundaries, checkpoint selection, and hardware.
+% Identify songs previously used for model or evaluator tuning.
+
+\paragraph{Comparisons and execution settings.}
+Internal comparisons examine representation supervision,
+music conditioning, and continuation training.
+Representation experiments use two training seeds
+and 512 deterministic held-out plans per seed.
+The pretrained SONIC controller~\cite{luo2026sonic}
+is fixed during execution comparisons.
+
+Comparisons with external methods require matched
+audio access, evaluation intervals, robot-motion
+preprocessing, and execution settings.
+Published human-motion scores are not directly
+comparable with our G1-domain scores.
+Matched generator ablations additionally report
+parameter counts, training updates, and actual
+training cost, since equal update counts need not
+imply equal computation.
+
+% TODO: Add completed external baselines and matched
+% D-only, continuous-only, and TF/CF configurations.
+% Specify controller checkpoint, initialization, preview
+% access, simulator settings, and physical hardware.
+
+\subsection{Evaluation Protocol}
+\label{sec:evaluation_protocol}
+
+\paragraph{Trajectory sources and operating modes.}
+We distinguish four trajectory sources:
+retargeted dataset references, generated motion,
+executed dataset references, and executed generated
+motion.
+Generated motion is the concatenation of committed
+prefixes from recursive inference, excluding unused
+plan suffixes.
+Executed dataset references calibrate changes that
+can arise when tracking the underlying dance data.
+
+Trajectory source and operating mode are reported
+separately.
+We distinguish generation with cached predicted
+music conditions from generation with live MRT2
+conditions, and fixed-trajectory replay from
+simultaneous generation and execution.
+Replay results retain the identity of their source
+trajectory and the available reference preview.
+Cached conditions are predictions, not encodings
+of ground-truth future audio.
+
+All paired scores use the same target soundtrack,
+audio interval, duration, and preprocessing.
+The engineering record further distinguishes
+generated motion, bridge-sent references,
+controller-consumed targets, and measured execution.
+
+\paragraph{Learned music--motion evaluation.}
+Following SoulNet~\cite{li2025soulnet}, we adapt
+music--motion retrieval and matching evaluation
+to native G1 trajectories.
+The music input combines 35-dimensional librosa
+temporal features with frozen MuQ-large global
+features~\cite{mcfee2015librosa,zhu2025muq}.
+The motion input uses native G1 motion features.
+Music and motion encoding branches are trained
+on paired data using global and local contrastive
+objectives with temporal-misalignment controls.
+The resulting evaluator is frozen for model
+comparison.
+
+% TODO: Specify the exact G1 input channels, audio-feature
+% fusion, global/local projections, loss definitions, and
+% negative-sampling scheme from the evaluator implementation.
+% Verify the relationship between evaluator training,
+% calibration songs, and final evaluation songs.
+
+We use the MMR-Matching Score (MMR-MS), which combines
+global correspondence and temporal feature variation.
+Following the scoring definition in
+SoulNet~\cite{li2025soulnet},
+\begin{equation}
+\begin{split}
+    d_{\mathrm{MMR}}
+    =\Bigl(
+    &0.7\|z-m\|_2^2\\
+    &+0.3\sum_{t=2}^{T}
+    \|\Delta z^t-\Delta m^t\|_2
+    \Bigr)^{1/2},
+\end{split}
+\label{eq:mmr_score}
+\end{equation}
+where $z$ and $m$ are global motion and music
+embeddings.
+Local embeddings are computed from non-overlapping
+one-second segments, with
+$\Delta z^t=z^t-z^{t-1}$ and
+$\Delta m^t=m^t-m^{t-1}$.
+Lower scores indicate closer correspondence.
+Evaluation duration is fixed because the temporal
+term depends on the number of segments.
+Retrieval accuracy and correct-pair preference
+provide complementary checks.
+
+% TODO: Verify that the implemented score uses the same
+% norm, square root, summation, and normalization as Eq. (mmr_score).
+% If it differs, report the implemented adaptation explicitly.
+
+\paragraph{Robot-native dance quality.}
+We evaluate motion distributions using kinetic
+and geometric features from the fixed
+\texttt{g1-fk-fid-div-v1} extractor.
+G1-FID$_k$ and G1-FID$_g$ measure distributional
+distance to retargeted references, while
+G1-Div$_k$ and G1-Div$_g$ characterize diversity
+in the same feature spaces.
+Reference diversity is reported for context;
+greater diversity is not assumed to be universally
+better.
+
+Generated and executed trajectories use identical
+feature extraction and normalization.
+FID is computed over sample collections, with
+reference and evaluated sample counts reported.
+A reference collection compared with itself is
+marked as not applicable rather than presented
+as a zero-error quality upper bound.
+
+Activity, freezing, jerk, boundary discontinuity,
+and foot-contact diagnostics complement the
+distributional measures.
+Low activity and low jerk are interpreted jointly,
+since an inactive trajectory can be smooth without
+forming a convincing dance.
+
+% TODO: List exact kinetic/geometric features, normalization,
+% activity/freezing thresholds, and contact definitions
+% in the supplementary metric specification.
+
+\paragraph{Rhythm and conditional adaptation.}
+We assess rhythm using Beat Alignment Score
+(BAS), supplemented by beat precision and recall.
+For detected motion-event times $\mathcal{T}_x$
+and music-beat times $\mathcal{T}_a$, the BAS form is
+\begin{equation}
+    \mathrm{BAS}
+    =
+    \frac{1}{|\mathcal{T}_x|}
+    \sum_{t\in\mathcal{T}_x}
+    \exp\left(
+    -\frac{
+    \min_{s\in\mathcal{T}_a}|t-s|^2
+    }{2\sigma^2}
+    \right).
+    \label{eq:bas}
+\end{equation}
+The current analyzer detects motion events from
+local minima of smoothed joint speed and uses
+$\sigma=0.10$~s.
+Beat coverage and activity accompany BAS to
+identify sparse-response effects.
+
+We also measure zero-lag correlation between
+music onset strength and a motion-impact proxy
+derived from velocity changes.
+This proxy is a kinematic signal, not measured
+contact force.
+Response lag is reported only alongside correlation
+strength and is used diagnostically.
+Primary music scores retain the actual audio
+timeline without post-hoc alignment.
+
+% TODO: Confirm the BAS implementation/version used for
+% historical results, empty-event handling, event matching,
+% smoothing parameters, and exact impact-proxy definition.
+% Beat F1 remains auxiliary while its calibration is unresolved.
+
+\paragraph{Calibration and statistical analysis.}
+The formal generator comparison uses the
+FineDance-only frozen MMR evaluator.
+Calibration examines correct pairs against
+wrong-song and wrong-time pairs, together with
+motion corruptions that test sensitivity to
+inactive or degraded movement.
+
+A separate FineDance+AIST++ evaluator candidate
+was assessed on 28 independent songs:
+18 from FineDance and ten from AIST++.
+Multiple performances of the same AIST++ song
+are treated as valid positives.
+Although aggregate and FineDance calibration
+criteria were met, several AIST++ control
+confidence intervals included zero.
+This candidate is therefore not used to support
+cross-dataset model rankings.
+Applicability to executed trajectories requires
+separate validation.
+
+For per-trajectory metrics, comparisons are paired
+by song and sampling seed, with uncertainty
+estimated by song-cluster bootstrap.
+FID is recomputed from the feature collections
+rather than averaged over song-level FID values.
+Startup is assessed separately; any steady-state
+trimming is identical across compared runs.
+Completion, usable duration, and failure counts
+are reported alongside quality scores.
+
+\subsection{Music--Motion Matching and Dance Quality}
+\label{sec:matching_quality}
+
+Table~\ref{tab:generator_outcomes} reports the
+available correct-condition generator results.
+These measurements assess musical correspondence
+and motion quality jointly, without combining
+them into a single quality score.
+
+\begin{table*}[t]
+    \centering
+    \caption{
+    Available generator results on 18 FineDance songs
+    with three sampling seeds per song.
+    FID uses 18 reference trajectories and 54 generated
+    trajectories per model.
+    TBC denotes operating-mode metadata requiring
+    verification before final reporting.
+    }
+    \label{tab:generator_outcomes}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}llccccc@{}}
+        \toprule
+        Model & Condition mode
+        & MMR-MS $\downarrow$
+        & BAS $\uparrow$
+        & Onset--impact $r$
+        & G1-FID$_k$ $\downarrow$
+        & G1-FID$_g$ $\downarrow$\\
+        \midrule
+        Original FMS-FiLM
+        & TBC
+        & 1.367 & 0.244 & 0.067 & 276.285 & 269.407\\
+        Prefix-aware FMS-FiLM
+        & TBC
+        & 1.357 & 0.257 & 0.072 & 319.827 & 270.164\\
+        RMS+FMS-FiLM
+        & TBC
+        & 1.323 & 0.240 & 0.072 & 293.709 & 235.578\\
+        \bottomrule
+    \end{tabular}
+\end{table*}
+
+The results exhibit trade-offs across metrics.
+Prefix-aware training increases mean BAS relative
+to the original FMS-FiLM model, while its kinetic
+FID is higher.
+RMS+FMS-FiLM obtains the lowest matching distance
+among these variants without the highest BAS.
+The song-cluster bootstrap difference in BAS
+between prefix-aware and original FMS-FiLM is
+$+0.0129$, with a 95\% confidence interval of
+$[-0.0108,0.0375]$.
+This comparison does not establish a reliable
+BAS improvement.
+The small onset--impact correlations and limited
+FID sample counts further motivate interpretation
+across complementary measures.
+
+% TODO: Add activity/freezing outcomes and corresponding
+% reference ranges from the same cohort.
+% Extend the main comparison with reference and executed
+% rows only after evaluator and operating-mode validation.
+% Do not substitute tracking-pilot runs for missing rows.
+
+\paragraph{Perceptual evaluation.}
+The perceptual protocol separates motion quality
+from soundtrack compatibility.
+Silent viewing assesses naturalness, dance quality,
+and expressiveness.
+Audio-enabled viewing assesses music--motion fit.
+Comparisons use matched durations and presentation
+conditions, randomized ordering, and concealed
+method identities.
+
+% TODO: Complete the study before reporting participant
+% counts, preference rates, or perceptual conclusions.
+% Specify trial assignment and analysis accounting for
+% repeated ratings from participants and songs.
+
+\subsection{Music Adaptation}
+\label{sec:music_adaptation}
+
+To distinguish appropriate conditioning from
+trajectory variation alone, we evaluate seven
+music conditions:
+correct, exact-null, same-track wrong-time,
+same-genre wrong-track, cross-genre wrong-track,
+and shifts of $\pm4$ native music frames.
+At 25~Hz, these shifts correspond to $\pm160$~ms.
+
+Each comparison fixes the model, initial history,
+initial boundary state, and sampling configuration.
+After generation begins, each condition advances
+with its own committed history.
+All outputs are scored against the original
+designated target soundtrack.
+Experiments that instead impose a shared history
+at every step constitute separate local
+conditioning probes.
+
+Correct versus null tests the contribution of
+music input.
+Wrong-time and shifted conditions examine temporal
+sensitivity, while wrong-track conditions test
+song-specific correspondence within and across
+genres.
+MMR, rhythm, dynamic response, and motion activity
+are considered together.
+
+For two songs $a$ and $b$, we additionally define
+a cross-pairing test using generated dances
+$D_a$ and $D_b$.
+For a lower-is-better matching distance $d$, the
+correct-pair advantage is
+\begin{equation}
+\begin{split}
+    \Delta_{\mathrm{pair}}
+    =\frac{1}{2}\bigl[
+    &d(D_a,b)-d(D_a,a)\\
+    +&d(D_b,a)-d(D_b,b)
+    \bigr].
+\end{split}
+\label{eq:cross_pair_advantage}
+\end{equation}
+Positive values favor the intended pairings.
+Both directional comparisons are also reported.
+The same pairing protocol is applied to executed
+generated motion.
+
+Designed exact-null ablation is distinguished
+from online fallback to null caused by expired
+conditions.
+Fallback occurrences remain part of online
+reliability results and are not pooled with
+intentional null-condition trials.
+
+% TODO: Insert the formal seven-condition paired results.
+% Complete cross-pairing and executed-motion comparisons.
+% Within-run song switching is a separate experiment;
+% do not infer switching ability from separate rollouts.
+
+\subsection{Ablation Studies}
+\label{sec:ablations}
+
+\paragraph{D+C representation.}
+We first examine reconstruction and branch roles
+under controlled representation comparisons.
+Structure and detail errors use fixed,
+training-set-standardized kinematic views.
+The intervention ratio $R_{D/C}$ compares the
+mean structural displacement caused by exchanging
+discrete codes with that caused by exchanging
+residuals under the same donor-pair protocol.
+Values above one indicate a larger discrete-code
+effect on the designated structural view.
+
+\begin{table}[t]
+    \centering
+    \caption{
+    Representation ablation: means over two training
+    seeds. D-only decoding removes the residual from
+    a trained D+C codec.
+    }
+    \label{tab:dc_ablation}
+    \small
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        Variant
+        & \shortstack{Structure\\NRMSE}
+        & \shortstack{Detail\\NRMSE}
+        & $R_{D/C}$\\
+        \midrule
+        D-only decoding ($r=0$)
+        & 0.361 & 0.449 & --\\
+        Overlapping supervision
+        & 0.303 & 0.270 & 1.20\\
+        Proposed objective
+        & 0.250 & 0.243 & 1.41\\
+        Proposed + compact state
+        & 0.252 & 0.245 & 1.41\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The proposed supervision yields lower structure
+and detail reconstruction errors than the
+overlapping-supervision configuration, together
+with a larger structural intervention ratio.
+The compact boundary state preserves similar
+performance.
+Its continuous latent has an effective rank of
+15.1 out of 16, providing complementary evidence
+against residual collapse.
+
+The supervision comparison changes a bundle of
+objectives, including the removal of an auxiliary
+contact head and legacy penalties.
+It therefore measures the effect of the complete
+supervision configuration rather than an isolated
+loss term.
+D-only decoding is a component intervention and
+does not represent an independently trained
+discrete-only generator.
+
+A separate six-song, three-sampling-seed
+fixed-$q_0$ intervention reduces the joint-jerk
+measure from 1588.6 to 291.3 and wrist jerk from
+1052.8 to 153.3 when the predicted residual is
+restored.
+This supports a local-dynamics contribution,
+while recursive generation benefits require
+matched architecture comparisons.
+
+% TODO: Add independently trained D-only, continuous-only,
+% and direct-motion controls with matched budgets.
+% Report the precise view-error and donor-intervention
+% definitions in the supplementary specification.
+
+\paragraph{Commit Forcing and long-horizon continuation.}
+The primary continuation comparison is Teacher
+Forcing versus Commit Forcing under matched
+data, initialization, inference settings, and
+reported training cost.
+Evaluation uses recursive committed trajectories.
+
+To expose degradation hidden by whole-sequence
+averages, early, middle, and late intervals are
+evaluated using predetermined equal-duration
+windows.
+Outcomes include MMR, activity, freezing,
+repetition, boundary position and velocity
+discontinuities, and root drift.
+Window-level quality is accompanied by surviving
+run counts and completion statistics.
+
+Component comparisons then examine joint
+commitment, reference-state reconstruction,
+and residual rebasing.
+Rebasing analysis includes the correction
+magnitude and target decoding under dataset
+and generated boundary states.
+
+% TODO: Insert matched TF/CF results and component ablations.
+% No CF improvement is claimed from the current codec
+% or condition-timing experiments.
+
+\subsection{Online Execution and Reliability}
+\label{sec:online_execution}
+
+\paragraph{Generation-to-execution evaluation.}
+We score generated and executed trajectories
+against the same soundtrack and timeline.
+Executed dataset references provide a calibration
+for tracking changes on retargeted dance, while
+executed generated motion measures the final
+system output.
+
+Tracking error is complemented by changes in
+MMR, rhythm, activity, and dance quality.
+Similar attenuation on dataset and generated
+references does not establish a fixed controller
+limit, since motion amplitude, frequency,
+contact patterns, and feasibility can differ.
+Delivery-to-consumption timing is analyzed
+separately from target-to-execution tracking.
+
+\paragraph{Offline--online gap.}
+Table~\ref{tab:operating_modes} distinguishes the
+operating modes used to analyze the gap between
+cached-condition generation and live execution.
+Comparisons retain condition age, initialization,
+reference preview, and source-trajectory identity.
+
+\begin{table*}[t]
+    \centering
+    \caption{
+    Operating modes for generation and execution.
+    Fixed replay is identified by its source trajectory;
+    it does not run music inference during execution.
+    }
+    \label{tab:operating_modes}
+    \small
+    \begin{tabular}{@{}llll@{}}
+        \toprule
+        Mode & Music condition
+        & Motion generation & Execution/delivery\\
+        \midrule
+        Cache generation
+        & Cached predictions
+        & Offline rollout
+        & None\\
+        Live generation
+        & Live MRT2 predictions
+        & Deadline-paced rollout
+        & None\\
+        Fixed-trajectory execution
+        & Inherited from source run
+        & Precomputed trajectory
+        & Replay; preview specified\\
+        Online generation and execution
+        & Live MRT2 predictions
+        & Concurrent with execution
+        & Committed-prefix delivery\\
+        \bottomrule
+    \end{tabular}
+\end{table*}
+
+The available single-song condition-age experiment
+uses a fixed checkpoint and sampling seed over a
+60-second segment.
+Changing the injected age trace reduces joint
+trajectory discrepancy from 0.2281 to 0.2064~rad
+relative to an ideal-age cached-condition
+trajectory.
+This is approximately a 9.5\% reduction in
+trajectory discrepancy, rather than a measured
+improvement in dance quality.
+Under the newer age trace, cached versus live
+condition content produces a discrepancy of
+0.1084~rad.
+
+Fixed-trajectory tracking of the four diagnostic
+conditions yields median joint-wise squared
+angular-velocity retention of approximately
+0.41--0.50 after excluding the first two seconds.
+These measurements identify dynamic attenuation
+but do not determine whether the attenuated
+components carry useful musical expression
+or unwanted jitter.
+
+% TODO: Add same-cohort cache/live and replay/online
+% MMR, rhythm, and motion-quality comparisons.
+% Explicitly label the 1.3-s preview, 1.6-s buffer,
+% and H20 compute probes as diagnostic configurations.
+% They do not establish low-delay live musical performance.
+
+\paragraph{Runtime, startup, and reliability.}
+Runtime reporting covers the full audio-to-action
+pipeline, including condition age, valid forecast
+count, planning-time tails, deadline misses,
+stale-condition fallback, and reference-delivery
+behavior.
+Startup is evaluated without trimming, while
+steady-state results use a common declared window.
+All attempts contribute to completion and failure
+statistics.
+
+The available S100-B140 trace has condition-age
+median and 95th percentile of approximately
+273 and 326~ms, with a median of eight valid
+forecast states.
+One 60-second run completed 225 commits without
+recorded misses or holds.
+This establishes feasibility for that run;
+aggregate reliability requires repeated attempts.
+
+\paragraph{Real-robot demonstration.}
+Physical evaluation pairs different music inputs
+with generated and measured G1 motion under the
+same scoring protocol.
+Sequence visualizations illustrate the resulting
+dance, while completion statistics and music-fit
+evaluation quantify execution and adaptation.
+
+% TODO: Replace this protocol paragraph with the completed
+% real-robot setup and results, including trial counts,
+% predefined success criteria, failure cases, and figures.
+% Physical demonstrations and perceptual findings remain
+% unreported until the corresponding experiments are complete.
 % ================================================================
 \section{Discussion}
 % ================================================================
@@ -778,14 +1395,14 @@ that online executed dance already matches offline animation. Matched learning
 ablations, learned-startup validation, and music-fit and aesthetic judgments at
 both generation and execution remain necessary for that broader conclusion.
 
-\appendices
-\section{Detailed Evaluation Definitions and Coverage}
-\label{app:evaluation}
-\input{evaluation_details.tex}
+% \appendices
+% \section{Detailed Evaluation Definitions and Coverage}
+% \label{app:evaluation}
+% \input{evaluation_details.tex}
 
-\section{Overlapping and Projector-Based Supervision}
-\label{app:supervision}
-\input{supervision_details.tex}
+% \section{Overlapping and Projector-Based Supervision}
+% \label{app:supervision}
+% \input{supervision_details.tex}
 
 \bibliographystyle{IEEEtran}
 \bibliography{Reference}
