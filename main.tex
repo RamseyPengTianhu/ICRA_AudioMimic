@@ -17,12 +17,13 @@
 \definecolor{state}{HTML}{6D568C}
 \definecolor{pending}{HTML}{8B5921}
 \newcommand{\method}{ForeDance}
+% \raggedbottom
 \newcommand{\cof}{Commit Forcing}
 \makeatletter
 \newcommand{\inputtable}[1]{\@@input #1 }
 \makeatother
 \newcommand{\pendingcell}{\textemdash}
-\title{\LARGE\bfseries ForeDance: Structured Streaming Dance Generation\\with Anticipatory Music Conditioning}
+\title{\LARGE\bfseries MuRoDance: Music-Anticipatory Humanoid Dance through Discrete–Continuous Motion Generation}
 % Reserve the author byline without identifying information for double-anonymous review.
 \author{\vphantom{Anonymous Authors}}
 \begin{document}
@@ -31,21 +32,31 @@
 \thispagestyle{empty}
 \pagestyle{empty}
 \begin{abstract}
-Streaming dance must prepare for upcoming music from audio heard so far while
-continuing movements that have already been committed and can no longer be
-revised. We present \method{}, a framework that generates robot-native dance
-from music as it arrives. A frozen music foundation model forecasts future
-musical context using heard audio alone. A kinematics-guided structure--detail
-representation gives whole-body organization and local articulation
-complementary roles, while \cof{} trains continuation from jointly generated
-motion and its resulting reference state. Together, these components couple
-musical anticipation with successive motion decisions. On 60-second FineDance
-generations, a frozen music--motion evaluator favors the intended soundtrack
-over alternative tracks in approximately 75\% of pairwise comparisons.
-Separate matched training comparisons identify a tradeoff between motion
-distribution fidelity and smoothness. These findings support soundtrack
-correspondence in continuously generated references within a framework that
-connects musical foresight to committed movement.
+Humanoid dance to arriving music requires anticipating musical events
+while continuing coherently from motion already committed.
+We present \method{}, a framework for streaming music-driven humanoid
+dance that combines predicted musical context with robot-native
+discrete--continuous (D+C) motion generation.
+A frozen music foundation model forecasts future music states from
+heard audio alone. These states are aligned with upcoming motion
+times and condition both discrete structural planning and continuous
+residual generation.
+Kinematics-guided reconstruction objectives assign explicit structural
+responsibilities to discrete codes, while their combination with
+continuous residuals reconstructs full motion through a shared decoder.
+\cof{} trains continuation from jointly committed structure and detail
+and the reference boundary state reconstructed from their decoded motion.
+Committed references are delivered to a fixed whole-body controller,
+whose measured-state feedback remains separate from the generator's
+reference-context update.
+On the evaluated 60-second FineDance generations, a frozen music--motion
+evaluator favors the intended soundtrack over alternative tracks in
+approximately 75\% of pairwise comparisons under the reported evaluation
+and selection protocol.
+Matched history-training comparisons reveal a tradeoff between motion
+distribution fidelity and smoothness.
+These results characterize musical correspondence and motion quality
+in generated robot-native references.
 \end{abstract}
 \input{sections/introduction}
 \input{sections/related_work}

@@ -1,58 +1,124 @@
-\section{Related Work}
+\\section{Related Work}
 \label{sec:related_work}
 
-\subsection{Observed and Predicted Music Conditions}
-Music-to-dance models combine acoustic descriptors~\cite{mcfee2015librosa} or
-learned features~\cite{li2023mert,zhu2025muq} with choreography models.
-FACT and Bailando model coordinated sequences and choreographic
-memory~\cite{li2021aist,siyao2022bailando}; EDGE and LODGE develop diffusion-based
-and long-form generation~\cite{tseng2023edge,li2024lodge}. FineDance,
-MEGADance, and SoulNet address fine-grained motion, genre, and music--motion
-alignment~\cite{li2023finedance,yang2025megadance,li2025soulnet}.
+\subsection{Learning-Based Humanoid Control and Motion Tracking}
 
-DiscoForcing~\cite{ji2026discoforcing} uses a task-specific causal VQ-PAE
-encoder to describe heard audio through rhythmic tokens and periodic alignment.
-We instead condition on explicit future states from a generative music prior.
-MRT-2 is pretrained on approximately 71,000 hours of
-music~\cite{magenta2026mrt2}, providing continuation knowledge beyond our paired
-dance training. Foundation-model features already support dance in
-EDGE through Jukebox~\cite{tseng2023edge,dhariwal2020jukebox} and in
-DGFM~\cite{liu2025dgfm}; earlier robot systems also predict beat
-timing~\cite{nakahara2009tempo}. Our distinction is the use of generative
-music-state forecasts under a causal audio constraint. Live Music
-Models~\cite{gdmlyria2025live} and MRT-2 supply the music-generation foundation;
-we transfer its predictions to structured streaming motion.
+Reinforcement learning and motion imitation provide foundations
+for expressive whole-body control.
+Neural Categorical Priors~\cite{zhu2023ncp} and Generative
+Pretrained Controllers~\cite{shi2026gpc} connect learned
+motion vocabularies with physics-based character control.
+Reference-conditioned policies further enable reusable
+motion tracking: PHC~\cite{luo2023phc} demonstrates tracking
+and recovery in simulated avatars, while
+ExBody2~\cite{ji2024exbody2},
+BeyondMimic~\cite{liao2025beyondmimic}, and
+SONIC~\cite{luo2026sonic} advance expressive and versatile
+humanoid control.
+These methods establish how reference movement can be
+realized under physical dynamics.
+Our work uses a pretrained whole-body controller as the
+execution layer and focuses on generating the music-conditioned
+references it follows.
+The controller retains measured-state feedback, while the
+generator maintains its own committed reference context.
 
-\subsection{Structure--Detail Representation and Training}
-Discrete tokens support motion generation in T2M-GPT and
-MoMask~\cite{vandenOord2017vqvae,zhang2023t2mgpt,guo2024momask}; MLD uses
-continuous latent diffusion~\cite{chen2023mld}, and DisCoRD uses flow-based
-decoding from discrete tokens~\cite{cho2025discord}. Most closely,
-DC-Motion~\cite{wang2026dcmotion} combines discrete structure with continuous
-residuals. We build on this hybrid principle, using designated robot-kinematic
-supervision to give the components complementary roles through a shared,
-boundary-conditioned decoder. Neural Categorical Priors and GPC learn
-vocabularies for physical control~\cite{zhu2023ncp,shi2026gpc}; our latents
-instead decode into explicit motion references for a separate tracker.
+\subsection{Music-Conditioned Motion Generation}
 
-\subsection{Continuation from Generated Context}
-Scheduled Sampling and Professor Forcing address training--sampling
-mismatch~\cite{bengio2015scheduled,lamb2016professor}. Diffusion Forcing varies
-per-token noise~\cite{chen2024diffusionforcing}; MotionStream and MotionStreamer
-develop causal motion generation~\cite{jiang2025motionstream,xiao2025motionstreamer}.
-MotionStreamer's Two-Forward strategy uses first-pass predictions in second-pass
-history. \cof{} constructs the joint structure--detail history--state transition: sampled
-components enter history together, and their decoded committed motion determines the
-next reference state. Its distinction is this coupled update. Diffusion Policy
-and Real-Time Chunking address committed actions during plan
-updates~\cite{chi2023diffusionpolicy,black2025rtc}; CoF constructs the context
-under which continuation is learned.
+Music-to-dance systems use explicit acoustic descriptors,
+such as those extracted with librosa~\cite{mcfee2015librosa},
+or learned audio representations from models including
+Jukebox~\cite{dhariwal2020jukebox},
+MERT~\cite{li2023mert}, and MuQ~\cite{zhu2025muq}.
+AIST++/FACT~\cite{li2021aist} and
+Bailando~\cite{siyao2022bailando} develop music-conditioned
+choreography through sequence modeling and discrete motion
+representations.
+EDGE~\cite{tseng2023edge} and LODGE~\cite{li2024lodge}
+advance diffusion-based and long-form dance generation,
+while FineDance~\cite{li2023finedance},
+MEGADance~\cite{yang2025megadance}, and
+SoulNet~\cite{li2025soulnet} address fine-grained motion,
+genre-aware generation, and music--motion alignment.
 
-\paragraph{Robot execution}
-Reusable trackers support expressive motion~\cite{luo2023phc,ji2024exbody2,liao2025beyondmimic,luo2026sonic},
-while HARMON and RoboPerform introduce language and audio
-conditioning~\cite{jiang2025harmon,li2026roboperform}. PhysDiff, terrain-aware
-reference generation, and PARC incorporate physical correction or
-adaptation~\cite{yuan2023physdiff,zhang2026wholebody,xu2025parc}.
-Our fixed-controller interface keeps reference generation separate from
-measured-state feedback, allowing their outputs to be examined independently.
+Streaming generation additionally constrains the audio
+available before each motion decision.
+DiscoForcing~\cite{ji2026discoforcing} uses causal audio
+conditioning and diffusion forcing for streaming motion
+and humanoid deployment.
+Our music interface supplies explicit forecasts of upcoming
+music states from the observed prefix.
+Generative music models, including Live Music
+Models~\cite{gdmlyria2025live} and
+Magenta RealTime~2~\cite{magenta2026mrt2}, provide the
+continuation prior used for this purpose.
+We investigate how their predicted states can condition
+upcoming robot motion without access to future waveform
+samples.
+The music forecaster remains frozen; paired dance training
+learns how to use its predictions.
+
+\subsection{Motion Representations and Generation}
+
+Discrete motion models such as T2M-GPT~\cite{zhang2023t2mgpt}
+and MoMask~\cite{guo2024momask} use quantized vocabularies,
+while MLD~\cite{chen2023mld} generates motion through
+continuous latent diffusion.
+DisCoRD~\cite{cho2025discord} connects discrete tokens
+with continuous decoding.
+Most closely, DC-Motion~\cite{wang2026dcmotion} combines
+discrete structure and continuous residuals.
+Our D+C design builds on this hybrid principle through
+robot-kinematic reconstruction objectives that assign
+designated structural responsibilities to discrete codes,
+with full motion reconstructed through a shared
+boundary-conditioned decoder.
+
+Recursive generation also introduces a mismatch between
+recorded training context and generated inference context.
+Scheduled Sampling~\cite{bengio2015scheduled} and
+Diffusion Forcing~\cite{chen2024diffusionforcing} address
+related sequence-training problems.
+MotionStreamer~\cite{xiao2025motionstreamer} combines
+causal motion compression with diffusion-based autoregression
+and Two-Forward training.
+\cof{} focuses on the transition induced by our D+C
+generator: sampled structure and detail enter the committed
+history together, and their decoded motion determines
+the next reference boundary state.
+Its distinguishing operation is the joint construction of
+this history--state pair for continuation training.
+
+\subsection{Integrating Motion Generation with Humanoid Control}
+
+Connecting conditional generation to physical control
+enables humanoids to express higher-level intent.
+HARMON~\cite{jiang2025harmon} generates whole-body humanoid
+motion from language descriptions.
+RoboPerform~\cite{li2026roboperform} combines motion
+content with audio-derived style through a teacher--student
+control framework, while
+DiscoForcing~\cite{ji2026discoforcing} connects streaming
+motion generation to humanoid execution through retargeting
+and tracking.
+These systems establish complementary interfaces between
+external conditions, generated movement, and robot control.
+
+Other approaches use physical execution to inform generation
+or adapt the controller.
+PhysDiff~\cite{yuan2023physdiff} incorporates physics-based
+correction into denoising, and
+PARC~\cite{xu2025parc} uses physically tracked motion
+to augment generator training.
+BeyondMimic~\cite{liao2025beyondmimic} extends tracking
+to guided generative motion composition, while
+terrain-aware humanoid generation~\cite{zhang2026wholebody}
+couples robot-native references with tracker adaptation.
+Our framework performs retargeting during data preparation,
+generates robot-native references online, and delivers
+committed motion to fixed SONIC control.
+Continuation training operates within the generated reference
+process.
+We therefore distinguish reference generation, delivery,
+and measured execution, and assess musical correspondence
+and motion quality alongside tracking accuracy.
