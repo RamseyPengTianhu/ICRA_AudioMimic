@@ -1,0 +1,56 @@
+\paragraph{Native representation and boundary state}
+
+We represent motion directly in the robot's configuration space, including full pelvis orientation. A fixed yaw anchor $R_A$ is removed once for a motion sequence, and every frame stores absolute orientation in that anchor:
+\begin{align}
+ R_t^A&=R_A^\top R_t^{\rm world},\\
+ x_t&=[\Delta p_{xy,t}^{\rm local},\;h_t,\;\rho(R_t^A),\;\theta_t].
+\label{eq:motion}
+\end{align}
+Here $\Delta p_{xy,t}^{\rm local}$ denotes planar displacement, $h_t$ is pelvis height, $\rho$ is the six-dimensional rotation representation~\cite{zhou2019rotation}, and $\theta_t$ contains 29 joint angles, giving 38 motion dimensions. This retains roll and pitch without multiplying a sequence of predicted rotation increments. Planar displacements are integrated using the appropriate preceding heading. The anchor remains fixed over the generated sequence; it is not reset at every commit.
+
+The corresponding 71-dimensional boundary state is
+\begin{equation}
+ b_t=[h_t,v^{\rm local}_{xy,t},v_{z,t},\rho(R_t^A),\omega_t,
+ \theta_t,\dot\theta_t].
+\label{eq:state}
+\end{equation}
+The state contains pelvis height, local planar and vertical velocities, orientation, angular velocity $\omega_t$, joint angles, and joint velocities. Conditioning on these quantities makes the starting pose and motion explicit at each segment boundary. They are reconstructed from the committed reference.
+
+
+\paragraph{Streaming configuration}
+The motion rate is 30\,Hz, with two frames per latent step. We use 64 history
+steps (128 frames, approximately 4.27\,s), an eight-step plan (16 frames,
+approximately 0.53\,s), and a four-step commit (eight frames, approximately
+0.27\,s). The codec latent has 16 dimensions and its codebook has 512 entries.
+The music condition uses 14 native forecast states at 25\,Hz, spanning
+approximately 0.56\,s. Each state retains its physical timestamp.
+
+\paragraph{Reconstruction gradients and auxiliary objectives}
+Let $\mathrm{sg}$ denote stop-gradient. For encoder output $z$, embedding $e$, and $r=z-\mathrm{sg}(e)$, we form full and structure-only reconstructions, together with an auxiliary residual-corrupted reconstruction:
+\begin{align}
+ x_f&=D_\psi(\mathrm{sg}(e)+r,b),\\
+ x_s&=D_\psi(z+\mathrm{sg}(e-z),b),\\
+ x_c&=D_\psi(\mathrm{sg}(e)+\mathcal C(r),b).
+\end{align}
+The full branch is supervised on $\Phi_f$; the other two are supervised on $\Phi_s$. The corruption $\mathcal C$ either zeros detail or adds small channel-scaled noise, encouraging the structural reconstruction to persist under changes in the residual. The combined objective is
+\begin{equation}
+\begin{split}
+\mathcal L_{\rm codec}={}&\mathcal L_f+\mathcal L_s
+ +0.25\mathcal L_{\rm robust}+\mathcal L_{\rm VQ}\\
+ &+\mathcal L_{\rm boundary}.
+\end{split}
+\label{eq:codec}
+\end{equation}
+The final term supervises boundary-transition derivatives and pelvis orientation at the beginning of the reconstructed segment. Appendix~\ref{app:training} provides the training details.
+
+
+\paragraph{Conditioning and sampling}
+For forecast state $u_j$ with lead $\ell_j$ relative to the motion decision,
+we form $c_j=W\,\mathrm{LN}(u_j)+\phi(\ell_j)$, where $W$ is a learned
+projection, $\mathrm{LN}$ denotes layer normalization, and $\phi$ represents
+physical time. Timestamp-based masking excludes expired forecast states from
+their aligned motion positions. A null condition bypasses music modulation.
+The structural planner uses a classification objective and the detail model
+a denoising objective. Residual generation uses ten DDIM
+steps~\cite{song2021ddim}.
+

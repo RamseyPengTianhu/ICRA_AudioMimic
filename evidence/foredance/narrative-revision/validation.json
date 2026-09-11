@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-11",
+  "base_commit": "0e36903",
+  "pages_before": 14,
+  "pages_after": 11,
+  "overview_page": 2,
+  "execution_diagram_page": 5,
+  "main_text_through_page": 6,
+  "cited_entries": 44,
+  "all_previously_active_citations_retained": true,
+  "accepted_quantitative_tables_unchanged": true,
+  "existing_artwork_unchanged": true,
+  "compile_errors": [],
+  "visual_review": "Passed full-document contact sheet and full-size pages 1, 3, 5, 6; all pages rendered. Main overview, method figures, execution diagram, table and sequence are readable without clipping or overlap.",
+  "pdf_sha256": "a0a807ce3e57c495a281c13d07c09161a46a0421d6b3f1c907bbcd5a8a752c4c",
+  "evidence_verification": [
+    "198 MMR records and 18 pair matrices; all means and intervals reproduced",
+    "Motion-quality tables and historical execution transcription verified"
+  ],
+  "pending_comparisons": "Explicit in Discussion; no empty tables; preserved in canonical editorial plan",
+  "venue": "Working draft; no new venue or submission-readiness claim"
+}

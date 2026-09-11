@@ -1,92 +1,24 @@
 \section{Introduction}
 \label{sec:introduction}
 
-A dance movement often begins before its most visible accent: weight shifts
-prepare a step, and the body transitions toward a pose before reaching it.
-For a humanoid dancing to music as it arrives, the next movement must be chosen
-with incomplete knowledge of the sound it will accompany. Waiting for a musical
-event before reacting limits the opportunity to prepare; using the actual future
-recording changes the task into offline generation. Streaming also prevents
-revising movement already committed to the output. Anticipating the music and
-continuing the body are therefore coupled aspects of causal dance generation.
+Dance preparation begins before a visible accent: weight shifts precede a
+step, and the body transitions toward a pose before reaching it. A system
+dancing to music as it arrives must choose these movements before hearing all
+the sound they will accompany. Waiting for an event leaves less time to
+prepare; reading the future recording changes the task into offline generation.
+Streaming further requires each new movement to continue from an output prefix
+that can no longer be revised. Musical anticipation and motion continuation
+are therefore coupled requirements of streaming dance generation.
 
-Music provides a distinctive conditioning signal: it does not prescribe a unique
-action sequence. Multiple dances can suit the same soundtrack, but rhythm,
-accents, and dynamic variation should guide when and how movements unfold.
-Producing different trajectories for different songs is not enough; those
-differences should express musical correspondence while retaining coordinated,
-varied motion. For a humanoid, this relationship must accommodate the robot's
-body and remain perceptible after execution. The objective is thus musical
-suitability expressed through the robot's actual movement, not reproduction
-of a single target choreography.
-
-Music-to-dance models have made substantial progress in choreography and
-expressive human motion~\cite{li2021aist,tseng2023edge,li2023finedance,li2025soulnet}.
-DiscoForcing~\cite{ji2026discoforcing} connects causal audio-driven motion to
-humanoid execution through motion conversion and tracking, while
-RoboPerform~\cite{li2026roboperform} incorporates audio-conditioned expression
-into a teacher--student control framework. We investigate a complementary
-design: musical motion is planned directly in the robot's native space and
-delivered as an explicit reference to an independently trained whole-body
-controller. Retargeting is performed during data preparation rather than
-online. Beyond removing a conversion step, this design makes the organization
-of robot motion and its continuation explicit modeling problems.
-
-Two coupled modeling problems arise in this setting. First, a robot-native
-representation must organize whole-body structure while retaining local
-articulation. Discrete--continuous (D+C) motion models provide a useful basis for this
-purpose~\cite{wang2026dcmotion}, but combining a codebook with a residual does not
-by itself specify which kinematic properties each component should preserve.
-Second, each committed prefix determines both the latent history and the
-reference state from which the next segment begins. Under Teacher Forcing (TF), these inputs
-come from recorded motion; at deployment, they depend on the model's own
-samples. Generated-history training addresses related
-mismatches~\cite{bengio2015scheduled,chen2024diffusionforcing,xiao2025motionstreamer},
-but a boundary-conditioned D+C generator must also maintain correspondence
-between its committed components and the state induced by their decoded movement.
-
-We address these problems with \method{}, a framework for anticipatory
-music-conditioned generation of robot-native dance. We use Magenta RealTime~2
-(MRT-2), a general-purpose generative music foundation model pretrained on
-approximately 71,000 hours of music~\cite{magenta2026mrt2}. Its frozen musical
-prior predicts upcoming states from the audio received so far. This separates
-learning musical continuation from learning music--motion correspondence:
-paired dance data teaches the motion generator to use an existing predictive
-prior, rather than having to supply that prior itself.
-To our knowledge, \method{} is the first streaming dance generation framework
-to explicitly condition motion on future music states forecast by a pretrained
-music foundation model using past and present audio alone.
-These forecasts provide prospective context without access to future waveform
-samples. They condition both a discrete structural planner and a
-structure-conditioned residual diffusion model through frame-wise
-modulation~\cite{perez2018film}, connecting musical anticipation to body
-organization and complementary articulation.
-
-Our kinematics-guided D+C representation couples this generator to explicit
-reconstruction objectives. Discrete-only reconstruction is supervised on
-designated root, joint, and endpoint quantities, while code embeddings combined
-with the residual reconstruct the complete motion through a shared
-boundary-conditioned decoder.
-Structural supervision under residual corruption further encourages the
-designated organization to persist when detail varies. The representation
-therefore learns complementary roles through robot-kinematic supervision,
-rather than relying on quantization alone to separate structure and detail.
-
-To train continuation, we introduce \cof{}. A first pass samples structure
-and detail, commits their shared prefix, and reconstructs the next boundary
-state from the decoded reference motion. A second pass learns continuation
-under this generated history--state pair. The training context follows the
-same reference-update operation used during streaming inference, exposing the
-continuation model to the coupled consequences of its structural and detail
-predictions.
-
-The generator repeatedly plans, commits a prefix, and updates its reference
-context (Fig.~\ref{fig:overview}). A reference bridge connects this stream to a
-fixed SONIC whole-body controller~\cite{luo2026sonic}. The generator maintains
-reference-derived context, whereas SONIC uses measured robot state for physical
-feedback. Since delivery and tracking can change timing and motion dynamics,
-our evaluation protocol distinguishes music--motion matching, music adaptation,
-and dance quality at the generated-reference and executed-trajectory layers.
+Music-conditioned choreography has advanced through expressive motion models
+and large paired datasets~\cite{li2021aist,tseng2023edge,li2023finedance,li2025soulnet}.
+Streaming systems such as DiscoForcing~\cite{ji2026discoforcing} encode incoming
+audio causally, supporting motion generation as the soundtrack unfolds.
+Our question is how to supply prospective musical context when future audio
+is unavailable. We investigate this question in robot-native dance: the model
+produces reference motion in the humanoid's own configuration space, so musical
+choices must be expressed through its body and continued across successive
+planning decisions.
 
 \begin{figure*}[t]
 \centering
@@ -95,29 +27,55 @@ and dance quality at the generated-reference and executed-trajectory layers.
 \label{fig:overview}
 \end{figure*}
 
+We present \method{}, a framework that conditions streaming dance on predicted
+future music states. A frozen Magenta RealTime~2 (MRT-2) music foundation
+model~\cite{magenta2026mrt2} rolls forward from the audio received so far.
+This transfers a general musical continuation prior into dance generation:
+paired dance data teaches the motion model to use the prior, while musical
+prediction is learned through large-scale music pretraining.
+To our knowledge, \method{} is the first streaming dance generation framework
+to explicitly condition motion on future music states forecast by a pretrained
+music foundation model using past and present audio alone. The predicted
+states guide both whole-body organization and complementary articulation.
+
+Realizing this design requires a representation that organizes movement and a
+training procedure that accounts for earlier generated choices. Our
+kinematics-guided discrete--continuous (D+C) representation couples discrete
+structure and continuous detail with complementary reconstruction objectives.
+Structure-only reconstruction preserves designated body organization and
+endpoint placement; their combination reconstructs full motion through a
+shared decoder. Building on hybrid motion representations~\cite{wang2026dcmotion},
+this supervision specifies what the two components should preserve.
+\cof{} then trains continuation after jointly sampling and committing both
+components. Their decoded movement determines the next starting state, pairing
+generated history with the reference state it actually induces.
+
+At each decision, \method{} plans a short segment, commits its prefix, and
+updates the context for the next plan (Fig.~\ref{fig:overview}). A reference
+interface delivers the resulting stream to a fixed SONIC whole-body
+controller~\cite{luo2026sonic}. The generator continues from committed references;
+measured robot feedback is handled by the controller. This keeps the
+motion-generation mechanism explicit while providing a path to motion tracking.
+
 Our contributions are:
 \begin{itemize}\setlength{\itemsep}{2pt}
-\item \textbf{Kinematics-guided robot-native D+C representation and generation.}
-Complementary reconstruction objectives explicitly supervise structural
-properties in discrete codes and combine them with continuous detail through
-shared decoding and coupled music-conditioned generation.
-\item \textbf{Commit Forcing for streaming continuation.}
-Joint commitment of sampled structure and detail, together with reconstruction
-of the resulting reference boundary state, enables continuation training
-under a generated history--state transition.
 \item \textbf{Anticipatory music conditioning for streaming dance.}
-A frozen music foundation model supplies predicted future states from arrived
-audio, transferring a general musical continuation prior to robot-native
-generation. A fixed-controller reference interface and layered evaluation
-separate soundtrack correspondence, forecast benefit, and physical execution.
+Predicted future states from a frozen music foundation model provide musical
+lookahead using arrived audio alone.
+\item \textbf{Kinematics-guided D+C representation and paired training.}
+Complementary reconstruction objectives establish structural and detail roles
+for coupled music-conditioned generation through a shared decoder.
+\item \textbf{Commit Forcing for streaming continuation.}
+Jointly generated structure and detail define both the committed history and
+its resulting reference state for continuation training.
 \end{itemize}
 
-Our main quantitative evidence evaluates whether generated dance corresponds
-to its soundtrack. A frozen G1-native music--motion retrieval evaluator compares
-each of 198 generated 60\,s trajectories with its correct music and ten other
-tracks in a fixed FineDance gallery. Correct music wins 74.20\% and 75.01\%
-of pairwise comparisons under prefix-aware and direct-prefix startup,
-respectively, with positive score margins in every generator training seed.
-This tests soundtrack correspondence while holding each generated motion fixed.
-Motion-distribution and smoothness measurements provide complementary evidence
-about dance quality, and a selected 60\,s sequence illustrates the reference output.
+We evaluate soundtrack correspondence in 198 generated 60\,s FineDance
+trajectories. A frozen G1-native music--motion evaluator favors the intended
+soundtrack over alternative gallery tracks in 74.20\% and 75.01\% of pairwise
+comparisons under two startup settings, with positive margins in every
+training seed. Complementary motion-quality measurements and rendered
+references characterize the generated dance. These completed studies establish
+correspondence within the framework; Section~\ref{sec:evidence_scope} distinguishes
+this evidence from the comparisons needed to attribute forecast and component
+benefits.

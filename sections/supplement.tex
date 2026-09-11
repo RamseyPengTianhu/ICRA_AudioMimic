@@ -1,5 +1,6 @@
 \section{Representation and Training Details}
 \label{app:training}
+\input{sections/representation_details}
 \paragraph{Kinematic reconstruction losses}
 The full view contains four blocks: native motion, native velocity, forward-kinematics positions, and geometry velocity. Each block is standardized with training-split statistics. For a view $\Phi$ with blocks $\Phi^{(k)}$, define the reconstruction error
 \begin{equation}
@@ -18,8 +19,10 @@ In the native block, structure selects the first 24 of 38 coordinates: nine root
 The geometry block contains 31 points: 29 non-root body origins and two lowest-foot geometry points. Structure selects the torso, the two wrist-yaw body origins, and the two lowest-foot points. Detail selects the remaining 26 points. Geometry velocity uses the same partition. These are supervision and analysis views, not independent anatomical decoders. In particular, the structural geometry view can constrain wrist placement while the complementary native view describes arm articulation.
 
 \paragraph{Generator optimization and initialization}
-The update budget in Section~\ref{sec:experimental_setup} corresponds to
-300,000 training windows. Residual sampling uses guidance fixed at 1.0;
+Generator training uses 6,250 updates with batch size 48, corresponding to
+300,000 training windows. Mixed-start training draws 20\% song-origin starts
+and 80\% continuation windows; continuation-start training uses ordinary
+windows throughout. Residual sampling uses guidance fixed at 1.0;
 the music model remains frozen during generator training.
 
 \paragraph{History regularization}
@@ -39,7 +42,8 @@ Figure~\ref{fig:cof_training_detail} details the construction. Each training exa
 \label{app:scope}
 The primary correspondence cohort yields 99 trajectories per startup variant:
 three generator training seeds, three sampling seeds, and eleven tracks.
-For every motion, the intended audio is compared with all ten wrong-track
+Each trajectory contains 1,800 frames at 30\,Hz and supplies 56 overlapping
+five-second windows with one-second stride. For every motion, the intended audio is compared with all ten wrong-track
 donors at matched relative windows, preserving each source's native audio
 offset. Means are formed over windows and donors, then sampling repeats within
 training-seed/query-track cells, and finally the three training seeds and
@@ -47,8 +51,10 @@ training-seed/query-track cells, and finally the three training seeds and
 query tracks with replacement; the same sampled query-track list is applied
 across the selected training seeds. Percentiles 2.5 and 97.5 over 10,000 draws
 define descriptive 95\% intervals. The gallery of donors remains fixed.
-The separate 18-track motion-quality cohort yields 162 outputs per configuration;
-its sampling repeats and uncertainty are handled within that cohort.
+The separate 18-track motion-quality cohort uses common source-supported 23\,s
+segments beginning at frame 264, three training seeds and three sampling seeds,
+yielding 162 outputs per configuration. Its scores and uncertainty are kept
+separate from the 60\,s correspondence study.
 
 \subsection{Music--Motion Evaluator}
 \label{app:metric_construction}
@@ -132,7 +138,11 @@ permission to retime primary music scores.
 \section{History-Corruption Results}
 \label{app:fhc}
 Table~\ref{tab:training} provides the full values for the comparison in
-Section~\ref{sec:matching_quality}.
+Section~\ref{sec:matching_quality}. Under mixed-start training, kinetic/geometric
+FID changes from 208.599/0.482 with clean history to 162.831/0.410 with FHC,
+with the same favorable direction across training seeds. Continuation-start
+changes are smaller, from 156.218/0.372 to 154.180/0.361. Mixed-start contact
+and jerk favor clean history, exposing a distribution--smoothness tradeoff.
 
 \begin{table*}[t]
 \centering\small

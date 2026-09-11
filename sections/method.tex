@@ -1,118 +1,140 @@
-\section{Problem Formulation}
-We consider a causal audio stream and an output motion prefix that cannot be revised. At a planning decision, let $a_{\leq\tau}$ denote the arrived audio, $h$ the committed motion-code history, and $b$ the state derived from the last committed native frames. A frozen music model produces forecast states $m^{\rm pred}=F(a_{\leq\tau})$. The motion generator samples a plan
+\section{Method}
+\label{sec:method}
+\method{} links musical forecasting, structured motion generation, and
+continuation after a committed prefix. Figure~\ref{fig:overview} shows the
+common forecast condition and the motion context shared by these operations.
+
+\paragraph{Streaming task}
+At a planning decision, $a_{\leq\tau}$ is the arrived audio, $h$ is committed
+motion-code history, and $b$ is the pose and velocity state derived from the
+last committed reference frames. A frozen music model produces future states
+$m^{\rm pred}=F(a_{\leq\tau})$. The generator samples
 \begin{equation}
-(q_{1:H},r_{1:H})\sim p_\theta(q,r\mid h,b,m^{\rm pred}).
+(q_{1:H},r_{1:H})\sim p_\theta(q,r\mid h,b,m^{\rm pred}),
 \label{eq:conditional}
 \end{equation}
-Here $q$ is discrete structure and $r$ is continuous detail. Both are decoded into native G1 motion; the first $C<H$ latent steps are committed and the suffix is discarded. The next decision uses the appended history and the state reconstructed from the newly committed frames.
-
-The motion rate is 30\,Hz, with two frames per latent step. We use 64 latent history steps (128 frames, approximately 4.27\,s), an eight-step plan (16 frames, approximately 0.53\,s), and a four-step commit (eight frames, approximately 0.27\,s). The overlapping planning horizon permits revision of uncommitted motion while the output prefix grows. All inference inputs are available at the corresponding decision time.
-
-\section{Method}
-\method{} links three operations: forecasting the upcoming musical context, generating a structured motion plan, and learning to continue after committing part of that plan. Figure~\ref{fig:overview} shows how the forecast and committed motion context meet in the two motion generators.
-
+where $q$ and $r$ are discrete structure and continuous detail. A shared decoder
+maps them to native G1 motion. We commit the first $C<H$ latent steps, discard
+the suffix, and update history and the reference state. Thus later decisions
+may revise uncommitted plans while preserving the emitted motion.
 
 \subsection{Anticipatory Music Conditioning}
 \label{sec:anticipation}
-The music that will accompany the next plan is only partly observed. We obtain a forward-looking condition by tokenizing the arrived audio with SpectroStream and rolling a frozen MRT-2 Small model forward~\cite{magenta2026mrt2}. MRT-2 is pretrained for general music generation, independently of our paired dance training. Freezing it preserves that continuation prior while learned conditioning projections adapt its forecast states to motion. The condition consists of 14 native forecast states at 25\,Hz, spanning approximately 0.56\,s. Each state retains its intended physical time. Forecasting in this latent music space supplies a prospective condition directly to the motion generators, while the future recording remains unobserved.
+The next movement will accompany sound that is only partly observed. We
+provide prospective context by tokenizing arrived audio with SpectroStream
+and rolling frozen MRT-2 Small forward~\cite{magenta2026mrt2}. Its general music
+pretraining supplies the continuation prior; paired dance training learns how
+to translate the predicted states into movement. The forecast covers
+approximately 0.56\,s, alongside a motion plan of approximately 0.53\,s.
+No future waveform samples enter the condition.
 
-Let $u_j$ be a forecast state and $\ell_j$ its lead relative to the motion decision. We form
+Each forecast state carries its intended time. Learned projections and time
+embeddings align these states to motion positions, and frame-wise feature
+modulation~\cite{perez2018film} conditions both branches:
 \begin{equation}
- c_j=W\,\mathrm{LN}(u_j)+\phi(\ell_j),
+\mathrm{FiLM}(v_i,c_i)=\gamma(c_i)\odot v_i+\beta(c_i).
 \end{equation}
-where $\phi$ represents physical time. The interface aligns valid forecast states with the motion horizon and uses frame-wise feature modulation~\cite{perez2018film} in both branches. In schematic form, an activation $v_i$ receives a scale and a shift derived from its aligned condition:
-\begin{equation}
- \mathrm{FiLM}(v_i,c_i)=\gamma(c_i)\odot v_i+\beta(c_i).
-\end{equation}
-Conditioning both branches lets the same musical forecast guide body organization and its complementary articulation. Timestamp-based masking excludes expired forecast states from their aligned motion positions.
+Here $v_i$ is a generator activation, $c_i$ its aligned music condition, and
+$\gamma,\beta$ predict a scale and shift. Conditioning both branches lets the
+same prospective context guide body organization and local articulation;
+structure also conditions the detail generator. The music model stays frozen
+while these motion-side mappings are learned. Expired forecast states are
+masked by their timestamps. Appendix~\ref{app:training} specifies timing and
+conditioning details.
 
-The forecaster remains frozen while the dance generator learns to interpret these states. A null condition bypasses music modulation and supports separately trained no-music controls. Section~\ref{sec:matching_quality} reports fixed-motion soundtrack correspondence; Section~\ref{sec:music_results} specifies the controlled comparisons needed to isolate conditional adaptation and forecast benefit.
-
-\subsection{Kinematics-Guided Structure--Detail Decoupling}
+\subsection{Kinematics-Guided D+C and Paired Training}
 \label{sec:dc}
-The representation must retain both coordinated body motion and the articulation needed to realize it. We impose this division through kinematic reconstruction views, then use the resulting discrete and continuous codes in a coupled generator.
-
-\paragraph{Native motion and boundary state}
-We represent motion directly in the robot's configuration space, including full pelvis orientation. A fixed yaw anchor $R_A$ is removed once for a motion sequence, and every frame stores absolute orientation in that anchor:
-\begin{align}
- R_t^A&=R_A^\top R_t^{\rm world},\\
- x_t&=[\Delta p_{xy,t}^{\rm local},\;h_t,\;\rho(R_t^A),\;\theta_t].
-\label{eq:motion}
-\end{align}
-Here $\Delta p_{xy,t}^{\rm local}$ denotes planar displacement, $h_t$ is pelvis height, $\rho$ is the six-dimensional rotation representation~\cite{zhou2019rotation}, and $\theta_t$ contains 29 joint angles, giving 38 motion dimensions. This retains roll and pitch without multiplying a sequence of predicted rotation increments. Planar displacements are integrated using the appropriate preceding heading. The anchor remains fixed over the generated sequence; it is not reset at every commit.
-
-The corresponding 71-dimensional boundary state is
+Musically directed motion needs coordinated body organization together with
+local articulation. We learn these roles through complementary supervision,
+using a discrete--continuous latent
 \begin{equation}
- b_t=[h_t,v^{\rm local}_{xy,t},v_{z,t},\rho(R_t^A),\omega_t,
- \theta_t,\dot\theta_t].
-\label{eq:state}
-\end{equation}
-The state contains pelvis height, local planar and vertical velocities, orientation, angular velocity $\omega_t$, joint angles, and joint velocities. Conditioning on these quantities makes the starting pose and motion explicit at each segment boundary. They are reconstructed from the committed reference.
-
-\paragraph{Complementary latent roles}
-A boundary-conditioned encoder maps motion to a 16-dimensional latent per step:
-\begin{equation}
- z_i=e(q_i)+r_i,\qquad q_i\in\{1,\ldots,512\},\quad r_i\in\mathbb R^{16}.
+z_i=e(q_i)+r_i,
 \label{eq:latent}
 \end{equation}
-Here $e(q_i)$ is the selected codebook embedding. A shared decoder $D_\psi(z,b)$ maps their sum to native motion. The discrete code supplies the structural hypothesis, and the residual adjusts the motion within that hypothesis. Their complementary roles are encouraged by the reconstruction objectives below; both contribute through the same decoder.
+where $e(q_i)$ is a codebook embedding and $r_i$ a continuous residual. A shared
+decoder $D_\psi(z,b)$ maps their sum and starting state to robot-native motion.
+Quantization supplies a structural hypothesis; the residual adjusts movement
+within it. The training objectives determine which properties this division
+should preserve (Fig.~\ref{fig:dc}).
 
-\paragraph{Training the division of labor}
-Let $\Phi_f$ contain native motion, boundary-aware motion velocities, forward-kinematics positions, and their velocities, each standardized using training data. In the native-motion and velocity blocks, the structural view $\Phi_s$ selects root quantities, both legs, and the waist; the complementary detail view contains the 14 arm-joint coordinates. In the geometry blocks, structure selects the torso, both wrist endpoints, and both sole points, while detail contains the remaining body points. Positions and their velocities use the same point partition. This couples body organization to endpoint placement: for example, wrist position is structural even though the corresponding arm-joint articulation lies in the complementary native view. The detail view is the exact complement within each block. Equal block weighting avoids letting a high-dimensional geometry block dominate.
+\paragraph{Learning complementary roles}
+We pair full-latent reconstruction $D_\psi(e+r,b)$ with structure-only
+reconstruction $D_\psi(e,b)$. The full path reconstructs all motion views,
+whereas the structure-only path is supervised on designated structural views.
+Both use the same decoder and starting state. This gives discrete structure
+an explicit kinematic responsibility while allowing the combined latent to
+retain complete movement.
 
-Let $\mathrm{sg}$ denote stop-gradient. For encoder output $z$, embedding $e$, and $r=z-\mathrm{sg}(e)$, we form full and structure-only reconstructions, together with an auxiliary residual-corrupted reconstruction:
-\begin{align}
- x_f&=D_\psi(\mathrm{sg}(e)+r,b),\\
- x_s&=D_\psi(z+\mathrm{sg}(e-z),b),\\
- x_c&=D_\psi(\mathrm{sg}(e)+\mathcal C(r),b).
-\end{align}
-The full branch is supervised on $\Phi_f$; the other two are supervised on $\Phi_s$. The corruption $\mathcal C$ either zeros detail or adds small channel-scaled noise, encouraging the structural reconstruction to persist under changes in the residual. Figure~\ref{fig:dc} shows the two principal reconstruction paths. The combined objective is
-\begin{equation}
-\begin{split}
-\mathcal L_{\rm codec}={}&\mathcal L_f+\mathcal L_s
- +0.25\mathcal L_{\rm robust}+\mathcal L_{\rm VQ}\\
- &+\mathcal L_{\rm boundary}.
-\end{split}
-\label{eq:codec}
-\end{equation}
-The final term supervises boundary-transition derivatives and pelvis orientation at the beginning of the reconstructed segment. Appendix~\ref{app:training} provides the training details.
+The supervision views cover native coordinates and velocities, plus
+forward-kinematics positions and velocities. In joint space, structure selects
+root, legs, and waist; detail contains the arm coordinates. In geometry,
+structure selects the torso, both wrists, and both sole points; detail contains
+the remaining body points. Thus wrist placement can be structural while
+arm-joint articulation belongs to the complementary native view. These are
+supervision views of shared decoding, not separate anatomical decoders.
+An auxiliary structural loss under residual corruption reinforces the same
+organization when detail varies. Exact partitions, reconstruction gradients,
+and loss weights are given in Appendix~\ref{app:training}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/foredance/dc-bodyparts.png}
+\includegraphics[width=.92\textwidth]{figures/foredance/dc-bodyparts.png}
 \caption{\textbf{The representation and its training are one design.} Body-part supervision has separate joint and geometry partitions: root/legs/waist versus arms in joint space, and torso/wrists/soles versus other body points in geometry. The two principal reconstruction paths supervise the full latent on all views and discrete structure on the structural view. The shared decoder and boundary state are used throughout.}
 \label{fig:dc}
 \end{figure*}
 
-\paragraph{Coupled generation}
-A causal Transformer samples structural tokens autoregressively. A continuous diffusion generator~\cite{ho2020ddpm} conditions on the sampled structure, history, state, and forecast music to predict residual detail. We use ten DDIM steps~\cite{song2021ddim}. The structural planner uses a classification objective, and the detail generator uses a denoising objective. Conditioning detail on the sampled structure connects their decisions before decoding. Committing the same prefix of both branches preserves that pairing across successive plans.
+\paragraph{Coupled motion generation}
+A causal Transformer samples structural tokens. A residual diffusion
+generator~\cite{ho2020ddpm} conditions on that sampled structure, the common
+history and starting state, and the forecast music. Their sum decodes into
+38-dimensional G1 motion, including root movement and 29 joint angles.
+Both branches commit the same prefix, preserving their pairing across plans.
+The next segment starts from a reference-derived pose and velocity state;
+the coordinate convention and complete state definition are in
+Appendix~\ref{app:training}.
 
 \subsection{Commit Forcing}
 \label{sec:cof}
-A committed motion segment changes two inputs to the next decision: the latent history and the boundary state. Under TF, both are taken from recorded motion; under streaming inference, both depend on the model's samples. CoF addresses this mismatch by constructing the generated transition before supervising continuation (Fig.~\ref{fig:cof}). A stop-gradient first pass samples $\tilde q,\tilde r$ using the inference samplers. Their first $C$ steps are committed together and decoded; an update operator $U$ appends the codes and derives the new state:
+Every committed segment changes both latent history and the reference state
+from which the next segment begins. Teacher Forcing (TF) supplies these inputs
+from recorded motion; streaming inference obtains them from generated motion.
+\cof{} constructs this generated transition before supervising continuation
+(Fig.~\ref{fig:cof}). A stop-gradient first pass samples structure $\tilde q$
+and detail $\tilde r$ with the inference samplers. Their common committed
+prefix is decoded, and an update operator $U$ constructs
 \begin{equation}
- (\tilde h^+,\tilde b^+)=U\bigl(h,b,\tilde q_{1:C},\tilde r_{1:C}\bigr).
+(\tilde h^+,\tilde b^+)=U(h,b,\tilde q_{1:C},\tilde r_{1:C}).
 \end{equation}
-The next supervised plan receives this complete context. Substituting the whole transition avoids pairing generated codes with a boundary state taken from a different recorded transition.
+The next training pass receives the appended codes together with the state
+induced by their movement. This keeps history and state consistent with the
+same generated commitment rather than combining unrelated transitions.
 
-\paragraph{Residual targets under sampled structure}
-For the next dataset target $z^*=e(q^*)+r^*$ and sampled structural token $\hat q$, define
+\paragraph{Learning the next plan}
+The next recorded latent remains the training target. For target
+$z^*=e(q^*)+r^*$ and sampled next structure $\hat q$, we rebase the residual:
 \begin{equation}
- r^*_{\rm rebased}=z^*-e(\hat q).
+r^*_{\rm rebased}=z^*-e(\hat q).
 \label{eq:rebase}
 \end{equation}
-Thus $e(\hat q)+r^*_{\rm rebased}=z^*$. This preserves the \emph{target latent}; the boundary-conditioned decoder need not produce identical motion under recorded and generated states. We retain the next recorded latent target while changing the conditioning history and state. Each training example constructs its first-pass transition independently; Appendix~\ref{app:training} describes this sampling procedure.
-
-The key operation is the joint transition: generated structure, generated detail, and reconstructed boundary state enter the next training context together. This exposes the continuation model to the consequences of its own commitment operation. Boundary continuity and long-rollout quality provide the corresponding tests against TF.
+Consequently, $e(\hat q)+r^*_{\rm rebased}=z^*$: rebasing preserves the target
+latent. Decoded movement also depends on the starting state and need not be
+identical under recorded and generated states. Each example independently
+constructs its first-pass transition; the procedure trains continuation after
+a generated commit without requiring a fully recursive training rollout.
+The distinguishing operation is the joint history--state update, which exposes
+the learner to the coupled consequences of its structure and detail predictions.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/foredance/cof-v2.png}
+\includegraphics[width=.82\textwidth]{figures/foredance/cof-v2.png}
 \caption{\textbf{Learning the next plan: TF versus CoF.} TF receives a recorded history--state pair. CoF samples and commits structure and detail together, derives the corresponding next reference state, and supervises continuation. Both use recorded targets. Residual rebasing retains the target latent under sampled structure; decoding additionally depends on the supplied boundary state.}
 \label{fig:cof}
 \end{figure*}
 
-\paragraph{Supporting training choices}
-Full-history corruption (FHC) perturbs the complete discrete-embedding and residual history during supervised training, while leaving boundary state and forecast music unchanged. It is applied after CoF context construction and is absent at inference. This regularizes the history input across the complete context window. We consider two startup settings---mixed song-origin starts and ordinary continuation---and report their effects separately in the experiments.
+\paragraph{Supporting history regularization}
+Full-history corruption (FHC) perturbs discrete embeddings and residuals across
+the motion history, after CoF context construction. It leaves the reference
+state and music condition unchanged and is disabled at inference.
+Appendix~\ref{app:training} gives its settings.
 
 \input{sections/execution_interface}
