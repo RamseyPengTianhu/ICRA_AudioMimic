@@ -17,15 +17,27 @@ music--motion alignment. These works motivate evaluating musical correspondence
 together with motion quality, rather than treating either as sufficient alone.
 
 Streaming additionally constrains which audio is available at each decision.
-DiscoForcing~\cite{ji2026discoforcing} combines causal audio encoding with
-diffusion forcing for streaming character control and humanoid deployment.
-Encoding heard music and predicting upcoming music are distinct operations.
-Generative music models, including Jukebox~\cite{dhariwal2020jukebox} and
-Live Music Models~\cite{gdmlyria2025live}, provide foundations for continuation
-from musical context. We use frozen Magenta RealTime~2~\cite{magenta2026mrt2}
-forecasts as prospective conditions for robot motion. This supplies inferred
-musical lookahead without accessing the future recording; the forecaster itself
-is not a contribution of this work.
+DiscoForcing~\cite{ji2026discoforcing} introduces a task-specific causal
+VQ-PAE music encoder for rhythmic tokens and periodic alignment, within a
+streaming motion pipeline evaluated on paired FineDance and AIST++ data.
+Its condition describes a sliding window of heard audio. We instead roll a
+frozen generative music model forward to obtain explicit future-state
+conditions. Compared with learning musical representations within a paired
+dance pipeline, this design brings in a continuation prior learned from a much
+larger music corpus, without requiring motion annotations for music pretraining.
+The dance generator still learns music--motion correspondence from paired data.
+
+Large-scale music pretraining already supports dance generation:
+EDGE uses Jukebox features~\cite{tseng2023edge,dhariwal2020jukebox}, and
+DGFM combines foundation-model features with acoustic
+features~\cite{liu2025dgfm}. Our distinction is predictive use under a causal
+audio constraint, rather than foundation-model features alone. Earlier robot
+dance systems also predict beat timing~\cite{nakahara2009tempo}; our condition
+is a sequence of learned music states from a generative continuation model.
+Live Music Models~\cite{gdmlyria2025live} and Magenta
+RealTime~2~\cite{magenta2026mrt2} supply the music-generation foundation.
+We transfer the latter's frozen forecasts to structured streaming motion;
+the pretrained forecaster itself is not our contribution.
 
 \subsection{Motion Representations and Motor Priors}
 Vector quantization~\cite{vandenOord2017vqvae} supports discrete motion models

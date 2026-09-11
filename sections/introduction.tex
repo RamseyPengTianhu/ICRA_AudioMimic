@@ -46,8 +46,16 @@ but a boundary-conditioned D+C generator must also maintain correspondence
 between its committed components and the state induced by their decoded movement.
 
 We address these problems with \method{}, a framework for anticipatory
-music-conditioned generation of robot-native dance. A frozen causal music model
-predicts upcoming music states from the audio received so far~\cite{magenta2026mrt2}.
+music-conditioned generation of robot-native dance. We use Magenta RealTime~2
+(MRT-2), a general-purpose generative music foundation model pretrained on
+approximately 71,000 hours of music~\cite{magenta2026mrt2}. Its frozen musical
+prior predicts upcoming states from the audio received so far. This separates
+learning musical continuation from learning music--motion correspondence:
+paired dance data teaches the motion generator to use an existing predictive
+prior, rather than having to supply that prior itself.
+To our knowledge, \method{} is the first streaming dance generation framework
+to explicitly condition motion on future music states forecast by a pretrained
+music foundation model using past and present audio alone.
 These forecasts provide prospective context without access to future waveform
 samples. They condition both a discrete structural planner and a
 structure-conditioned residual diffusion model through frame-wise
@@ -97,11 +105,11 @@ shared decoding and coupled music-conditioned generation.
 Joint commitment of sampled structure and detail, together with reconstruction
 of the resulting reference boundary state, enables continuation training
 under a generated history--state transition.
-\item \textbf{A causal music-to-robot framework with layered evaluation.}
-Forecast-conditioned robot-native generation is connected to fixed whole-body
-control through a reference interface. The evaluation protocol distinguishes
-music matching, conditional adaptation, and motion quality before and after
-execution.
+\item \textbf{Anticipatory music conditioning for streaming dance.}
+A frozen music foundation model supplies predicted future states from arrived
+audio, transferring a general musical continuation prior to robot-native
+generation. A fixed-controller reference interface and layered evaluation
+separate soundtrack correspondence, forecast benefit, and physical execution.
 \end{itemize}
 
 Our main quantitative evidence evaluates whether generated dance corresponds

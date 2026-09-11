@@ -66,3 +66,9 @@ Final checks: 14-page PDF rendered and visually reviewed, 39 cited references, n
 ## Teammate figures retained (2026-09-10)
 
 The main paper now includes an execution-interface diagram adapted from the teammate editable architecture, and the supplement includes their corrected Commit Forcing training diagram unchanged. The ForeDance overview remains the main figure. Historical 34D raster diagrams and codec results are not relabeled as current evidence.
+
+## 2026-09-11: anticipatory foundation-model positioning
+
+Revised the abstract, introduction, related work, anticipation method passage and discussion to identify MRT-2's general music pretraining and its role as a frozen future-state predictor. Added a qualified first claim scoped to foundation-model forecasts conditioning causal streaming dance. Added DGFM and early robot tempo prediction references so the novelty excludes prior feature reuse and beat anticipation. Kept the accepted numerical results and all figures unchanged. Full source checks are in `evidence/foredance/ANTICIPATION_POSITIONING_REVIEW.md`.
+
+Moved T1 encoding initialization ahead of the IEEE class to avoid class-time font substitution under Tectonic. Restored missing local Times math-font resources. Rebuilt the full PDF, checked active citations, and inspected the edited pages and bibliography. The current complete working draft is 14 pages; pending comparison studies and inherited venue formatting remain to be reconciled before submission. Current validation is `evidence/foredance/anticipation-positioning-validation.json`; earlier validation files describe their historical revisions.

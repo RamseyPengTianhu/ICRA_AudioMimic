@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-11",
+  "base_commit": "956ad67",
+  "pages": 14,
+  "compile": "Tectonic successful",
+  "layout_errors": [],
+  "cited_entries": 44,
+  "bibliography_entries": 55,
+  "missing_entries": [],
+  "pdf_sha256": "3ca086f2b7fb7e3e436b7af6b1e78630c861023bff37c8f7e07a2fac06c11f74",
+  "quantitative_tables_unchanged": true,
+  "figures_unchanged": true,
+  "visual_review": "Passed: full-document contact sheet and full-size pages 1, 2, 4, 8, 13, 14; no clipping, overlaps or missing glyphs.",
+  "font_setup": "T1 initialized before class; missing Times math resources restored in local compiler cache.",
+  "submission_readiness": "Working draft; comparison results remain pending; venue/page-budget reconciliation not part of this edit."
+}

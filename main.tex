@@ -1,6 +1,6 @@
+\RequirePackage[T1]{fontenc}
 \documentclass[letterpaper,10pt,conference]{ieeeconf}
 \overrideIEEEmargins
-\usepackage[T1]{fontenc}
 \usepackage{mathptmx,microtype}
 \usepackage{amsmath,amssymb,bm,graphicx,booktabs,array}
 \usepackage{xcolor}
@@ -31,7 +31,7 @@
 \thispagestyle{empty}
 \pagestyle{empty}
 \begin{abstract}
-Streaming dance must prepare movements for music that has not yet arrived while continuing from an irrevocable motion prefix. This couples musical anticipation with the problem of generating coherent motion over successive decisions. We present \method{}, a streaming dance framework that obtains forward-looking conditions from a frozen causal music model. Forecast states guide a discrete structural planner and a continuous-detail generator, providing musical lookahead without access to future audio. To make these motion components complementary, we introduce kinematics-guided structure--detail decoupling together with its training objectives: structural reconstruction preserves designated body organization and endpoint geometry, while full reconstruction retains the complete motion. \cof{} trains continuation from jointly committed structure and detail and the boundary state reconstructed from their decoded movement. On 198 generated 60-second trajectories from 11 FineDance tracks, a frozen G1-native music--motion retrieval evaluator ranks the correct soundtrack above ten alternative tracks in 74.20\% and 75.01\% of pairwise comparisons under two startup settings. Positive correct-minus-wrong score margins recur across all three generator training seeds. These fixed-gallery results support soundtrack correspondence in the generated references, while the structured representation and commitment mechanism define how motion is produced and continued.
+Streaming dance must prepare movements for music that has not yet arrived while continuing from an irrevocable motion prefix. This couples musical anticipation with the problem of generating coherent motion over successive decisions. We present \method{}, a streaming dance framework that obtains forward-looking conditions from a frozen, general-purpose music foundation model. Forecast states guide a discrete structural planner and a continuous-detail generator, providing musical lookahead without access to future audio. To make these motion components complementary, we introduce kinematics-guided structure--detail decoupling together with its training objectives: structural reconstruction preserves designated body organization and endpoint geometry, while full reconstruction retains the complete motion. \cof{} trains continuation from jointly committed structure and detail and the boundary state reconstructed from their decoded movement. On 198 generated 60-second trajectories from 11 FineDance tracks, a frozen G1-native music--motion retrieval evaluator ranks the correct soundtrack above ten alternative tracks in 74.20\% and 75.01\% of pairwise comparisons under two startup settings. Positive correct-minus-wrong score margins recur across all three generator training seeds. These fixed-gallery results support soundtrack correspondence in the generated references, while the structured representation and commitment mechanism define how motion is produced and continued.
 \end{abstract}
 \input{sections/introduction}
 \input{sections/related_work}

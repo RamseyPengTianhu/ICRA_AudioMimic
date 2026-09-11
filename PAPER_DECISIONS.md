@@ -1621,3 +1621,7 @@ User-approved: ForeDance generation narrative, representation, training and main
 ## Teammate figures retained (2026-09-10)
 
 The main paper now includes an execution-interface diagram adapted from the teammate editable architecture, and the supplement includes their corrected Commit Forcing training diagram unchanged. The ForeDance overview remains the main figure. Historical 34D raster diagrams and codec results are not relabeled as current evidence.
+
+## Anticipatory foundation-model positioning (2026-09-11)
+
+At the user's request, identify frozen MRT-2 as a general-purpose generative music foundation model and explain the benefit of learning its musical prior beyond paired dance data. Keep the comparative claim at the mechanism/data-source level until matched results are available. State a qualified first claim for explicit future music-state forecasts from a pretrained music foundation model conditioning streaming dance from arrived audio alone. Acknowledge prior foundation-model feature conditioning (EDGE/DGFM) and prior robot beat prediction; distinguish DiscoForcing's heard-audio causal encoder without asserting an undocumented encoder pretraining history. Sources and claim boundaries are in `evidence/foredance/ANTICIPATION_POSITIONING_REVIEW.md`.

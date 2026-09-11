@@ -14,7 +14,7 @@ The motion rate is 30\,Hz, with two frames per latent step. We use 64 latent his
 
 \subsection{Anticipatory Music Conditioning}
 \label{sec:anticipation}
-The music that will accompany the next plan is only partly observed. We obtain a forward-looking condition by tokenizing the arrived audio with SpectroStream and rolling a frozen Magenta RealTime~2 Small model forward. The condition consists of 14 native forecast states at 25\,Hz, spanning approximately 0.56\,s. Each state retains its intended physical time. Forecasting in this latent music space supplies a prospective condition directly to the motion generators, while the future recording remains unobserved.
+The music that will accompany the next plan is only partly observed. We obtain a forward-looking condition by tokenizing the arrived audio with SpectroStream and rolling a frozen MRT-2 Small model forward~\cite{magenta2026mrt2}. MRT-2 is pretrained for general music generation, independently of our paired dance training. Freezing it preserves that continuation prior while learned conditioning projections adapt its forecast states to motion. The condition consists of 14 native forecast states at 25\,Hz, spanning approximately 0.56\,s. Each state retains its intended physical time. Forecasting in this latent music space supplies a prospective condition directly to the motion generators, while the future recording remains unobserved.
 
 Let $u_j$ be a forecast state and $\ell_j$ its lead relative to the motion decision. We form
 \begin{equation}

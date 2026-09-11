@@ -20,13 +20,17 @@ separate cohort, and the illustrated sequence is a selected qualitative case.
 
 Rescoring fixed motion establishes soundtrack correspondence, while matched
 music-input interventions are needed to isolate conditional adaptation and
-the incremental benefit of forecasts over heard-music features. Matched
+the incremental benefit of forecasts over heard-music features. General music
+pretraining supplies a prior beyond the paired dance corpus; improved
+out-of-distribution dance generalization remains a hypothesis requiring
+matched evaluation. Matched
 representation and Teacher-Forcing/Commit-Forcing studies are likewise needed
 to attribute component gains. These distinctions keep the current reference
 results separate from causal method comparisons and physical execution.
 
 \section{Conclusion}
-We introduced \method{}, combining causal music forecasts with robot-native
+We introduced \method{}, transferring a frozen music foundation model's
+causal forecasts to robot-native
 structure--detail generation and \cof{} continuation training. A frozen
 G1-native music--motion evaluator favors the intended soundtrack in 74.20\%
 and 75.01\% of pairwise comparisons for two startup variants on a fixed
