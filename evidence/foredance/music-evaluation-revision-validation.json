@@ -1,0 +1,116 @@
+{
+  "date": "2026-09-11",
+  "revision": "Separate evaluator validation from generator evaluation; add BAS, collapse initialization display, and mark missing core ablations as TODO.",
+  "backup": "/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/tmp/music-eval-before-20260911-164219",
+  "pdf": {
+    "path": "ForeDance.pdf",
+    "sha256": "f7be23a5605be1ee91fccd2783a3bf3a4e91f58ab7a5096b1b3df79b4a0cdb1d",
+    "pages": 12,
+    "matches_build": true
+  },
+  "numeric_checks": {
+    "evaluator_calibration": {
+      "ordinary_accuracy_percent": 68.41,
+      "confusing_accuracy_percent": 64.08,
+      "scope": "reference motion: 30 content groups, 3661 windows, 15 disjoint pairs per task",
+      "validation": "transcription checked against the accepted R_cosine5 source review; original calibration score arrays were not recomputed in this revision"
+    },
+    "generator_correspondence": {
+      "accuracy_percent": 75.01262626262626,
+      "reported": "75.01%",
+      "records_displayed": 99,
+      "records_preserved_and_independently_verified": 198,
+      "pair_arrays_verified": 18,
+      "means_and_conditional_intervals_reproduced": true
+    },
+    "BAS": {
+      "archived_key": "G1FKRoboPerformBAS",
+      "reported": "0.4419",
+      "seconds": 23,
+      "tracks": 18,
+      "outputs": 162,
+      "checked": "archived complete means and per-training-seed aggregation, plus implementation identity; original motion/audio not rescored"
+    },
+    "history_table": {
+      "rows": 3,
+      "numeric_cells_checked": 18,
+      "BAS_decimals": 4,
+      "matched_initialization_for_all_rows": true
+    },
+    "selection_record": "music-evaluation-selection.json",
+    "all_underlying_archives_unchanged": true
+  },
+  "manuscript_checks": {
+    "evaluator_validation_table_page": 5,
+    "generator_music_table_page": 6,
+    "history_table_page": 7,
+    "todo_page": 6,
+    "explicit_todo_paragraphs": 4,
+    "todo_roles": [
+      "musical anticipation",
+      "paired representation training",
+      "independently trained single-representation controls",
+      "committed continuation versus Teacher Forcing"
+    ],
+    "main_text_ends_page": 7,
+    "full_correspondence_statistics_page": 11,
+    "startup_variants_not_displayed_as_competing_methods": true,
+    "posthoc_selection_disclosure": "Discussion: one concentrated disclosure; conditional intervals remain descriptive."
+  },
+  "render_checks": {
+    "pages_rendered_and_contact_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "full_pages_reviewed": [
+      1,
+      5,
+      6,
+      7,
+      11
+    ],
+    "precision_change_only_affected_page": 7,
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references_and_citations": 0,
+    "bibliography_warnings": 0,
+    "ordinary_underfull_warnings_remain": true,
+    "qa_directory": "/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/build/music-eval-20260911/qa"
+  },
+  "protected_files": {
+    "figures/foredance/overview.pdf": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+    "figures/foredance/overview.svg": "3def8682eef45d81ee66ec74aa47177207fdfa6eb31dc2a425a3712561e33a2c",
+    "Reference.bib": "a6d3005270230fb20f6a6d7dd6bead85b6ca15103aae1628eafde5f8f2ebe444"
+  },
+  "source_code": {
+    "revision": "24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2",
+    "files": {
+      "beat-alignment-source/eval/aggregate_issue49_paper_breadth.py": "e9b2343e1371803a281ece3a1e469d4434222bb169ea29a2f54607aee210ba16",
+      "beat-alignment-source/eval/g1_metrics.py": "dd5f544656d84eee196f8fad8c07474d37e434cdeb124543f101e7d661c67cd7",
+      "beat-alignment-source/eval/eval_bas_bap.py": "f4f4838898483cd269c44c6c7bf238106fb6a5f70f90ae58e5e6aa21f1450b7b"
+    }
+  },
+  "source_hashes": {
+    "main.tex": "31599663823d82b073e9830b0c7e17fbf61c011239fba2339ba9ae9929730523",
+    "sections/experiments.tex": "9b51f3db8924fae4e923f8838cfc37fd524cc09c8fc350e45d696707bf4d4fe2",
+    "sections/discussion.tex": "e93730cf77ee928b966bfac8b8c337b25e7361bb78f11eb388f2856d5c9f62d6",
+    "sections/supplement.tex": "ea9f1a74010933e7b40922167d925d98d5d2b2b5d8f5be28a16e97375e1f19e7",
+    "sections/introduction.tex": "3abdd6173e255f4f3f051950ff85d51d9cb174a96930ca688afb4703c0fe83d0",
+    "scripts/build_mmr_tables.py": "d10163f6912a5054c79a0efb0321cc1f76089afee5120f83a3d4afec5c4c061e",
+    "scripts/build_evidence_tables.py": "95afb23cd6e78724c6d8c4760c6077a7e6b4cd216c4d4713d92721f55731f8d1",
+    "evidence/foredance/evaluator_validation_rows.tex": "4cf22afec1fb5e74c991918128d875e3d100e345701a0cbff596f30845930f3f",
+    "evidence/foredance/mmr_summary_rows.tex": "f57f1cd669368fb23c7aab988ef414aa8485c3a113f0fdfe53bbe4a1d725feeb",
+    "evidence/foredance/mmr_selected_rows.tex": "ca7b4f184cc024b02f8b9ebad66dc5f233c8f40408830f6358f97f9b1168e893",
+    "evidence/foredance/training_rows.tex": "d338220ba7897f84e4694f6bc93aeffa875d40b48a4000a341572a93b2ee06b1"
+  }
+}

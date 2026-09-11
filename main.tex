@@ -3,7 +3,7 @@
 \overrideIEEEmargins
 \usepackage{mathptmx,microtype}
 \usepackage{amsmath,amssymb,bm,graphicx,booktabs,array}
-\usepackage{xcolor}
+\usepackage{xcolor,placeins}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage{cite}
@@ -31,31 +31,32 @@
 \thispagestyle{empty}
 \pagestyle{empty}
 \begin{abstract}
-Streaming dance must prepare for music that has not yet arrived while continuing
-from motion that can no longer be revised. We present \method{}, which uses a
-frozen music foundation model to forecast future music states from arrived
-audio and condition robot-native dance generation. A kinematics-guided
-structure--detail representation and paired reconstruction objectives give
-whole-body structure and local detail complementary roles. \cof{} trains
-continuation from jointly committed structure and detail and the reference
-state reconstructed from their decoded motion. The framework repeatedly plans and commits
-motion, with a reference interface to a fixed whole-body controller.
-On 198 generated 60-second FineDance trajectories, a frozen music--motion
-evaluator favors the intended soundtrack over alternative gallery tracks in
-74.20\% and 75.01\% of pairwise comparisons under two startup settings, with
-positive margins across all generator training seeds. These results support
-soundtrack correspondence in the generated references. ForeDance connects
-musical foresight, structured motion generation, and learning to continue from
-committed movement within a causal streaming framework.
+Streaming dance must prepare for upcoming music from audio heard so far while
+continuing movements that have already been committed and can no longer be
+revised. We present \method{}, a framework that generates robot-native dance
+from music as it arrives. A frozen music foundation model forecasts future
+musical context using heard audio alone. A kinematics-guided structure--detail
+representation gives whole-body organization and local articulation
+complementary roles, while \cof{} trains continuation from jointly generated
+motion and its resulting reference state. Together, these components couple
+musical anticipation with successive motion decisions. On 60-second FineDance
+generations, a frozen music--motion evaluator favors the intended soundtrack
+over alternative tracks in approximately 75\% of pairwise comparisons.
+Separate matched training comparisons identify a tradeoff between motion
+distribution fidelity and smoothness. These findings support soundtrack
+correspondence in continuously generated references within a framework that
+connects musical foresight to committed movement.
 \end{abstract}
 \input{sections/introduction}
 \input{sections/related_work}
 \input{sections/method}
 \input{sections/experiments}
 \input{sections/discussion}
+\FloatBarrier
 % Working manuscript; venue-specific page budgeting is not fixed here.
 \appendices
 \input{sections/supplement}
+\FloatBarrier
 \bibliographystyle{IEEEtran}
 \bibliography{Reference}
 \end{document}

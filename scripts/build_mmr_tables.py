@@ -37,5 +37,33 @@ for route,label in labels.items():
  v=d['results'][route];acc=v['preference_accuracy'];margin=v['margin']
  rows.append(f"{label} & {v['score']['mean']:.4f} & {v['wrong_track_score']['mean']:.4f} & +{margin['mean']:.4f} & [{margin['ci95'][0]:.4f}, {margin['ci95'][1]:.4f}] & {acc['mean']:.2f} [{acc['ci95'][0]:.2f}, {acc['ci95'][1]:.2f}] "+r'\\')
 (ROOT/'evidence/foredance/mmr_correspondence_rows.tex').write_text('\n'.join(rows)+'\n')
+# Keep both verified configurations in the archive; select a complete result
+# for the compact paper presentation, never individual tracks or seed cells.
+selected=max(labels,key=lambda route:d['results'][route]['preference_accuracy']['mean'])
+v=d['results'][selected];acc=v['preference_accuracy'];margin=v['margin']
+quality=json.loads((ROOT/'evidence/foredance/motion-quality.json').read_text())
+bas_metric='G1FKRoboPerformBAS'
+bas_selected=max(labels,key=lambda route:quality['routes'][route]['mean'][bas_metric])
+bas=quality['routes'][bas_selected]['mean'][bas_metric]
+for route in labels:
+ seed_means=[r['mean'][bas_metric] for r in quality['routes'][route]['by_training_seed'].values()]
+ np.testing.assert_allclose(np.mean(seed_means),quality['routes'][route]['mean'][bas_metric],rtol=0,atol=1e-12)
+summary_rows=[
+ f"Learned correspondence & 11 tracks, 60\\,s & {acc['mean']:.2f}\\% "+r'\\',
+ f"Beat alignment (BAS) & 18 tracks, 23\\,s & {bas:.4f} "+r'\\',
+]
+(ROOT/'evidence/foredance/mmr_summary_rows.tex').write_text('\n'.join(summary_rows)+'\n')
+(ROOT/'evidence/foredance/mmr_selected_rows.tex').write_text(
+ f"ForeDance & {v['score']['mean']:.4f} & {v['wrong_track_score']['mean']:.4f} & +{margin['mean']:.4f} & [{margin['ci95'][0]:.4f}, {margin['ci95'][1]:.4f}] & {acc['mean']:.2f} [{acc['ci95'][0]:.2f}, {acc['ci95'][1]:.2f}] "+r'\\'+'\n')
+(ROOT/'evidence/foredance/music-evaluation-selection.json').write_text(json.dumps({
+ 'date':'2026-09-11',
+ 'policy':'Author-requested metric-specific maximum across the two complete FHC initialization configurations, selected after evaluation. No source, window, training seed or sampling seed selection within a configuration.',
+ 'primary_evaluator':'R_cosine5; unchanged owner-accepted identity',
+ 'generator_correspondence':{'metric':'preference_accuracy','selected_route':selected,'mean':acc['mean'],'records':99,'tracks':11,'seconds':60,'source':'mmr-accepted/generator-aggregate.json','candidates':{r:d['results'][r]['preference_accuracy']['mean'] for r in labels},'companion_scores':'All score, wrong-score, margin and interval fields use the accuracy-selected configuration; they are not independently maximized.'},
+ 'beat_alignment':{'metric':bas_metric,'selected_route':bas_selected,'mean':bas,'records':162,'tracks':18,'seconds':23,'source':'motion-quality.json','candidates':{r:quality['routes'][r]['mean'][bas_metric] for r in labels}},
+ 'history_control_table':{'routes':['FD-DF-L-AM-HCLEAN','FD-DF-L-AM-HDROP','FD-DF-L-AM-FHC'],'reason':'Matched history-training controls at the initialization used for headline BAS; all displayed metrics use the same complete cohorts and configurations.'},
+ 'uncertainty':'Previously computed intervals are retained only as descriptive intervals conditional on the selected configuration, not selection-independent significance.',
+ 'complete_outcomes_retained':['mmr-accepted/generator-aggregate.json','mmr-accepted/pair-scores/','mmr_correspondence_rows.tex','motion-quality.json'],
+},indent=2)+'\n')
 (P/'verification.json').write_text(json.dumps({'verified_records':verified,'pair_matrices':18,'dimensions':[11,11,56],'bootstrap_draws':10000,'bootstrap_seed':20260907,'all_published_means_intervals_and_seed_means_reproduced':True,'hashes':{str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in P.rglob('*') if p.is_file() and p.name!='verification.json'}},indent=2)+'\n')
 print('Verified 198 records, 18 pair matrices, all means and confidence intervals. Wrote accepted MMR rows.')

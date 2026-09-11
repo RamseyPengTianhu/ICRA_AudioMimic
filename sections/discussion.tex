@@ -1,21 +1,25 @@
 \section{Discussion}
 \label{sec:evidence_scope}
 \paragraph{Supported findings and attribution}
-The completed 198-trajectory study supports soundtrack correspondence within
-the fixed gallery. Isolating the benefit of anticipation requires matched
-forecast-versus-heard conditioning; attributing representation and continuation
-gains requires independently trained structure-only, detail-only, and combined-representation comparisons and
-CoF-versus-TF rollouts. These comparisons remain pending. Broader music
+The generator studies characterize soundtrack correspondence, beat alignment,
+and a distribution--smoothness tradeoff in history regularization.
+The evaluator's reference-motion validation is a separate measurement.
+Attributing gains to anticipation, representation design, or committed
+continuation requires the controlled studies listed in
+Section~\ref{sec:pending_ablations}. Broader music
 pretraining supplies a transferable prediction prior, while improved
 out-of-distribution dance generalization remains a hypothesis. The historical
 replay diagnostics characterize tracking separately from these current
 reference-generation results.
 
 \paragraph{Evaluation scope and selection}
-All available gallery tracks and training/sampling repeats are retained.
-The evaluator configuration was selected after inspection of a 30-content-group
-calibration cohort; its calibration scores and fixed-gallery intervals are
-descriptive, not selection-independent evidence of configuration superiority.
+The evaluator configuration was selected after inspection of its
+30-content-group calibration cohort. For compact reporting, generator music
+scores use the higher complete initialization result for each metric after
+evaluation; all tracks and sampling repeats in the respective cohort are
+retained. The history-training comparison uses one shared initialization.
+Calibration scores and retained intervals are descriptive, not
+selection-independent evidence of superiority.
 The score has not been validated against human preference or executed
 trajectories. The motion-quality cohort is separate, and the illustrated
 sequence is a selected qualitative case. Its complete source and selection
@@ -25,7 +29,8 @@ record are retained with the evidence.
 \method{} brings anticipatory music conditioning to structured streaming dance:
 a frozen music foundation model predicts prospective context, kinematics-guided
 structure--detail training organizes motion components, and \cof{} learns continuation after
-their joint commitment. Completed evaluation finds consistent soundtrack
-correspondence across generator training seeds. Together, the method and
+their joint commitment. Completed studies find consistent soundtrack
+correspondence and characterize motion quality under matched history-training
+choices. Together, the method and
 reference interface provide an explicit framework for studying how musical
 foresight translates into continuously generated robot motion.

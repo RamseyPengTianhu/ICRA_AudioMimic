@@ -1,0 +1,80 @@
+{
+  "date": "2026-09-11",
+  "scope": "Author-approved abstract and results presentation revision; missing comparisons remain for later author-supplied evidence.",
+  "backup": "/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/tmp/abstract-results-before-20260911-162641",
+  "abstract_words": 142,
+  "pdf": {
+    "file": "ForeDance.pdf",
+    "sha256": "8fa360c3fd0f1c0fa788f9fa653b7eea915f192f494a90290a2e5128db3fc2d7",
+    "pages": 12,
+    "matches_build": true,
+    "main_text_ends_on_page": 7
+  },
+  "checks": {
+    "accepted_mmr_records": 198,
+    "accepted_mmr_pair_matrices": 18,
+    "published_mmr_means_intervals_and_seed_means_reproduced": true,
+    "full_mmr_table_unchanged": true,
+    "motion_quality_rows": 5,
+    "motion_quality_values_checked_against_archive": 25,
+    "motion_quality_sources": 18,
+    "motion_quality_seconds": 23,
+    "outputs_per_motion_quality_row": 162,
+    "music_table_page": 5,
+    "motion_quality_table_page": 6,
+    "full_mmr_statistics_page": 10,
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references_or_citations": 0,
+    "bibliography_warnings": 0,
+    "rendered_and_contact_reviewed_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "detail_reviewed_pages": [
+      1,
+      5,
+      6,
+      10
+    ],
+    "figures_and_bibliography_unchanged": {
+      "figures/foredance/overview.pdf": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+      "figures/foredance/overview.svg": "3def8682eef45d81ee66ec74aa47177207fdfa6eb31dc2a425a3712561e33a2c",
+      "Reference.bib": "a6d3005270230fb20f6a6d7dd6bead85b6ca15103aae1628eafde5f8f2ebe444"
+    },
+    "ordinary_underfull_warnings_remain": true
+  },
+  "evidence_scope": {
+    "music": "Accepted fixed-gallery study: 11 tracks, two startup settings, 3 training by 3 sampling seeds; 60-second generated references.",
+    "motion_quality": "Separate complete 18-track cohort, common 23-second crop, 3 training by 3 sampling seeds. Added archived mixed-start history-dropout row; no new scoring.",
+    "not_admitted": "297 additional 60-second controls and 60 longer/switch generated files are inventory evidence only; older conditioning/representation/CoF scores remain outside current-model claims.",
+    "core_comparisons": "Forecast versus heard, independently trained representation controls, and Commit Forcing versus Teacher Forcing remain pending."
+  },
+  "compile": {
+    "compiler": "Tectonic 0.17.0",
+    "command": "tectonic -X compile --bundle build/abstract-results-20260911/local-bundle --format /Users/lambertwang/Library/Caches/Tectonic/formats/6ffe055852f8faf66c0acbe1a7fb27f87b869a90bad1204f3bf4d9683f597c7c-latex-33.fmt --only-cached --keep-logs --keep-intermediates --outdir build/abstract-results-20260911 main.tex",
+    "resource_note": "Reused both existing Tectonic cache namespaces and the previous manuscript resources at /tmp/foredance-tex-resources after default online fetching stalled. No typesetting-package or figure content edits."
+  },
+  "qa_directory": "/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/build/abstract-results-20260911/qa",
+  "source_hashes": {
+    "main.tex": "9c70c73929dd29934bf72be6b5009c1a013eeb84cfa40aee3903584fa97546d1",
+    "sections/introduction.tex": "596a9c38755b8c87f23cfcf5d747e8d6047469f133f95a2773593f231f540330",
+    "sections/experiments.tex": "f15c9a05415dfcc098e02dffd73315c503e966818877f11528ce31843c162a81",
+    "sections/discussion.tex": "8e40f64be79805cfd563fd508efdbcfed8e917fbb41f17cefe6ddf6e7870dbeb",
+    "sections/supplement.tex": "0bc02420e12fe293dd6c54322f75e3288ee95eb3f252acaaae072612ec2cdaa6",
+    "evidence/foredance/mmr_summary_rows.tex": "5da52f80e7416bff20db8f15d87fe6fbab999fa3fff1c489a59d4a54cd42e218",
+    "evidence/foredance/training_rows.tex": "50189d956958dd5b4c2e7a8830904bab9eac11f56f2f86f50a6365030bb34ced",
+    "evidence/foredance/motion-quality.json": "585d1c004bc9c8d5942855e771d11e0761512628c683a942d0f499e2e993c278",
+    "evidence/foredance/mmr-accepted/generator-aggregate.json": "6021e06195384fd5845dba97093a00020ff6e9f950e63696354718ce7e359af1"
+  }
+}

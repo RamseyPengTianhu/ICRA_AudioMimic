@@ -8,6 +8,8 @@ The RA-L layout is retained while the accepted MMR correspondence evidence now s
 
 The three contributions are anticipatory music conditioning, kinematics-guided structure–detail decoupling with its paired training, and Commit Forcing. FHC and the MMR evaluator support the story. The manuscript is written as a contribution-led research paper. Generation follows the current ForeDance specification; the fixed-controller interface incorporates the teammate execution work. A separately identified earlier-configuration MuJoCo replay table is supporting evidence in the supplement, not a current-model result. It does not assume completed evidence for the three unfilled core comparisons; their status is stated briefly alongside the planned comparisons. Author instructions and historical evaluation planning are outside the compiled manuscript.
 
+The music evaluation now separates reference-motion evaluator validation from evaluation of ForeDance generations. The generator table contains one learned-correspondence score and BAS, with their 60-second/11-track and 23-second/18-track cohorts identified. Startup variants are not displayed as competing methods. The matched history-training table contains clean history, dropout and corruption, including BAS. Full conditional correspondence statistics remain in the appendix; complete alternative outcomes and reporting choices remain in the evidence archive, with a single Discussion disclosure. Missing anticipation, paired-representation, single-representation and continuation ablations are explicit TODO paragraphs in the working manuscript and are tracked in `TODO.md`.
+
 ## Build
 
 Use a complete TeX Live/MacTeX installation, or set `main.tex` as the Overleaf main document with pdfLaTeX:

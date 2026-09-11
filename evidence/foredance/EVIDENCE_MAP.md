@@ -4,7 +4,19 @@ Checked 2026-09-09 against the actual GitHub repositories and original Isambard 
 
 ## Current evaluation authority — 2026-09-11
 
-The paper now uses the owner-accepted MMR evaluator and results from method revision `911336680765c0c09fa62e4a0ffb3196671abbc5` on `codex/mmr-local-4090`. See `mmr-accepted/INTEGRATION.md` and its immutable source reviews, score matrices, per-track CSV, aggregate, and numerical verification. The main music evidence is 198 fixed 60-second motions, eleven tracks, and two startup variants. The 18-track, 23-second motion-quality study remains separate. Old MMR measurements and formulas below are historical provenance only and no longer appear in the compiled paper.
+The paper now uses the owner-accepted MMR evaluator and results from method revision `911336680765c0c09fa62e4a0ffb3196671abbc5` on `codex/mmr-local-4090`. See `mmr-accepted/INTEGRATION.md` and its immutable source reviews, score matrices, per-track CSV, aggregate, and numerical verification. The complete music evidence archive contains 198 fixed 60-second motions, eleven tracks, and two initialization variants; the current compact display is specified below. The 18-track, 23-second motion-quality study remains separate. Old MMR measurements and formulas below are historical provenance only and no longer appear in the compiled paper.
+
+## Current music evaluation presentation — 2026-09-11
+
+The evaluator-validation rows are transcribed and checked against the accepted `R_cosine5` row in `mmr-accepted/source/docs/experiments/reviews/EXP-20260907-mmr-g1-plus-correspondence-candidate-selection.md`: ordinary 68.41%, confusing 64.08%, on reference motions from 30 content groups and 3,661 windows. These measurements are separate from generated-motion scoring.
+
+`build_mmr_tables.py` still verifies all 198 records and 18 score arrays. The paper uses one complete configuration for learned correspondence (75.01%, 99 motions, 11 tracks, 60 seconds); its companion scores and conditional intervals use that same configuration. BAS uses `G1FKRoboPerformBAS` from unchanged `motion-quality.json` (0.4419, 162 outputs, 18 tracks, 23 seconds). Each headline metric selects the higher of the two complete FHC initialization results after evaluation, as recorded in `music-evaluation-selection.json` and disclosed once in Discussion. This is configuration selection, not track/seed filtering; intervals are descriptive rather than selection-independent significance. Both configurations and full outcomes remain archived.
+
+The history-training table uses the same initialization as headline BAS and compares clean history, dropout and full-history corruption. All six displayed metrics use each configuration's complete, matched 18-track cohort. It is a supporting history-policy comparison, not a Commit Forcing component-ablation result. The full five-route motion-quality archive remains unchanged.
+
+The BAS implementation is retained under `beat-alignment-source/` from method commit `24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2`: FK keypoint speed, Gaussian smoothing with sigma five frames, strict local minima, motion-to-music nearest-beat score with variance nine frame-squared (sigma 0.10 s at 30 Hz), and zero for empty beat sets. The separate reverse-direction BAS columns are not substituted. Source aggregation averages complete tracks and sampling repeats within training seeds, then training seeds. This revision transcribes completed scores; it does not recompute beats from original motion/audio.
+
+Missing core ablations are explicit manuscript TODOs and are mapped to the existing M1/D1/D2/C1 records in `TODO.md`. HF's additional 297 matched 60-second controls and longer examples remain reusable outputs, not newly scored results.
 
 ## Authoritative revisions
 
@@ -28,7 +40,7 @@ The completion file says `complete_unreviewed`; that machine status is not promo
 
 The condition-use table uses `conditioned_minus_trained_no_music` for `FD-DF-L-AM-FHC` and `FD-DF-L-AJ-FHC`, metric `mmr_ms`. The raw route names are internal provenance only. The positive improvement equals no-music distance minus conditioned distance. `build_evidence_tables.py` checks that identity against the independently saved route means. Each has 162 paired cells, three training seeds, and 10,000 bootstrap draws. Intervals are reproduced, not newly re-estimated or changed to favorable subsets.
 
-All populated quantitative values belong to the frozen complete 18-track cohort and common 23-second source-supported segment beginning at frame 264. They do not fill the planned anticipation, current D+C-baseline, or TF/CoF comparisons. The trained no-music baseline is distinct from inference-time null conditioning.
+The motion-quality values in this earlier record belong to the frozen complete 18-track cohort and common 23-second source-supported segment beginning at frame 264. They do not fill the planned anticipation, current D+C-baseline, or TF/CoF comparisons. The trained no-music baseline is distinct from inference-time null conditioning.
 
 ## Method bindings
 

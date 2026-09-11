@@ -4,7 +4,19 @@ This file is the canonical record for paper-level narrative decisions. It
 separates author decisions from available evidence and prevents unfinished
 experiments from silently entering the manuscript.
 
-Last reconciled: 2026-09-09
+Last reconciled: 2026-09-11
+
+## Publish the music-evaluation revision — 2026-09-11
+
+The author explicitly requested updating GitHub after reviewing the revised music evaluation and ablation TODOs. Publish the current LaTeX, generated result rows, retained evidence and checked 12-page ForeDance.pdf to the existing main branch. This supersedes the 11-page reading-copy description in the earlier overview publication entry.
+
+## Separate evaluator validation and generator music results — 2026-09-11
+
+The author requested separate reporting of the evaluator's own performance and its scoring of generated dance, inclusion of BAS, removal of startup/direct as competing methods, and explicit TODOs for missing ablations. The headline correspondence result uses the higher complete FHC initialization accuracy (75.01%); all companion scores and intervals come from that same configuration. The headline motion-to-music FK BAS uses the higher complete FHC initialization value (0.4419) in its separate 18-track, 23-second cohort. Retain all tracks, training seeds and sampling seeds within each selected configuration. The matched history table fixes the BAS initialization and retains all three actual history-policy controls. Full alternatives stay in the archive. The author's request to omit startup labels is applied to the result tables; a single Discussion disclosure retains the material post-hoc selection fact and limits intervals to descriptive interpretation. Missing M1, D1, D2 and C1 studies are visible TODOs, without invented numerical cells or new experiment launches. This presentation supersedes the two-row startup comparison and five-row history table below.
+
+## Abstract and results presentation — 2026-09-11
+
+The author approved the preceding GitHub/HF audit and requested updating the paper now, with missing results to be added later. Keep musical anticipation coupled to committed-motion continuation as the narrative. Compress the abstract's numerical evaluation to one sentence; retain the accepted two correspondence results without asserting a forecast-versus-heard advantage. Move the completed 18-track motion-quality comparison into the main text and add its already archived history-dropout row. Keep the two evaluation cohorts separate, preserve full correspondence statistics in the appendix, and retain physical-smoothness tradeoffs. Record the additional 297 matched 60-second controls and longer generated examples as future evidence to verify and score, not new results. This revision does not launch training or rescoring, change the evaluator or source selection, or fill the missing core comparisons.
 
 ## Current publication decision — 2026-09-11
 

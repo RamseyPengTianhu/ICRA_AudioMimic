@@ -40,7 +40,7 @@ Figure~\ref{fig:cof_training_detail} details the construction. Each training exa
 
 \section{Evaluation Protocol}
 \label{app:scope}
-The primary correspondence cohort yields 99 trajectories per startup variant:
+The reported correspondence result uses 99 trajectories:
 three generator training seeds, three sampling seeds, and eleven tracks.
 Each trajectory contains 1,800 frames at 30\,Hz and supplies 56 overlapping
 five-second windows with one-second stride. For every motion, the intended audio is compared with all ten wrong-track
@@ -78,30 +78,27 @@ Scores are averaged across the three independently trained evaluator instances
 before pairwise ranking; embeddings and final accuracies are not averaged
 instead. The checkpoints use standard content-group sampling and the final
 training update (14,500) for each seed, with no best-seed choice. Encoder weights and
-normalization remain fixed across both generator startup variants.
+normalization remain fixed throughout generator scoring.
 An absolute score difference of at most $10^{-7}$ is treated as a tie and
 receives half credit. This specifies the correspondence statistic in
 Eq.~\eqref{eq:mmr_margin} without conflating it with retrieval recall.
 
-\paragraph{Evaluator calibration}
-On reference motion from a 30-content-group calibration cohort, the adopted
-score obtains 68.41\% ordinary wrong-music pairwise accuracy and 64.08\% with
-confusing music donors. Each task contains 15 disjoint song pairs; the cohort
-contains 3,661 windows. These are evaluator-characterization measurements,
-separate from the generated-motion gallery. Multiple evaluator configurations
-were inspected on this cohort, so the values are descriptive as stated in the
-Discussion. The fixed standard-trained ensemble is retained for generation
-scoring; calibration and generated-motion scores do not establish perceptual
+\paragraph{Evaluator validation data}
+Section~\ref{sec:evaluator_validation} reports the evaluator's reference-motion
+results on 30 content groups and 3,661 windows. Each discrimination task uses
+15 disjoint song pairs. These data are separate from the generated-motion
+gallery. The adopted score-level ensemble and all candidate comparisons are
+retained in the evidence record; calibration does not establish perceptual
 validity on executed robot trajectories.
 
 \paragraph{Reproducible score aggregation}
-Each of the eighteen generator-training/sampling combinations supplies an
-$11\times11\times56$ music--motion score array. Its diagonal contains intended
-pairs and each off-diagonal column supplies the ten donors for one fixed
-motion. All 198 per-motion scores, margins, and accuracies are reproduced from
-these arrays; no source or window is removed based on its score. The frozen
-cohort, evaluator version, per-track records, and complete arrays are retained
-with the evaluation evidence.
+The reported generator configuration supplies nine training/sampling
+combinations, each with an $11\times11\times56$ music--motion score array.
+The diagonal contains intended pairs; each off-diagonal column supplies the
+ten alternative tracks for one fixed motion. All 99 per-motion scores,
+margins, and accuracies are reproduced from these arrays. No source or window
+is removed based on its score. The complete two-configuration archive and
+metric-specific reporting choices remain in the evidence record.
 
 \paragraph{G1 distribution and local-motion features}
 Kinetic descriptors summarize motion dynamics, while geometric descriptors
@@ -116,7 +113,8 @@ it is not a mean of single-song FIDs. For future execution scoring, generation
 and execution must use identical feature extraction. Exact feature lists and
 activity/contact thresholds require the corresponding implementation receipt.
 
-\paragraph{Beat and dynamic-response measures}
+\paragraph{Beat alignment}
+\label{app:beat_alignment}
 For motion-event times $\mathcal B_x$ and music-beat times $\mathcal B_a$,
 the motion-to-music BAS definition is
 \begin{equation}
@@ -124,9 +122,15 @@ the motion-to-music BAS definition is
 \exp\!\left(-\frac{\min_{a\in\mathcal B_a}(b-a)^2}{2\sigma^2}\right).
 \label{eq:protocol_bas}
 \end{equation}
-The earlier layer analyzer uses minima of smoothed mean joint speed with
-$\sigma=0.10$\,s. This does not automatically specify the extractor used for
-the current-generation BAS summaries, which retain their own metric version.
+The displayed BAS is the archived forward-kinematics motion-to-music score.
+At 30\,Hz, mean keypoint speed is smoothed with a Gaussian of standard
+deviation five frames; strict local minima define motion beats.
+The matching kernel uses $\sigma=3/30=0.10$\,s. Music beats retain the archived
+audio-beat extraction and source offset. Empty music- or motion-beat sets
+receive zero. Scores are averaged over tracks and sampling repeats within
+each training seed, then across the three training seeds. The separately
+archived music-to-motion BAS uses the reverse matching direction and is not
+substituted into this column.
 Event counts, empty-event handling, smoothing, and any beat-matching tolerance
 must accompany reproducible scores. Beat precision/recall are auxiliary coverage
 diagnostics, not requirements that dance hit every audio beat.
@@ -135,23 +139,31 @@ curve, not contact force. Zero-lag correlation with audio onset strength measure
 aligned dynamic response; best-lag correlation and its lag are diagnostics, not
 permission to retime primary music scores.
 
-\section{History-Corruption Results}
-\label{app:fhc}
-Table~\ref{tab:training} provides the full values for the comparison in
-Section~\ref{sec:matching_quality}. Under mixed-start training, kinetic/geometric
-FID changes from 208.599/0.482 with clean history to 162.831/0.410 with FHC,
-with the same favorable direction across training seeds. Continuation-start
-changes are smaller, from 156.218/0.372 to 154.180/0.361. Mixed-start contact
-and jerk favor clean history, exposing a distribution--smoothness tradeoff.
-
+\section{Detailed Correspondence Statistics}
+\label{app:correspondence_statistics}
 \begin{table*}[t]
 \centering\small
-\caption{\textbf{Effect of history corruption on the full 18-track cohort.} Lower is favorable for FID and PFC. Diversity describes motion spread and is interpreted together with fidelity.}
-\label{tab:training}
-\begin{tabular}{@{}llrrrrr@{}}\toprule
-Startup & History & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & PFC\\\midrule
-\inputtable{evidence/foredance/training_rows.tex}
+\caption{\textbf{Full soundtrack-correspondence statistics.} Correct and wrong
+denote cosine scores with intended and alternative gallery music. Margin is
+correct minus wrong. Pairwise accuracy gives half credit to ties; intervals
+are descriptive 95\% bootstrap intervals with the gallery fixed.}
+\label{tab:mmr_correspondence_full}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrrrrc@{}}\toprule
+Method & Correct & Wrong & Margin & Margin interval & Pairwise accuracy (\%) [interval]\\\midrule
+\inputtable{evidence/foredance/mmr_selected_rows.tex}
 \bottomrule\end{tabular}
 \end{table*}
+
+Table~\ref{tab:mmr_correspondence_full} retains the component scores and margin
+intervals underlying Table~\ref{tab:mmr_correspondence}. Correct-minus-wrong
+means are positive for every generator training seed.
+These are the same 99 trajectories and the same fixed-gallery aggregation
+described in Appendix~\ref{app:scope}. The companion scores and intervals use
+the same configuration as the displayed correspondence accuracy; they are
+not maximized independently. Intervals are descriptive conditional summaries
+of that configuration.
+
+
 
 \input{sections/execution_supplement}
