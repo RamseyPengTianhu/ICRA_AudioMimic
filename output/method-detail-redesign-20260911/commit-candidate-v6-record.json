@@ -1,0 +1,12 @@
+{
+  "mode": "fresh built-in imagegen generation",
+  "prompt_file": "imagegen-comparison-v6-prompt.txt",
+  "source_image": "/Users/lambertwang/.codex/generated_images/01a08f03-ea7b-7193-8e23-341d9b94443a/exec-754f83fb-cf6a-4002-96fa-0f546da41ef5.png",
+  "project_image": "commit-candidate-v6.png",
+  "reference_images": [],
+  "local_repairs_used": 0,
+  "status": "Selected for continuation and final vectorization; integrated into the paper.",
+  "user_direction": "Use imagegen first. TF and CoF should be directly compared, not presented as a decision or logic diagram. Flat 2D, pictorial relations, minimal equation symbols.",
+  "inspection": "Two aligned context rows, grouped recent history and boundary, no selector or merged learner, independent common-target residual geometry. Labels are legible. Counts and poses are schematic. Conditioning figure preserved.",
+  "source_sha256": "1dd51d8b28bda1395940792a0671cab0990e6a0782746d48ddb24db220057b36"
+}

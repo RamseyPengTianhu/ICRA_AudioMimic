@@ -25,14 +25,26 @@ approximately 0.53\,s), and a four-step commit (eight frames, approximately
 The music condition uses 14 native forecast states at 25\,Hz, spanning
 approximately 0.56\,s. Each state retains its physical timestamp.
 
-\paragraph{Reconstruction gradients and auxiliary objectives}
-Let $\mathrm{sg}$ denote stop-gradient. For encoder output $z$, embedding $e$, and $r=z-\mathrm{sg}(e)$, we form full and structure-only reconstructions, together with an auxiliary residual-corrupted reconstruction:
+\paragraph{Codec objective}
+Equation~\eqref{eq:paired_paths} describes the forward reconstructions. For
+training, let $\mathrm{sg}$ denote stop-gradient and set
+$r=z-\mathrm{sg}(e(q))$. The actual decoder inputs are
 \begin{align}
- x_f&=D_\psi(\mathrm{sg}(e)+r,b),\\
- x_s&=D_\psi(z+\mathrm{sg}(e-z),b),\\
- x_c&=D_\psi(\mathrm{sg}(e)+\mathcal C(r),b).
+ z_f&=\mathrm{sg}(e(q))+r,\\
+ z_s&=z+\mathrm{sg}(e(q)-z).
+\label{eq:paired_gradients}
 \end{align}
-The full branch is supervised on $\Phi_f$; the other two are supervised on $\Phi_s$. The corruption $\mathcal C$ either zeros detail or adds small channel-scaled noise, encouraging the structural reconstruction to persist under changes in the residual. The combined objective is
+The full path equals $z$ and sends its encoder gradient through $r$. The
+structural path equals the codebook embedding in the forward pass and uses a
+straight-through encoder gradient. Both paths train the same decoder.
+An auxiliary path perturbs the residual before the same decoder:
+\begin{equation}
+x_c=D_\psi\!\left(\mathrm{sg}(e(q))+\mathcal C(r),b\right).
+\end{equation}
+Let $\Phi_f$ contain all coordinates of the four kinematic views, and let
+$\Phi_s$ retain their structural coordinates. The full reconstruction is
+supervised on $\Phi_f$; the structure-only and corrupted reconstructions are
+supervised on $\Phi_s$. The combined objective is
 \begin{equation}
 \begin{split}
 \mathcal L_{\rm codec}={}&\mathcal L_f+\mathcal L_s
@@ -41,16 +53,13 @@ The full branch is supervised on $\Phi_f$; the other two are supervised on $\Phi
 \end{split}
 \label{eq:codec}
 \end{equation}
-The final term supervises boundary-transition derivatives and pelvis orientation at the beginning of the reconstructed segment. Appendix~\ref{app:training} provides the training details.
-
+The following paragraphs specify each term and the coordinate partitions.
 
 \paragraph{Conditioning and sampling}
-For forecast state $u_j$ with lead $\ell_j$ relative to the motion decision,
-we form $c_j=W\,\mathrm{LN}(u_j)+\phi(\ell_j)$, where $W$ is a learned
-projection, $\mathrm{LN}$ denotes layer normalization, and $\phi$ represents
-physical time. Timestamp-based masking excludes expired forecast states from
-their aligned motion positions. A null condition bypasses music modulation.
+Figure~\ref{fig:music_detail} and Eqs.~\eqref{eq:music_projection}--\eqref{eq:music_film}
+define timestamp alignment and residual modulation. Motion queries occur at
+$d_i=i/15$ seconds for $i=1,\ldots,8$; interpolation uses the forecast states'
+actual lead times. A null condition bypasses the modulation exactly.
 The structural planner uses a classification objective and the detail model
 a denoising objective. Residual generation uses ten DDIM
 steps~\cite{song2021ddim}.
-

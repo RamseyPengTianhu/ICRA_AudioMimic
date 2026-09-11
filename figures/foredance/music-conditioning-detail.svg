@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="683" viewBox="0 0 2048 683">
+<title>Physical-time music conditioning</title>
+<desc>Editable native SVG. Flat two-dimensional scientific schematic. Reconstructed from the selected imagegen composition with author-requested semantic and connection corrections.</desc>
+<defs>
+<marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0769F9"/></marker>
+<marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#FF8A17"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#009EAC"/></marker>
+<marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8534DB"/></marker>
+<marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#080F2D"/></marker>
+<marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#8D96A8"/></marker>
+</defs>
+<metadata>{&quot;reference&quot;: &quot;/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/output/method-detail-redesign-20260911/music-candidate-v5.png&quot;}</metadata>
+<rect width="2048" height="683" fill="white"/>
+<g id="forecast-projection">
+<path d="M53 256V305C43 325 21 312 35 298C41 292 48 293 53 294M53 256L80 246V291C69 310 49 299 63 286C68 281 74 282 80 281" fill="none" stroke="#009EAC" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M102 281.0L102 303.0" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M112 272.0L112 312.0" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M122 261.5L122 322.5" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M132 253.0L132 331.0" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M142 266.5L142 317.5" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M152 278.5L152 305.5" fill="none" stroke="#009EAC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M176 294L207 294" fill="none" stroke="#080F2D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<path d="M216 172L342 227V351L216 405Z" fill="#EDF4FF" stroke="#8D96A8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<text x="278" y="260" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Project</text>
+<text x="278" y="294" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">+ time</text>
+<circle cx="278" cy="334" r="24" fill="white" stroke="#080F2D" stroke-width="3" opacity="1"/>
+<path d="M278 316V334L269 345" fill="none" stroke="#080F2D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M350 294H356V244H368" fill="none" stroke="#080F2D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+</g>
+<g id="physical-time-alignment">
+<text x="414" y="211" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="start" fill="#080F2D">Forecast · 25 Hz</text>
+<rect x="370" y="226" width="54" height="36" rx="0" fill="#68D0D3" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="424" y="226" width="54" height="36" rx="0" fill="#009EAC" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="478" y="226" width="54" height="36" rx="0" fill="#A9E2E5" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="532" y="226" width="54" height="36" rx="0" fill="#32B8C2" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="586" y="226" width="54" height="36" rx="0" fill="#52C4CB" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="640" y="226" width="54" height="36" rx="0" fill="#68D0D3" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="694" y="226" width="54" height="36" rx="0" fill="#009EAC" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="748" y="226" width="54" height="36" rx="0" fill="#A9E2E5" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="802" y="226" width="54" height="36" rx="0" fill="#32B8C2" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="856" y="226" width="54" height="36" rx="0" fill="#52C4CB" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="910" y="226" width="54" height="36" rx="0" fill="#68D0D3" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="964" y="226" width="54" height="36" rx="0" fill="#009EAC" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1018" y="226" width="54" height="36" rx="0" fill="#A9E2E5" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1072" y="226" width="54" height="36" rx="0" fill="#32B8C2" stroke="none" stroke-width="1.8" opacity="1"/>
+<path d="M433 327L1110 327" fill="none" stroke="#0769F9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<circle cx="433" cy="327" r="10" fill="#0769F9" stroke="#0769F9" stroke-width="2.2" opacity="1"/>
+<circle cx="523" cy="327" r="10" fill="#0769F9" stroke="#0769F9" stroke-width="2.2" opacity="1"/>
+<circle cx="613" cy="327" r="10" fill="#0769F9" stroke="#0769F9" stroke-width="2.2" opacity="1"/>
+<circle cx="703" cy="327" r="10" fill="#0769F9" stroke="#0769F9" stroke-width="2.2" opacity="1"/>
+<circle cx="793" cy="327" r="10" fill="#0769F9" stroke="#0769F9" stroke-width="2.2" opacity="1"/>
+<text x="414" y="379" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="start" fill="#080F2D">Motion · 15 Hz</text>
+<circle cx="973" cy="262" r="155" fill="white" stroke="#080F2D" stroke-width="3" opacity="1"/>
+<defs><clipPath id="alignment-lens"><circle cx="973" cy="262" r="152"/></clipPath></defs>
+<g clip-path="url(#alignment-lens)">
+<rect x="856" y="185" width="54" height="45" rx="0" fill="#68D0D3" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="910" y="185" width="54" height="45" rx="0" fill="#32B8C2" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="964" y="185" width="54" height="45" rx="0" fill="#009EAC" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1018" y="185" width="54" height="45" rx="0" fill="#52C4CB" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1072" y="185" width="54" height="45" rx="0" fill="#A9E2E5" stroke="none" stroke-width="1.8" opacity="1"/>
+<path d="M834 327L1112 327" fill="none" stroke="#0769F9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<circle cx="883" cy="327" r="11" fill="#0769F9" stroke="white" stroke-width="2" opacity="1"/>
+<circle cx="973" cy="327" r="11" fill="#0769F9" stroke="white" stroke-width="2" opacity="1"/>
+<circle cx="1063" cy="327" r="11" fill="#0769F9" stroke="white" stroke-width="2" opacity="1"/>
+<path d="M937 231C940 269 958 283 967 307" fill="none" stroke="#009EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-teal)"/>
+<path d="M991 231C990 268 986 283 979 307" fill="none" stroke="#009EAC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-teal)"/>
+<text x="973" y="162" font-family="Helvetica" font-size="26" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Interpolate</text>
+</g>
+<path d="M973 344V447" fill="none" stroke="#080F2D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<rect x="904" y="461" width="34" height="38" rx="0" fill="#68D0D3" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="942" y="461" width="35" height="38" rx="0" fill="#32B8C2" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="981" y="461" width="21" height="38" rx="0" fill="#009EAC" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1006" y="461" width="29" height="38" rx="0" fill="#52C4CB" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="973" y="548" font-family="Times New Roman" font-style="italic" font-size="38" text-anchor="middle" fill="#080F2D">ĉ<tspan dy="9.5" font-size="25.840000000000003">i</tspan><tspan dy="-9.5" font-size="38">​</tspan></text>
+</g>
+<g id="separate-residual-film-injections">
+<path d="M1045 479C1220 479 1220 286 1470 286H1622V228" fill="none" stroke="#009EAC" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-teal)"/>
+<path d="M1045 479C1210 479 1190 624 1470 624H1622V541" fill="none" stroke="#009EAC" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-teal)"/>
+<text x="1420" y="110" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#0769F9">Structure</text>
+<path d="M1327 188L1368 188" fill="none" stroke="#080F2D" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<rect x="1370" y="141" width="47" height="94" rx="2" fill="#0769F9" stroke="#080F2D" stroke-width="1.6" opacity="1"/>
+<rect x="1441" y="141" width="47" height="94" rx="2" fill="#0769F9" stroke="#080F2D" stroke-width="1.6" opacity="1"/>
+<path d="M1418 188L1439 188" fill="none" stroke="#080F2D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<path d="M1489 188L1547 188" fill="none" stroke="#080F2D" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1516" cy="188" r="3.2" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<path d="M1516 188V102H1810V164" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<text x="1518" y="221" font-family="Times New Roman" font-style="italic" font-size="27" text-anchor="middle" fill="#080F2D">v<tspan dy="6.75" font-size="18.360000000000003">i</tspan><tspan dy="-6.75" font-size="27">​</tspan></text>
+<rect x="1550" y="152" width="145" height="72" rx="9" fill="#E5F7F7" stroke="#009EAC" stroke-width="2" opacity="1"/>
+<text x="1612" y="198" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">FiLM</text>
+<g transform="translate(1651 166) scale(1.25)"><path d="M12.3 1C14.2 8.2 20.8 10.5 21.1 17.4C21.4 24.8 17.4 30.4 11.6 30.4C5.8 30.4 2.2 26.1 2.6 20.3C2.8 16.8 4.6 14.5 7.1 11.7C6.7 16.1 8.3 18.1 10.1 18.5C8.7 11.6 14 8.1 12.3 1Z" fill="#F27822"/><path d="M12 17C13 21.1 17.4 22.7 15.6 26.3C14.1 29.4 9.2 29 8.2 26.1C7.1 23 10.5 20.6 12 17Z" fill="#FFD17D"/></g>
+<path d="M1696 188L1721 188" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1741" cy="188" r="17" fill="white" stroke="#8534DB" stroke-width="2.5" opacity="1"/>
+<text x="1741" y="198" font-family="Helvetica" font-size="31" font-style="normal" font-weight="normal" text-anchor="middle" fill="#8534DB">×</text>
+<path d="M1759 188L1784 188" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1810" cy="188" r="23" fill="white" stroke="#080F2D" stroke-width="2.6" opacity="1"/>
+<text x="1810" y="201" font-family="Helvetica" font-size="41" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">+</text>
+<path d="M1835 188L1887 188" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<rect x="1893" y="172" width="29" height="32" rx="2" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1930" y="172" width="29" height="32" rx="2" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1967" y="172" width="29" height="32" rx="2" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="2017" y="195" font-family="Helvetica" font-size="28" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">···</text>
+<path d="M1714 285H1728V266H1742V285H1761" fill="none" stroke="#8534DB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1741 260V208" fill="none" stroke="#8534DB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
+<text x="1742" y="321" font-family="Times New Roman" font-style="italic" font-size="31" text-anchor="middle" fill="#8534DB">m<tspan dy="7.75" font-size="21.080000000000002">i</tspan><tspan dy="-7.75" font-size="31">​</tspan></text>
+<text x="1420" y="424" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#FF8A17">Residual</text>
+<path d="M1327 502L1368 502" fill="none" stroke="#080F2D" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<rect x="1370" y="455" width="47" height="94" rx="2" fill="#FF8A17" stroke="#080F2D" stroke-width="1.6" opacity="1"/>
+<rect x="1441" y="455" width="47" height="94" rx="2" fill="#FF8A17" stroke="#080F2D" stroke-width="1.6" opacity="1"/>
+<path d="M1418 502L1439 502" fill="none" stroke="#080F2D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<path d="M1489 502L1547 502" fill="none" stroke="#080F2D" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1516" cy="502" r="3.2" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<path d="M1516 502V416H1810V478" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<text x="1518" y="535" font-family="Times New Roman" font-style="italic" font-size="27" text-anchor="middle" fill="#080F2D">v<tspan dy="6.75" font-size="18.360000000000003">i</tspan><tspan dy="-6.75" font-size="27">​</tspan></text>
+<rect x="1550" y="466" width="145" height="72" rx="9" fill="#E5F7F7" stroke="#009EAC" stroke-width="2" opacity="1"/>
+<text x="1612" y="512" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">FiLM</text>
+<g transform="translate(1651 480) scale(1.25)"><path d="M12.3 1C14.2 8.2 20.8 10.5 21.1 17.4C21.4 24.8 17.4 30.4 11.6 30.4C5.8 30.4 2.2 26.1 2.6 20.3C2.8 16.8 4.6 14.5 7.1 11.7C6.7 16.1 8.3 18.1 10.1 18.5C8.7 11.6 14 8.1 12.3 1Z" fill="#F27822"/><path d="M12 17C13 21.1 17.4 22.7 15.6 26.3C14.1 29.4 9.2 29 8.2 26.1C7.1 23 10.5 20.6 12 17Z" fill="#FFD17D"/></g>
+<path d="M1696 502L1721 502" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1741" cy="502" r="17" fill="white" stroke="#8534DB" stroke-width="2.5" opacity="1"/>
+<text x="1741" y="512" font-family="Helvetica" font-size="31" font-style="normal" font-weight="normal" text-anchor="middle" fill="#8534DB">×</text>
+<path d="M1759 502L1784 502" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<circle cx="1810" cy="502" r="23" fill="white" stroke="#080F2D" stroke-width="2.6" opacity="1"/>
+<text x="1810" y="515" font-family="Helvetica" font-size="41" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">+</text>
+<path d="M1835 502L1887 502" fill="none" stroke="#080F2D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
+<rect x="1893" y="486" width="29" height="32" rx="2" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1930" y="486" width="29" height="32" rx="2" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<rect x="1967" y="486" width="29" height="32" rx="2" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="2017" y="509" font-family="Helvetica" font-size="28" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">···</text>
+<path d="M1714 599H1728V580H1742V599H1761" fill="none" stroke="#8534DB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M1741 574V522" fill="none" stroke="#8534DB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
+<text x="1742" y="635" font-family="Times New Roman" font-style="italic" font-size="31" text-anchor="middle" fill="#8534DB">m<tspan dy="7.75" font-size="21.080000000000002">i</tspan><tspan dy="-7.75" font-size="31">​</tspan></text>
+</g>
+</svg>

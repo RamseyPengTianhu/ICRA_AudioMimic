@@ -1,0 +1,10 @@
+{
+  "mode": "fresh built-in imagegen generation",
+  "prompt_file": "imagegen-representation-v6-prompt.txt",
+  "source_image": "/Users/lambertwang/.codex/generated_images/01a08f03-ea7b-7193-8e23-341d9b94443a/exec-9ea47112-244c-4672-9f78-70cd63b56423.png",
+  "project_image": "representation-candidate-v6.png",
+  "source_sha256": "f2d42f20d4040e40f30c8e728ca32e8a8f7ce4156829fe99789ee4ecfa1e049a",
+  "reference_images": [],
+  "local_repairs_used": 0,
+  "status": "Inspected and finalized as requested in the same generation-to-vector instruction."
+}

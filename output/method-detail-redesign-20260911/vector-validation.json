@@ -1,0 +1,59 @@
+{
+  "protected_files_unchanged": true,
+  "evaluation_appendix_unchanged": true,
+  "figures": {
+    "music-conditioning-detail": {
+      "svg_sha256": "f5f3cbf37b3b2b3764d48a3c52e183789a3c3391d3ae6733727b0014444620d6",
+      "pdf_sha256": "0c01b47f239efb26d5d67080074e483fba0caa3515e27bdc1281cf9b41dee69c",
+      "native_text_items": 20,
+      "embedded_rasters": 0,
+      "fonts": [
+        "Helvetica",
+        "Helvetica-Bold",
+        "TimesNewRomanPS-ItalicMT"
+      ],
+      "paper_font_sizes_pt": [
+        4.68,
+        5.37,
+        6.59,
+        6.63,
+        6.88,
+        7.14,
+        7.39,
+        7.9,
+        9.69,
+        10.45
+      ]
+    },
+    "structure-detail-training": {
+      "svg_sha256": "6a5219ff5dd64a484e7a59169f184078f478f44da478e0b41db584eab07ea1cd",
+      "pdf_sha256": "1d2fb089135c57c4dd926a3ba8a0139768876b918b682e0a583018cfebac631b",
+      "native_text_items": 13,
+      "embedded_rasters": 0,
+      "fonts": [
+        "Helvetica-Bold"
+      ],
+      "paper_font_sizes_pt": [
+        6.63,
+        6.88,
+        7.14,
+        7.39
+      ]
+    },
+    "cof-terminology": {
+      "svg_sha256": "c8fc5816ad66f70a892ca647e861199909ade003274db1bca495ed6de6da1e84",
+      "pdf_sha256": "aa8ca4bc7c5c6bdb75021f508549078ac6c4542fb04a44d5936a4604d19da262",
+      "native_text_items": 11,
+      "embedded_rasters": 0,
+      "fonts": [
+        "Helvetica-Bold"
+      ],
+      "paper_font_sizes_pt": [
+        6.88,
+        7.14,
+        7.65,
+        7.9
+      ]
+    }
+  }
+}
