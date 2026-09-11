@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-11",
+  "authorization": "Author requested updating the paper GitHub repository after final figure review.",
+  "remote": "https://github.com/RamseyPengTianhu/ICRA_AudioMimic.git",
+  "branch": "main",
+  "remote_base_at_preparation": "0e36903b1ee792db0102ee716257dea2413da49e",
+  "verified_source_tree": "9478cb5fa45e1bfe87d64219b76e8092f7b202f0",
+  "verification": "Exported the exact staged source tree to an isolated folder; regenerated and validated the overview and compiled the complete manuscript.",
+  "overview_svg_reproduces_byte_for_byte": true,
+  "overview_preview_reproduces_byte_for_byte": true,
+  "paper_pages": 11,
+  "all_pages_render_identically_to_reviewed_pdf": true,
+  "geometry_failures": [],
+  "existing_result_values_unchanged": true,
+  "pdf_sha256": "8b1dfe1bbc05c98c63267dda2732fa0e61203875bc740dd2e66b87812b5242e9",
+  "overview_svg_sha256": "3def8682eef45d81ee66ec74aa47177207fdfa6eb31dc2a425a3712561e33a2c",
+  "overview_pdf_sha256": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+  "compile_warnings": "Existing underfull paragraph/page warnings only; no missing glyphs, undefined references or overfull boxes.",
+  "packaging": "Active manuscript dependencies, editable figures, accepted references, transparent assets and checks. Temporary work and rejected image candidates are excluded."
+}

@@ -14,7 +14,7 @@
 \node[box] (sample) at (5.9,6.8)
  {Deployment-form samplers\\AR discrete $\tilde q$\\DDIM residual $\tilde r\mid\tilde q$};
 \node[box] (commit) at (10,6.8)
- {Decode native plan\\Commit Reference Prefix\\first 4 D+C latent steps};
+ {Decode native plan\\Commit Reference Segment\\first 4 structure--detail steps};
 \node[box] (update) at (14.1,6.8)
  {Append committed history\\derive reference boundary\\$\tilde h_{t+C},\tilde b_{t+C}$};
 \draw[flow] (start) -- (sample);

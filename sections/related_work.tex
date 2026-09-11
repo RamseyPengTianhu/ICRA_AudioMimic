@@ -41,8 +41,8 @@ mismatch~\cite{bengio2015scheduled,lamb2016professor}. Diffusion Forcing varies
 per-token noise~\cite{chen2024diffusionforcing}; MotionStream and MotionStreamer
 develop causal motion generation~\cite{jiang2025motionstream,xiao2025motionstreamer}.
 MotionStreamer's Two-Forward strategy uses first-pass predictions in second-pass
-history. \cof{} constructs the joint D+C history--state transition: sampled
-components enter history together, and their decoded prefix determines the
+history. \cof{} constructs the joint structure--detail history--state transition: sampled
+components enter history together, and their decoded committed motion determines the
 next reference state. Its distinction is this coupled update. Diffusion Policy
 and Real-Time Chunking address committed actions during plan
 updates~\cite{chi2023diffusionpolicy,black2025rtc}; CoF constructs the context

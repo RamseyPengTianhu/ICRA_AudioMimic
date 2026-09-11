@@ -1,0 +1,376 @@
+{
+  "selected_reference": "output/overview-editable-20260911/overview-editable.png",
+  "canvas": [
+    1536,
+    956
+  ],
+  "header_legend": true,
+  "old_footer_removed": true,
+  "preserved_panels": [
+    {
+      "panel": "a-music-anticipation",
+      "bounds_and_style_identical": true
+    },
+    {
+      "panel": "b-generate-commit-execute",
+      "bounds_and_style_identical": true
+    },
+    {
+      "panel": "c-representation-and-paired-training",
+      "bounds_and_style_identical": true
+    },
+    {
+      "panel": "d-commit-forcing",
+      "bounds_and_style_identical": true
+    }
+  ],
+  "checked_module_connections": 22,
+  "checked_arrowhead_envelopes": 24,
+  "author_label_revision": {
+    "context_and_boundary_state": true,
+    "append_on_return_arrow": true,
+    "b_paired_removed": true,
+    "c_anatomy_explanations_single_line": true,
+    "shared_decoder_on_both_reconstruction_paths": true
+  },
+  "nonjoining_crossing": {
+    "position": [
+      304,
+      361
+    ],
+    "foreground_edge": "context-to-structure",
+    "background_edge": "music-bus",
+    "white_understroke": true
+  },
+  "main_reference_feedback_separate_from_measured_robot_feedback": true,
+  "music_arrowheads": 2,
+  "native_text_elements": 122,
+  "unique_embedded_pngs": 6,
+  "asset_placements": [
+    {
+      "id": "official-mrt2-icon",
+      "source": "figures/foredance/mrt2-official-app-icon.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "e3b67a8f001930352b582d1676488991292b6bc6de069fd456cccdead4b0c8d7"
+    },
+    {
+      "id": "g1-execution-left",
+      "source": "figures/foredance/transparent-assets/g1-dance-left-consistent.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9ea1dbb2f57be2f1b862a78db88798b896eff401032c023a689a70bacdb39a74"
+    },
+    {
+      "id": "g1-execution-right",
+      "source": "figures/foredance/transparent-assets/g1-dance-right-consistent.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d69514212ff9461e1c7c971773ef65d1f51d41c2d1389dbdcfd82eb48b75e16b"
+    },
+    {
+      "id": "human-source",
+      "source": "figures/foredance/transparent-assets/human-dance-source.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "e1ece8ca410c9a2bb8f8e2b8e847cdecea2609c9740c51d610e9633160c5bd74"
+    },
+    {
+      "id": "g1-training",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    },
+    {
+      "id": "joint-view",
+      "source": "figures/foredance/transparent-assets/g1-joint-view-consistent.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "82730784e881c8ad642e29e0de1b1fb1ee82a622510477d30441b8ba300b6c2a"
+    },
+    {
+      "id": "geometry-view",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    },
+    {
+      "id": "cof-state-g1",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    }
+  ],
+  "failures": [],
+  "header_revision": {
+    "legend_position": "right of ForeDance title",
+    "replaced_text": "Anticipatory music conditioning for streaming dance generation",
+    "former_footer_removed": true,
+    "source_canvas": [
+      1536,
+      1024
+    ],
+    "current_canvas": [
+      1536,
+      956
+    ],
+    "all_four_panels_pixel_identical_to_previous_revision": true,
+    "external_module_legend_removed": true,
+    "legend_items": [
+      "Discrete structure",
+      "Continuous detail",
+      "Music conditioning",
+      "Motion context",
+      "Trainable",
+      "Frozen"
+    ]
+  },
+  "selection_representation": {
+    "b_and_d_render_identically_when_aligned": true,
+    "top_row": "D",
+    "bottom_row": "C",
+    "retained_tiles": 3,
+    "discarded_tiles": 2,
+    "labels_above_corresponding_tiles": [
+      "Commit",
+      "Discard"
+    ],
+    "common_glyph": "latent_pair",
+    "discard_style": "pale fill with thin outline, following the lower diagram"
+  },
+  "manuscript": {
+    "pages": 11,
+    "figure_pages": [
+      2
+    ],
+    "changed_pages_vs_previous_revision": [
+      2
+    ],
+    "compiled_from": "main.tex",
+    "reading_copy_sha256": "8b1dfe1bbc05c98c63267dda2732fa0e61203875bc740dd2e66b87812b5242e9"
+  },
+  "compile": {
+    "fatal_errors": 0,
+    "missing_glyphs": 0,
+    "unresolved_references": 0,
+    "overfull_boxes": 0,
+    "existing_underfull_paragraph_warnings": true
+  },
+  "svg_sha256": "3def8682eef45d81ee66ec74aa47177207fdfa6eb31dc2a425a3712561e33a2c",
+  "pdf_sha256": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+  "paper_matches_build": true,
+  "visual_review": {
+    "figure": "Both payloads inspected as enlarged crops: boundary arrows absent and vertical dividers match.",
+    "paper_page": "Compiled page 2 rendered for review; all other pages match v12."
+  },
+  "current_context_revision": {
+    "purple_legend": "Motion context",
+    "context_blocks_in_b_and_d": "Original single rows, recolored purple; not split into blue/orange rows.",
+    "no_gradient_scope": "Context generation (no gradients) labels the bracket under steps 1-3. The reverse dashed arrow and detached stop-gradient operator were removed.",
+    "training_target": [
+      "Next-segment targets",
+      "(encoded from data)"
+    ],
+    "scientific_sources": [
+      "sections/method.tex:96-124",
+      "sections/supplement.tex:31-37"
+    ],
+    "outside_edited_regions_pixel_identical": true
+  },
+  "state_icon_and_logo_revision": {
+    "boundary_state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+    "semantic_source": "sections/method.tex:8-10",
+    "symbol_placements": [
+      {
+        "id": "boundary-state-return-icon",
+        "bbox": [
+          536,
+          543,
+          572,
+          571
+        ],
+        "meaning": "boundary pose"
+      },
+      {
+        "id": "boundary-state-training-icon",
+        "bbox": [
+          1044,
+          860,
+          1080,
+          888
+        ],
+        "meaning": "boundary pose"
+      }
+    ],
+    "standalone_state_icon": "figures/foredance/boundary-state-icon.svg",
+    "wordmark": {
+      "source": "figures/foredance/foredance-logo-source.png",
+      "source_sha256": "7bb924b9d2657f4fee7fe03c96cf0f9db3e708c3e6d7ff3a1cd083dd1a8216a1",
+      "svg": "figures/foredance/foredance-logo.svg",
+      "svg_sha256": "1a90cd1625f838f72c240f0ab328ff9e691c04ce1705b74e4c6c20d9e479a49b",
+      "palette": {
+        "fore": "#0C0D0F",
+        "dance": "#0044FC"
+      },
+      "source_size": [
+        2170,
+        725
+      ],
+      "viewbox": [
+        93,
+        132,
+        1999,
+        447
+      ],
+      "alpha_threshold": 128,
+      "tracing": "vtracer 0.6.15, binary spline contours for two sampled colors",
+      "paths": 10,
+      "embedded_images": 0,
+      "transparent_background": true,
+      "original_and_vector_components": 10,
+      "silhouette_iou": 0.9896239867907535,
+      "source_unchanged": true,
+      "output_bytes": 18301
+    },
+    "logo_in_header": "10 native vector paths replace the previous title text; no logo bitmap is embedded.",
+    "outside_two_icons_and_wordmark_pixel_identical": true,
+    "native_state_icons": [
+      {
+        "id": "boundary-state-return-icon",
+        "bbox": [
+          536,
+          543,
+          572,
+          571
+        ],
+        "meaning": "boundary pose"
+      },
+      {
+        "id": "boundary-state-training-icon",
+        "bbox": [
+          1044,
+          860,
+          1080,
+          888
+        ],
+        "meaning": "boundary pose"
+      }
+    ]
+  },
+  "conditioning_and_learn_revision": {
+    "scientific_sources": [
+      "sections/method.tex:85-93",
+      "sections/method.tex:101-121",
+      "figures/commit_forcing_v2.tex:13-17,34-46"
+    ],
+    "sampled_q": "q is the sampled discrete structure. Its conditioning path now leaves q directly, separate from q-to-e(q) and e(q)-to-sum.",
+    "condition_label": "Embed + add (supersedes earlier label; see typography_revision)",
+    "condition_arrow_start": [
+      634,
+      370
+    ],
+    "condition_arrow_end": [
+      504,
+      428
+    ],
+    "learn": "Two model cards, Structure and Detail, each carry a flame; the legend defines flame as Trainable.",
+    "no_gradient_context_preserved": true
+  },
+  "compute_and_c_training_revision": {
+    "c_flames": "Both D_psi decoder instances carry the same Trainable flame.",
+    "compute_arrow": "Committed segment -> history and boundary-state payload, arrow labeled compute.",
+    "append_arrow": "Payload -> next context, separate arrow labeled append.",
+    "condition_label": "Embed + add (supersedes earlier label; see typography_revision)"
+  },
+  "preserved_nontext_geometry": {
+    "a-music-anticipation": true,
+    "nontext_geometry_matches_revision_contract": true
+  },
+  "horizontal_text_compression": false,
+  "typography_revision": {
+    "preview": "overview-refined-v12.png",
+    "condition_label": "Embed + add",
+    "condition_meaning": "Sampled structural IDs are embedded and added to residual features, verified against the paper-audited implementation.",
+    "source_evidence": "evidence/foredance/overview-typography-research.json",
+    "condition_label_bbox": [
+      521.5546875,
+      407.484375,
+      614.765625,
+      419.296875
+    ],
+    "font_family": "Helvetica",
+    "math_font": "Times New Roman italic",
+    "pdf_fonts_embedded": [
+      "NVKWKG+Helvetica",
+      "YMSINV+Helvetica-Bold",
+      "JJZLWJ+TimesNewRomanPS-ItalicMT",
+      "YFQYYQ+TimesNewRomanPS-ItalicMT"
+    ],
+    "old_compressed_labels": 18,
+    "new_compressed_labels": 0,
+    "anatomy_explanation_font_size_px": 12,
+    "anatomy_shortening": "remaining body points -> other body points",
+    "nontext_geometry_preserved_except_conditioning_connector": true,
+    "image_placements_unchanged": true,
+    "skill_updated_and_validated": true
+  },
+  "boundary_divider_revision": {
+    "preview": "overview-refined-v13.png",
+    "state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+    "divider": "d uses the same 23 px vertical divider, #CBB6E6 and 0.8 px stroke as b.",
+    "outside_two_requested_regions_pixel_identical": true,
+    "text_and_illustrations_unchanged": true,
+    "standalone_icon_sha256": "6959d559071d10df6464eb3bc54b38b948ca163e49432b26c4b6459cb8855278"
+  }
+}

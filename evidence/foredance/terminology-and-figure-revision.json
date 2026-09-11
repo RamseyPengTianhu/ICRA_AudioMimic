@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-11",
+  "representation_name": "Structure–Detail Representation",
+  "method_heading": "Structure–Detail Representation and Paired Training",
+  "table_display_labels": {
+    "FD-DF-L-AM-FHC": "Startup-aware",
+    "FD-DF-L-AJ-FHC": "Direct"
+  },
+  "numeric_change": false,
+  "source_experiment_identity_change": false,
+  "imagegen_tool": "built-in image_gen",
+  "model_or_quality_tier_verified": false,
+  "prompt_files": [
+    "output/figure-review-20260911/master_fix2_prompt.txt",
+    "output/figure-review-20260911/master_fix_prompt.txt",
+    "output/figure-review-20260911/master_fix3_prompt.txt",
+    "output/figure-review-20260911/master_prompt.txt"
+  ],
+  "master_sha256": "238ecaa7b7ee5511df9927b56fe70e909e0bfa0c14d2436dd1248048a4436ebe",
+  "master_is_review_candidate": true,
+  "vectorization": {
+    "master_sha256": "238ecaa7b7ee5511df9927b56fe70e909e0bfa0c14d2436dd1248048a4436ebe",
+    "master_size": [
+      1536,
+      1024
+    ],
+    "vector_paths": 37442,
+    "bitmap_regions": [
+      {
+        "name": "mrt2-icon",
+        "bounds": [
+          494,
+          128,
+          545,
+          187
+        ]
+      },
+      {
+        "name": "g1-execution",
+        "bounds": [
+          1299,
+          339,
+          1515,
+          518
+        ]
+      },
+      {
+        "name": "human-source",
+        "bounds": [
+          43,
+          658,
+          98,
+          728
+        ]
+      },
+      {
+        "name": "g1-training",
+        "bounds": [
+          489,
+          654,
+          540,
+          728
+        ]
+      },
+      {
+        "name": "joint-view",
+        "bounds": [
+          33,
+          753,
+          120,
+          904
+        ]
+      },
+      {
+        "name": "geometry-view",
+        "bounds": [
+          263,
+          752,
+          358,
+          904
+        ]
+      },
+      {
+        "name": "cof-state-g1",
+        "bounds": [
+          1265,
+          705,
+          1330,
+          785
+        ]
+      }
+    ],
+    "live_text": false,
+    "lettering": "vector outlines",
+    "layout": "unchanged master coordinates",
+    "svg_bytes": 17757186
+  },
+  "publication": "not performed; explicit user approval required"
+}

@@ -1,0 +1,2564 @@
+{
+  "master": "figures/foredance/overview-imagegen-master.png",
+  "master_sha256": "238ecaa7b7ee5511df9927b56fe70e909e0bfa0c14d2436dd1248048a4436ebe",
+  "master_dimensions": [
+    1536,
+    1024
+  ],
+  "canvas_dimensions": [
+    1536,
+    956
+  ],
+  "text_elements": 122,
+  "labels": [
+    {
+      "text": "Discrete structure",
+      "x": 347,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        348.4501953125,
+        22.0888671875,
+        487.255859375,
+        35.3603515625
+      ]
+    },
+    {
+      "text": "Continuous detail",
+      "x": 584,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        584.791015625,
+        21.7373046875,
+        721.8828125,
+        35.3603515625
+      ]
+    },
+    {
+      "text": "Music conditioning",
+      "x": 821,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        822.3271484375,
+        22.044921875,
+        967.8564453125,
+        38.9814453125
+      ]
+    },
+    {
+      "text": "Motion context",
+      "x": 1066,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1067.3271484375,
+        22.0888671875,
+        1182.6396484375,
+        35.3427734375
+      ]
+    },
+    {
+      "text": "Trainable",
+      "x": 1276,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1276.2900390625,
+        22.044921875,
+        1350.2587890625,
+        35.333984375
+      ]
+    },
+    {
+      "text": "Frozen",
+      "x": 1436,
+      "y": 35,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1437.5380859375,
+        22.0888671875,
+        1490.84375,
+        35.3427734375
+      ]
+    },
+    {
+      "text": "a",
+      "x": 41,
+      "y": 97,
+      "font_size": 35,
+      "requested_font_size": 35,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        32.275634765625,
+        77.927734375,
+        49.724365234375,
+        97.5810546875
+      ]
+    },
+    {
+      "text": "Anticipate from heard music",
+      "x": 78,
+      "y": 94,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        78.7109375,
+        73.642578125,
+        455.220703125,
+        99.865234375
+      ]
+    },
+    {
+      "text": "Heard audio",
+      "x": 80,
+      "y": 122,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        81.572265625,
+        107.60546875,
+        188.1640625,
+        122.380859375
+      ]
+    },
+    {
+      "text": "t",
+      "x": 373,
+      "y": 212,
+      "font_size": 23,
+      "requested_font_size": 23,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        373.943359375,
+        199.05126953125,
+        379.86181640625,
+        212.26953125
+      ]
+    },
+    {
+      "text": "Now",
+      "x": 383,
+      "y": 121,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        363.3662109375,
+        106.60546875,
+        403.8740234375,
+        121.37109375
+      ]
+    },
+    {
+      "text": "Magenta",
+      "x": 584,
+      "y": 148,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        548.82177734375,
+        135.044921875,
+        619.98681640625,
+        151.919921875
+      ]
+    },
+    {
+      "text": "RealTime 2",
+      "x": 584,
+      "y": 169,
+      "font_size": 17.42,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        539.3952734375,
+        156.385810546875,
+        629.293701171875,
+        169.3062109375
+      ]
+    },
+    {
+      "text": "Predicted music states",
+      "x": 690,
+      "y": 122,
+      "font_size": 22,
+      "requested_font_size": 22,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        691.7509765625,
+        106.0693359375,
+        928.8203125,
+        122.408203125
+      ]
+    },
+    {
+      "text": "Forecast time",
+      "x": 1087,
+      "y": 200,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1036.967041015625,
+        187.80615234375,
+        1137.746826171875,
+        200.34033203125
+      ]
+    },
+    {
+      "text": "b",
+      "x": 42,
+      "y": 275,
+      "font_size": 35,
+      "requested_font_size": 35,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        33.412353515625,
+        249.84375,
+        51.476318359375,
+        275.49560546875
+      ]
+    },
+    {
+      "text": "Generate, commit, and execute",
+      "x": 79,
+      "y": 272,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        80.162109375,
+        251.328125,
+        492.150390625,
+        276.744140625
+      ]
+    },
+    {
+      "text": "Structure\u2013detail generator",
+      "x": 360,
+      "y": 306,
+      "font_size": 26,
+      "requested_font_size": 26,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        361.0791015625,
+        286.7412109375,
+        684.7587890625,
+        311.662109375
+      ]
+    },
+    {
+      "text": "Trained with Commit Forcing",
+      "x": 826,
+      "y": 305,
+      "font_size": 14.08,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        736.2468749999999,
+        294.625625,
+        915.024375,
+        308.114375
+      ]
+    },
+    {
+      "text": "Music conditioning",
+      "x": 51,
+      "y": 303,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        52.474609375,
+        288.517578125,
+        231.908203125,
+        307.35546875
+      ]
+    },
+    {
+      "text": "Context",
+      "x": 139,
+      "y": 364,
+      "font_size": 22,
+      "requested_font_size": 22,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        99.04443359375,
+        347.865234375,
+        179.40673828125,
+        364.4404296875
+      ]
+    },
+    {
+      "text": "Committed history",
+      "x": 139,
+      "y": 392,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        63.28759765625,
+        378.00048828125,
+        215.32470703125,
+        396.07275390625
+      ]
+    },
+    {
+      "text": "+ boundary state",
+      "x": 139,
+      "y": 415,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        68.81689453125,
+        401.3251953125,
+        209.2109375,
+        419.07275390625
+      ]
+    },
+    {
+      "text": "h",
+      "x": 94,
+      "y": 439,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        94.50048828125,
+        421.6416015625,
+        105.474609375,
+        439.29296875
+      ]
+    },
+    {
+      "text": "t",
+      "x": 106,
+      "y": 445,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        106.533203125,
+        437.68115234375,
+        109.87841796875,
+        445.15234375
+      ]
+    },
+    {
+      "text": ",",
+      "x": 117,
+      "y": 439,
+      "font_size": 23,
+      "requested_font_size": 23,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        116.76416015625,
+        436.978515625,
+        120.0546875,
+        441.88623046875
+      ]
+    },
+    {
+      "text": "b",
+      "x": 129,
+      "y": 439,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        129.6591796875,
+        421.6416015625,
+        140.73095703125,
+        439.29296875
+      ]
+    },
+    {
+      "text": "ref",
+      "x": 141,
+      "y": 445,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        141.2666015625,
+        435.9736328125,
+        157.95458984375,
+        447.8056640625
+      ]
+    },
+    {
+      "text": "b",
+      "x": 827,
+      "y": 502,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        827.6591796875,
+        484.6416015625,
+        838.73095703125,
+        502.29296875
+      ]
+    },
+    {
+      "text": "ref",
+      "x": 839,
+      "y": 508,
+      "font_size": 14,
+      "requested_font_size": 14,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        839.287109375,
+        498.279296875,
+        857.2587890625,
+        511.021484375
+      ]
+    },
+    {
+      "text": "Structure planner",
+      "x": 448,
+      "y": 348,
+      "font_size": 15.9,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        448.7453125,
+        336.284619140625,
+        569.7809570312501,
+        351.315087890625
+      ]
+    },
+    {
+      "text": "AR Transformer",
+      "x": 448,
+      "y": 370,
+      "font_size": 17.15,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        448.251220703125,
+        357.522705078125,
+        569.775048828125,
+        370.3433349609375
+      ]
+    },
+    {
+      "text": "Residual diffusion",
+      "x": 489.5,
+      "y": 450,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        412.9296875,
+        436.9130859375,
+        566.3603515625,
+        450.333984375
+      ]
+    },
+    {
+      "text": "FiLM",
+      "x": 340,
+      "y": 329,
+      "font_size": 17.15,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        341.30634765625,
+        316.5813232421875,
+        378.9140869140625,
+        329.0
+      ]
+    },
+    {
+      "text": "FiLM",
+      "x": 340,
+      "y": 435,
+      "font_size": 17.15,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        341.30634765625,
+        422.5813232421875,
+        378.9140869140625,
+        435.0
+      ]
+    },
+    {
+      "text": "q",
+      "x": 620,
+      "y": 334,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        613.615234375,
+        321.626953125,
+        626.275390625,
+        339.98828125
+      ]
+    },
+    {
+      "text": "e(q)",
+      "x": 694,
+      "y": 334,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        671.1884765625,
+        314.55859375,
+        714.6376953125,
+        339.98828125
+      ]
+    },
+    {
+      "text": "Embed + add",
+      "x": 568,
+      "y": 419,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        521.5546875,
+        407.484375,
+        614.765625,
+        419.296875
+      ]
+    },
+    {
+      "text": "r",
+      "x": 646,
+      "y": 440,
+      "font_size": 29,
+      "requested_font_size": 29,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        640.951904296875,
+        427.18505859375,
+        652.095947265625,
+        440.0
+      ]
+    },
+    {
+      "text": "+",
+      "x": 739,
+      "y": 422,
+      "font_size": 31,
+      "requested_font_size": 31,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        731.3408203125,
+        406.18212890625,
+        747.12841796875,
+        422.0
+      ]
+    },
+    {
+      "text": "Shared",
+      "x": 811,
+      "y": 411,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        782.822265625,
+        397.7373046875,
+        838.84375,
+        411.3779296875
+      ]
+    },
+    {
+      "text": "decoder",
+      "x": 811,
+      "y": 432,
+      "font_size": 17.99,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        778.9860571289062,
+        419.052119140625,
+        843.2950366210937,
+        432.3425830078125
+      ]
+    },
+    {
+      "text": "Commit segment",
+      "x": 969,
+      "y": 384,
+      "font_size": 19.11,
+      "requested_font_size": 21,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        892.3453857421875,
+        369.984755859375,
+        1046.0465185546875,
+        388.161650390625
+      ]
+    },
+    {
+      "text": "Commit",
+      "x": 947.5,
+      "y": 402,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        923.889892578125,
+        392.4658203125,
+        971.376708984375,
+        402.26025390625
+      ]
+    },
+    {
+      "text": "Discard",
+      "x": 997.5,
+      "y": 402,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        976.5146484375,
+        392.6435546875,
+        1018.68212890625,
+        402.26025390625
+      ]
+    },
+    {
+      "text": "D",
+      "x": 902,
+      "y": 425,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        897.156494140625,
+        412.7646484375,
+        907.507568359375,
+        425.0
+      ]
+    },
+    {
+      "text": "C",
+      "x": 902,
+      "y": 451,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        896.625244140625,
+        438.5322265625,
+        907.507568359375,
+        451.34033203125
+      ]
+    },
+    {
+      "text": "Reference",
+      "x": 1120,
+      "y": 408,
+      "font_size": 16.69,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1082.964987792969,
+        395.857373046875,
+        1157.776608886719,
+        408.309677734375
+      ]
+    },
+    {
+      "text": "bridge",
+      "x": 1120,
+      "y": 431,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1096.01904296875,
+        418.044921875,
+        1144.23583984375,
+        434.9814453125
+      ]
+    },
+    {
+      "text": "SONIC",
+      "x": 1237,
+      "y": 400,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1209.3408203125,
+        386.7373046875,
+        1264.7470703125,
+        400.3779296875
+      ]
+    },
+    {
+      "text": "tracker",
+      "x": 1237,
+      "y": 422,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1209.69677734375,
+        409.0888671875,
+        1264.29443359375,
+        422.333984375
+      ]
+    },
+    {
+      "text": "Humanoid execution",
+      "x": 1405,
+      "y": 307,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1308.1591796875,
+        292.517578125,
+        1502.0751953125,
+        307.37109375
+      ]
+    },
+    {
+      "text": "G1 reference tracking",
+      "x": 1405,
+      "y": 331,
+      "font_size": 19.45,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1305.8078491210938,
+        316.6404296875,
+        1503.7362915039064,
+        335.235693359375
+      ]
+    },
+    {
+      "text": "Measured robot state",
+      "x": 1340,
+      "y": 554,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1265.58203125,
+        542.484375,
+        1414.90234375,
+        554.3203125
+      ]
+    },
+    {
+      "text": "D",
+      "x": 398,
+      "y": 554,
+      "font_size": 10,
+      "requested_font_size": 10,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        395.15087890625,
+        546.802734375,
+        401.23974609375,
+        554.0
+      ]
+    },
+    {
+      "text": "C",
+      "x": 398,
+      "y": 566,
+      "font_size": 10,
+      "requested_font_size": 10,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        394.83837890625,
+        558.666015625,
+        401.23974609375,
+        566.2001953125
+      ]
+    },
+    {
+      "text": "History",
+      "x": 452,
+      "y": 562,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        453.33642578125,
+        549.80615234375,
+        504.693359375,
+        565.64404296875
+      ]
+    },
+    {
+      "text": "Boundary state",
+      "x": 575,
+      "y": 562,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        576.25341796875,
+        549.7646484375,
+        688.61279296875,
+        565.64404296875
+      ]
+    },
+    {
+      "text": "compute",
+      "x": 848,
+      "y": 550,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        813.99951171875,
+        537.958984375,
+        881.73681640625,
+        553.7529296875
+      ]
+    },
+    {
+      "text": "append",
+      "x": 267,
+      "y": 550,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        237.6884765625,
+        537.044921875,
+        295.8544921875,
+        553.7529296875
+      ]
+    },
+    {
+      "text": "c",
+      "x": 42,
+      "y": 631,
+      "font_size": 35,
+      "requested_font_size": 35,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        33.480712890625,
+        611.927734375,
+        50.656005859375,
+        631.6494140625
+      ]
+    },
+    {
+      "text": "Structure\u2013Detail Representation",
+      "x": 79,
+      "y": 628,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        80.162109375,
+        607.259765625,
+        505.220703125,
+        633.865234375
+      ]
+    },
+    {
+      "text": "Paired training with kinematic supervision",
+      "x": 79,
+      "y": 649,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        80.62353515625,
+        635.3251953125,
+        426.2509765625,
+        653.20263671875
+      ]
+    },
+    {
+      "text": "FineDance",
+      "x": 120,
+      "y": 684,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        121.5234375,
+        669.517578125,
+        220.5859375,
+        684.37109375
+      ]
+    },
+    {
+      "text": "Human dance data",
+      "x": 105,
+      "y": 709,
+      "font_size": 15.38,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        106.209072265625,
+        697.93060546875,
+        234.63357421875003,
+        709.28537109375
+      ]
+    },
+    {
+      "text": "Motion retargeting",
+      "x": 358,
+      "y": 685,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        290.742919921875,
+        672.80615234375,
+        425.356689453125,
+        688.76025390625
+      ]
+    },
+    {
+      "text": "Offline preprocessing",
+      "x": 358,
+      "y": 706,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        278.345703125,
+        693.47412109375,
+        437.16455078125,
+        709.76025390625
+      ]
+    },
+    {
+      "text": "G1 training motion",
+      "x": 558,
+      "y": 684,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        558.830078125,
+        669.234375,
+        734.50390625,
+        688.35546875
+      ]
+    },
+    {
+      "text": "Unitree G1",
+      "x": 558,
+      "y": 708,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        559.494140625,
+        694.7373046875,
+        641.3994140625,
+        708.3427734375
+      ]
+    },
+    {
+      "text": "Joint view",
+      "x": 43,
+      "y": 754,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        43.439453125,
+        739.517578125,
+        139.455078125,
+        754.37109375
+      ]
+    },
+    {
+      "text": "Geometry view",
+      "x": 269,
+      "y": 754,
+      "font_size": 20,
+      "requested_font_size": 20,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        269.830078125,
+        739.234375,
+        411.05078125,
+        758.306640625
+      ]
+    },
+    {
+      "text": "Structure",
+      "x": 160,
+      "y": 789,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        160.7470703125,
+        775.6669921875,
+        239.5146484375,
+        789.333984375
+      ]
+    },
+    {
+      "text": "root, legs, waist",
+      "x": 160,
+      "y": 810,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        160.802734375,
+        801.392578125,
+        243.0859375,
+        812.654296875
+      ]
+    },
+    {
+      "text": "Detail",
+      "x": 160,
+      "y": 846,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        161.37109375,
+        832.9658203125,
+        207.7421875,
+        846.31640625
+      ]
+    },
+    {
+      "text": "arm joints",
+      "x": 160,
+      "y": 867,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        160.48046875,
+        858.392578125,
+        211.580078125,
+        869.53125
+      ]
+    },
+    {
+      "text": "Structure",
+      "x": 390,
+      "y": 789,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        390.7470703125,
+        775.6669921875,
+        469.5146484375,
+        789.333984375
+      ]
+    },
+    {
+      "text": "torso, wrists, soles",
+      "x": 384,
+      "y": 810,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        384.134765625,
+        801.392578125,
+        482.255859375,
+        811.78125
+      ]
+    },
+    {
+      "text": "Detail",
+      "x": 390,
+      "y": 846,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        391.37109375,
+        832.9658203125,
+        437.7421875,
+        846.31640625
+      ]
+    },
+    {
+      "text": "other body points",
+      "x": 384,
+      "y": 867,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        384.345703125,
+        858.36328125,
+        475.62890625,
+        869.572265625
+      ]
+    },
+    {
+      "text": "e(q)",
+      "x": 516,
+      "y": 782,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        516.78125,
+        764.6416015625,
+        555.5751953125,
+        787.3466796875
+      ]
+    },
+    {
+      "text": "+",
+      "x": 558,
+      "y": 782,
+      "font_size": 22,
+      "requested_font_size": 22,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        558.98828125,
+        770.7744140625,
+        570.1923828125,
+        782.0
+      ]
+    },
+    {
+      "text": "r",
+      "x": 578,
+      "y": 782,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        578.5126953125,
+        770.95263671875,
+        588.11962890625,
+        782.0
+      ]
+    },
+    {
+      "text": "e(q)",
+      "x": 518,
+      "y": 883,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        518.78125,
+        865.6416015625,
+        557.5751953125,
+        888.3466796875
+      ]
+    },
+    {
+      "text": "D",
+      "x": 621,
+      "y": 780,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        614.25146484375,
+        768.744140625,
+        626.73583984375,
+        780.0
+      ]
+    },
+    {
+      "text": "\u03c8",
+      "x": 629,
+      "y": 783,
+      "font_size": 10,
+      "requested_font_size": 10,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        629.6982421875,
+        778.5810546875,
+        635.4697265625,
+        785.138671875
+      ]
+    },
+    {
+      "text": "D",
+      "x": 621,
+      "y": 881,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        614.25146484375,
+        869.744140625,
+        626.73583984375,
+        881.0
+      ]
+    },
+    {
+      "text": "\u03c8",
+      "x": 629,
+      "y": 884,
+      "font_size": 10,
+      "requested_font_size": 10,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        629.6982421875,
+        879.5810546875,
+        635.4697265625,
+        886.138671875
+      ]
+    },
+    {
+      "text": "Full-motion",
+      "x": 704,
+      "y": 769,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        665.80078125,
+        757.5234375,
+        742.51953125,
+        769.3046875
+      ]
+    },
+    {
+      "text": "reconstruction",
+      "x": 704,
+      "y": 789,
+      "font_size": 14.49,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        659.4651831054687,
+        778.6065380859375,
+        748.5560424804687,
+        789.2900830078124
+      ]
+    },
+    {
+      "text": "Structural-view",
+      "x": 704,
+      "y": 870,
+      "font_size": 13.76,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        659.1489843749999,
+        859.86140625,
+        749.240703125,
+        870.28890625
+      ]
+    },
+    {
+      "text": "reconstruction",
+      "x": 704,
+      "y": 890,
+      "font_size": 14.49,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        659.4651831054687,
+        879.6065380859375,
+        748.5560424804687,
+        890.2900830078124
+      ]
+    },
+    {
+      "text": "Shared decoder",
+      "x": 641,
+      "y": 827,
+      "font_size": 15,
+      "requested_font_size": 15,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        641.703125,
+        815.94775390625,
+        747.5673828125,
+        827.31494140625
+      ]
+    },
+    {
+      "text": "d",
+      "x": 801,
+      "y": 631,
+      "font_size": 35,
+      "requested_font_size": 35,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        791.386962890625,
+        605.84375,
+        809.536376953125,
+        631.5810546875
+      ]
+    },
+    {
+      "text": "Commit Forcing",
+      "x": 838,
+      "y": 628,
+      "font_size": 28,
+      "requested_font_size": 28,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        839.2578125,
+        607.46484375,
+        1050.84375,
+        634.09765625
+      ]
+    },
+    {
+      "text": "1. Sample",
+      "x": 874.0,
+      "y": 673,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        830.96240234375,
+        658.92626953125,
+        917.826171875,
+        676.97998046875
+      ]
+    },
+    {
+      "text": "structure + detail",
+      "x": 874.0,
+      "y": 695,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        797.7958984375,
+        681.24169921875,
+        949.47119140625,
+        695.3525390625
+      ]
+    },
+    {
+      "text": "2. Commit jointly",
+      "x": 1057.0,
+      "y": 673,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        981.060302734375,
+        659.0654296875,
+        1133.208740234375,
+        677.09130859375
+      ]
+    },
+    {
+      "text": "+ decode",
+      "x": 1057.0,
+      "y": 695,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1016.230712890625,
+        681.34375,
+        1097.917724609375,
+        695.3525390625
+      ]
+    },
+    {
+      "text": "3. Update history",
+      "x": 1244.5,
+      "y": 673,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1167.929443359375,
+        659.24169921875,
+        1321.246826171875,
+        677.09130859375
+      ]
+    },
+    {
+      "text": "+ reconstruct state",
+      "x": 1244.5,
+      "y": 695,
+      "font_size": 18.16,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1163.648984375,
+        682.7278125,
+        1325.492890625,
+        695.336953125
+      ]
+    },
+    {
+      "text": "4. Learn",
+      "x": 1428.0,
+      "y": 673,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1392.06884765625,
+        659.3251953125,
+        1463.22607421875,
+        673.333984375
+      ]
+    },
+    {
+      "text": "continuation",
+      "x": 1428.0,
+      "y": 695,
+      "font_size": 19,
+      "requested_font_size": 19,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1371.66796875,
+        681.24169921875,
+        1483.78466796875,
+        695.3525390625
+      ]
+    },
+    {
+      "text": "D",
+      "x": 805,
+      "y": 739,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        800.156494140625,
+        726.7646484375,
+        810.507568359375,
+        739.0
+      ]
+    },
+    {
+      "text": "C",
+      "x": 805,
+      "y": 765,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        799.625244140625,
+        752.5322265625,
+        810.507568359375,
+        765.34033203125
+      ]
+    },
+    {
+      "text": "Commit",
+      "x": 1027.5,
+      "y": 716,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1003.889892578125,
+        706.4658203125,
+        1051.376708984375,
+        716.26025390625
+      ]
+    },
+    {
+      "text": "Discard",
+      "x": 1077.5,
+      "y": 716,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1056.5146484375,
+        706.6435546875,
+        1098.68212890625,
+        716.26025390625
+      ]
+    },
+    {
+      "text": "D",
+      "x": 982,
+      "y": 739,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        977.156494140625,
+        726.7646484375,
+        987.507568359375,
+        739.0
+      ]
+    },
+    {
+      "text": "C",
+      "x": 982,
+      "y": 765,
+      "font_size": 17,
+      "requested_font_size": 17,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        976.625244140625,
+        752.5322265625,
+        987.507568359375,
+        765.34033203125
+      ]
+    },
+    {
+      "text": "Structure",
+      "x": 1434,
+      "y": 731,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1399.1015625,
+        719.1484375,
+        1469.1171875,
+        731.296875
+      ]
+    },
+    {
+      "text": "Detail",
+      "x": 1434,
+      "y": 769,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        1413.43359375,
+        757.4140625,
+        1454.65234375,
+        769.28125
+      ]
+    },
+    {
+      "text": "h",
+      "x": 1169,
+      "y": 733,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1169.50048828125,
+        715.6416015625,
+        1180.474609375,
+        733.29296875
+      ]
+    },
+    {
+      "text": "t+1",
+      "x": 1181,
+      "y": 739,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1181.533203125,
+        730.21484375,
+        1198.8115234375,
+        739.15234375
+      ]
+    },
+    {
+      "text": ",",
+      "x": 1205,
+      "y": 733,
+      "font_size": 23,
+      "requested_font_size": 23,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1204.76416015625,
+        730.978515625,
+        1208.0546875,
+        735.88623046875
+      ]
+    },
+    {
+      "text": "b",
+      "x": 1217,
+      "y": 733,
+      "font_size": 25,
+      "requested_font_size": 25,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1217.6591796875,
+        715.6416015625,
+        1228.73095703125,
+        733.29296875
+      ]
+    },
+    {
+      "text": "ref",
+      "x": 1229,
+      "y": 739,
+      "font_size": 13,
+      "requested_font_size": 13,
+      "font_family": "Times New Roman",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1229.2666015625,
+        729.9736328125,
+        1245.95458984375,
+        741.8056640625
+      ]
+    },
+    {
+      "text": "Context generation (no gradients)",
+      "x": 1059,
+      "y": 835,
+      "font_size": 16,
+      "requested_font_size": 16,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        931.26953125,
+        823.265625,
+        1186.72265625,
+        838.484375
+      ]
+    },
+    {
+      "text": "Next-segment targets",
+      "x": 1401,
+      "y": 861,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1316.3349609375,
+        848.0888671875,
+        1486.3857421875,
+        864.9814453125
+      ]
+    },
+    {
+      "text": "(encoded from data)",
+      "x": 1401,
+      "y": 882,
+      "font_size": 18,
+      "requested_font_size": 18,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1321.2041015625,
+        868.8779296875,
+        1480.751953125,
+        885.673828125
+      ]
+    },
+    {
+      "text": "D",
+      "x": 938,
+      "y": 871,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        934.5810546875,
+        862.36328125,
+        941.8876953125,
+        871.0
+      ]
+    },
+    {
+      "text": "C",
+      "x": 938,
+      "y": 889,
+      "font_size": 12,
+      "requested_font_size": 12,
+      "font_family": "Helvetica",
+      "font_weight": 700,
+      "horizontal_scale": 1,
+      "bbox": [
+        934.2060546875,
+        880.19921875,
+        941.8876953125,
+        889.240234375
+      ]
+    },
+    {
+      "text": "Generated history",
+      "x": 1083,
+      "y": 873,
+      "font_size": 15,
+      "requested_font_size": 15,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1083.72509765625,
+        861.94775390625,
+        1202.05517578125,
+        876.21533203125
+      ]
+    },
+    {
+      "text": "+ boundary state",
+      "x": 1083,
+      "y": 892,
+      "font_size": 15,
+      "requested_font_size": 15,
+      "font_family": "Helvetica",
+      "font_weight": 400,
+      "horizontal_scale": 1,
+      "bbox": [
+        1083.673828125,
+        881.2041015625,
+        1194.51123046875,
+        895.21533203125
+      ]
+    }
+  ],
+  "images": [
+    {
+      "id": "official-mrt2-icon",
+      "source": "figures/foredance/mrt2-official-app-icon.png",
+      "destination": [
+        494,
+        135,
+        42,
+        42
+      ],
+      "pixel_size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "original_png_sha256": "e3b67a8f001930352b582d1676488991292b6bc6de069fd456cccdead4b0c8d7"
+    },
+    {
+      "id": "g1-execution-left",
+      "source": "figures/foredance/transparent-assets/g1-dance-left-consistent.png",
+      "destination": [
+        1299,
+        337,
+        108,
+        180
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "original_png_sha256": "9ea1dbb2f57be2f1b862a78db88798b896eff401032c023a689a70bacdb39a74"
+    },
+    {
+      "id": "g1-execution-right",
+      "source": "figures/foredance/transparent-assets/g1-dance-right-consistent.png",
+      "destination": [
+        1407,
+        337,
+        108,
+        180
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "original_png_sha256": "d69514212ff9461e1c7c971773ef65d1f51d41c2d1389dbdcfd82eb48b75e16b"
+    },
+    {
+      "id": "human-source",
+      "source": "figures/foredance/transparent-assets/human-dance-source.png",
+      "destination": [
+        43,
+        654,
+        55,
+        74
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "original_png_sha256": "e1ece8ca410c9a2bb8f8e2b8e847cdecea2609c9740c51d610e9633160c5bd74"
+    },
+    {
+      "id": "g1-training",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "destination": [
+        489,
+        654,
+        51,
+        74
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "original_png_sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    },
+    {
+      "id": "joint-view",
+      "source": "figures/foredance/transparent-assets/g1-joint-view-consistent.png",
+      "destination": [
+        28,
+        756,
+        97,
+        148
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "original_png_sha256": "82730784e881c8ad642e29e0de1b1fb1ee82a622510477d30441b8ba300b6c2a"
+    },
+    {
+      "id": "geometry-view",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "destination": [
+        263,
+        757,
+        95,
+        147
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "original_png_sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    },
+    {
+      "id": "cof-state-g1",
+      "source": "figures/foredance/transparent-assets/g1-neutral.png",
+      "destination": [
+        1265,
+        705,
+        65,
+        80
+      ],
+      "pixel_size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "original_png_sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    }
+  ],
+  "arrows": [
+    {
+      "id": "heard-to-predicted-states",
+      "path": "M638 159 H670",
+      "color": "teal",
+      "arrowhead": true
+    },
+    {
+      "id": "panel-b-music-source",
+      "path": "M163 321 H304 V344",
+      "color": "teal",
+      "arrowhead": false
+    },
+    {
+      "id": "context-to-detail",
+      "path": "M252 432 H280 V468 H394",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "state-to-shared-decoder",
+      "path": "M226 491 V526 H806 V450",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "diffusion-noise-to-residual",
+      "path": "M461 472 H496",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "music-bus",
+      "path": "M304 344 V450",
+      "color": "teal",
+      "arrowhead": false
+    },
+    {
+      "id": "music-film-to-structure",
+      "path": "M304 344 H394",
+      "color": "teal",
+      "arrowhead": true
+    },
+    {
+      "id": "music-film-to-detail",
+      "path": "M304 450 H394",
+      "color": "teal",
+      "arrowhead": true
+    },
+    {
+      "id": "context-to-structure",
+      "path": "M252 377 H278 V361 H394",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "q-to-codebook-embedding",
+      "path": "M660 357 H676",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "structure-to-sum",
+      "path": "M712 357 H739 V396",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "sampled-structure-to-detail",
+      "path": "M634 370 V399 H504 V428",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "detail-to-sum",
+      "path": "M709 466 H739 V430",
+      "color": "orange",
+      "arrowhead": true
+    },
+    {
+      "id": "sum-to-decoder",
+      "path": "M756 413 H770",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "decoder-to-commit",
+      "path": "M852 414 H884",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "commit-to-reference-bridge",
+      "path": "M1055 414 H1078",
+      "color": "purple",
+      "arrowhead": true
+    },
+    {
+      "id": "bridge-to-tracker",
+      "path": "M1162 414 H1195",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "tracker-to-execution",
+      "path": "M1279 415 H1299",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "robot-feedback-to-tracker-only",
+      "path": "M1423 517 V534 H1236 V455",
+      "color": "ink",
+      "arrowhead": true
+    },
+    {
+      "id": "b-history-state-divider",
+      "path": "M529 545 V568",
+      "color": "#CBB6E6",
+      "arrowhead": false
+    },
+    {
+      "id": "commit-to-computed-context",
+      "path": "M977 466 V559 H720",
+      "color": "purple",
+      "arrowhead": true
+    },
+    {
+      "id": "computed-context-to-history",
+      "path": "M386 559 H130 V491",
+      "color": "purple",
+      "arrowhead": true
+    },
+    {
+      "id": "full-latent-to-training-decoder",
+      "path": "M591 775 H610",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "structure-to-training-decoder",
+      "path": "M562 876 H610",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "training-decoder-to-full",
+      "path": "M641 775 H656",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "training-decoder-to-structure",
+      "path": "M641 876 H656",
+      "color": "blue",
+      "arrowhead": true
+    },
+    {
+      "id": "shared-training-decoder-parameters",
+      "path": "M625.5 785.97 V860",
+      "color": "purple",
+      "arrowhead": false
+    },
+    {
+      "id": "recorded-target-to-learn-only",
+      "path": "M1455 840 V786",
+      "color": "teal",
+      "arrowhead": true
+    },
+    {
+      "id": "d-history-state-divider",
+      "path": "M1030 865 V888",
+      "color": "#CBB6E6",
+      "arrowhead": false
+    }
+  ],
+  "groups": [
+    "title",
+    "legend",
+    "a-music-anticipation",
+    "b-generate-commit-execute",
+    "context-history",
+    "residual-diffusion-noise",
+    "commit-selection-b",
+    "boundary-state-return-icon",
+    "c-representation-and-paired-training",
+    "d-commit-forcing",
+    "sample-dc-pair",
+    "commit-selection-d",
+    "learn-trainable-models",
+    "cof-updated-history",
+    "boundary-state-training-icon"
+  ],
+  "state_icons": [
+    {
+      "id": "boundary-state-return-icon",
+      "bbox": [
+        536,
+        543,
+        572,
+        571
+      ],
+      "meaning": "boundary pose"
+    },
+    {
+      "id": "boundary-state-training-icon",
+      "bbox": [
+        1044,
+        860,
+        1080,
+        888
+      ],
+      "meaning": "boundary pose"
+    }
+  ],
+  "logos": [
+    {
+      "source": "figures/foredance/foredance-logo.svg",
+      "destination": [
+        20,
+        1,
+        249,
+        52
+      ],
+      "sha256": "1a90cd1625f838f72c240f0ab328ff9e691c04ce1705b74e4c6c20d9e479a49b",
+      "native_paths": 10
+    }
+  ],
+  "svg_bytes": 11834881,
+  "user_authorized_changes": [
+    "Native editable text and geometry replacing traced contours",
+    "Restore Magenta RealTime 2 full name and existing official icon",
+    "Restore prior removal of note-like prose in favor of visual cues",
+    "Place Music conditioning directly in panel b, with no connector from panel a",
+    "Derive robot color and pose variants from one master, with user-authorized alpha-only background removal",
+    "Use Context and Boundary state; remove b Paired and label the return arrow append",
+    "Separate FiLM labels from arrowheads, use smaller one-line anatomy explanations, and show shared decoding on both reconstruction paths",
+    "Explain no-gradient context generation with a scope label rather than a reverse dashed arrow",
+    "Label dataset supervision Next-segment targets (encoded from data), and purple Motion context",
+    "Recolor the original single-row context blocks in b and d purple to match Motion context",
+    "Replace both abstract boundary-state symbols with the same humanoid-pose and velocity-arrow icon",
+    "Replace the title with the author-supplied ForeDance logo, traced into ten native SVG paths",
+    "Make sampled q branch separately into codebook embedding and an Embed + add input verified against the residual-generator implementation",
+    "Show Structure and Detail as trainable models in Learn, with matching flame legend",
+    "Add trainable flames to both shared-decoder instances in c",
+    "Separate the compute and append arrows around the history and boundary-state payload",
+    "Use Helvetica at natural proportions, remove horizontal text compression, and leave clear spacing for the Embed + add label",
+    "Remove arrows from both boundary icons and use matching vertical history-state dividers in b and d"
+  ],
+  "selected_reference": "output/overview-editable-20260911/overview-editable.png",
+  "selected_reference_sha256": "2ad2ea46e0dba686e9e32f3f1f749d240c92d5d695b9aa1d13799e2a84745bb5",
+  "fidelity": "Selected panel bounds and palette retained; author-requested local edits, header legend and removal of the former footer area.",
+  "generation": "One neutral robot reused directly or as imagegen variant reference. Three variants matted with original RGB unchanged; official icon retained.",
+  "selection_representation": {
+    "b_and_d_render_identically_when_aligned": true,
+    "top_row": "D",
+    "bottom_row": "C",
+    "retained_tiles": 3,
+    "discarded_tiles": 2,
+    "labels_above_corresponding_tiles": [
+      "Commit",
+      "Discard"
+    ],
+    "common_glyph": "latent_pair",
+    "discard_style": "pale fill with thin outline, following the lower diagram"
+  },
+  "header_revision": {
+    "legend_position": "right of ForeDance title",
+    "replaced_text": "Anticipatory music conditioning for streaming dance generation",
+    "former_footer_removed": true,
+    "source_canvas": [
+      1536,
+      1024
+    ],
+    "current_canvas": [
+      1536,
+      956
+    ],
+    "all_four_panels_pixel_identical_to_previous_revision": true,
+    "external_module_legend_removed": true,
+    "legend_items": [
+      "Discrete structure",
+      "Continuous detail",
+      "Music conditioning",
+      "Motion context",
+      "Trainable",
+      "Frozen"
+    ]
+  },
+  "current_context_revision": {
+    "purple_legend": "Motion context",
+    "context_blocks_in_b_and_d": "Original single rows, recolored purple; not split into blue/orange rows.",
+    "no_gradient_scope": "Context generation (no gradients) labels the bracket under steps 1-3. The reverse dashed arrow and detached stop-gradient operator were removed.",
+    "training_target": [
+      "Next-segment targets",
+      "(encoded from data)"
+    ],
+    "scientific_sources": [
+      "sections/method.tex:96-124",
+      "sections/supplement.tex:31-37"
+    ],
+    "outside_edited_regions_pixel_identical": true
+  },
+  "state_icon_and_logo_revision": {
+    "boundary_state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+    "semantic_source": "sections/method.tex:8-10",
+    "symbol_placements": [
+      {
+        "id": "boundary-state-return-icon",
+        "bbox": [
+          536,
+          543,
+          572,
+          571
+        ],
+        "meaning": "boundary pose"
+      },
+      {
+        "id": "boundary-state-training-icon",
+        "bbox": [
+          1044,
+          860,
+          1080,
+          888
+        ],
+        "meaning": "boundary pose"
+      }
+    ],
+    "standalone_state_icon": "figures/foredance/boundary-state-icon.svg",
+    "wordmark": {
+      "source": "figures/foredance/foredance-logo-source.png",
+      "source_sha256": "7bb924b9d2657f4fee7fe03c96cf0f9db3e708c3e6d7ff3a1cd083dd1a8216a1",
+      "svg": "figures/foredance/foredance-logo.svg",
+      "svg_sha256": "1a90cd1625f838f72c240f0ab328ff9e691c04ce1705b74e4c6c20d9e479a49b",
+      "palette": {
+        "fore": "#0C0D0F",
+        "dance": "#0044FC"
+      },
+      "source_size": [
+        2170,
+        725
+      ],
+      "viewbox": [
+        93,
+        132,
+        1999,
+        447
+      ],
+      "alpha_threshold": 128,
+      "tracing": "vtracer 0.6.15, binary spline contours for two sampled colors",
+      "paths": 10,
+      "embedded_images": 0,
+      "transparent_background": true,
+      "original_and_vector_components": 10,
+      "silhouette_iou": 0.9896239867907535,
+      "source_unchanged": true,
+      "output_bytes": 18301
+    },
+    "logo_in_header": "10 native vector paths replace the previous title text; no logo bitmap is embedded.",
+    "outside_two_icons_and_wordmark_pixel_identical": true,
+    "native_state_icons": [
+      {
+        "id": "boundary-state-return-icon",
+        "bbox": [
+          536,
+          543,
+          572,
+          571
+        ],
+        "meaning": "boundary pose"
+      },
+      {
+        "id": "boundary-state-training-icon",
+        "bbox": [
+          1044,
+          860,
+          1080,
+          888
+        ],
+        "meaning": "boundary pose"
+      }
+    ]
+  },
+  "conditioning_and_learn_revision": {
+    "scientific_sources": [
+      "sections/method.tex:85-93",
+      "sections/method.tex:101-121",
+      "figures/commit_forcing_v2.tex:13-17,34-46"
+    ],
+    "sampled_q": "q is the sampled discrete structure. Its conditioning path now leaves q directly, separate from q-to-e(q) and e(q)-to-sum.",
+    "condition_label": "Embed + add (supersedes earlier label; see typography_revision)",
+    "condition_arrow_start": [
+      634,
+      370
+    ],
+    "condition_arrow_end": [
+      504,
+      428
+    ],
+    "learn": "Two model cards, Structure and Detail, each carry a flame; the legend defines flame as Trainable.",
+    "no_gradient_context_preserved": true
+  },
+  "compute_and_c_training_revision": {
+    "c_flames": "Both D_psi decoder instances carry the same Trainable flame.",
+    "compute_arrow": "Committed segment -> history and boundary-state payload, arrow labeled compute.",
+    "append_arrow": "Payload -> next context, separate arrow labeled append.",
+    "condition_label": "Embed + add (supersedes earlier label; see typography_revision)"
+  },
+  "typography_revision": {
+    "preview": "overview-refined-v12.png",
+    "condition_label": "Embed + add",
+    "condition_meaning": "Sampled structural IDs are embedded and added to residual features, verified against the paper-audited implementation.",
+    "source_evidence": "evidence/foredance/overview-typography-research.json",
+    "condition_label_bbox": [
+      521.5546875,
+      407.484375,
+      614.765625,
+      419.296875
+    ],
+    "font_family": "Helvetica",
+    "math_font": "Times New Roman italic",
+    "pdf_fonts_embedded": [
+      "NVKWKG+Helvetica",
+      "YMSINV+Helvetica-Bold",
+      "JJZLWJ+TimesNewRomanPS-ItalicMT",
+      "YFQYYQ+TimesNewRomanPS-ItalicMT"
+    ],
+    "old_compressed_labels": 18,
+    "new_compressed_labels": 0,
+    "anatomy_explanation_font_size_px": 12,
+    "anatomy_shortening": "remaining body points -> other body points",
+    "nontext_geometry_preserved_except_conditioning_connector": true,
+    "image_placements_unchanged": true,
+    "skill_updated_and_validated": true
+  },
+  "boundary_divider_revision": {
+    "preview": "overview-refined-v13.png",
+    "state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+    "divider": "d uses the same 23 px vertical divider, #CBB6E6 and 0.8 px stroke as b.",
+    "outside_two_requested_regions_pixel_identical": true,
+    "text_and_illustrations_unchanged": true,
+    "standalone_icon_sha256": "6959d559071d10df6464eb3bc54b38b948ca163e49432b26c4b6459cb8855278"
+  }
+}

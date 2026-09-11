@@ -5,7 +5,7 @@ Four generated trajectories from one FineDance track and one sampling seed
 are replayed in MuJoCo for approximately 60\,s each.
 
 \paragraph{Reference construction and delivery}
-A four-step latent commit contains eight 30\,Hz frames. A continuous 50\,Hz time grid yields 13 or 14 reference samples per commit without resetting the sampling phase at each packet. The controller receives committed references rather than motor torques. The four diagnostic replays use the same fixed SONIC controller at real-time playback, with no uncommitted-plan preview, clipping, startup ramp, or alignment hold. Initial state, delivered future-reference access, and packet timestamps are part of the protocol; full-trajectory delivery and committed-prefix delivery are not interchangeable controls. The trajectories begin at an artificial continuation point with empty motion history, rather than at full-song onset.
+A four-step latent commit contains eight 30\,Hz frames. A continuous 50\,Hz time grid yields 13 or 14 reference samples per commit without resetting the sampling phase at each packet. The controller receives committed references rather than motor torques. The four diagnostic replays use the same fixed SONIC controller at real-time playback, with no uncommitted-plan preview, clipping, startup ramp, or alignment hold. Initial state, delivered future-reference access, and packet timestamps are part of the protocol; full-trajectory delivery and incremental committed-motion delivery are not interchangeable controls. The trajectories begin at an artificial continuation point with empty motion history, rather than at full-song onset.
 
 \paragraph{Observed layers}
 Let $M_{\mathrm{gen}}$, $M_{\mathrm{sent}}$, $M_{\mathrm{target}}$, and

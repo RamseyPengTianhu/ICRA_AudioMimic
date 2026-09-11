@@ -1,0 +1,63 @@
+{
+  "method": "Apple Vision foreground instance mask; original RGB preserved, alpha only",
+  "user_authorized": true,
+  "master": "/Users/lambertwang/Downloads/music2dance-report/ICRA_AudioMimic/figures/foredance/transparent-assets/g1-neutral.png",
+  "master_sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86",
+  "variants": [
+    {
+      "file": "g1-joint-view-consistent.png",
+      "raw": "g1-joint-view-consistent-before-alpha.png",
+      "raw_sha256": "8d4bc44b38da2face81b5e5281fc98c14be4f69df6b3daded0b6fa0eae097499",
+      "final_sha256": "82730784e881c8ad642e29e0de1b1fb1ee82a622510477d30441b8ba300b6c2a",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "zero_alpha_fraction": 0.7532812754313151,
+      "rgb_exactly_preserved": true
+    },
+    {
+      "file": "g1-dance-left-consistent.png",
+      "raw": "g1-dance-left-consistent-before-alpha.png",
+      "raw_sha256": "df9d614d42f97c8796c5220d01804d65417401372ce347ce5bc81d19e85f8ae3",
+      "final_sha256": "9ea1dbb2f57be2f1b862a78db88798b896eff401032c023a689a70bacdb39a74",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "zero_alpha_fraction": 0.7620487213134766,
+      "rgb_exactly_preserved": true
+    },
+    {
+      "file": "g1-dance-right-consistent.png",
+      "raw": "g1-dance-right-consistent-before-alpha.png",
+      "raw_sha256": "5268269f3dfd04915a923a2a6ab3d697a827a3e16f4f55eac35665ab21230a25",
+      "final_sha256": "d69514212ff9461e1c7c971773ef65d1f51d41c2d1389dbdcfd82eb48b75e16b",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "zero_alpha_fraction": 0.7483774820963541,
+      "rgb_exactly_preserved": true
+    }
+  ],
+  "mask_sources": {
+    "g1-joint-view-consistent.png": "masks/joint-mask.png",
+    "g1-dance-left-consistent.png": "masks/left-mask.png",
+    "g1-dance-right-consistent.png": "masks/right-mask.png"
+  },
+  "rgb_operation": "No RGB pixel changed during matting, including invisible pixels.",
+  "identity_scope": "Reference-conditioned artistic pose and color variants of one neutral image; not a physically rigged model or a pixel-identity guarantee across poses."
+}

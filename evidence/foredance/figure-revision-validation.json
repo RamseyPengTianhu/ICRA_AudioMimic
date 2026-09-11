@@ -1,0 +1,42 @@
+{
+  "paper-terminology": {
+    "pages": 11,
+    "sha256": "837662eaa24406cc3e7f66441c4e2ac81e18712dbddf47ae94436ad9389143c9",
+    "obsolete_terms_in_extractable_text": 0
+  },
+  "paper-new-overview": {
+    "pages": 11,
+    "sha256": "f6fd6cbe2b2343aab00f3e8e62bfb17ec846f5d5274e54605df88c4d88b79ae3",
+    "obsolete_terms_in_extractable_text": 0
+  },
+  "paper-imagegen-master": {
+    "pages": 11,
+    "sha256": "0c1cce722902f733228b8e6c2ecaf03dc71eddd8c5ad43d2fe20e1f1b2b2964f",
+    "obsolete_terms_in_extractable_text": 0
+  },
+  "numeric_tables": {
+    "correspondence_values_unchanged": true,
+    "other_evidence_tables_unchanged": true
+  },
+  "image_conversion": {
+    "master_size": [
+      1536,
+      1024
+    ],
+    "vector_paths": 37442,
+    "retained_bitmap_regions": 7,
+    "full_frame_bitmap_embed": false,
+    "lettering": "outlined, not live text",
+    "same_layout_coordinates": true,
+    "mean_absolute_channel_difference_0_to_255": 4.86159790886773,
+    "psnr_db": 27.770482361027568,
+    "fidelity_note": "Retains layout and robot pixels; subtle shading and antialiasing differ."
+  },
+  "compile": {
+    "fatal_errors": 0,
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references": 0
+  },
+  "publication": "not pushed or merged in this turn"
+}

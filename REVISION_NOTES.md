@@ -78,3 +78,19 @@ Moved T1 encoding initialization ahead of the IEEE class to avoid class-time fon
 Reorganized the paper around musical anticipation, structured generation and committed-prefix continuation. Moved detailed state/coordinate definitions, optimization and evaluator settings to the supplement. Retained every previously active citation and all accepted result values. The main overview appears on page 2; the execution interface and teammate diagram remain in the main text as requested. Supporting replay findings remain explicitly historical MuJoCo evidence. Empty comparison tables and inherited unapproved study plans have been removed from the reader-facing manuscript; the missing matched comparisons are stated once in Discussion.
 
 The rebuilt working manuscript has 11 pages, with main text and conclusion on pages 1–6. The two method detail figures remain separate for readability, and the original raster artwork and vector overview are unchanged. Current checks are recorded in `evidence/foredance/narrative-revision/validation.json`.
+
+
+## 2026-09-11: terminology and imagegen-first overview review
+
+Replaced reader-facing prefix terminology by contextual committed-motion wording and renamed the representation Structure–Detail Representation. Updated prose, captions, table display names, active overview labels and method diagrams. The two accepted initialization rows retain their original experiment identities and all numerical values. Existing teammate execution material remains.
+
+Following author review, simplified vector robots were rejected. The overview was generated again with imagegen, preserving detailed robot artwork, MRT-2 icon and four panels. Forecast states differ visually; FiLM labels belong to music-conditioning arrows, with separate history/state inputs. Explanatory labels omit parentheses and FMS14. The final raster master is retained alongside a contour-converted SVG/PDF at unchanged layout coordinates; robots and icon remain raster artwork, and lettering is outlined rather than live text. The review PDF uses this candidate, while the active manuscript retains its existing overview layout with corrected terminology.
+
+No merge or push was performed during this revision. Remote main was rechecked as 0e36903, and Overleaf conflict branch as 18386fa. Existing local merge history remains an unpublished draft and requires author review before publication.
+
+
+## 2026-09-11: publish the reviewed editable overview
+
+The author requested GitHub publication after the final figure review. The active overview is the faithful four-panel reconstruction with editable text and geometry, the author-supplied outlined wordmark, and the accepted transparent robot assets. Subsequent requested refinements include source-verified structure-to-detail embedding/addition, matching commit/discard diagrams, purple history context, explicit compute/append paths, trainable flames, natural-proportion Helvetica lettering, and boundary icons without arrows with matching dividers in b and d. Earlier candidate and publication-hold notes above are historical.
+
+The reading copy is the actual 11-page manuscript build. The final icon/divider edit changed only page 2, and other pages match the previous reviewed revision. The publication includes active source dependencies, accepted reference artwork, source assets and current checks; temporary build work and rejected figure candidates stay local.

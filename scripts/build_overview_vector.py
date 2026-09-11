@@ -123,7 +123,7 @@ s.append('<path d="M862 410 L887 398 V436 L862 425 Z" fill="url(#purple-token)" 
 path('M1000 287 H913 V365',purple,2.2,'purple');text(1009,294,'Reference state',19,purple,'bold',width=120)
 circle(1150,287,2,purple);path('M1150 287 V276 M1150 287 L1160 292 M1150 287 L1142 296',purple,1.5)
 path('M991 418 H1035','#333333',2.2,'black');rect(1038,375,165,83,'url(#purple-fade)',purple)
-lines(1146,414,['Commit','prefix'],20,purple,'bold')
+lines(1146,414,['Commit','segment'],20,purple,'bold')
 # A retained prefix plus a faded future suffix, replacing the storage cylinder.
 for j in range(4):
  rect(1049+j*12,402,9,20,purple if j<2 else '#eee1fa',purple if j<2 else '#c3a5dd',2,1)
@@ -145,7 +145,7 @@ path('M23 557 H1664','#9aace2',1.5)
 # Training panels.
 rect(23,572,922,291,'#edf7ff',r=13);rect(968,572,697,291,'#f5f1ff',r=13)
 circle(43,589,21,'white','#a6bbed');text(43,602,'c',35,ink,'bold','middle')
-text(94,596,'Discrete Structure + Continuous Detail',25,ink,'bold')
+text(94,596,'Structure–Detail Representation',25,ink,'bold')
 text(94,614,'Kinematics-guided training',16,navy)
 rect(36,618,585,232,'#e2f1fd',r=10)
 text(52,641,'Joint view',20,navy,'bold');text(323,641,'Geometry view',20,navy,'bold')

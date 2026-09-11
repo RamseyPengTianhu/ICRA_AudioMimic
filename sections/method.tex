@@ -1,7 +1,7 @@
 \section{Method}
 \label{sec:method}
 \method{} links musical forecasting, structured motion generation, and
-continuation after a committed prefix. Figure~\ref{fig:overview} shows the
+continuation from committed motion. Figure~\ref{fig:overview} shows the
 common forecast condition and the motion context shared by these operations.
 
 \paragraph{Streaming task}
@@ -15,7 +15,7 @@ $m^{\rm pred}=F(a_{\leq\tau})$. The generator samples
 \end{equation}
 where $q$ and $r$ are discrete structure and continuous detail. A shared decoder
 maps them to native G1 motion. We commit the first $C<H$ latent steps, discard
-the suffix, and update history and the reference state. Thus later decisions
+the remaining plan, and update history and the reference state. Thus later decisions
 may revise uncommitted plans while preserving the emitted motion.
 
 \subsection{Anticipatory Music Conditioning}
@@ -42,7 +42,7 @@ while these motion-side mappings are learned. Expired forecast states are
 masked by their timestamps. Appendix~\ref{app:training} specifies timing and
 conditioning details.
 
-\subsection{Kinematics-Guided D+C and Paired Training}
+\subsection{Structure--Detail Representation and Paired Training}
 \label{sec:dc}
 Musically directed motion needs coordinated body organization together with
 local articulation. We learn these roles through complementary supervision,
@@ -78,7 +78,7 @@ and loss weights are given in Appendix~\ref{app:training}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=.92\textwidth]{figures/foredance/dc-bodyparts.png}
+\includegraphics[width=.92\textwidth]{figures/foredance/structure-detail-training.pdf}
 \caption{\textbf{The representation and its training are one design.} Body-part supervision has separate joint and geometry partitions: root/legs/waist versus arms in joint space, and torso/wrists/soles versus other body points in geometry. The two principal reconstruction paths supervise the full latent on all views and discrete structure on the structural view. The shared decoder and boundary state are used throughout.}
 \label{fig:dc}
 \end{figure*}
@@ -88,7 +88,7 @@ A causal Transformer samples structural tokens. A residual diffusion
 generator~\cite{ho2020ddpm} conditions on that sampled structure, the common
 history and starting state, and the forecast music. Their sum decodes into
 38-dimensional G1 motion, including root movement and 29 joint angles.
-Both branches commit the same prefix, preserving their pairing across plans.
+Both branches commit the same time segment, preserving their pairing across plans.
 The next segment starts from a reference-derived pose and velocity state;
 the coordinate convention and complete state definition are in
 Appendix~\ref{app:training}.
@@ -100,8 +100,8 @@ from which the next segment begins. Teacher Forcing (TF) supplies these inputs
 from recorded motion; streaming inference obtains them from generated motion.
 \cof{} constructs this generated transition before supervising continuation
 (Fig.~\ref{fig:cof}). A stop-gradient first pass samples structure $\tilde q$
-and detail $\tilde r$ with the inference samplers. Their common committed
-prefix is decoded, and an update operator $U$ constructs
+and detail $\tilde r$ with the inference samplers. Their jointly committed
+segment is decoded, and an update operator $U$ constructs
 \begin{equation}
 (\tilde h^+,\tilde b^+)=U(h,b,\tilde q_{1:C},\tilde r_{1:C}).
 \end{equation}
@@ -126,7 +126,7 @@ the learner to the coupled consequences of its structure and detail predictions.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=.82\textwidth]{figures/foredance/cof-v2.png}
+\includegraphics[width=.82\textwidth]{figures/foredance/cof-terminology.pdf}
 \caption{\textbf{Learning the next plan: TF versus CoF.} TF receives a recorded history--state pair. CoF samples and commits structure and detail together, derives the corresponding next reference state, and supervises continuation. Both use recorded targets. Residual rebasing retains the target latent under sampled structure; decoding additionally depends on the supplied boundary state.}
 \label{fig:cof}
 \end{figure*}

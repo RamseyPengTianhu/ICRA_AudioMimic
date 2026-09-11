@@ -10,9 +10,9 @@ identifies the comparisons still needed to attribute the core method's gains.
 \label{sec:evaluation_protocol}
 The correspondence study contains 198 generated 60\,s FineDance trajectories
 in native G1 space: eleven tracks, two startup settings, three independently
-trained generators and three sampling seeds per generator. We call the
-settings \emph{prefix-aware startup} and \emph{direct-prefix startup}; the
-study characterizes both without selecting a winner. All associated tracks
+trained generators and three sampling seeds per generator. We refer to these as
+\emph{startup-aware} and \emph{direct} initialization; the study characterizes
+both without selecting a winner. All associated tracks
 form a fixed music gallery, with their original audio offsets retained.
 A separate motion-quality study uses the full archived 18-track cohort.
 Training settings and the distinct cohort protocols are specified in
@@ -47,12 +47,12 @@ within their own cohort rather than pooled with soundtrack correspondence.
 \label{sec:matching_quality}
 Table~\ref{tab:mmr_correspondence} shows consistent preference for intended
 music. Correct-pair cosine exceeds wrong-track cosine by 0.1786 and 0.1783
-for prefix-aware and direct-prefix startup, respectively. Correct music wins
+for startup-aware and direct initialization, respectively. Correct music wins
 74.20\% and 75.01\% of pairwise comparisons. Every generator training seed has
 a positive mean margin in both settings, supporting correspondence across
 independently trained models in this gallery.
 
-\begin{table*}[t]
+\begin{table*}[!t]
 \centering\small
 \caption{\textbf{Soundtrack correspondence of 60-second generated references.}
 Each fixed motion is scored with its intended music and ten other tracks in
@@ -79,7 +79,7 @@ Figure~\ref{fig:sequence} shows reference poses at 10, 30, and 50\,s from one
 selected 60\,s rollout. These original rendered frames illustrate body
 configuration across the sequence; they do not measure temporal smoothness.
 
-\begin{figure*}[t]
+\begin{figure*}[!t]
 \centering
 \input{figures/foredance/sequence.tex}
 \caption{\textbf{A 60-second ForeDance generation.} Original frames at 10, 30, and 50\,s from a selected FineDance sequence. The images show rendered reference motion.}

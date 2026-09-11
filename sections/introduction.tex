@@ -6,7 +6,7 @@ step, and the body transitions toward a pose before reaching it. A system
 dancing to music as it arrives must choose these movements before hearing all
 the sound they will accompany. Waiting for an event leaves less time to
 prepare; reading the future recording changes the task into offline generation.
-Streaming further requires each new movement to continue from an output prefix
+Streaming further requires each new movement to continue from emitted motion
 that can no longer be revised. Musical anticipation and motion continuation
 are therefore coupled requirements of streaming dance generation.
 
@@ -23,7 +23,7 @@ planning decisions.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/foredance/overview.pdf}
-\caption{\textbf{ForeDance overview.} \textbf{Top:} heard audio supplies a causal forecast of upcoming music states. \textbf{Middle:} the forecast conditions both discrete structure and continuous detail; structure also conditions detail. Their sum passes through a shared decoder, and the committed prefix updates the motion history and reference-derived boundary state for the next decision. \textbf{Bottom:} kinematic supervision gives the two latent components complementary roles, while Commit Forcing trains continuation from a jointly generated history--state pair. Robot poses illustrate the representation and output interface; they are schematic, not experimental or hardware execution evidence.}
+\caption{\textbf{ForeDance overview.} \textbf{a:} Heard audio supplies a causal forecast of upcoming music states. \textbf{b:} The music condition enters both generation branches through FiLM; sampled structure also conditions detail. A shared decoder maps their sum to reference motion. Joint commitment updates code history and the reference-derived boundary state, while measured robot feedback stays within the fixed tracking loop. \textbf{c:} Paired reconstruction gives structure and detail complementary kinematic roles. \textbf{d:} Commit Forcing trains continuation from jointly generated history and its resulting state. Robot poses and time ranges are schematic, not experimental or hardware execution evidence.}
 \label{fig:overview}
 \end{figure*}
 
@@ -40,7 +40,7 @@ states guide both whole-body organization and complementary articulation.
 
 Realizing this design requires a representation that organizes movement and a
 training procedure that accounts for earlier generated choices. Our
-kinematics-guided discrete--continuous (D+C) representation couples discrete
+kinematics-guided structure--detail representation couples discrete
 structure and continuous detail with complementary reconstruction objectives.
 Structure-only reconstruction preserves designated body organization and
 endpoint placement; their combination reconstructs full motion through a
@@ -50,7 +50,7 @@ this supervision specifies what the two components should preserve.
 components. Their decoded movement determines the next starting state, pairing
 generated history with the reference state it actually induces.
 
-At each decision, \method{} plans a short segment, commits its prefix, and
+At each decision, \method{} plans a short segment, commits its first segment, and
 updates the context for the next plan (Fig.~\ref{fig:overview}). A reference
 interface delivers the resulting stream to a fixed SONIC whole-body
 controller~\cite{luo2026sonic}. The generator continues from committed references;
@@ -62,7 +62,7 @@ Our contributions are:
 \item \textbf{Anticipatory music conditioning for streaming dance.}
 Predicted future states from a frozen music foundation model provide musical
 lookahead using arrived audio alone.
-\item \textbf{Kinematics-guided D+C representation and paired training.}
+\item \textbf{Structure--detail representation and paired training.}
 Complementary reconstruction objectives establish structural and detail roles
 for coupled music-conditioned generation through a shared decoder.
 \item \textbf{Commit Forcing for streaming continuation.}

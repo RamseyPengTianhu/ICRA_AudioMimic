@@ -7,7 +7,7 @@ P=ROOT/'evidence/foredance/mmr-accepted'
 d=json.loads((P/'generator-aggregate.json').read_text());records=d['records']
 assert len(records)==198 and d['seconds']==60 and d['windows_per_track']==56
 seeds=[1234,2345,3456]
-labels={'FD-DF-L-AM-FHC':'Prefix-aware startup','FD-DF-L-AJ-FHC':'Direct-prefix startup'}
+labels={'FD-DF-L-AM-FHC':'Startup-aware','FD-DF-L-AJ-FHC':'Direct'}
 metrics=['score','wrong_track_score','margin','preference_accuracy']
 csv_rows=list(csv.DictReader((P/'generator-per-track.csv').open()));assert len(csv_rows)==len(records)
 for a,b in zip(csv_rows,records):

@@ -1,0 +1,164 @@
+{
+  "date": "2026-09-11",
+  "sample_scope": "Two ICCV 2025 papers; illustrative examples, not a survey of all top conferences.",
+  "samples": [
+    {
+      "source_url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Cho_DisCoRD_Discrete_Tokens_to_Continuous_Motion_via_Rectified_Flow_Decoding_ICCV_2025_paper.pdf",
+      "source_sha256": "24822003a3df8d540773679bbddcec93c5c6b965a9cae05a115c5b8dc4b5ec8c",
+      "page": 4,
+      "method": "Inspect embedded fonts on the actual figure-label spans, excluding captions and body prose.",
+      "labels": [
+        {
+          "text": "Pretrained Quantizer",
+          "font": "CambriaMath",
+          "size_pt": 10.0846529006958,
+          "bbox_pdf_pt": [
+            62.91021728515625,
+            84.25691986083984,
+            158.2285614013672,
+            95.95968627929688
+          ]
+        },
+        {
+          "text": "Codebook",
+          "font": "CambriaMath",
+          "size_pt": 10.18499755859375,
+          "bbox_pdf_pt": [
+            211.2038116455078,
+            97.94265747070312,
+            254.7355194091797,
+            109.87947845458984
+          ]
+        },
+        {
+          "text": "Flow Estimator",
+          "font": "CambriaMath",
+          "size_pt": 10.18499755859375,
+          "bbox_pdf_pt": [
+            410.6009826660156,
+            274.63787841796875,
+            477.2729797363281,
+            286.57470703125
+          ]
+        },
+        {
+          "text": "Flow Estimator",
+          "font": "CambriaMath",
+          "size_pt": 10.18499755859375,
+          "bbox_pdf_pt": [
+            445.769775390625,
+            139.77679443359375,
+            512.4418334960938,
+            151.71360778808594
+          ]
+        }
+      ]
+    },
+    {
+      "source_url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Liu_Spatial-Temporal_Aware_Visuomotor_Diffusion_Policy_Learning_ICCV_2025_paper.pdf",
+      "source_sha256": "ea024e0d752d34dcda225e367f6f5f7a5ea1199ce2f9215f7cea3565c4f071e0",
+      "page": 3,
+      "method": "Inspect embedded fonts on the actual figure-label spans, excluding captions and body prose.",
+      "labels": [
+        {
+          "text": "3D Local Encoder",
+          "font": "ArialMT",
+          "size_pt": 6.274899959564209,
+          "bbox_pdf_pt": [
+            208.4813995361328,
+            139.68748474121094,
+            258.31787109375,
+            146.69027709960938
+          ]
+        },
+        {
+          "text": "Conditional",
+          "font": "HelveticaNeue",
+          "size_pt": 8.366499900817871,
+          "bbox_pdf_pt": [
+            444.8528137207031,
+            149.3333740234375,
+            487.513671875,
+            159.08033752441406
+          ]
+        },
+        {
+          "text": "Diffusion",
+          "font": "HelveticaNeue",
+          "size_pt": 8.366499900817871,
+          "bbox_pdf_pt": [
+            449.75054931640625,
+            159.3731689453125,
+            482.62420654296875,
+            169.12013244628906
+          ]
+        },
+        {
+          "text": "Model",
+          "font": "HelveticaNeue",
+          "size_pt": 8.366499900817871,
+          "bbox_pdf_pt": [
+            454.47344970703125,
+            169.412109375,
+            477.89129638671875,
+            179.15907287597656
+          ]
+        },
+        {
+          "text": "Diffusion",
+          "font": "NimbusRomNo9L-Regu",
+          "size_pt": 9.13759994506836,
+          "bbox_pdf_pt": [
+            205.94439697265625,
+            612.27685546875,
+            240.74037170410156,
+            621.4144287109375
+          ]
+        },
+        {
+          "text": "Diffusion",
+          "font": "NimbusRomNo9L-Regu",
+          "size_pt": 9.13759994506836,
+          "bbox_pdf_pt": [
+            498.2083740234375,
+            634.2069702148438,
+            533.0043334960938,
+            643.3445434570312
+          ]
+        },
+        {
+          "text": "Diffusion",
+          "font": "NimbusRomNo9L-Regu",
+          "size_pt": 9.13759994506836,
+          "bbox_pdf_pt": [
+            374.2514343261719,
+            645.1729736328125,
+            409.04736328125,
+            654.310546875
+          ]
+        }
+      ]
+    }
+  ],
+  "inconclusive": [
+    "EDGE CVPR2023 Figure 2 does not expose extractable figure labels; body/caption fonts were not substituted as figure fonts.",
+    "CDP CoRL2025 does not expose recoverable sans-serif figure text in inspected pages; not used for a font claim."
+  ],
+  "publisher_guidance_url": "https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/create-graphics-for-your-article/file-formatting/",
+  "decision": "Helvetica regular and bold for diagram labels, Times New Roman italic for mathematical symbols. No horizontal glyph scaling. Font-size fitting preserves letter proportions. Four anatomy explanations use 12 px native font size.",
+  "old_compressed_labels": 18,
+  "new_compressed_labels": 0,
+  "condition_label": "Embed + add",
+  "condition_source": {
+    "repository": "https://github.com/lbtwyk/Musics2Dance",
+    "commit": "24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2",
+    "authority": "Manuscript evidence map audited default-branch snapshot.",
+    "path": "model/g1_listenahead_conditioning.py",
+    "lines": [
+      628,
+      632
+    ],
+    "source_sha256": "64a0c0925afe9af08bde8230642886c3e31c826ba86553468bec6eb6549a2df5",
+    "meaning": "The sampled structural ID is embedded and added to projected noisy residual and timestep features. The diagram label describes this input injection, not a different cross-attention or concatenation mechanism."
+  }
+}

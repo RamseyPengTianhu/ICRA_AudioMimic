@@ -1,13 +1,13 @@
 {
   "active_assets_sha256": {
-    "dc-bodyparts.png": "4817b33951be190e8318228afbbbce8ad5e4edd7377fdb24028cbb38b2312d5e",
-    "cof-v2.png": "7a13062b2bf3d0a8aee2a3e0e028a8db6bd2d880499368c700db67f6c853f68a",
+    "overview.pdf": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+    "structure-detail-training.pdf": "0b8caddbb53308eb0458f14eca7b7a89e2aed594cb73ed365321f6ae7fba9449",
+    "cof-terminology.pdf": "61d8fc1763959ea6e77f6078f5f0df045e29b61f910b50121961f3f0469c6d20",
     "sequence-10.png": "fe96301f4a849fabfe96eaebd9aa30b376fc4ee1af9d5c39aafab78518aa0206",
     "sequence-30.png": "52d6a921defd4009ed4b65b863004ae19c9eeac66a1838285598e1005339697e",
-    "sequence-50.png": "9eed86433e4312f6cf1659c300090be6157b8a6ab60d68643cba4c0235e06227",
-    "overview.png": "b636d014e2337b8ae210b24e2ae71fc47b202b892d25e27b8fa8530fd6c71af6"
+    "sequence-50.png": "9eed86433e4312f6cf1659c300090be6157b8a6ab60d68643cba4c0235e06227"
   },
-  "diagram_mode": "Existing imagegen figures with teammate-authored editable TikZ diagrams",
+  "diagram_mode": "Four-panel overview refined from the author-selected preview, with native editable objects and transparent common-master robot illustrations.",
   "dc_user_decisions": [
     "two principal reconstruction paths only",
     "corrupted detail in prose only",
@@ -27,11 +27,250 @@
     },
     "cof": {
       "active": "figures/commit_forcing_v2.tex",
-      "adaptation": "Original corrected editable diagram retained unchanged in supplement"
+      "adaptation": "Original corrected editable diagram retained in supplement; display terminology updated."
     }
   },
   "teammate_assets_sha256": {
     "figures/foredance/teammate-execution.tex": "529d74befa60f365c405dbc9acf0c19206ad6c2afc8ecd05e69c2e40725bf7cb",
-    "figures/commit_forcing_v2.tex": "1264b401b07e8d7cf1a954e9fc4413b2118487b326b1254f1c4662648b581bc7"
+    "figures/commit_forcing_v2.tex": "057fcaa9ba2143111c4f66a1549f175d6ea2517b4e66c39fee12e9bd794791a5"
+  },
+  "overview_candidate": {
+    "master": "figures/foredance/overview-imagegen-master.png",
+    "vector": "figures/foredance/overview-imagegen-vector.svg",
+    "print": "figures/foredance/overview-imagegen-vector.pdf",
+    "status": "Superseded traced-outline candidate rejected by user; preserved locally, excluded from this publication.",
+    "raster_artwork": "original robot and MRT-2 icon regions",
+    "lettering": "vector outlines, not live editable text",
+    "workflow": "imagegen master first, then contour conversion at unchanged coordinates"
+  },
+  "overview_editable": {
+    "source": "figures/foredance/overview.svg",
+    "print": "figures/foredance/overview.pdf",
+    "builder": "scripts/refine_overview_editable.py",
+    "status": "reviewed manuscript revision selected for GitHub publication",
+    "lettering": "native editable SVG text",
+    "illustrations": "neutral master, three source-conditioned variants, one human source, and official icon; all with actual transparency",
+    "music_conditioning": "independent source inside panel b; no a-to-b connector",
+    "validation": "evidence/foredance/overview-refined-validation.json",
+    "selected_reference": "output/overview-editable-20260911/overview-editable.png",
+    "rejected_alternative": "output/overview-strict-20260911/overview-strict.png; broader layout change rejected",
+    "latest_author_corrections": [
+      "b: Context, Boundary state, append on return arrow, remove Paired",
+      "FiLM labels clear arrowhead envelopes",
+      "c: smaller single-line anatomy explanations",
+      "Shared D_psi decoder is present on each reconstruction path; dashed link indicates shared parameters",
+      "c: reconstruction-card gap increased from 16 to 40 px; shared-decoder label centered in the gap",
+      "d: no-gradient construction is labeled under steps 1-3; remove the reverse dashed arrow",
+      "Next-segment targets (encoded from data) replaces Recorded next latent target",
+      "Purple means Motion context; original context blocks in b and d retain their single rows and become purple",
+      "Boundary-state symbols in b and d show the same posed humanoid without an arrow",
+      "Title uses the supplied ForeDance wordmark converted to 10 editable vector paths",
+      "Sampled q directly conditions detail; a separate q-to-e(q) arrow leads to the sum",
+      "Learn shows Structure and Detail model cards with flames, defined as Trainable in the legend",
+      "Add flames beside both shared-decoder instances in c",
+      "Split compute and append into explicit payload connections in b",
+      "Shorten D conditions C to Conditioning and restore normal text weight",
+      "Replace Conditioning with source-verified Embed + add below the connection.",
+      "Use Helvetica with natural glyph proportions and remove all horizontal text compression.",
+      "Use matching vertical history/state separators in b and d"
+    ],
+    "component_reference": {
+      "path": "figures/foredance/overview2.png",
+      "sha256": "403f26218b177cf6a4f2125b7969ce0cf6f53bcc2681433bb73203c26ee70a3f",
+      "residual_diffusion": "native noise-to-residual sketch; Detail generator removed",
+      "commit_segment": "Superseded by the same Commit/Discard glyph used in panel d, with pale outlined tail tiles."
+    },
+    "selection_representation": {
+      "b_and_d_render_identically_when_aligned": true,
+      "top_row": "D",
+      "bottom_row": "C",
+      "retained_tiles": 3,
+      "discarded_tiles": 2,
+      "labels_above_corresponding_tiles": [
+        "Commit",
+        "Discard"
+      ],
+      "common_glyph": "latent_pair",
+      "discard_style": "pale fill with thin outline, following the lower diagram"
+    },
+    "header_revision": {
+      "legend_position": "right of ForeDance title",
+      "replaced_text": "Anticipatory music conditioning for streaming dance generation",
+      "former_footer_removed": true,
+      "source_canvas": [
+        1536,
+        1024
+      ],
+      "current_canvas": [
+        1536,
+        956
+      ],
+      "all_four_panels_pixel_identical_to_previous_revision": true,
+      "external_module_legend_removed": true,
+      "legend_items": [
+        "Discrete structure",
+        "Continuous detail",
+        "Music conditioning",
+        "Motion context",
+        "Trainable",
+        "Frozen"
+      ]
+    },
+    "current_context_revision": {
+      "purple_legend": "Motion context",
+      "context_blocks_in_b_and_d": "Original single rows, recolored purple; not split into blue/orange rows.",
+      "no_gradient_scope": "Context generation (no gradients) labels the bracket under steps 1-3. The reverse dashed arrow and detached stop-gradient operator were removed.",
+      "training_target": [
+        "Next-segment targets",
+        "(encoded from data)"
+      ],
+      "scientific_sources": [
+        "sections/method.tex:96-124",
+        "sections/supplement.tex:31-37"
+      ],
+      "outside_edited_regions_pixel_identical": true
+    },
+    "state_icon_and_logo_revision": {
+      "boundary_state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+      "semantic_source": "sections/method.tex:8-10",
+      "symbol_placements": [
+        {
+          "id": "boundary-state-return-icon",
+          "bbox": [
+            536,
+            543,
+            572,
+            571
+          ],
+          "meaning": "boundary pose"
+        },
+        {
+          "id": "boundary-state-training-icon",
+          "bbox": [
+            1044,
+            860,
+            1080,
+            888
+          ],
+          "meaning": "boundary pose"
+        }
+      ],
+      "standalone_state_icon": "figures/foredance/boundary-state-icon.svg",
+      "wordmark": {
+        "source": "figures/foredance/foredance-logo-source.png",
+        "source_sha256": "7bb924b9d2657f4fee7fe03c96cf0f9db3e708c3e6d7ff3a1cd083dd1a8216a1",
+        "svg": "figures/foredance/foredance-logo.svg",
+        "svg_sha256": "1a90cd1625f838f72c240f0ab328ff9e691c04ce1705b74e4c6c20d9e479a49b",
+        "palette": {
+          "fore": "#0C0D0F",
+          "dance": "#0044FC"
+        },
+        "source_size": [
+          2170,
+          725
+        ],
+        "viewbox": [
+          93,
+          132,
+          1999,
+          447
+        ],
+        "alpha_threshold": 128,
+        "tracing": "vtracer 0.6.15, binary spline contours for two sampled colors",
+        "paths": 10,
+        "embedded_images": 0,
+        "transparent_background": true,
+        "original_and_vector_components": 10,
+        "silhouette_iou": 0.9896239867907535,
+        "source_unchanged": true,
+        "output_bytes": 18301
+      },
+      "logo_in_header": "10 native vector paths replace the previous title text; no logo bitmap is embedded.",
+      "outside_two_icons_and_wordmark_pixel_identical": true,
+      "native_state_icons": [
+        {
+          "id": "boundary-state-return-icon",
+          "bbox": [
+            536,
+            543,
+            572,
+            571
+          ],
+          "meaning": "boundary pose"
+        },
+        {
+          "id": "boundary-state-training-icon",
+          "bbox": [
+            1044,
+            860,
+            1080,
+            888
+          ],
+          "meaning": "boundary pose"
+        }
+      ]
+    },
+    "conditioning_and_learn_revision": {
+      "scientific_sources": [
+        "sections/method.tex:85-93",
+        "sections/method.tex:101-121",
+        "figures/commit_forcing_v2.tex:13-17,34-46"
+      ],
+      "sampled_q": "q is the sampled discrete structure. Its conditioning path now leaves q directly, separate from q-to-e(q) and e(q)-to-sum.",
+      "condition_label": "Conditioning",
+      "condition_arrow_start": [
+        634,
+        370
+      ],
+      "condition_arrow_end": [
+        504,
+        428
+      ],
+      "learn": "Two model cards, Structure and Detail, each carry a flame; the legend defines flame as Trainable.",
+      "no_gradient_context_preserved": true,
+      "outside_edited_regions_pixel_identical": true
+    },
+    "compute_and_c_training_revision": {
+      "c_flames": "Both D_psi decoder instances carry the same Trainable flame.",
+      "compute_arrow": "Committed segment -> history and boundary-state payload, arrow labeled compute.",
+      "append_arrow": "Payload -> next context, separate arrow labeled append.",
+      "condition_label": "Conditioning; no horizontal compression, normal weight, clear of the path corner.",
+      "outside_edited_regions_pixel_identical": true
+    },
+    "typography_revision": {
+      "preview": "overview-refined-v12.png",
+      "condition_label": "Embed + add",
+      "condition_meaning": "Sampled structural IDs are embedded and added to residual features, verified against the paper-audited implementation.",
+      "source_evidence": "evidence/foredance/overview-typography-research.json",
+      "condition_label_bbox": [
+        521.5546875,
+        407.484375,
+        614.765625,
+        419.296875
+      ],
+      "font_family": "Helvetica",
+      "math_font": "Times New Roman italic",
+      "pdf_fonts_embedded": [
+        "NVKWKG+Helvetica",
+        "YMSINV+Helvetica-Bold",
+        "JJZLWJ+TimesNewRomanPS-ItalicMT",
+        "YFQYYQ+TimesNewRomanPS-ItalicMT"
+      ],
+      "old_compressed_labels": 18,
+      "new_compressed_labels": 0,
+      "anatomy_explanation_font_size_px": 12,
+      "anatomy_shortening": "remaining body points -> other body points",
+      "nontext_geometry_preserved_except_conditioning_connector": true,
+      "image_placements_unchanged": true,
+      "skill_updated_and_validated": true
+    },
+    "boundary_divider_revision": {
+      "preview": "overview-refined-v13.png",
+      "state_icon": "Arrow removed from both instances; original posed humanoid preserved.",
+      "divider": "d uses the same 23 px vertical divider, #CBB6E6 and 0.8 px stroke as b.",
+      "outside_two_requested_regions_pixel_identical": true,
+      "text_and_illustrations_unchanged": true,
+      "standalone_icon_sha256": "6959d559071d10df6464eb3bc54b38b948ca163e49432b26c4b6459cb8855278"
+    }
   }
 }

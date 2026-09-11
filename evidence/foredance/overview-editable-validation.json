@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-11",
+  "paper_pages": 11,
+  "figure_pages": [
+    2
+  ],
+  "native_svg_text_elements": 107,
+  "unique_transparent_image_assets_in_svg": 6,
+  "image_placements": 8,
+  "independently_generated_assets": [
+    {
+      "file": "figures/foredance/transparent-assets/g1-dance-left.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.7897,
+      "sha256": "764e3339aa8f8319346047714746c2b744a4843046bf5df6e2c3ecb847174f56"
+    },
+    {
+      "file": "figures/foredance/transparent-assets/g1-dance-right.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.7821,
+      "sha256": "7f59bde77e4b675c7b18fd6d9d9547c5cf9fcb41621b1730f997ee14f5a68b62"
+    },
+    {
+      "file": "figures/foredance/transparent-assets/g1-joint-view.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.7325,
+      "sha256": "8615facd7640c8d30cdf6d2701e3f21ce31c2d8926afc3ccb9dfe1adb2d7c2d0"
+    },
+    {
+      "file": "figures/foredance/transparent-assets/g1-neutral.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.7457,
+      "sha256": "a557d044d2b36fcb0eeda332b91521dd9b4e0394cac396a3ba6bfa1212669c86"
+    },
+    {
+      "file": "figures/foredance/transparent-assets/human-dance-source.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_fraction": 0.7979,
+      "sha256": "e1ece8ca410c9a2bb8f8e2b8e847cdecea2609c9740c51d610e9633160c5bd74"
+    }
+  ],
+  "official_icon_transparent": true,
+  "original_master_raster_crops_used": 0,
+  "compile": {
+    "fatal_errors": 0,
+    "missing_glyphs": 0,
+    "unresolved_references": 0,
+    "overfull_boxes": 0
+  },
+  "paper_matches_build": true,
+  "main_figure_paths": [
+    "figures/foredance/overview.svg",
+    "figures/foredance/overview.pdf"
+  ],
+  "svg_sha256": "2adae7a19ae054aedc27e87cd97d194b9187f8c3d385927fe22644c8b601dd52",
+  "pdf_sha256": "911580a9374e73a3125a7717808f6972a05a1ddc834de073a77df2d94d25ac58",
+  "author_requests": [
+    "Keep latest four-panel composition",
+    "Restore editable text and diagram elements",
+    "Music conditioning lives entirely inside panel b; no cross-panel connector",
+    "Independent transparent illustrations replace every robot and human crop"
+  ],
+  "publication": "Local working manuscript only; no commit, push or team merge performed."
+}

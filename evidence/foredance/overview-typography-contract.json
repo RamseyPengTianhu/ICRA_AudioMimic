@@ -1,0 +1,6 @@
+{
+  "baseline": "author-requested boundary-icon and divider revision v13",
+  "nontext_geometry_sha256": "f351c89952b43980923a906186325900e22a08da429429a74fafe79df4be2bec",
+  "excluded_path": "sampled-structure-to-detail",
+  "note": "Updated after verifying that all pixels outside the two requested payload regions match v12 exactly. Native text, palette and other geometry are preserved."
+}

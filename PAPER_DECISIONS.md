@@ -6,6 +6,18 @@ experiments from silently entering the manuscript.
 
 Last reconciled: 2026-09-09
 
+## Current publication decision — 2026-09-11
+
+The author explicitly requested updating the paper GitHub repository after reviewing the final four-panel overview. Publish the current manuscript, editable overview SVG, matching vector PDF, source artwork, and compiled 11-page reading copy to the existing main branch. This supersedes the pending-candidate and publication-hold statements in the historical entry below. The latest overview uses the supplied native-vector ForeDance logo, Helvetica lettering, the source-verified Embed + add connection, purple motion context, trainable flames, boundary-pose icons without arrows, and matching vertical history/state separators. Existing accepted results and their numerical values are retained.
+
+## Historical terminology and overview decision — 2026-09-11
+
+Use **Structure–Detail Representation**, with **Structure–Detail Representation and Paired Training** as the method heading. Retire the previous D+C name and the word prefix from reader-facing prose, captions, figure labels, and tables. Preserve discrete structure, continuous residuals, paired reconstruction, and the original mathematical meaning. The accepted startup rows are now labeled Startup-aware (FD-DF-L-AM-FHC) and Direct (FD-DF-L-AJ-FHC); this is a display-name change, not a new experiment or a claim that the two setups are equivalent.
+
+The new overview is a separate candidate based on the teammate's four panels. After rejecting the simplified all-vector robots, the author prioritized original artwork and authorized high-resolution robot images inside an editable vector diagram. Reuse the MRT-2 icon; omit the FMS14 display label; vary predicted-state blocks; omit parentheses in explanatory labels. Music FiLM labels belong on the forecast arrows entering each generator branch, with history/state and sampled-structure conditioning drawn separately. Keep the offline preparation strip, compact execution chain, and measured feedback confined to the tracker. The author then explicitly required imagegen-first production followed by faithful conversion of that same master. The current review pair is overview-imagegen-master.png and overview-imagegen-vector.svg/PDF. Conversion retains layout and bitmap artwork but lettering is outlined rather than live editable text; fine shading can differ. Earlier hand-built candidates are superseded.
+
+The active paper retains its existing overview layout with revised terminology. The review PDF includes the new candidate. Neither candidate acceptance nor GitHub publication is implied; show team-branch differences and obtain explicit approval before merging or pushing. Earlier unpushed local merge history remains a draft.
+
 ## Active update — accepted MMR evidence, 2026-09-11
 
 The author requests the accepted standard-training MMR evaluator and completed results as the current evaluation mainline, removal of old MMR from the compiled paper, and publication to the existing paper remote. This overrides the older evaluator/numerical-result defaults below without changing the generator's method claims.

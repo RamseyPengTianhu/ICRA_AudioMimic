@@ -1,0 +1,29 @@
+{
+  "source": "figures/foredance/foredance-logo-source.png",
+  "source_sha256": "7bb924b9d2657f4fee7fe03c96cf0f9db3e708c3e6d7ff3a1cd083dd1a8216a1",
+  "svg": "figures/foredance/foredance-logo.svg",
+  "svg_sha256": "1a90cd1625f838f72c240f0ab328ff9e691c04ce1705b74e4c6c20d9e479a49b",
+  "palette": {
+    "fore": "#0C0D0F",
+    "dance": "#0044FC"
+  },
+  "source_size": [
+    2170,
+    725
+  ],
+  "viewbox": [
+    93,
+    132,
+    1999,
+    447
+  ],
+  "alpha_threshold": 128,
+  "tracing": "vtracer 0.6.15, binary spline contours for two sampled colors",
+  "paths": 10,
+  "embedded_images": 0,
+  "transparent_background": true,
+  "original_and_vector_components": 10,
+  "silhouette_iou": 0.9896239867907535,
+  "source_unchanged": true,
+  "output_bytes": 18301
+}
