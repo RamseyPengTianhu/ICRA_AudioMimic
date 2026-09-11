@@ -1,0 +1,77 @@
+{
+  "figures": {
+    "structure-detail-training": {
+      "canvas": [
+        2048.0,
+        600.0
+      ],
+      "sha256": "d4f4f7249a341c7a9e128f233e836896fba6bed98299cfa5c655f20b5962ce21",
+      "embedded_images": 0,
+      "collisions": [],
+      "smallest_print_font_pt": 7.13671875
+    },
+    "cof-terminology": {
+      "canvas": [
+        2400.0,
+        700.0
+      ],
+      "sha256": "717fdcd492a0cf585adc515ee4889f3f70cf27e3ca1043f13afa8c373431e93a",
+      "embedded_images": 0,
+      "collisions": [],
+      "smallest_print_font_pt": 7.14
+    }
+  },
+  "scientific_geometry": {
+    "selected_is_nearest": true,
+    "four_view_supervision_masks": {
+      "full": true,
+      "structural": true
+    },
+    "same_target_correct_displacements": true
+  },
+  "paper_pages": 8,
+  "figure_pages": {
+    "structure-detail-training": 5,
+    "cof-terminology": 5
+  },
+  "missing_characters": 0,
+  "overfull_boxes": 0,
+  "inherited_undefined_references": [
+    "app:beat_alignment",
+    "app:correspondence_statistics",
+    "app:execution",
+    "app:metric_construction",
+    "app:scope",
+    "app:training"
+  ],
+  "conditioning_figure_omitted": true,
+  "appendix_remains_disabled": true,
+  "protected_files": {
+    "sections/introduction.tex": true,
+    "sections/execution_interface.tex": true,
+    "sections/execution_supplement.tex": true,
+    "sections/experiments.tex": true,
+    "sections/discussion.tex": true,
+    "figures/foredance/teammate-execution.tex": true,
+    "evidence/foredance/mmr_summary_rows.tex": true,
+    "evidence/foredance/evaluator_validation_rows.tex": true,
+    "evidence/foredance/music_use_rows.tex": true,
+    "evidence/foredance/mmr_selected_rows.tex": true,
+    "evidence/foredance/prior-evaluation-planning.tex": true,
+    "evidence/foredance/mmr_correspondence_rows.tex": true,
+    "evidence/foredance/training_rows.tex": true,
+    "figures/foredance/sequence-10.png": true,
+    "figures/foredance/sequence-30.png": true,
+    "figures/foredance/sequence-50.png": true,
+    "sections/related_work.tex": true
+  },
+  "conditioning_assets_unchanged": true,
+  "overview_title_only": true,
+  "overview_change_bbox": [
+    29,
+    1,
+    260,
+    53
+  ],
+  "page_visually_inspected": 5
+}

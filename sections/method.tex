@@ -3,7 +3,7 @@
 \method{} couples three decisions: what music to anticipate, how to express
 the response as structured motion, and how to continue after committing it.
 Figure~\ref{fig:overview} shows the complete system; the following figures
-expand the conditioning, reconstruction, and continuation mechanisms.
+expand the reconstruction and continuation mechanisms.
 
 \paragraph{Streaming task}
 At decision time $\tau$, $a_{\leq\tau}$ is the heard audio, $h$ is committed
@@ -38,7 +38,7 @@ c_j=W\,\mathrm{LN}(u_j)+\phi(\ell_j).
 \end{equation}
 Here $W$ projects the music features and $\phi$ encodes their lead time.
 We linearly interpolate neighboring projected states at motion lead
-$d_i=i/15$ to obtain $\hat c_i$ (Fig.~\ref{fig:music_detail}). A coverage mask
+$d_i=i/15$ to obtain $\hat c_i$. A coverage mask
 $m_i$ is one only within the valid forecast support and zero when the
 condition is absent or no longer covers that motion time.
 
@@ -54,16 +54,6 @@ gate. When $m_i=0$, the block retains its original activation exactly.
 Separate modulators condition the structural Transformer blocks and residual
 diffusion heads using the same physical-time alignment. The generator and
 these mappings are trained; MRT-2 remains frozen.
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/foredance/music-conditioning-detail.pdf}
-\caption{\textbf{Physical-time music conditioning.} Forecast features are
-projected with their lead times and interpolated at motion-step times. The
-aligned features drive separate residual FiLM modules in the structure and
-residual branches. Coverage masking bypasses modulation outside valid support.}
-\label{fig:music_detail}
-\end{figure*}
 
 \subsection{Structure--Detail Representation and Paired Training}
 \label{sec:dc}
@@ -103,12 +93,11 @@ and exact partitions remain in Appendix~\ref{app:training}.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/foredance/structure-detail-training.pdf}
-\caption{\textbf{Learning complementary structure and detail.} A discrete
-anchor and continuous offset form the full code. Full and structure-only
-reconstructions share one boundary-conditioned decoder. Pose colors illustrate
-complete versus selected supervision; pale limbs remain in the reconstruction
-but are outside the selected native view. Geometry is schematic; flames mark
-learned modules.}
+\caption{\textbf{Learning complementary structure and detail.} The codebook
+anchor and continuous offset form the full code. Both paths share one
+state-conditioned decoder and produce complete motions. Filled cells select
+coordinates for supervision in four blocks: native motion, native velocity, Cartesian position,
+and Cartesian velocity. Counts are schematic; flames mark learned modules.}
 \label{fig:dc}
 \end{figure*}
 
@@ -159,11 +148,13 @@ boundary state, so latent equality does not imply identical decoded motion.
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/foredance/cof-terminology.pdf}
-\caption{\textbf{Paired context and residual rebasing.} TF takes recent history
-and boundary state from a recorded segment; CoF derives both from the same
-generated commitment. At right, residual rebasing moves the residual's origin
-to the sampled structure while retaining the recorded target latent. Tile
-counts and geometric positions are schematic.}
+\caption{\textbf{Constructing generation contexts with Commit Forcing.}
+TF uses recorded history and boundary state. CoF first samples a plan from a
+recorded seed context, appends its committed prefix to history, and derives the
+paired boundary state from the decoded committed motion. The discarded tail
+does not enter the next context. At right, residual rebasing retains the
+recorded target latent while changing the structural origin. Tile counts and
+geometry are schematic.}
 \label{fig:cof}
 \label{fig:cof_training_detail}
 \end{figure*}

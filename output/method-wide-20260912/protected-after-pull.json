@@ -1,0 +1,22 @@
+{
+  "main.tex": "c281b581f71e288b09ace7b1fa9f3b9170e9194c7b8043a6a207fd5853d40a78",
+  "sections/introduction.tex": "ce76e1f009de3b864f79c6ef566f7d415496d770e3abad34bb21b3b542b5c3f8",
+  "sections/execution_interface.tex": "59470a61e2b56588515de5d3d6be56562114fdb881f5fd065bf912a5667d8dd8",
+  "sections/execution_supplement.tex": "7f280c0453afeee5038a5d1d2a716788a5215f4a5133deb1ff23e2546fa18aec",
+  "sections/experiments.tex": "9b51f3db8924fae4e923f8838cfc37fd524cc09c8fc350e45d696707bf4d4fe2",
+  "sections/discussion.tex": "e93730cf77ee928b966bfac8b8c337b25e7361bb78f11eb388f2856d5c9f62d6",
+  "figures/foredance/overview.svg": "3def8682eef45d81ee66ec74aa47177207fdfa6eb31dc2a425a3712561e33a2c",
+  "figures/foredance/overview.pdf": "21a10c5c83fc12f09f3c0694fce0f5b6b2636dc57873ded09730c1b0c003df44",
+  "figures/foredance/teammate-execution.tex": "529d74befa60f365c405dbc9acf0c19206ad6c2afc8ecd05e69c2e40725bf7cb",
+  "evidence/foredance/mmr_summary_rows.tex": "f57f1cd669368fb23c7aab988ef414aa8485c3a113f0fdfe53bbe4a1d725feeb",
+  "evidence/foredance/evaluator_validation_rows.tex": "4cf22afec1fb5e74c991918128d875e3d100e345701a0cbff596f30845930f3f",
+  "evidence/foredance/music_use_rows.tex": "20dd512f66eead0673db5f2dbbd5f2f6b19c89d26efdbcc9482b6dcaf560b5b5",
+  "evidence/foredance/mmr_selected_rows.tex": "ca7b4f184cc024b02f8b9ebad66dc5f233c8f40408830f6358f97f9b1168e893",
+  "evidence/foredance/prior-evaluation-planning.tex": "427b751f96a912afefa862a3acfd1ebe707f0fb4d473b3702b198e4f0862fe7f",
+  "evidence/foredance/mmr_correspondence_rows.tex": "a4ee6d28b1ac2f94c83474c5dcb6b9fd7b82b870160940267c0caf7e9e0c9bb2",
+  "evidence/foredance/training_rows.tex": "d338220ba7897f84e4694f6bc93aeffa875d40b48a4000a341572a93b2ee06b1",
+  "figures/foredance/sequence-10.png": "fe96301f4a849fabfe96eaebd9aa30b376fc4ee1af9d5c39aafab78518aa0206",
+  "figures/foredance/sequence-30.png": "52d6a921defd4009ed4b65b863004ae19c9eeac66a1838285598e1005339697e",
+  "figures/foredance/sequence-50.png": "9eed86433e4312f6cf1659c300090be6157b8a6ab60d68643cba4c0235e06227",
+  "sections/related_work.tex": "bc195731cfd7bbd141433958bb924771a3d81af5f16e91781af3a4c933ab0f72"
+}

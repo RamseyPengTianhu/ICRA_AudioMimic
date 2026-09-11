@@ -1,0 +1,25 @@
+{
+  "author_direction": "Both subfigures span two columns; expose context differences and committed self-rollout construction; correct supervision. Conditioning subfigure omitted.",
+  "mode": "Scoped native-vector revision of existing artwork, with fresh imagegen design for the expanded CoF comparison",
+  "references": {
+    "structure-detail-training-long-reference.png": {
+      "sha256": "7adcfb32d89117b2a054d2239174ba0cac7c16887e7e10441d198a1dccefc2f0"
+    },
+    "cof-terminology-long-reference.png": {
+      "sha256": "f1b047bf3528d2dcc083350cddf82415d6ada96f9f99e11b0ab35eee2ebe2f98"
+    },
+    "cof-wide-candidate.png": {
+      "sha256": "43244d64efb75a7c7936acfbcbf39ebd6584f0989fb995cbac7587148584d8eb"
+    }
+  },
+  "raster_corrections": [
+    "one Commit and one Discard group label",
+    "matched context group sizes",
+    "consistent source and appended histories",
+    "one directed update arrow from committed prefix",
+    "regular circles and exact fixed rebasing target"
+  ],
+  "generated_raster": "cof-wide-candidate.png",
+  "prompt": "cof-imagegen-prompt.txt",
+  "local_raster_repairs": 0
+}

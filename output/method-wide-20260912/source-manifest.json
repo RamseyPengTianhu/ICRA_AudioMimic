@@ -1,0 +1,51 @@
+{
+  "repository": "lbtwyk/Musics2Dance",
+  "commit": "24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2",
+  "files": [
+    {
+      "path": "model/g1_clean_representation_losses.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_clean_representation_losses.py",
+      "sha256": "6b90262275f84967d65a981b47a90d2efe1010716629e26d4ce54f08eb0b264b"
+    },
+    {
+      "path": "model/g1_hybrid_streaming_codec.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_hybrid_streaming_codec.py",
+      "sha256": "574f3487dbd160bc8e6bc7919bb273404ffd9c60cb5d0070f7aee20e51896f78"
+    },
+    {
+      "path": "model/g1_listenahead_direct_conditioning.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_listenahead_direct_conditioning.py",
+      "sha256": "83ff8da10dcb36d5951544c5d83dada7fcf870d0a1d8b534dc08209122a1cff9"
+    },
+    {
+      "path": "model/g1_motion_projectors.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_motion_projectors.py",
+      "sha256": "f13d8b7d8cbdcb0fd394ba588d51ace3b7378149c5e684881fe4d013996b5e9e"
+    },
+    {
+      "path": "model/g1_motion_tokenizer.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_motion_tokenizer.py",
+      "sha256": "dbc1cb607a67a4f6a770c10220e070c861f190d7df2a7107b6aa1c9c12a835a7"
+    },
+    {
+      "path": "model/g1_streaming_rvqvae.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_streaming_rvqvae.py",
+      "sha256": "4122a9d8f8ba3fd672f51e4a2df29864f925177b21ef1e42acc83c6feee56049"
+    },
+    {
+      "path": "model/g1_structural_quantizer.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/model/g1_structural_quantizer.py",
+      "sha256": "cc8718336987b982f696465de717d742fd7de01a8849e792b14604e5440be090"
+    },
+    {
+      "path": "train_g1_listenahead_mrt2.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/train_g1_listenahead_mrt2.py",
+      "sha256": "364423e5631f16a41d39b21e68918f52c94a3d4f98e5583a59356d0bf8c1a7cf"
+    },
+    {
+      "path": "train_g1_paper_faithful_dc_streaming.py",
+      "url": "https://github.com/lbtwyk/Musics2Dance/blob/24f4f75aa17c3622071e4fa6b1491ca5f2eabcb2/train_g1_paper_faithful_dc_streaming.py",
+      "sha256": "835c08eb50fee0b06f85788dc00f79aeebde6ab0cdbc5e20a2db185d4ab435b8"
+    }
+  ]
+}
