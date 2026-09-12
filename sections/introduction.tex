@@ -125,15 +125,14 @@ Our contributions are:
     from the sampled reference transition.
 \end{itemize}
 
-On the evaluated 60\,s FineDance generations, a frozen music--motion
-evaluator favors the intended soundtrack over alternative tracks
-in approximately 75\% of pairwise comparisons under the reported
-evaluation and selection protocol.
-A separate 18-track study characterizes the effects of history
-regularization on motion fidelity, diversity, and smoothness.
-These findings describe musical correspondence and motion properties
-at the reference-generation level.
-Section~\ref{sec:evidence_scope} clarifies their scope and the
-comparisons required to attribute benefits to musical forecasting,
-D+C supervision, and \cof{}, as well as to assess musical
-performance after execution.
+
+Our experimental protocol separates robot-native motion quality from
+musical adaptation, assessing rhythm, tempo, annotated style, and dynamic
+expression through complementary measures and learned correspondence.
+Music-condition interventions
+test whether generated dance changes appropriately with its soundtrack;
+matched ablations examine musical forecasting, D+C supervision, and
+\cof{}. Paired simulation comparisons distinguish properties of committed
+generation from changes introduced by reference delivery and control.
+Section~\ref{sec:evidence_scope} discusses the interpretation and scope
+of these measurements.

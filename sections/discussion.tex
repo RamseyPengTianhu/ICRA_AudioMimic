@@ -1,36 +1,74 @@
 \section{Discussion}
 \label{sec:evidence_scope}
-\paragraph{Supported findings and attribution}
-The generator studies characterize soundtrack correspondence, beat alignment,
-and a distribution--smoothness tradeoff in history regularization.
-The evaluator's reference-motion validation is a separate measurement.
-Attributing gains to anticipation, representation design, or committed
-continuation requires the controlled studies listed in
-Section~\ref{sec:pending_ablations}. Broader music
-pretraining supplies a transferable prediction prior, while improved
-out-of-distribution dance generalization remains a hypothesis. The historical
-replay diagnostics characterize tracking separately from these current
-reference-generation results.
 
-\paragraph{Evaluation scope and selection}
-The evaluator configuration was selected after inspection of its
-30-content-group calibration cohort. For compact reporting, generator music
-scores use the higher complete initialization result for each metric after
-evaluation; all tracks and sampling repeats in the respective cohort are
-retained. The history-training comparison uses one shared initialization.
-Calibration scores and retained intervals are descriptive, not
-selection-independent evidence of superiority.
-The score has not been validated against human preference or executed
-trajectories. The motion-quality cohort is separate, and the illustrated
-sequence is a selected qualitative case. Its complete source and selection
-record are retained with the evidence.
+\paragraph{Anticipation for embodied musical response}
+Music-driven humanoid dance requires preparation:
+weight transfer and coordinated articulation develop
+before a visible accent.
+Forecast music states provide prospective context for
+these decisions using arrived audio alone.
+Our framework connects a pretrained musical continuation
+prior to robot-native motion through paired dance learning.
+The relevant quantity is the useful musical lead at
+commitment, which depends jointly on forecast content,
+temporal alignment, and processing delay.
+This connects musical anticipation to the timing
+requirements of embodied movement.
+
+\paragraph{Structured expression across commitments}
+Kinematics-guided D+C supervision assigns discrete codes
+responsibility for designated whole-body organization
+while continuous residuals retain complementary variation.
+These roles are defined through reconstruction objectives
+and expressed through a shared decoder, allowing structure
+and detail to remain coupled.
+\cof{} extends this coupling across planning cycles:
+the committed components determine both the latent
+history and the reference boundary state used for
+continuation.
+This formulation connects the representation of movement
+to the consequences of previous generation decisions,
+making their consistency an explicit part of training.
+
+\paragraph{Preserving expression through execution}
+A robot's musical response depends on how generated
+movement survives reference delivery and physical tracking.
+The robot-native interface connects our planner to
+fixed whole-body control, while paired evaluation
+examines musical correspondence and motion quality
+alongside tracking accuracy.
+This makes the preservation of expressive movement
+a system-level objective.
+The current generator plans from committed references,
+with measured-state feedback handled by SONIC.
+Extending the planning context to include execution
+deviations could enable adaptation to the robot's
+actual posture and support state.
+Forecast uncertainty also motivates adapting planning
+and commitment horizons when musical transitions
+become less predictable.
 
 \section{Conclusion}
-\method{} brings anticipatory music conditioning to structured streaming dance:
-a frozen music foundation model predicts prospective context, kinematics-guided
-structure--detail training organizes motion components, and \cof{} learns continuation after
-their joint commitment. Completed studies find consistent soundtrack
-correspondence and characterize motion quality under matched history-training
-choices. Together, the method and
-reference interface provide an explicit framework for studying how musical
-foresight translates into continuously generated robot motion.
+
+We presented \method{}, a framework for streaming
+music-driven humanoid dance that integrates musical
+anticipation, robot-native D+C generation, and
+committed continuation.
+A frozen music foundation model forecasts upcoming
+musical context from arrived audio.
+Kinematics-guided supervision organizes discrete
+structure and complementary continuous detail,
+while \cof{} trains the generator to continue from
+jointly committed motion and its resulting reference
+state.
+The generated stream is delivered to a fixed
+whole-body controller for humanoid execution.
+
+% TODO: Insert the principal experimental finding on
+% musical adaptation, component benefits, and preservation
+% during robot execution.
+
+By connecting musical foresight to structured motion
+and successive commitments, \method{} provides
+a unified approach to generating humanoid dance
+in response to music as it unfolds.

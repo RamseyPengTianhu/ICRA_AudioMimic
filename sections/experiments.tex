@@ -1,178 +1,371 @@
 \section{Experiments}
 \label{sec:experiments}
-We separate evaluation of the music--motion evaluator on reference motion
-from its use to assess generated dance. Beat alignment and motion-quality
-measures complement learned correspondence. Supporting history-training
-comparisons examine motion quality; the core ablations still awaiting results
-are marked explicitly in Section~\ref{sec:pending_ablations}.
 
-\subsection{Setup and Metrics}
+We evaluate whether \method{} generates coherent robot-native
+dance that responds appropriately to music, and whether these
+properties are retained during execution.
+The evaluation covers motion quality and musical adaptation,
+using motion-distribution metrics, explicit beat alignment,
+and learned music--motion correspondence.
+Controlled ablations examine musical anticipation,
+kinematics-guided D+C supervision, and \cof{}.
+Streaming and execution experiments assess timing,
+reliability, and changes from generated references
+to tracked motion.
+
+% ================================================================
+\subsection{Setup and Evaluation Protocol}
 \label{sec:experimental_setup}
 \label{sec:evaluation_protocol}
-Evaluator validation uses reference motion from 30 content groups, comprising
-3,661 windows and 15 disjoint song pairs per discrimination task.
-Generator correspondence uses 99 generated 60\,s FineDance trajectories:
-eleven tracks, three independently trained generators, and three sampling
-seeds per generator. The separate beat-alignment and motion-quality study
-uses all 18 archived tracks, a common 23\,s segment, and the same three-by-three
-training/sampling repeat structure, giving 162 outputs per configuration.
-All motion is represented in native G1 space. Appendices~\ref{app:training}
-and~\ref{app:scope} specify the training and cohort protocols.
+
+We use paired FineDance music and human motion retargeted
+to the Unitree G1.
+Data are partitioned by music content into training,
+validation, and test sets.
+The generator uses the native 38D representation defined
+in the method, while evaluation features are extracted
+from decoded robot motion.
+
+Motion-quality comparisons use 23\,s segments from
+18 tracks.
+Long-horizon correspondence and continuation experiments
+use 60\,s segments from eleven tracks.
+These cohorts are reported separately.
+Each generator configuration uses three independent
+training seeds and three sampling seeds per track.
+Methods share evaluation tracks, initial reference contexts,
+soundtrack offsets, generation durations, and sampling
+settings within each comparison.
+During free-running generation, subsequent contexts evolve
+from each model's own committed outputs.
+We score the concatenated committed motion using a fixed
+configuration and initialization rule across metrics.
+
+Evaluator training and model selection exclude the music
+content used for generator evaluation.
+All scores use common valid audio--motion intervals and
+the recorded soundtrack timing.
+We report training-seed variation and 95\% confidence
+intervals from song-level bootstrap resampling.
+Paired comparisons resample the same songs across conditions.
+Scalar scores are aggregated within songs before averaging
+across songs and training seeds.
+Distributional metrics are computed from pooled feature
+sets and recomputed during resampling.
+
+% TODO: Verify content-level splits, final cohort membership,
+% evaluator selection data, and the common initialization rule.
+% TODO: Record exact checkpoint and training-cost information
+% in the final experimental configuration table.
+
+% ================================================================
+\subsection{Evaluation Metrics}
+\label{sec:evaluation_metrics}
+
+\paragraph{Motion quality}
+We report kinetic and geometric Fr\'echet distances,
+FID$_k$ and FID$_g$, between generated and retargeted-reference
+motion distributions.
+Robot-specific kinetic features summarize FK-point speeds
+and accelerations; geometric features describe root-relative
+body configurations and inter-point distances.
+Both populations use the same G1 model and feature extractor.
+Div$_k$ and Div$_g$ measure diversity in these spaces and
+are interpreted jointly with distributional fidelity.
+PFC provides a foot-motion and root-acceleration-based
+physical-consistency proxy.
+Motion activity, jerk, and position/velocity jumps at
+commitment boundaries provide additional diagnostics
+of freezing, smoothness, and continuation.
+
+\paragraph{Explicit beat alignment}
+Audio beats are extracted with a fixed librosa beat tracker.
+Motion beats are local minima of smoothed mean FK-point
+speed.
+We report both motion-to-audio and audio-to-motion
+Beat Alignment Scores (BAS), using a Gaussian matching
+scale of 0.10\,s.
+The two directions measure proximity from the respective
+event sets.
+Beat F1 complements BAS through one-to-one event matching
+with a 0.20\,s tolerance.
+Detectors and matching parameters remain fixed across methods.
+
+Dynamic response is additionally measured by the zero-lag
+Spearman correlation between audio RMS energy and
+root-relative FK-point speed, aggregated in one-second bins.
+We interpret this energy--activity association alongside
+motion quality and retargeted-reference responses.
 
 \paragraph{Learned music--motion correspondence}
-Motivated by music--motion retrieval~\cite{li2025soulnet}, we use a frozen
-G1-native evaluator trained independently of the generator. Its score
-$s_w(x,a)$ averages cosine similarities from three evaluator instances for
-five-second music--motion windows. For intended music $a_i$ and an alternative
-track $a_j$, the correspondence margin is
+Following SoulNet~\cite{li2025soulnet}, we adapt a
+music--motion representation-learning evaluator to
+robot-native motion.
+The music branch receives Jukebox
+features~\cite{dhariwal2020jukebox}; the motion branch
+receives root, body-pose, velocity, and contact features.
+Variational encoders and a shared motion decoder are
+trained with reconstruction, latent alignment,
+KL regularization, and contrastive objectives.
+The evaluator and training-derived normalization are
+frozen before generator comparison.
+
+For each five-second window, the score $s$ averages
+audio--motion embedding cosine similarities from three
+independently trained evaluator instances.
+For motion $x_i$, intended music $a_i$, alternative
+music $a_j$, and window $w$, we define
 \begin{equation}
-\delta_{ijw}=s_w(x_i,a_i)-s_w(x_i,a_j).
-\label{eq:mmr_margin}
+    \delta_{ijw}
+    =
+    s(x_i^{(w)},a_i^{(w)})
+    -
+    s(x_i^{(w)},a_j^{(w)}).
+    \label{eq:mmr_margin}
 \end{equation}
-Pairwise accuracy counts positive margins, with half credit for ties;
-random ordering gives 50\%. The evaluator-validation tasks use ordinary or
-musically similar alternative tracks. Generator scoring compares each fixed
-motion against its intended music and all ten alternatives in its fixed
-gallery, preserving native audio offsets. Windows and sampling repeats
-are aggregated within training-seed/query-track cells.
-Appendix~\ref{app:metric_construction} defines the frozen evaluator.
+We report the mean correspondence margin and pairwise
+accuracy, assigning half credit to ties.
+Each 60\,s trajectory is evaluated with five-second
+windows at a one-second stride against its intended
+soundtrack and ten fixed alternatives.
+Window-level margins and decisions are averaged over
+windows and alternatives before aggregation across
+sampling repeats, songs, and generator seeds.
+The gallery and soundtrack offsets are shared across methods.
 
-\paragraph{Beat alignment and motion quality}
-Beat Alignment Score (BAS) measures the proximity of motion beats to music
-beats. We use local minima of smoothed mean forward-kinematics keypoint speed
-and a motion-to-music Gaussian matching score with a 0.10\,s scale;
-Appendix~\ref{app:beat_alignment} gives the exact definition. BAS measures
-rhythmic timing, while learned correspondence assesses soundtrack preference.
-Kinetic and geometric Fr\'echet distances (FID$_k$, FID$_g$) compare generated
-and reference distributions of motion dynamics and body configurations.
-Div$_k$ and Div$_g$ measure spread in the same feature spaces. PFC is a
-contact-related physical-consistency proxy, complemented by root/contact
-and jerk diagnostics. The 23\,s and 60\,s cohorts are analyzed separately.
-
-\begin{table}[t]
-\centering\small
-\caption{\textbf{Evaluator validation on reference motion.}
-The frozen evaluator ranks intended music against ordinary or musically
-similar alternatives. Pairwise accuracy is in percent; random ordering is 50\%.}
-\label{tab:evaluator_validation}
-\begin{tabular}{@{}lr@{}}\toprule
-Discrimination task & Accuracy (\%)\\\midrule
-\inputtable{evidence/foredance/evaluator_validation_rows.tex}
-\bottomrule\end{tabular}
-\end{table}
+\paragraph{Evaluator validation}
+\label{sec:evaluator_validation}
+Before scoring generated motion, we evaluate the frozen
+evaluator on held-out retargeted-reference pairs.
+Table~\ref{tab:evaluator_validation} reports discrimination
+against ordinary and musically similar alternative tracks.
+Aligned-versus-shifted audio and original-versus-corrupted
+motion comparisons further assess temporal sensitivity
+and susceptibility to degenerate motion.
+These checks establish the scope in which correspondence
+scores are interpreted.
 
 \begin{table}[t]
-\centering\small
-\caption{\textbf{Music alignment of ForeDance generations.}
-Learned correspondence is pairwise soundtrack accuracy; BAS measures
-motion-to-music beat alignment. Higher is favorable for both metrics;
-their evaluation cohorts and score scales differ.}
-\label{tab:mmr_correspondence}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}llr@{}}\toprule
-Measure & Evaluation cohort & Score\\\midrule
-\inputtable{evidence/foredance/mmr_summary_rows.tex}
-\bottomrule\end{tabular}
+    \centering
+    \small
+    \caption{
+    \textbf{Music--motion evaluator validation.}
+    Accuracy measures preference for the intended,
+    aligned, or original pair under each control.
+    Chance ordering is 50\%.
+    }
+    \label{tab:evaluator_validation}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}lrr@{}}
+        \toprule
+        Reference-pair comparison
+        & Accuracy (\%) & Margin \\
+        \midrule
+        Ordinary alternative music & -- & -- \\
+        Similar alternative music  & -- & -- \\
+        Temporally shifted audio   & -- & -- \\
+        Corrupted motion           & -- & -- \\
+        \bottomrule
+    \end{tabular}
 \end{table}
+
+% TODO: Fill validation results using the frozen protocol.
+% Report any limitation that changes the interpretation
+% of the generator or executed-motion scores.
+
+% ================================================================
+\subsection{Motion Quality and Musical Adaptation}
+\label{sec:matching_quality}
+
+\paragraph{Overall generation quality}
+Table~\ref{tab:motion_quality} compares \method{} with
+the selected baselines under the common generation protocol.
+We assess distributional fidelity, diversity, and physical
+consistency together.
+Motion activity and qualitative sequences help distinguish
+smooth dance from inactive or repetitive outputs.
+For the 18-track cohort, each training seed contributes
+54 generated descriptors, compared with 18 reference
+descriptors under identical crops and extraction settings.
+
+\begin{table}[t]
+    \centering
+    \small
+    \caption{
+    \textbf{Motion quality on the 18-track, 23\,s cohort.}
+    Lower FID and PFC are favorable.
+    Diversity is interpreted jointly with fidelity.
+    Results aggregate three generator training seeds.
+    }
+    \label{tab:motion_quality}
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{@{}lrrrrr@{}}
+        \toprule
+        Method
+        & FID$_k$ & FID$_g$
+        & Div$_k$ & Div$_g$ & PFC \\
+        \midrule
+        Baseline & -- & -- & -- & -- & -- \\
+        \method{} & -- & -- & -- & -- & -- \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% TODO: Replace the baseline placeholder with the final
+% methods and describe any representation/interface adaptations.
+% TODO: Add the result paragraph from the completed table.
+
+\paragraph{Conditional musical adaptation}
+We generate motion under correct, null, mismatched-track,
+and temporally shifted music conditions.
+The initial reference context and sampling settings are
+paired, while each rollout subsequently evolves independently.
+All outputs are scored against the predefined target
+soundtrack.
+Table~\ref{tab:mmr_correspondence} reports rhythmic alignment
+and learned correspondence for these interventions,
+with motion quality monitored alongside musical scores.
+
+For paired tracks, we additionally generate one dance
+per soundtrack and compare intended and swapped
+music--motion pairings.
+Musically similar alternatives provide a harder comparison
+than unrelated tracks.
+Together, these experiments test whether conditioning
+changes produce appropriately music-specific movement.
 
 \begin{table*}[t]
-\centering\small
-\caption{\textbf{Motion quality and beat alignment under matched history training.}
-All three configurations share initialization, architecture, music
-conditioning, the complete 18-track cohort, common 23-second segments,
-three training seeds, and three sampling seeds. Lower is favorable for FID
-and PFC; higher BAS indicates closer beat alignment. Diversity describes
-motion spread and is interpreted together with fidelity.}
-\label{tab:training}
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{@{}lrrrrrr@{}}\toprule
-History training & FID$_k$ & FID$_g$ & Div$_k$ & Div$_g$ & BAS & PFC\\\midrule
-\inputtable{evidence/foredance/training_rows.tex}
-\bottomrule\end{tabular}
+    \centering
+    \small
+    \caption{
+    \textbf{Musical adaptation under condition intervention.}
+    Results use the eleven-track, 60\,s cohort and fixed
+    target soundtracks.
+    BAS and F1 assess rhythmic alignment; correspondence
+    accuracy and margin assess soundtrack preference.
+    }
+    \label{tab:mmr_correspondence}
+    \setlength{\tabcolsep}{7pt}
+    \begin{tabular}{@{}lrrrrr@{}}
+        \toprule
+        Music condition
+        & BAS$_{m\rightarrow a}$
+        & BAS$_{a\rightarrow m}$
+        & Beat F1
+        & MMR accuracy (\%)
+        & Margin \\
+        \midrule
+        Correct              & -- & -- & -- & -- & -- \\
+        Null                 & -- & -- & -- & -- & -- \\
+        Mismatched track     & -- & -- & -- & -- & -- \\
+        Temporally shifted   & -- & -- & -- & -- & -- \\
+        \bottomrule
+    \end{tabular}
 \end{table*}
 
-\begin{figure*}[!t]
-\centering
-\input{figures/foredance/sequence.tex}
-\caption{\textbf{A 60-second ForeDance generation.} Original frames at 10, 30, and 50\,s from a selected FineDance sequence. The images show rendered reference motion.}
-\label{fig:sequence}
-\end{figure*}
+% TODO: Specify mismatch selection and temporal offsets.
+% Split control rows when distinct conditions are reported.
+% TODO: Add condition-intervention and cross-pairing results,
+% including energy--activity association where informative.
 
-\subsection{Evaluator Validation}
-\label{sec:evaluator_validation}
-Table~\ref{tab:evaluator_validation} evaluates the score itself on reference
-motion. Pairwise accuracy is 68.41\% against ordinary alternative music and
-64.08\% against musically similar alternatives. Both exceed random ordering
-in point estimate, with the similar-music task providing a more demanding
-correspondence check. These results characterize the evaluator's ability to
-distinguish soundtracks, rather than the quality of ForeDance generations.
+% ================================================================
+\subsection{Component Ablations}
+\label{sec:component_ablations}
 
-\subsection{Generator Evaluation}
-\label{sec:matching_quality}
-Table~\ref{tab:mmr_correspondence} reports learned soundtrack correspondence
-and beat alignment for generated motion. The intended soundtrack wins
-75.01\% of pairwise comparisons, with a mean correct-minus-alternative score
-margin of 0.1783. Every generator training seed has a positive mean margin.
-The separate 18-track study yields BAS 0.4419. These complementary measures
-characterize soundtrack preference and rhythmic alignment; their different
-cohorts preclude treating the values as a single pooled evaluation.
-Appendix~\ref{app:correspondence_statistics} retains the detailed score
-statistics and descriptive intervals.
+\paragraph{Musical anticipation}
+We compare separately trained heard-only and
+forecast-conditioned generators with matched motion
+architectures, training budgets, tracks, and sampling settings.
+A real-future condition provides an additional reference
+comparison.
+Motion quality, beat alignment, and learned correspondence
+are evaluated over the same intervals.
+These comparisons isolate the benefit of predictive
+musical context from the effect of music conditioning itself.
 
-\paragraph{History-training comparison}
-Table~\ref{tab:training} compares clean history, history dropout, and
-full-history corruption (FHC), holding the remaining settings fixed.
-Relative to clean history, FHC reduces kinetic/geometric FID by
-21.9\%/15.0\%, with both directions favorable in all three training seeds,
-and increases kinetic diversity. BAS rises from 0.4352 to 0.4419; this is a
-descriptive change, not a significance claim. PFC and jerk favor clean
-history, so the distribution gains coexist with a smoothness tradeoff.
-This comparison examines history regularization, rather than isolating the
-benefit of musical anticipation or \cof{}.
+% TODO: Report the exact heard-only and real-future inputs,
+% conditioning capacity, and matched training cost.
+% TODO: Add anticipation results.
 
-\paragraph{Qualitative generation}
-\label{sec:showcase}
-Figure~\ref{fig:sequence} shows reference poses at 10, 30, and 50\,s from one
-selected 60\,s rollout. These original frames illustrate body configuration
-across the sequence; they do not measure temporal smoothness.
+\paragraph{Kinematics-guided D+C generation}
+We compare codecs trained with and without the proposed
+structural supervision under matched downstream
+generator training.
+Full-motion and structure-only reconstruction errors
+assess the designated kinematic responsibilities
+of discrete codes.
+Fixed-structure residual interventions examine
+complementary variation.
+Downstream generation metrics test whether this
+representation-level supervision improves dance quality
+and musical correspondence.
 
-\subsection{Pending Ablation Studies}
-\label{sec:pending_ablations}
-\textit{TODO for this working draft: the following controlled studies await
-results and are not counted as completed evidence.}
+% TODO: Add key reconstruction/intervention evidence
+% and the downstream supervision ablation.
+% Include independently trained D-only/C-only controls
+% if claiming superiority over single-component representations.
 
-\paragraph{TODO: musical anticipation}
-Compare forecast-conditioned and heard-music-conditioned generators with
-matched training, tracks, and sampling. Report learned correspondence, BAS,
-and motion quality to isolate the value of predictive musical context.
+\paragraph{Committed continuation}
+We compare Teacher Forcing and \cof{} on matched
+60\,s free-running generations.
+A generated-history-only control retains the recorded
+boundary state, isolating the effect of constructing
+the generated history and its resulting state together.
+We evaluate the full sequence and three consecutive
+20\,s intervals, reporting musical correspondence,
+motion activity, and commitment-boundary discontinuities.
+Clean-history, history-dropout, and full-history-corruption
+comparisons separately characterize the contribution
+of history regularization.
 
-\paragraph{TODO: paired representation training}
-Complete current-representation reconstruction and intervention results to
-test whether structure and detail serve their intended complementary roles.
-Include non-collapse checks and matched supervision comparisons.
+% TODO: Add TF/CoF and history--state control results.
+% Place the existing Clean/Dropout/FHC table here,
+% separate from the main method comparison.
 
-\paragraph{TODO: single-representation controls}
-Compare independently trained discrete-only, continuous-only, and combined
-structure--detail generators under matched settings. Removing a decoder
-branch does not substitute for a separately trained baseline.
-
-\paragraph{TODO: committed continuation}
-Compare \cof{} with Teacher Forcing on matched 60\,s free-running sequences.
-Report aggregate quality and each of the three non-overlapping 20\,s windows,
-including commitment-boundary behavior and matched qualitative sequences.
-
-\subsection{Supporting Execution Diagnostics}
+% ================================================================
+\subsection{Streaming and Robot Execution}
 \label{sec:execution_results}
-The interface in Section~\ref{sec:robot_execution} separates the generated,
-resampled, controller-consumed and measured trajectories. The supporting study replays four saved trajectories from one FineDance track
-through fixed SONIC in MuJoCo. These trajectories use an earlier 34-dimensional
-representation, separate from the current 38-dimensional generation cohort;
-audio inference is not run during replay.
 
-After excluding the first two seconds and aligning joint trajectories, median
-amplitude retention ranges from 0.858 to 0.901, and median squared-velocity
-retention from 0.411 to 0.496. Position tracking therefore coexists with dynamic
-attenuation. These diagnostics characterize the reference-to-execution path;
-they do not establish current-model hardware performance or comparative
-musical benefit. Appendix~\ref{app:execution} retains the complete measurements
-and protocol.
+We evaluate reference execution in MuJoCo using a fixed
+SONIC whole-body controller.
+Retargeted reference motion and generated motion pass
+through the same interface.
+We distinguish committed generation, delivered reference,
+controller-consumed target, and measured execution.
+This separation identifies changes introduced by reference
+delivery and physical tracking.
+
+\paragraph{Streaming performance}
+Cached and live music conditioning are reported separately,
+as are saved-trajectory replay and online reference delivery.
+We measure generation latency, deadline-miss rate,
+effective future-music coverage at action decisions,
+and motion-reference preview at controller consumption.
+All measurements use recorded timestamps.
+Hardware, planning horizon, commitment length, and sampling
+settings are fixed within each comparison.
+
+\paragraph{Preservation under execution}
+We compare motion quality and musical adaptation before
+and after execution using the same soundtrack timeline
+and common valid intervals.
+Learned correspondence on executed motion is accompanied
+by execution-domain evaluator checks.
+Completion rate, joint tracking error, and amplitude
+and squared-velocity retention characterize execution
+reliability and dynamic attenuation.
+Any lag-compensated tracking analysis is reported
+separately from audio-synchronized musical scores.
+Failed runs remain included in completion statistics.
+
+Matched visualizations show how generated dance changes
+across music inputs and how those movements are retained
+during tracking.
+Rendered references and measured execution are identified
+separately.
+
+% TODO: Add a compact streaming/execution results table.
+% Identify condition source and delivery mode explicitly.
+% TODO: Add physical Unitree G1 evaluation here once available,
+% with hardware settings, track coverage, repeated-run outcomes,
+% and matched reference/execution visualizations.

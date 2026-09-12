@@ -1,9 +1,25 @@
 \subsection{Robot Reference Integration and Execution}
 \label{sec:robot_execution}
-Figure~\ref{fig:execution_interface} separates reference delivery from controller feedback. The committed native motion provides the reference interface to a separate, pretrained SONIC whole-body controller~\cite{luo2026sonic}. A reference bridge reconstructs root motion in the fixed sequence coordinate system, maps joint references into the controller convention, and resamples the 30\,Hz motion onto a continuous 50\,Hz grid. Appendix~\ref{app:training} defines the coordinates and state reconstruction. Only committed motion is delivered; the uncommitted suffix is discarded before the next plan and is not sent to the controller.
 
-SONIC remains fixed and combines the consumed reference with measured robot state to produce control actions. The generator separately updates its latent history and boundary state from committed reference motion. Appendix~\ref{app:execution} specifies the delivery and measurement protocol.
+As shown in Fig.~\ref{fig:overview}(b), committed
+robot-native motion is delivered to a pretrained
+SONIC whole-body controller~\cite{luo2026sonic}.
+A reference bridge reconstructs root motion in the
+fixed sequence coordinate system, maps joints to
+the controller convention, and resamples the
+30\,Hz reference onto a continuous 50\,Hz grid.
+Only the committed prefix is delivered;
+the remaining prediction is discarded before replanning.
 
+SONIC remains frozen and combines the consumed reference
+with measured robot state to produce control actions.
+The generator updates its latent history from the
+committed discrete codes and continuous residuals,
+and reconstructs its next boundary state from the
+corresponding decoded motion.
+Thus, reference-derived context supports subsequent
+generation, while measured-state feedback closes
+the controller's physical execution loop.
 
 % \begin{figure*}[t]
 % \centering
