@@ -5,7 +5,7 @@
         2048.0,
         600.0
       ],
-      "sha256": "d4f4f7249a341c7a9e128f233e836896fba6bed98299cfa5c655f20b5962ce21",
+      "sha256": "1117a372c118ae5e86a8f578f8b933296f622632e28e214ad26e491af6b5107f",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.13671875
@@ -15,7 +15,7 @@
         2400.0,
         700.0
       ],
-      "sha256": "717fdcd492a0cf585adc515ee4889f3f70cf27e3ca1043f13afa8c373431e93a",
+      "sha256": "587714ee6083adcd323d4a64fe2a5ef1d0cdd0d4b089ecf45b95110124cad7b3",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.14
@@ -29,6 +29,14 @@
     },
     "same_target_correct_displacements": true
   },
+  "shared_boundary_state_icon": {
+    "identical_to_overview": true,
+    "counts": {
+      "structure-detail-training": 2,
+      "cof-terminology": 3
+    }
+  },
+  "context_arrow_alignment": true,
   "paper_pages": 8,
   "figure_pages": {
     "structure-detail-training": 5,
@@ -65,13 +73,7 @@
     "figures/foredance/sequence-50.png": true,
     "sections/related_work.tex": true
   },
+  "overview_unchanged_in_this_revision": true,
   "conditioning_assets_unchanged": true,
-  "overview_title_only": true,
-  "overview_change_bbox": [
-    29,
-    1,
-    260,
-    53
-  ],
   "page_visually_inspected": 5
 }

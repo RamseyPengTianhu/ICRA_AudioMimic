@@ -21,5 +21,14 @@
   ],
   "generated_raster": "cof-wide-candidate.png",
   "prompt": "cof-imagegen-prompt.txt",
-  "local_raster_repairs": 0
+  "local_raster_repairs": 0,
+  "scoped_revision": {
+    "baseline_commit": "5c16535cfca30a6c86e0da8f0a6802148f2eb539",
+    "edits": [
+      "same overview pose glyph for all boundary states; remove waveforms",
+      "bracket entire committed prefix and connect it to next context",
+      "align module arrows with enough shaft clearance"
+    ],
+    "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
+  }
 }

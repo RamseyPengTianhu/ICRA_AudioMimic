@@ -50,6 +50,17 @@ Rebasing does not mean re-encoding the target under the generated boundary state
 
 ## Visual evidence and protected material
 
+The latest scoped revision replaces every boundary-state cue in the two
+subfigures with the exact purple pose glyph already present in the overview.
+The five copies share one master, contain no waveform, and are pictograms rather
+than measured pose values. Contexts still contain the complete state defined in
+the method; removing a waveform does not remove its velocity coordinates.
+
+The committed prefix is grouped by one lower bracket; the update arrow starts
+at its midpoint and enters the next context's left edge. Both next-generation
+arrows align with the context and module centers and retain a shaft longer than
+their arrowhead envelope. The small seed tiles have non-overlapping spacing.
+
 The fresh imagegen comparison was inspected. Its repeated Commit labels, extra
 return arrowhead, mismatched history contents and unequal comparison groups were
 corrected in the native vector revision. The original long representation was

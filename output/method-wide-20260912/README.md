@@ -20,6 +20,12 @@ upper-left wordmark to MuRoDance. SONIC and the disabled appendix are preserved.
 
 ## Files
 
+All boundary-state cues now use the overview's identical purple humanoid glyph,
+without a velocity waveform. The standalone master is
+`figures/foredance/boundary-state-icon.svg`. The committed prefix has a bottom
+bracket connected to the context update; context-to-generator arrows have clear
+shafts and align with both module centers.
+
 Editable SVG and vector PDF masters are in `figures/foredance/`.
 `final-figures.pdf` and PNG provide the combined preview; `full-width-proof.pdf`
 shows actual print size. `comparison.pdf` compares with the original long figures.

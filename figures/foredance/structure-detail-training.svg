@@ -98,9 +98,7 @@
 <path d="M541 327L563 327" fill="none" stroke="#080F2D" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
 </g>
 <g id="input-starting-state-cue">
-<g transform="translate(129 484) scale(2)" stroke="#8534DB" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8L9 17M10 10L5.5 13L3.2 17M10 10L14.4 13L17.2 10M9 17L5 22L4 26M9 17L13 21L16 25.8"/>
-</g>
-<path d="M184 526L192 516L202 529L212 505L222 530L232 519L243 524" fill="none" stroke="#8534DB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<g data-icon="boundary-state" transform="translate(156 475) scale(2.857142857142857)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
 </g>
 <g id="codebook-geometry">
 <circle id="codebook-boundary" cx="798" cy="330" r="228" fill="#E1EFFF"/>
@@ -134,11 +132,9 @@
 <text x="1372" y="313" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Shared</text>
 <text x="1372" y="345" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">decoder</text>
 <g transform="translate(1356 357) scale(1.75)"><path d="M12.3 1C14.2 8.2 20.8 10.5 21.1 17.4C21.4 24.8 17.4 30.4 11.6 30.4C5.8 30.4 2.2 26.1 2.6 20.3C2.8 16.8 4.6 14.5 7.1 11.7C6.7 16.1 8.3 18.1 10.1 18.5C8.7 11.6 14 8.1 12.3 1Z" fill="#F27822"/><path d="M12 17C13 21.1 17.4 22.7 15.6 26.3C14.1 29.4 9.2 29 8.2 26.1C7.1 23 10.5 20.6 12 17Z" fill="#FFD17D"/></g>
-<g transform="translate(1085 277) scale(3.4)" stroke="#8534DB" fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8L9 17M10 10L5.5 13L3.2 17M10 10L14.4 13L17.2 10M9 17L5 22L4 26M9 17L13 21L16 25.8"/>
-</g>
-<path d="M1156 334L1164 325L1174 332L1182 309L1190 337L1198 322L1208 329" fill="none" stroke="#8534DB" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<text x="1124" y="402" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#8534DB">Boundary state</text>
-<path d="M1220 331L1289 331" fill="none" stroke="#8534DB" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
+<g data-icon="boundary-state" transform="translate(1120 278) scale(3.2142857142857144)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
+<text x="1148" y="402" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#8534DB">Boundary state</text>
+<path d="M1195 331L1289 331" fill="none" stroke="#8534DB" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
 <path d="M1448 225L1540 225" fill="none" stroke="#080F2D" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
 <path d="M1448 463L1540 463" fill="none" stroke="#0769F9" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-blue)"/>
 </g>

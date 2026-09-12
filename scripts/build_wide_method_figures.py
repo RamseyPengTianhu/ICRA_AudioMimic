@@ -4,7 +4,8 @@ import math
 import re
 import shutil
 from figure_svg_primitives import Figure
-from finalize_method_details import motion_pose, context_pose, code_symbol
+from finalize_method_details import motion_pose, code_symbol
+from boundary_state_icon import draw_boundary_state
 import finalize_method_details as original
 import cairosvg
 
@@ -56,9 +57,15 @@ def representation():
     svg=svg.replace('M541 327L590 327','M541 327L563 327')
     svg=svg.replace('M761 348C871 382 918 472 1098 475','M849 319C922 385 958 472 1098 475')
     svg=svg.replace('>Input motion</text>','>Motion + state</text>')
+    # Replace the legacy pose-plus-wave cue with the overview's single glyph.
+    begin=svg.index('<g transform="translate(1085 277)')
+    end=svg.index('<text x="1124"',begin)
+    cue=new_content();draw_boundary_state(cue,1120,278,90)
+    svg=svg[:begin]+content(cue)+'\n'+svg[end:]
+    svg=svg.replace('<text x="1124" y="402"','<text x="1148" y="402"')
+    svg=svg.replace('M1220 331L1289 331','M1195 331L1289 331')
     f=new_content();f.group('input-starting-state-cue')
-    f.pose(129,484,2,velocity=False)
-    f.path('M184 526L192 516L202 529L212 505L222 530L232 519L243 524',stroke='purple',sw=3)
+    draw_boundary_state(f,156,475,80)
     f.end()
     svg=svg.replace('<g id="codebook-geometry">',content(f)+'\n<g id="codebook-geometry">')
     f=new_content();f.group('full-and-structural-supervision')
@@ -96,11 +103,6 @@ def tile(f,x,y,w=42,h=74,kind=0,phase=0,opacity=1):
     f.end()
 
 
-def state(f,x,y,generated=False,scale=.58):
-    context_pose(f,x,y,scale,generated)
-    f.path(f'M{x+62} {y+52}L{x+69} {y+40}Q{x+76} {y+68} {x+83} {y+28}Q{x+89} {y+14} {x+97} {y+51}Q{x+104} {y+70} {x+112} {y+43}L{x+122} {y+50}',stroke='purple',sw=2.6)
-
-
 def commit():
     f=Figure(2400,700,'TF recorded contexts versus contexts constructed from a committed self-rollout',OUT/'cof-wide-candidate.png')
     f.text(67,195,'TF',44,anchor='middle',weight='bold')
@@ -112,38 +114,38 @@ def commit():
     f.text(442,112,'Recorded segment',34,anchor='middle',weight='bold')
     for i,x in enumerate([260,370,480]):motion_pose(f,x,209,.9,i,'input')
     for i in range(4):tile(f,570+i*47,166,43,72,[1,0,2,3][i],i*.6)
-    f.line(779,204,1090,204,sw=3.5,arrow=True)
+    f.path('M766 204H1100',sw=3.5,arrow=True)
     f.end()
     # CoF starts from a recorded seed, samples one horizon, commits the prefix.
     f.group('commit-forcing-self-rollout')
     f.text(230,362,'Recorded seed',34,anchor='middle',weight='bold')
-    for i in range(2):tile(f,157+i*40,403,44,69,i,i*.6)
-    state(f,243,398,False,.49)
+    for i in range(2):tile(f,157+i*40,403,36,69,i,i*.6)
+    draw_boundary_state(f,263,399,76)
     f.text(433,399,'Self-rollout',34,anchor='middle',weight='bold')
-    f.line(374,442,518,442,sw=3.5,arrow=True)
+    f.path('M346 446H532',sw=3.5,arrow=True)
     f.text(628,375,'Commit',34,anchor='middle',weight='bold')
     f.text(832,375,'Discard',34,anchor='middle',fill='gray')
     for i in range(8):
         tile(f,536+i*50,409,46,74,[1,3,0,2,0,2,1,3][i],i*.6+1.2,1 if i<4 else .18)
-    f.path('M537 396V389H732V396',stroke='purple',sw=2.3)
+    f.path('M536 492V501H732V492',stroke='purple',sw=2.3)
     # Only the committed prefix supplies BOTH members of the next context.
-    f.path('M634 490V553Q634 570 651 570H1061Q1080 570 1080 551V463H1093',stroke='purple',sw=3.6,arrow=True)
+    f.path('M634 501V539Q634 551 646 551H1048Q1060 551 1060 539V473Q1060 461 1072 461H1100',stroke='purple',sw=3.6,arrow=True)
     f.text(855,619,'Append + derive state',34,anchor='middle',fill='purple')
     f.end()
     f.group('matched-generation-contexts')
     f.text(1300,112,'History',34,anchor='middle',weight='bold')
-    f.text(1552,112,'Boundary state',34,anchor='middle',weight='bold')
+    f.text(1530,112,'Boundary state',34,anchor='middle',weight='bold')
     for yy,generated in [(161,False),(418,True)]:
-        f.rect(1102,yy-14,525,118,fill='pale_purple',r=12)
+        f.rect(1102,yy-14,480,114,fill='pale_purple',r=12)
         for i in range(2):tile(f,1118+i*38,yy+7,34,72,i,i*.6,.6)
         for by in [yy+27,yy+66]:
             for xx in [1206,1217,1228]:f.circle(xx,by,2.3,fill='ink',stroke='none')
         seq=[1,3,0,2] if generated else [1,0,2,3]
         for i in range(4):tile(f,1244+i*48,yy+7,44,72,seq[i],i*.6+(1.2 if generated else 0))
         f.line(1450,yy+4,1450,yy+87,stroke='purple',sw=2.2)
-        state(f,1471,yy,generated)
-        f.line(1634,yy+43,1651,yy+43,sw=3.3,arrow=True)
-        f.path(f'M1658 {yy-4}H1838V{yy+91}H1658Z',fill='pale_blue',stroke='ink',sw=2.2)
+        draw_boundary_state(f,1500,yy+1,90)
+        f.path(f'M1588 {yy+43}H1655',sw=3.3,arrow=True)
+        f.path(f'M1658 {yy-4}H1838V{yy+90}H1658Z',fill='pale_blue',stroke='ink',sw=2.2)
         f.text(1748,yy+34,'Generate',34,anchor='middle',weight='bold')
         f.text(1748,yy+75,'next',34,anchor='middle',weight='bold')
     f.end()

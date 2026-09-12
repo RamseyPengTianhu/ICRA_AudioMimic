@@ -13,9 +13,18 @@ NAMES=['structure-detail-training','cof-terminology']
 
 def review():
     result={'figures':{},'scientific_geometry':{}}
+    master=ET.parse(FIG/'boundary-state-icon.svg').getroot().find('s:g',NS)
+    overview=ET.parse(FIG/'overview.svg').getroot()
+    overview_glyph=overview.find('.//s:symbol[@id="boundary-state-icon"]/s:g',NS)
+    assert ET.tostring(master)==ET.tostring(overview_glyph)
+    glyph_counts={}
     for name in NAMES:
         svg=OUT/f'{name}.svg';root=ET.parse(svg).getroot()
         assert not root.findall('.//s:image',NS)
+        icons=root.findall('.//s:g[@data-icon="boundary-state"]',NS)
+        assert len(icons)==(2 if name=='structure-detail-training' else 3)
+        assert all(ET.tostring(icon.find('s:g',NS))==ET.tostring(master) for icon in icons)
+        glyph_counts[name]=len(icons)
         page=fitz.open(OUT/f'{name}.pdf')[0]
         assert not page.get_images()
         spans=[s for b in page.get_text('dict')['blocks'] for l in b.get('lines',[]) for s in l['spans']]
@@ -55,6 +64,19 @@ def review():
         masks[kind]=True
     result['scientific_geometry']['four_view_supervision_masks']=masks
     cof=ET.parse(OUT/'cof-terminology.svg').getroot()
+    result['shared_boundary_state_icon']={'identical_to_overview':True,'counts':glyph_counts}
+    # Check connector alignment against the drawn context edges, including
+    # enough room for an arrow shaft behind the full marker envelope.
+    bands=cof.findall('.//s:g[@id="matched-generation-contexts"]/s:rect',NS)
+    connectors=cof.findall('.//s:g[@id="matched-generation-contexts"]/s:path',NS)
+    horizontal=[p for p in connectors if p.attrib.get('marker-end')]
+    for band,arrow in zip(bands,horizontal):
+        values=list(map(float,re.findall(r'-?\d+(?:\.\d+)?',arrow.attrib['d'])))
+        x,y,end=values
+        assert abs(y-(float(band.attrib['y'])+float(band.attrib['height'])/2))<1e-6
+        assert x>float(band.attrib['x'])+float(band.attrib['width'])
+        assert end-x>5*float(arrow.attrib['stroke-width'])+20
+    result['context_arrow_alignment']=True
     origins=[point(cof.find(f'.//*[@id="{k}-origin"]')) for k in ['sampled','recorded']]
     target=point(cof.find('.//*[@id="fixed-latent-target"]'))
     paths=cof.findall('.//s:g[@id="same-target-new-residual-origin"]/s:path',NS)
