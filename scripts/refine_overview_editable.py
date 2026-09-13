@@ -341,7 +341,7 @@ rect(394,318,185,67,'url(#wash-blue)','blue',r=6,sw=1)
 rect(394,428,191,67,'url(#wash-orange)','orange',r=6,sw=1)
 for i,hh in enumerate((13,22,33)):
     rect(408+i*9,371-hh,6,hh,'url(#tile-blue)',r=0)
-lines(448,348,['Structure planner','AR Transformer'],18,'#064FBD',anchor='start',gap=22,maxw=122)
+lines(448,348,['Structural planner','AR Transformer'],18,'#064FBD',anchor='start',gap=22,maxw=122)
 # Match overview2.png's denoising sketch: noise tiles -> residual tiles.
 # Every noise speck is native geometry rather than an embedded raster crop.
 text(489.5,450,'Residual diffusion',18,'#CF5B00',True,'middle',maxw=170)
@@ -391,7 +391,7 @@ decoder(770,353,82,109)
 lines(811,411,['Shared','decoder'],18,anchor='middle',gap=21,maxw=65)
 line('M852 414 H884','ink',2,True,id='decoder-to-commit')
 rect(884,358,171,108,'url(#wash-purple)','purple',r=6,sw=.9)
-text(969,384,'Commit segment',21,'purple',True,'middle',maxw=155)
+text(969,384,'Committed prefix',21,'purple',True,'middle',maxw=155)
 latent_pair('commit-selection-b',919,410,selection=True)
 line('M1055 414 H1078','purple',2.1,True,id='commit-to-reference-bridge')
 rect(1078,377,84,78,'url(#wash-gray)','#627089',r=5)
@@ -441,8 +441,8 @@ text(558,684,'G1 training motion',20,'ink',True,maxw=180)
 text(558,708,'Unitree G1',18,'#143C87')
 rect(28,733,220,173,'#EDF7FE',r=5)
 rect(255,733,240,173,'#EDF7FE',r=5)
-text(43,754,'Joint view',20,'#063885',True)
-text(269,754,'Geometry view',20,'#063885',True)
+text(43,754,'Joint motion',20,'#063885',True)
+text(269,754,'Body geometry',20,'#063885',True)
 raster('joint-view',path=ASSETS/'g1-joint-view-consistent.png',dest=(28,756,97,148))
 gx,gy,gs = raster('geometry-view',path=ASSETS/'g1-neutral.png',dest=(263,757,95,147))
 parts.append(f'<g id="geometry-landmarks" transform="translate({gx} {gy}) scale({gs})">')
@@ -481,7 +481,7 @@ for yy in (759,860):
     line(f'M641 {yy+16} H656','blue',1.8,True,
          id='training-decoder-to-full' if yy==759 else 'training-decoder-to-structure')
 lines(704,769,['Full-motion','reconstruction'],16,anchor='middle',gap=20,maxw=91)
-lines(704,870,['Structural-view','reconstruction'],16,anchor='middle',gap=20,maxw=91)
+lines(704,870,['Structure-only','reconstruction'],16,anchor='middle',gap=20,maxw=91)
 # The two actual decoding operations share the same parameters. Link those
 # operations directly, instead of placing unconnected decorative decoder icons.
 line('M625.5 785.97 V860','purple',1,dash='3 3',id='shared-training-decoder-parameters')
@@ -495,7 +495,7 @@ panel(774,591,750,353,'d','Commit Forcing','purple')
 steps = [(788,172,['1. Sample','structure + detail']),
          (971,172,['2. Commit jointly','+ decode']),
          (1154,181,['3. Update history','+ reconstruct state']),
-         (1346,164,['4. Learn','continuation'])]
+         (1346,164,['4. Continuation','training'])]
 for x,w,title in steps:
     rect(x,646,w,140,'url(#wash-purple)','purple',r=5,sw=.8)
     lines(x+w/2,673,title,19,'ink',True,gap=22,maxw=w-18)
@@ -521,7 +521,7 @@ line('M1059 808 V817','purple',1)
 text(1059,835,'Context generation (no gradients)',16,'purple',True,'middle',maxw=420)
 line('M1059 841 V849','purple',1)
 rect(1292,840,218,50,'url(#wash-teal)','teal',r=5,sw=.8)
-lines(1401,861,['Next-segment targets','(encoded from data)'],18,'#076C8C',gap=21,maxw=204)
+lines(1401,861,['Future-motion targets','(encoded from data)'],18,'#076C8C',gap=21,maxw=204)
 line('M1455 840 V786','teal',2,True,id='recorded-target-to-learn-only')
 # Shared enclosure shows generated history and its derived state as one pair.
 rect(927,849,294,56,'white','purple',r=7,sw=.7)

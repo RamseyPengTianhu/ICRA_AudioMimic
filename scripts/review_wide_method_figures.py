@@ -51,18 +51,19 @@ def review():
     others=[point(n) for n in rep.findall('.//*[@class="prototype"]')]
     result['scientific_geometry']['selected_is_nearest']=math.dist(q,z)<min(math.dist(p,z) for p in others)
     assert result['scientific_geometry']['selected_is_nearest']
-    masks={}
+    supervision={}
     for kind in ['full','structural']:
-        cells=rep.findall(f'.//s:g[@id="{kind}-coordinate-mask"]/s:rect',NS)
-        assert len(cells)==32
-        rows=sorted(set(x.attrib['y'] for x in cells))
-        assert len(rows)==4
-        for y in rows:
-            row=[x for x in cells if x.attrib['y']==y]
-            active=sum(x.attrib['fill']=='#0769F9' for x in row)
-            assert active==8 if kind=='full' else 0<active<8
-        masks[kind]=True
-    result['scientific_geometry']['four_view_supervision_masks']=masks
+        group=rep.find(f'.//s:g[@id="{kind}-reconstruction-supervision"]',NS)
+        assert group is not None
+        for subset in ['structure','detail']:
+            band=group.find(f's:g[@data-coordinates="{subset}"]',NS)
+            assert len(band.findall('s:rect',NS))==2
+            arrows=[x for x in band.findall('s:path',NS) if x.attrib.get('marker-end')]
+            assert len(arrows)==int(kind=='full' or subset=='structure')
+            assert band.attrib['opacity']==('1' if kind=='full' or subset=='structure' else '0.28')
+        supervision[kind]=True
+    assert not rep.findall('.//s:g[@id="full-coordinate-mask"]',NS)
+    result['scientific_geometry']['full_and_structural_coordinate_matching']=supervision
     cof=ET.parse(OUT/'cof-terminology.svg').getroot()
     result['shared_boundary_state_icon']={'identical_to_overview':True,'counts':glyph_counts}
     # Check connector alignment against the drawn context edges, including

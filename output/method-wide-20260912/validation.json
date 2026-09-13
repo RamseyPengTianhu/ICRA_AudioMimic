@@ -5,7 +5,7 @@
         2048.0,
         600.0
       ],
-      "sha256": "1117a372c118ae5e86a8f578f8b933296f622632e28e214ad26e491af6b5107f",
+      "sha256": "d11c5108265cdff1e1fd2f8333661d4b7129013f436e4616ddf095bf5a3ac9de",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.13671875
@@ -15,7 +15,7 @@
         2400.0,
         700.0
       ],
-      "sha256": "587714ee6083adcd323d4a64fe2a5ef1d0cdd0d4b089ecf45b95110124cad7b3",
+      "sha256": "ab10ef226421f9e14daaf019df385a026bfea14af0dd1aa2cb808c6354b44dba",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.14
@@ -23,7 +23,7 @@
   },
   "scientific_geometry": {
     "selected_is_nearest": true,
-    "four_view_supervision_masks": {
+    "full_and_structural_coordinate_matching": {
       "full": true,
       "structural": true
     },
@@ -45,35 +45,72 @@
   "missing_characters": 0,
   "overfull_boxes": 0,
   "inherited_undefined_references": [
-    "app:beat_alignment",
-    "app:correspondence_statistics",
-    "app:execution",
-    "app:metric_construction",
-    "app:scope",
     "app:training"
   ],
   "conditioning_figure_omitted": true,
   "appendix_remains_disabled": true,
   "protected_files": {
-    "sections/introduction.tex": true,
-    "sections/execution_interface.tex": true,
-    "sections/execution_supplement.tex": true,
-    "sections/experiments.tex": true,
-    "sections/discussion.tex": true,
-    "figures/foredance/teammate-execution.tex": true,
-    "evidence/foredance/mmr_summary_rows.tex": true,
-    "evidence/foredance/evaluator_validation_rows.tex": true,
-    "evidence/foredance/music_use_rows.tex": true,
-    "evidence/foredance/mmr_selected_rows.tex": true,
-    "evidence/foredance/prior-evaluation-planning.tex": true,
-    "evidence/foredance/mmr_correspondence_rows.tex": true,
-    "evidence/foredance/training_rows.tex": true,
+    "figures/foredance/architecture-v2.png": true,
+    "figures/foredance/architecture.png": true,
+    "figures/foredance/architecture.tex": true,
+    "figures/foredance/boundary-state-icon.svg": true,
+    "figures/foredance/cof-v2.png": true,
+    "figures/foredance/cof.png": true,
+    "figures/foredance/cof.tex": true,
+    "figures/foredance/dc-bodyparts.png": true,
+    "figures/foredance/dc_training.png": true,
+    "figures/foredance/dc_training.tex": true,
+    "figures/foredance/foredance-logo-source.png": true,
+    "figures/foredance/foredance-logo.svg": true,
+    "figures/foredance/mrt2-official-app-icon.png": true,
+    "figures/foredance/murodance-logo.svg": true,
+    "figures/foredance/music-conditioning-detail.pdf": true,
+    "figures/foredance/music-conditioning-detail.svg": true,
+    "figures/foredance/overview-editable.svg": true,
+    "figures/foredance/overview-imagegen-master.png": true,
+    "figures/foredance/overview.png": true,
     "figures/foredance/sequence-10.png": true,
     "figures/foredance/sequence-30.png": true,
     "figures/foredance/sequence-50.png": true,
-    "sections/related_work.tex": true
+    "figures/foredance/sequence.tex": true,
+    "figures/foredance/task.png": true,
+    "figures/foredance/task.tex": true,
+    "figures/foredance/teammate-execution.tex": true,
+    "figures/foredance/trainable-flame.svg": true,
+    "figures/foredance/transparent-assets/consistent-variants-prompts.json": true,
+    "figures/foredance/transparent-assets/consistent-variants-validation.json": true,
+    "figures/foredance/transparent-assets/g1-dance-left-consistent-before-alpha.png": true,
+    "figures/foredance/transparent-assets/g1-dance-left-consistent.png": true,
+    "figures/foredance/transparent-assets/g1-dance-right-consistent-before-alpha.png": true,
+    "figures/foredance/transparent-assets/g1-dance-right-consistent.png": true,
+    "figures/foredance/transparent-assets/g1-joint-view-consistent-before-alpha.png": true,
+    "figures/foredance/transparent-assets/g1-joint-view-consistent.png": true,
+    "figures/foredance/transparent-assets/g1-neutral.png": true,
+    "figures/foredance/transparent-assets/generation-prompts.json": true,
+    "figures/foredance/transparent-assets/human-dance-source.png": true,
+    "figures/foredance/transparent-assets/masks/joint-mask.png": true,
+    "figures/foredance/transparent-assets/masks/left-mask.png": true,
+    "figures/foredance/transparent-assets/masks/right-mask.png": true,
+    "main.tex": true,
+    "sections/discussion.tex": true,
+    "sections/execution_interface.tex": true,
+    "sections/execution_supplement.tex": true,
+    "sections/experiments.tex": true,
+    "sections/related_work.tex": true,
+    "sections/representation_details.tex": true,
+    "sections/supplement.tex": true
   },
-  "overview_unchanged_in_this_revision": true,
+  "overview_geometry_and_artwork_unchanged": true,
   "conditioning_assets_unchanged": true,
-  "page_visually_inspected": 5
+  "sonic_assets_and_disabled_figure_preserved": true,
+  "pages_visually_inspected": [
+    2,
+    5
+  ],
+  "overview_edited_label_collisions": [],
+  "active_figure_terminology_audited": [
+    "overview",
+    "structure-detail-training",
+    "cof-terminology"
+  ]
 }

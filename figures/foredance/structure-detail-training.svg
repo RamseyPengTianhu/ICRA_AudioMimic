@@ -118,7 +118,7 @@
 <circle id="encoded-latent" cx="900" cy="264" r="15.4" fill="#080F2D"/>
 <text x="790" y="356" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structure</text>
 <text x="805" y="260" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#FF8A17">Detail</text>
-<text x="913" y="236" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Full code</text>
+<text x="913" y="236" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Latent</text>
 </g>
 <g id="two-passes-one-decoder">
 <path d="M916 263C1020 269 1054 157 1191 200C1231 208 1251 219 1289 226" fill="none" stroke="#080F2D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
@@ -139,183 +139,40 @@
 <path d="M1448 463L1540 463" fill="none" stroke="#0769F9" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-blue)"/>
 </g>
 <g id="full-and-structural-supervision">
-<text x="1780" y="105" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Full supervision</text>
-<g transform="translate(1609 220) scale(1.03)">
-<path d="M-9 -33Q0 -37 9 -33L7 -8Q0 -3 -7 -8Z" fill="#080F2D" stroke="#080F2D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M0 -37L0 -33" fill="none" stroke="#080F2D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-46" r="7.5" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M-5 0L-17 29L-27 58" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-17" cy="29" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-27" cy="58" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M-27 58L-22 59" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M5 0L18 29L23 58" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="18" cy="29" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="23" cy="58" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M23 58L28 59" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-1" r="5.6" fill="#080F2D" stroke="white" stroke-width="0.7" opacity="1"/>
-<path d="M-9 -32L-23 -43L-20 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-23" cy="-43" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-20" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-20" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M9 -32L23 -25L42 -24" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="23" cy="-25" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="42" cy="-24" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="42" cy="-24" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<text x="1650" y="139" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Reconstruction</text>
+<text x="1938" y="139" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Ground truth</text>
+<text x="1780" y="100" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Full-motion loss</text>
+<g id="full-reconstruction-supervision">
+<g data-coordinates="structure" opacity="1">
+<rect x="1560" y="169" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1650" y="204" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>
+<rect x="1848" y="169" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1938" y="204" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>
+<path d="M1754 193.5L1837 193.5" fill="none" stroke="#0769F9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-blue)"/>
 </g>
-<g transform="translate(1718 220) scale(1.03)">
-<path d="M-9 -33Q0 -37 9 -33L7 -8Q0 -3 -7 -8Z" fill="#080F2D" stroke="#080F2D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M0 -37L0 -33" fill="none" stroke="#080F2D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-46" r="7.5" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M-5 0L-4 31L-4 59" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-4" cy="31" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-4" cy="59" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M-4 59L1 60" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M5 0L25 15L7 33" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="25" cy="15" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="7" cy="33" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M7 33L12 34" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-1" r="5.6" fill="#080F2D" stroke="white" stroke-width="0.7" opacity="1"/>
-<path d="M-9 -32L-21 -47L-31 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-21" cy="-47" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-31" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-31" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M9 -32L22 -46L32 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="22" cy="-46" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="32" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="32" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<g data-coordinates="detail" opacity="1">
+<rect x="1560" y="232" width="180" height="49" rx="6" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1650" y="267" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Detail</text>
+<rect x="1848" y="232" width="180" height="49" rx="6" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1938" y="267" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Detail</text>
+<path d="M1754 256.5L1837 256.5" fill="none" stroke="#FF8A17" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-orange)"/>
 </g>
-<g id="full-coordinate-mask">
-<rect x="1812" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="168" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="195" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="222" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="249" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
 </g>
-<text x="1780" y="351" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structural supervision</text>
-<g transform="translate(1609 466) scale(1.03)">
-<path d="M-9 -33Q0 -37 9 -33L7 -8Q0 -3 -7 -8Z" fill="#080F2D" stroke="#080F2D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M0 -37L0 -33" fill="none" stroke="#080F2D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-46" r="7.5" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M-5 0L-17 29L-27 58" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-17" cy="29" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-27" cy="58" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M-27 58L-22 59" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M5 0L18 29L23 58" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="18" cy="29" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="23" cy="58" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M23 58L28 59" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-1" r="5.6" fill="#080F2D" stroke="white" stroke-width="0.7" opacity="1"/>
-<path d="M-9 -32L-23 -43L-20 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-23" cy="-43" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-20" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-20" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M9 -32L23 -25L42 -24" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="23" cy="-25" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="42" cy="-24" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="42" cy="-24" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<text x="1780" y="354" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structural loss</text>
+<g id="structural-reconstruction-supervision">
+<g data-coordinates="structure" opacity="1">
+<rect x="1560" y="407" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1650" y="442" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>
+<rect x="1848" y="407" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1938" y="442" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>
+<path d="M1754 431.5L1837 431.5" fill="none" stroke="#0769F9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-blue)"/>
 </g>
-<g transform="translate(1718 466) scale(1.03)">
-<path d="M-9 -33Q0 -37 9 -33L7 -8Q0 -3 -7 -8Z" fill="#080F2D" stroke="#080F2D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M0 -37L0 -33" fill="none" stroke="#080F2D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-46" r="7.5" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M-5 0L-4 31L-4 59" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-4" cy="31" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-4" cy="59" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M-4 59L1 60" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<path d="M5 0L25 15L7 33" fill="none" stroke="#080F2D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="5" cy="0" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="25" cy="15" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="7" cy="33" r="3.68" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<path d="M7 33L12 34" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="0" cy="-1" r="5.6" fill="#080F2D" stroke="white" stroke-width="0.7" opacity="1"/>
-<path d="M-9 -32L-21 -47L-31 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="-9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-21" cy="-47" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-31" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="-31" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
-<path d="M9 -32L22 -46L32 -63" fill="none" stroke="#080F2D" stroke-width="6.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
-<circle cx="9" cy="-32" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="22" cy="-46" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="32" cy="-63" r="2.898" fill="#080F2D" stroke="white" stroke-width="0.55" opacity="1"/>
-<circle cx="32" cy="-63" r="4.1" fill="#080F2D" stroke="none" stroke-width="2.2" opacity="1"/>
+<g data-coordinates="detail" opacity="0.28">
+<rect x="1560" y="470" width="180" height="49" rx="6" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1650" y="505" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Detail</text>
+<rect x="1848" y="470" width="180" height="49" rx="6" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
+<text x="1938" y="505" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Detail</text>
 </g>
-<g id="structural-coordinate-mask">
-<rect x="1812" y="414" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="414" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="414" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="414" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="414" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="414" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="414" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="414" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="441" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="441" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="441" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="441" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="441" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="441" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="441" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="441" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="468" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="468" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="468" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="468" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="468" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="468" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="468" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="468" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1812" y="495" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1835" y="495" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1858" y="495" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1881" y="495" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1904" y="495" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1927" y="495" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
-<rect x="1950" y="495" width="17" height="17" rx="1" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<rect x="1973" y="495" width="17" height="17" rx="1" fill="#0769F9" stroke="#0769F9" stroke-width="1.5" opacity="1"/>
 </g>
-<rect x="1574" y="554" width="17" height="17" rx="0" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
-<text x="1603" y="570" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="start" fill="#080F2D">Supervised</text>
-<rect x="1772" y="554" width="17" height="17" rx="0" fill="white" stroke="#AEB6C5" stroke-width="1.5" opacity="1"/>
-<text x="1801" y="570" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="start" fill="#080F2D">Not supervised</text>
 </g>
 </svg>

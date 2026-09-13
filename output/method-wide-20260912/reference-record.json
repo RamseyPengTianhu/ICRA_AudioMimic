@@ -30,5 +30,14 @@
       "align module arrows with enough shaft clearance"
     ],
     "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
+  },
+  "terminology_revision": {
+    "baseline_commit": "ec53c1892ca1fa31b349f1d19ff10c0b319ea03d",
+    "edits": [
+      "academic labels in all three active figures and associated captions",
+      "simple paired coordinate bands replace supervision grids; no duplicate anatomy",
+      "source-faithful full versus structural loss distinction"
+    ],
+    "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
   }
 }

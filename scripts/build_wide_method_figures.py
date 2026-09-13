@@ -30,6 +30,26 @@ def new_content():
     return f
 
 
+def supervision_bands(f,y,full):
+    """The full output is partitioned into structural and complementary coordinates.
+
+    Matching arrows show which coordinates enter each reconstruction objective;
+    the residual remains an input to the full path, not a separate detail loss.
+    """
+    kind='full' if full else 'structural'
+    f.group(kind+'-reconstruction-supervision')
+    for j,(label,c) in enumerate([('Structure','blue'),('Detail','orange')]):
+        yy=y+j*63
+        f.raw(f'<g data-coordinates="{label.lower()}" opacity="{1 if full or j==0 else .28}">')
+        for x in [1560,1848]:
+            f.rect(x,yy,180,49,fill=c,r=6)
+            f.text(x+90,yy+35,label,29,anchor='middle',fill='white' if j==0 else 'ink',weight='bold')
+        if full or j==0:
+            f.line(1754,yy+24.5,1837,yy+24.5,stroke=c,sw=3.5,arrow=True)
+        f.end()
+    f.end()
+
+
 def representation():
     # Retain the original long visual arrangement, with the two requested repairs.
     original.OUT=OUT/'baseline'
@@ -50,7 +70,7 @@ def representation():
     f.raw('<circle id="encoded-latent" cx="900" cy="264" r="15.4" fill="#080F2D"/>')
     f.text(790,356,'Structure',28,anchor='middle',weight='bold')
     f.text(805,260,'Detail',28,anchor='middle',weight='bold',fill='orange')
-    f.text(913,236,'Full code',28,anchor='middle',weight='bold')
+    f.text(913,236,'Latent',28,anchor='middle',weight='bold')
     f.end()
     a=svg.index('<g id="codebook-geometry">');b=svg.index('<g id="two-passes-one-decoder">')
     svg=svg[:a]+content(f)+'\n'+svg[b:]
@@ -69,20 +89,11 @@ def representation():
     f.end()
     svg=svg.replace('<g id="codebook-geometry">',content(f)+'\n<g id="codebook-geometry">')
     f=new_content();f.group('full-and-structural-supervision')
-    # Complete reconstructions are neutral; selection belongs to coordinates.
-    for yy,title,full in [(220,'Full supervision',True),(466,'Structural supervision',False)]:
-        f.text(1780,yy-115,title,29,anchor='middle',weight='bold')
-        for phase,xx in enumerate([1609,1718]):motion_pose(f,xx,yy,1.03,phase,'input')
-        f.raw(f'<g id="{"full" if full else "structural"}-coordinate-mask">')
-        for row in range(4):
-            for col in range(8):
-                chosen=full or col in ((0,1,2,4,5) if row<2 else (0,2,5,7))
-                f.rect(1812+col*23,yy-52+row*27,17,17,fill='blue' if chosen else 'white',stroke='blue' if chosen else '#AEB6C5',sw=1.5,r=1)
-        f.end()
-    f.rect(1574,554,17,17,fill='blue')
-    f.text(1603,570,'Supervised',27)
-    f.rect(1772,554,17,17,fill='white',stroke='#AEB6C5',sw=1.5)
-    f.text(1801,570,'Not supervised',27)
+    f.text(1650,139,'Reconstruction',29,anchor='middle')
+    f.text(1938,139,'Ground truth',29,anchor='middle')
+    for yy,title,full in [(169,'Full-motion loss',True),(407,'Structural loss',False)]:
+        f.text(1780,100 if full else 354,title,31,anchor='middle',weight='bold')
+        supervision_bands(f,yy,full)
     f.end()
     a=svg.index('<g id="full-and-structural-supervision">')
     svg=svg[:a]+content(f)+'\n</svg>'
@@ -104,24 +115,24 @@ def tile(f,x,y,w=42,h=74,kind=0,phase=0,opacity=1):
 
 
 def commit():
-    f=Figure(2400,700,'TF recorded contexts versus contexts constructed from a committed self-rollout',OUT/'cof-wide-candidate.png')
+    f=Figure(2400,700,'Ground-truth contexts versus model-generated contexts in Commit Forcing',OUT/'cof-wide-candidate.png')
     f.text(67,195,'TF',44,anchor='middle',weight='bold')
     f.text(67,451,'CoF',44,anchor='middle',weight='bold')
-    f.text(452,58,'Context source',38,anchor='middle',weight='bold')
-    f.text(1348,58,'Generation context',38,anchor='middle',weight='bold')
+    f.text(452,58,'Context construction',38,anchor='middle',weight='bold')
+    f.text(1348,58,'Conditioning context',38,anchor='middle',weight='bold')
     # TF reads a recorded segment. It never enters the self-rollout operation.
     f.group('teacher-forcing-recorded-source')
-    f.text(442,112,'Recorded segment',34,anchor='middle',weight='bold')
+    f.text(442,112,'Ground-truth motion',34,anchor='middle',weight='bold')
     for i,x in enumerate([260,370,480]):motion_pose(f,x,209,.9,i,'input')
     for i in range(4):tile(f,570+i*47,166,43,72,[1,0,2,3][i],i*.6)
     f.path('M766 204H1100',sw=3.5,arrow=True)
     f.end()
     # CoF starts from a recorded seed, samples one horizon, commits the prefix.
     f.group('commit-forcing-self-rollout')
-    f.text(230,362,'Recorded seed',34,anchor='middle',weight='bold')
+    f.text(250,362,'Ground-truth context',34,anchor='middle',weight='bold')
     for i in range(2):tile(f,157+i*40,403,36,69,i,i*.6)
     draw_boundary_state(f,263,399,76)
-    f.text(433,399,'Self-rollout',34,anchor='middle',weight='bold')
+    f.text(433,399,'Model rollout',34,anchor='middle',weight='bold')
     f.path('M346 446H532',sw=3.5,arrow=True)
     f.text(628,375,'Commit',34,anchor='middle',weight='bold')
     f.text(832,375,'Discard',34,anchor='middle',fill='gray')
@@ -130,7 +141,7 @@ def commit():
     f.path('M536 492V501H732V492',stroke='purple',sw=2.3)
     # Only the committed prefix supplies BOTH members of the next context.
     f.path('M634 501V539Q634 551 646 551H1048Q1060 551 1060 539V473Q1060 461 1072 461H1100',stroke='purple',sw=3.6,arrow=True)
-    f.text(855,619,'Append + derive state',34,anchor='middle',fill='purple')
+    f.text(855,619,'Context update',34,anchor='middle',fill='purple')
     f.end()
     f.group('matched-generation-contexts')
     f.text(1300,112,'History',34,anchor='middle',weight='bold')
@@ -146,8 +157,8 @@ def commit():
         draw_boundary_state(f,1500,yy+1,90)
         f.path(f'M1588 {yy+43}H1655',sw=3.3,arrow=True)
         f.path(f'M1658 {yy-4}H1838V{yy+90}H1658Z',fill='pale_blue',stroke='ink',sw=2.2)
-        f.text(1748,yy+34,'Generate',34,anchor='middle',weight='bold')
-        f.text(1748,yy+75,'next',34,anchor='middle',weight='bold')
+        f.text(1748,yy+34,'Motion',34,anchor='middle',weight='bold')
+        f.text(1748,yy+75,'generator',34,anchor='middle',weight='bold')
     f.end()
     f.line(1861,80,1861,638,stroke='#DCE2EB',sw=2)
     f.group('same-target-new-residual-origin')
@@ -158,14 +169,15 @@ def commit():
         f.line(origin[0]+20*dx/length,origin[1]+20*dy/length,target[0]-23*dx/length,target[1]-23*dy/length,stroke='orange',sw=sw,dash=dash,opacity=alpha,arrow=True)
     for name,p,c,r in [('sampled-origin',sampled,'#0769F9',17),('recorded-origin',recorded,'#0769F9',17),('fixed-latent-target',target,'#009EAC',20)]:
         f.raw(f'<circle id="{name}" cx="{p[0]}" cy="{p[1]}" r="{r}" fill="{c}"/>')
-    f.text(2213,160,'Fixed latent target',34,anchor='middle',fill='teal',weight='bold')
+    f.text(2213,160,'Target latent',34,anchor='middle',fill='teal',weight='bold')
     f.text(2000,340,'Rebased',34,anchor='middle',fill='orange')
-    f.text(2000,386,'detail',34,anchor='middle',fill='orange')
-    f.text(2323,370,'Detail',34,anchor='middle',fill='orange')
+    f.text(2000,386,'residual',34,anchor='middle',fill='orange')
+    f.text(2323,350,'Target',34,anchor='middle',fill='orange')
+    f.text(2323,394,'residual',34,anchor='middle',fill='orange')
     f.text(1958,579,'Sampled',34,anchor='middle',weight='bold')
-    f.text(1958,625,'structure',34,anchor='middle',weight='bold')
-    f.text(2283,579,'Recorded',34,anchor='middle',weight='bold')
-    f.text(2283,625,'structure',34,anchor='middle',weight='bold')
+    f.text(1958,625,'embedding',34,anchor='middle',weight='bold')
+    f.text(2283,579,'Target',34,anchor='middle',weight='bold')
+    f.text(2283,625,'embedding',34,anchor='middle',weight='bold')
     f.end();f.save(OUT/'cof-terminology')
 
 

@@ -76,7 +76,7 @@ x_f=D_\psi(e(q)+r,b),\qquad x_s=D_\psi(e(q),b).
 \end{equation}
 The full path preserves complete movement, while the structure-only path
 gives the discrete anchor an explicit kinematic responsibility
-Fig.~\ref{fig:overview}(c). Codebook and commitment losses train the quantized
+(Fig.~\ref{fig:overview}(c)). Codebook and commitment losses train the quantized
 representation; Appendix~\ref{app:training} specifies the gradient routes.
 
 The full loss supervises native coordinates, native velocities,
@@ -94,10 +94,12 @@ and exact partitions remain in Appendix~\ref{app:training}.
 \centering
 \includegraphics[width=\textwidth]{figures/foredance/structure-detail-training.pdf}
 \caption{\textbf{Learning complementary structure and detail.} The codebook
-anchor and continuous offset form the full code. Both paths share one
-state-conditioned decoder and produce complete motions. Filled cells select
-coordinates for supervision in four blocks: native motion, native velocity, Cartesian position,
-and Cartesian velocity. Counts are schematic; flames mark learned modules.}
+anchor and continuous residual form the motion latent. Both paths share one
+state-conditioned decoder and reconstruct complete motion. Blue and orange bands
+denote structural and complementary kinematic coordinates, including velocities.
+Arrows indicate comparison with ground truth: the full-motion loss constrains
+both subsets; the structural loss constrains only blue. Faint orange coordinates
+remain in the output. Band widths are schematic; flames mark learned modules.}
 \label{fig:dc}
 \end{figure*}
 
@@ -111,14 +113,14 @@ commitment preserves the pairing of the two streams across planning steps.
 
 \subsection{Commit Forcing}
 \label{sec:cof}
-Teacher Forcing supplies recorded history and a recorded starting state;
+Teacher Forcing supplies ground-truth motion history and its boundary state;
 streaming inference supplies both from the model's earlier output. Commit
-Forcing changes this conditioning transition while retaining recorded
-supervision for the next segment (Fig.~\ref{fig:cof}).
+Forcing changes this conditioning transition while retaining ground-truth
+supervision for the subsequent motion (Fig.~\ref{fig:cof}).
 
 \paragraph{Construct the next history and state together}
 A first pass samples $\tilde q,\tilde r$ with the inference samplers under
-stop-gradient. Their common committed segment updates the two parts of the
+stop-gradient. Their common committed prefix updates the two parts of the
 next context:
 \begin{equation}
 (\tilde h^+,\tilde b^+)=U(h,b,\tilde q_{1:C},\tilde r_{1:C}).
@@ -131,7 +133,7 @@ the same commitment. Each supplied training example constructs one such
 transition independently; the first pass is not a recursive long rollout.
 
 \paragraph{Keep the target, change its residual coordinates}
-The next recorded structural target $q^*$ and full latent
+The ground-truth structural target $q^*$ and motion latent
 $z^*=e(q^*)+r^*$ remain fixed. The next structure model is supervised against
 $q^*$, while its sampled structure $\hat q$ conditions residual denoising.
 We express the residual target relative to that sampled embedding:
@@ -140,7 +142,7 @@ r^*_{\rm rebased}=z^*-e(\hat q),\qquad
 e(\hat q)+r^*_{\rm rebased}=z^*.
 \label{eq:rebase}
 \end{equation}
-Thus the structure and residual losses retain a common recorded target
+Thus the structure and residual losses retain a common ground-truth target
 latent despite a changed structural sample. This is latent rebasing, not
 target re-encoding under $\tilde b^+$: the decoder also depends on its
 boundary state, so latent equality does not imply identical decoded motion.
@@ -149,11 +151,12 @@ boundary state, so latent equality does not imply identical decoded motion.
 \centering
 \includegraphics[width=\textwidth]{figures/foredance/cof-terminology.pdf}
 \caption{\textbf{Constructing generation contexts with Commit Forcing.}
-TF uses recorded history and boundary state. CoF first samples a plan from a
-recorded seed context, appends its committed prefix to history, and derives the
+TF uses ground-truth history and its boundary state. CoF samples a motion plan
+conditioned on ground-truth context, appends its committed prefix to history, and derives the
 paired boundary state from the decoded committed motion. The discarded tail
 does not enter the next context. At right, residual rebasing retains the
-recorded target latent while changing the structural origin. Tile counts and
+ground-truth motion latent while replacing the target codebook embedding with
+the sampled embedding as the residual's origin. Tile counts and
 geometry are schematic.}
 \label{fig:cof}
 \label{fig:cof_training_detail}

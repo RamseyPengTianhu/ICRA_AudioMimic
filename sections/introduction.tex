@@ -44,18 +44,18 @@ the movement already committed?
     and decoded motion determines its next reference boundary state.
     Measured robot state feeds back only to the controller.
     \textbf{(c)} Retargeted FineDance motion supports D+C learning
-    through full-motion and structural-view reconstruction with
+    through full-motion and structure-only reconstruction with
     a shared decoder and complementary kinematic supervision.
     \textbf{(d)} Commit Forcing constructs a generated
     history--state pair under stop-gradient and trains continuation
-    using recorded next-segment targets.
+    using ground-truth future-motion targets.
     Robot poses illustrate the method and are not hardware results.
     }
     \label{fig:overview}
 \end{figure*}
 
 We present Music-Anticipatory Humanoid Dance through
-Discrete–Continuous Motion Generation (\method{}), a framework for streaming music-driven humanoid
+Discrete--Continuous Motion Generation (\method{}), a framework for streaming music-driven humanoid
 dance that uses predicted musical context to guide upcoming movement.
 A frozen Magenta RealTime~2 (MRT-2) music foundation
 model~\cite{magenta2026mrt2} forecasts future music states from the
