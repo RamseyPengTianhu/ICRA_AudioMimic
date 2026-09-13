@@ -173,14 +173,15 @@
       "audit": "Reviewed against current manuscript and frozen implementation; terminology-audit.md records decisions."
     },
     "cof-terminology": {
-      "label_count": 26,
+      "label_count": 27,
       "labels": [
         "TF",
         "CoF",
         "Context construction",
         "Conditioning context",
         "Ground-truth motion",
-        "Ground-truth context",
+        "Ground-truth",
+        "context",
         "Model rollout",
         "Commit",
         "Discard",

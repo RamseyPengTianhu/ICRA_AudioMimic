@@ -39,5 +39,14 @@
       "source-faithful full versus structural loss distinction"
     ],
     "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
+  },
+  "alignment_revision": {
+    "baseline_commit": "bc18cad",
+    "edits": [
+      "align CoF initial context, sampled plan and updated context on one row axis",
+      "center row names, group headings and boundary glyphs",
+      "group both reconstructed coordinate bands and align decoder arrow to bracket center",
+      "align latent point labels and shared-decoder flame"
+    ]
   }
 }

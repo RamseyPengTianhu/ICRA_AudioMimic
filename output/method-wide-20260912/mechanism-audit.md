@@ -82,3 +82,14 @@ references remain unresolved in the PDF. The final checks report any missing
 glyphs, overfull boxes, or unresolved figure references in `validation.json`.
 
 See `terminology-audit.md` for the complete active-figure wording review.
+
+## Alignment follow-up
+
+CoF initial context, rollout tiles, updated context and generator now share one
+horizontal centerline. Row names are optically centered on each row. Operation
+labels share a baseline; history/state headings and Commit/Discard headings are
+centered over their respective content. Boundary glyphs use their visible stroked
+bounds for centering instead of their padded viewport. Reconstruction brackets
+explicitly group both coordinate bands, and decoder arrows meet their midpoint.
+These relationships are checked in `review_wide_method_figures.py`, in addition
+to overlap tests and final manuscript inspection.

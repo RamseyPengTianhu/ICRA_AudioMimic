@@ -98,7 +98,7 @@
 <path d="M541 327L563 327" fill="none" stroke="#080F2D" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
 </g>
 <g id="input-starting-state-cue">
-<g data-icon="boundary-state" transform="translate(156 475) scale(2.857142857142857)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
+<g data-icon="boundary-state" data-center-x="183" data-center-y="515" transform="translate(153.85714285714286 474.7857142857143) scale(2.857142857142857)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
 </g>
 <g id="codebook-geometry">
 <circle id="codebook-boundary" cx="798" cy="330" r="228" fill="#E1EFFF"/>
@@ -116,9 +116,9 @@
 <path d="M851.9986151382672 294.75088717704756L884.0013848617328 274.24911282295244" fill="none" stroke="#FF8A17" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-orange)"/>
 <circle id="selected-prototype" cx="836" cy="305" r="15.4" fill="#0769F9"/>
 <circle id="encoded-latent" cx="900" cy="264" r="15.4" fill="#080F2D"/>
-<text x="790" y="356" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structure</text>
-<text x="805" y="260" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#FF8A17">Detail</text>
-<text x="913" y="236" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Latent</text>
+<text x="811" y="316" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="end" fill="#080F2D">Structure</text>
+<text x="811" y="273" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="end" fill="#FF8A17">Detail</text>
+<text x="900" y="236" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Latent</text>
 </g>
 <g id="two-passes-one-decoder">
 <path d="M916 263C1020 269 1054 157 1191 200C1231 208 1251 219 1289 226" fill="none" stroke="#080F2D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
@@ -131,8 +131,8 @@
 <circle cx="1303" cy="437" r="9.6" fill="#0769F9" stroke="#080F2D" stroke-width="1.8" opacity="1"/>
 <text x="1372" y="313" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Shared</text>
 <text x="1372" y="345" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">decoder</text>
-<g transform="translate(1356 357) scale(1.75)"><path d="M12.3 1C14.2 8.2 20.8 10.5 21.1 17.4C21.4 24.8 17.4 30.4 11.6 30.4C5.8 30.4 2.2 26.1 2.6 20.3C2.8 16.8 4.6 14.5 7.1 11.7C6.7 16.1 8.3 18.1 10.1 18.5C8.7 11.6 14 8.1 12.3 1Z" fill="#F27822"/><path d="M12 17C13 21.1 17.4 22.7 15.6 26.3C14.1 29.4 9.2 29 8.2 26.1C7.1 23 10.5 20.6 12 17Z" fill="#FFD17D"/></g>
-<g data-icon="boundary-state" transform="translate(1120 278) scale(3.2142857142857144)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
+<g transform="translate(1351.76 357) scale(1.75)"><path d="M12.3 1C14.2 8.2 20.8 10.5 21.1 17.4C21.4 24.8 17.4 30.4 11.6 30.4C5.8 30.4 2.2 26.1 2.6 20.3C2.8 16.8 4.6 14.5 7.1 11.7C6.7 16.1 8.3 18.1 10.1 18.5C8.7 11.6 14 8.1 12.3 1Z" fill="#F27822"/><path d="M12 17C13 21.1 17.4 22.7 15.6 26.3C14.1 29.4 9.2 29 8.2 26.1C7.1 23 10.5 20.6 12 17Z" fill="#FFD17D"/></g>
+<g data-icon="boundary-state" data-center-x="1148" data-center-y="331" transform="translate(1115.2142857142858 285.75892857142856) scale(3.2142857142857144)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
 <text x="1148" y="402" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="#8534DB">Boundary state</text>
 <path d="M1195 331L1289 331" fill="none" stroke="#8534DB" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
 <path d="M1448 225L1540 225" fill="none" stroke="#080F2D" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
@@ -141,8 +141,9 @@
 <g id="full-and-structural-supervision">
 <text x="1650" y="139" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Reconstruction</text>
 <text x="1938" y="139" font-family="Helvetica" font-size="29" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Ground truth</text>
-<text x="1780" y="100" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Full-motion loss</text>
+<text x="1794" y="100" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Full-motion loss</text>
 <g id="full-reconstruction-supervision">
+<path d="M1554 169H1548V281H1554" fill="none" stroke="#080F2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
 <g data-coordinates="structure" opacity="1">
 <rect x="1560" y="169" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
 <text x="1650" y="204" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>
@@ -158,8 +159,9 @@
 <path d="M1754 256.5L1837 256.5" fill="none" stroke="#FF8A17" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-orange)"/>
 </g>
 </g>
-<text x="1780" y="354" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structural loss</text>
+<text x="1794" y="354" font-family="Helvetica" font-size="31" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Structural loss</text>
 <g id="structural-reconstruction-supervision">
+<path d="M1554 407H1548V519H1554" fill="none" stroke="#0769F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
 <g data-coordinates="structure" opacity="1">
 <rect x="1560" y="407" width="180" height="49" rx="6" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
 <text x="1650" y="442" font-family="Helvetica" font-size="29" font-style="normal" font-weight="bold" text-anchor="middle" fill="white">Structure</text>

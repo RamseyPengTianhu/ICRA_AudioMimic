@@ -5,7 +5,7 @@
         2048.0,
         600.0
       ],
-      "sha256": "d11c5108265cdff1e1fd2f8333661d4b7129013f436e4616ddf095bf5a3ac9de",
+      "sha256": "1a82f3c07a974b7e3bf4505da637e834a9f2a83bd9d8208b10ef572f7663504d",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.13671875
@@ -15,7 +15,7 @@
         2400.0,
         700.0
       ],
-      "sha256": "ab10ef226421f9e14daaf019df385a026bfea14af0dd1aa2cb808c6354b44dba",
+      "sha256": "ba1fd1629688c87f5a3be6d57c9950370c5b64bf70f10c8581ba3656ba248a71",
       "embedded_images": 0,
       "collisions": [],
       "smallest_print_font_pt": 7.14
@@ -35,6 +35,13 @@
       "structure-detail-training": 2,
       "cof-terminology": 3
     }
+  },
+  "label_icon_and_group_alignment": {
+    "glyph_visible_bounds_centered": true,
+    "cof_sources_plans_contexts_share_row_axis": true,
+    "operation_labels_share_baseline": true,
+    "supervision_output_brackets_centered_on_decoder_arrows": true,
+    "group_titles_centered": true
   },
   "context_arrow_alignment": true,
   "paper_pages": 8,

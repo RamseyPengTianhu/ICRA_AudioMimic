@@ -24,6 +24,10 @@ def review():
         icons=root.findall('.//s:g[@data-icon="boundary-state"]',NS)
         assert len(icons)==(2 if name=='structure-detail-training' else 3)
         assert all(ET.tostring(icon.find('s:g',NS))==ET.tostring(master) for icon in icons)
+        for icon in icons:
+            x,y,scale=map(float,re.findall(r'-?\d+(?:\.\d+)?',icon.attrib['transform']))
+            assert abs(x+10.2*scale-float(icon.attrib['data-center-x']))<1e-6
+            assert abs(y+14.075*scale-float(icon.attrib['data-center-y']))<1e-6
         glyph_counts[name]=len(icons)
         page=fitz.open(OUT/f'{name}.pdf')[0]
         assert not page.get_images()
@@ -55,6 +59,13 @@ def review():
     for kind in ['full','structural']:
         group=rep.find(f'.//s:g[@id="{kind}-reconstruction-supervision"]',NS)
         assert group is not None
+        bracket=group.find('s:path',NS)
+        y=169 if kind=='full' else 407
+        assert bracket.attrib['d']==f'M1554 {y}H1548V{y+112}H1554'
+        # Both decoder outputs target the center of the complete coordinate pair.
+        axis=y+56
+        assert any(p.attrib['d']==f'M1448 {int(axis)}L1540 {int(axis)}'
+                   for p in rep.findall('.//s:path',NS))
         for subset in ['structure','detail']:
             band=group.find(f's:g[@data-coordinates="{subset}"]',NS)
             assert len(band.findall('s:rect',NS))==2
@@ -64,6 +75,9 @@ def review():
         supervision[kind]=True
     assert not rep.findall('.//s:g[@id="full-coordinate-mask"]',NS)
     result['scientific_geometry']['full_and_structural_coordinate_matching']=supervision
+    headings={t.text:t for t in rep.findall('.//s:text',NS)}
+    for title in ['Full-motion loss','Structural loss']:
+        assert float(headings[title].attrib['x'])==(1560+2028)/2
     cof=ET.parse(OUT/'cof-terminology.svg').getroot()
     result['shared_boundary_state_icon']={'identical_to_overview':True,'counts':glyph_counts}
     # Check connector alignment against the drawn context edges, including
@@ -77,6 +91,25 @@ def review():
         assert abs(y-(float(band.attrib['y'])+float(band.attrib['height'])/2))<1e-6
         assert x>float(band.attrib['x'])+float(band.attrib['width'])
         assert end-x>5*float(arrow.attrib['stroke-width'])+20
+    group=cof.find('.//s:g[@id="commit-forcing-self-rollout"]',NS)
+    for tile in group.findall('s:g[@opacity]',NS):
+        rects=tile.findall('s:rect',NS)
+        assert len(rects)==2
+        top=min(float(r.attrib['y']) for r in rects)
+        bottom=max(float(r.attrib['y'])+float(r.attrib['height']) for r in rects)
+        assert abs((top+bottom)/2-461)<1e-6
+    assert any(p.attrib['d']=='M346 461H532' for p in group.findall('s:path',NS))
+    assert all(float(i.attrib['data-center-y'])==461 for i in group.findall('s:g[@data-icon]',NS))
+    headings={t.text:t for t in cof.findall('.//s:text',NS)}
+    for label,axis in [('TF',204),('CoF',461)]:
+        assert abs(float(headings[label].attrib['y'])-.35*float(headings[label].attrib['font-size'])-axis)<1e-6
+    for label,cx in [('History',1275),('Boundary state',1530),('Commit',634),('Discard',834),('Model rollout',439)]:
+        assert float(headings[label].attrib['x'])==cx
+    for label in ['context','Model rollout','Commit','Discard']:
+        assert float(headings[label].attrib['y'])==395
+    result['label_icon_and_group_alignment']={'glyph_visible_bounds_centered':True,
+        'cof_sources_plans_contexts_share_row_axis':True,'operation_labels_share_baseline':True,
+        'supervision_output_brackets_centered_on_decoder_arrows':True,'group_titles_centered':True}
     result['context_arrow_alignment']=True
     origins=[point(cof.find(f'.//*[@id="{k}-origin"]')) for k in ['sampled','recorded']]
     target=point(cof.find('.//*[@id="fixed-latent-target"]'))
