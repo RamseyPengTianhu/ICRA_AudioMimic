@@ -5,20 +5,20 @@
         2048.0,
         600.0
       ],
-      "sha256": "1a82f3c07a974b7e3bf4505da637e834a9f2a83bd9d8208b10ef572f7663504d",
+      "sha256": "dce2f7f00bcabf132cfde0f95f6b60ec265040f45e50164609251b2631f1e414",
       "embedded_images": 0,
       "collisions": [],
-      "smallest_print_font_pt": 7.13671875
+      "smallest_print_font_pt": 6.64453125
     },
     "cof-terminology": {
       "canvas": [
         2400.0,
         700.0
       ],
-      "sha256": "ba1fd1629688c87f5a3be6d57c9950370c5b64bf70f10c8581ba3656ba248a71",
+      "sha256": "881d455ff51b21f32de1bdc67e14a3290b5043795e81b8f2ec8e5eb5c42ab53f",
       "embedded_images": 0,
       "collisions": [],
-      "smallest_print_font_pt": 7.14
+      "smallest_print_font_pt": 6.720000000000001
     }
   },
   "scientific_geometry": {
@@ -28,6 +28,12 @@
       "structural": true
     },
     "same_target_correct_displacements": true
+  },
+  "label_object_correspondence": {
+    "point_labels_adjacent_to_their_points": true,
+    "detail_label_above_its_horizontal_displacement": true,
+    "encoder_state_explicitly_connected": true,
+    "supervision_uses_comparison_links_not_dataflow_to_ground_truth": true
   },
   "shared_boundary_state_icon": {
     "identical_to_overview": true,
@@ -39,7 +45,7 @@
   "label_icon_and_group_alignment": {
     "glyph_visible_bounds_centered": true,
     "cof_sources_plans_contexts_share_row_axis": true,
-    "operation_labels_share_baseline": true,
+    "tile_group_labels_share_baseline": true,
     "supervision_output_brackets_centered_on_decoder_arrows": true,
     "group_titles_centered": true
   },

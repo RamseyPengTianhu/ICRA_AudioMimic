@@ -16,7 +16,7 @@
 <text x="495" y="58" font-family="Helvetica" font-size="38" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Context construction</text>
 <text x="1342" y="58" font-family="Helvetica" font-size="38" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Conditioning context</text>
 <g id="teacher-forcing-recorded-source">
-<text x="495" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Ground-truth motion</text>
+<text x="495" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Ground-truth motion</text>
 <g transform="translate(260 207) scale(0.9)">
 <path d="M-9 -33Q0 -37 9 -33L7 -8Q0 -3 -7 -8Z" fill="#080F2D" stroke="#080F2D" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
 <path d="M0 -37L0 -33" fill="none" stroke="#080F2D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
@@ -130,8 +130,9 @@
 <path d="M766 204H1100" fill="none" stroke="#080F2D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
 </g>
 <g id="commit-forcing-self-rollout">
-<text x="235" y="353" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Ground-truth</text>
-<text x="235" y="395" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">context</text>
+<text x="236.5" y="358" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Ground-truth</text>
+<text x="236.5" y="395" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">context</text>
+<rect x="142" y="409" width="189" height="104" rx="12" fill="#F3ECFC" stroke="none" stroke-width="1.8" opacity="1"/>
 <g opacity="1">
 <rect x="157" y="426.5" width="36" height="38.64" rx="0" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
 <rect x="157" y="468.14" width="36" height="27.36" rx="0" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
@@ -149,10 +150,12 @@
 <path d="M202.00 483.96L203.53 484.71L205.06 485.26L206.59 485.60L208.12 485.70L209.65 485.55L211.18 485.15L212.71 484.55L214.24 483.76L215.76 482.85L217.29 481.87L218.82 480.87L220.35 479.93L221.88 479.10L223.41 478.43L224.94 477.96L226.47 477.73L228.00 477.74" fill="none" stroke="#FFE2B7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
 </g>
 <g data-icon="boundary-state" data-center-x="290" data-center-y="461" transform="translate(262.3142857142857 422.7964285714286) scale(2.7142857142857144)"><g fill="none" stroke="#8534DB" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="3.9" r="2.8" fill="#8534DB" stroke="none"/><path d="M10.5 8 L9 17 M10 10 L5.5 13 L3.2 17 M10 10 L14.4 13 L17.2 10 M9 17 L5 22 L4 26 M9 17 L13 21 L16 25.8"/></g></g>
-<text x="439" y="395" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Model rollout</text>
+<text x="439" y="432" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Rollout</text>
 <path d="M346 461H532" fill="none" stroke="#080F2D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-ink)"/>
 <text x="634" y="395" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Commit</text>
 <text x="834" y="395" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#8D96A8">Discard</text>
+<path d="M536 415V408H732V415" fill="none" stroke="#8534DB" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+<path d="M736 415V408H932V415" fill="none" stroke="#8D96A8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
 <g opacity="1">
 <rect x="536" y="424" width="46" height="41.440000000000005" rx="0" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
 <rect x="536" y="468.44" width="46" height="29.560000000000002" rx="0" fill="#FF8A17" stroke="none" stroke-width="1.8" opacity="1"/>
@@ -219,11 +222,11 @@
 </g>
 <path d="M536 507V516H732V507" fill="none" stroke="#8534DB" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
 <path d="M634 516V539Q634 551 646 551H1048Q1060 551 1060 539V473Q1060 461 1072 461H1100" fill="none" stroke="#8534DB" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="1" marker-end="url(#arrow-purple)"/>
-<text x="847" y="619" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#8534DB">Context update</text>
+<text x="847" y="590" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#8534DB">Context update</text>
 </g>
 <g id="matched-generation-contexts">
-<text x="1275" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">History</text>
-<text x="1530" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Boundary state</text>
+<text x="1275" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">History</text>
+<text x="1530" y="112" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Boundary state</text>
 <rect x="1102" y="147" width="480" height="114" rx="12" fill="#F3ECFC" stroke="none" stroke-width="1.8" opacity="1"/>
 <g opacity="0.6">
 <rect x="1118" y="168" width="34" height="40.32000000000001" rx="0" fill="#0769F9" stroke="none" stroke-width="1.8" opacity="1"/>
@@ -356,13 +359,13 @@
 <circle id="recorded-origin" cx="2283" cy="529" r="17" fill="#0769F9"/>
 <circle id="fixed-latent-target" cx="2213" cy="205" r="20" fill="#009EAC"/>
 <text x="2213" y="160" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#009EAC">Target latent</text>
-<text x="2000" y="340" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">Rebased</text>
-<text x="2000" y="386" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">residual</text>
-<text x="2323" y="350" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">Target</text>
-<text x="2323" y="394" font-family="Helvetica" font-size="34" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">residual</text>
-<text x="1958" y="579" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Sampled</text>
-<text x="1958" y="625" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">embedding</text>
-<text x="2283" y="579" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">Target</text>
-<text x="2283" y="625" font-family="Helvetica" font-size="34" font-style="normal" font-weight="bold" text-anchor="middle" fill="#080F2D">embedding</text>
+<text x="2000" y="340" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">Rebased</text>
+<text x="2000" y="382" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">residual</text>
+<text x="2323" y="350" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">Target</text>
+<text x="2323" y="392" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#FF8A17">residual</text>
+<text x="1958" y="577" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Sampled</text>
+<text x="1958" y="619" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">embedding</text>
+<text x="2283" y="577" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">Target</text>
+<text x="2283" y="619" font-family="Helvetica" font-size="32" font-style="normal" font-weight="normal" text-anchor="middle" fill="#080F2D">embedding</text>
 </g>
 </svg>

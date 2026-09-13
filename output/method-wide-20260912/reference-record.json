@@ -48,5 +48,16 @@
       "group both reconstructed coordinate bands and align decoder arrow to bracket center",
       "align latent point labels and shared-decoder flame"
     ]
+  },
+  "semantic_label_revision": {
+    "baseline_commit": "8b94b3dec26ae658a540396baec6654f200d8716",
+    "edits": [
+      "labels attached to their codebook points and a horizontal residual displacement",
+      "explicit labeled boundary-state input to the encoder",
+      "double-headed supervision comparisons instead of causal arrows into ground truth",
+      "ground-truth context enclosure and Commit/Discard span brackets",
+      "connector labels next to their own links",
+      "different sizes and weights for modules versus annotations"
+    ]
   }
 }

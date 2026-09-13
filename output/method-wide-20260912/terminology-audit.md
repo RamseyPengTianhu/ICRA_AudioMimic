@@ -12,7 +12,7 @@ teammate SONIC figures remain disabled; their source assets are unchanged.
 | CoF | Recorded segment | Ground-truth motion | Motion supplied by the training data, from which TF context is obtained. |
 | CoF | Recorded seed | Ground-truth context | Initial history and boundary state, not a random seed. |
 | CoF | Context source / Generation context | Context construction / Conditioning context | Distinguishes the construction operation from its result. |
-| CoF | Self-rollout | Model rollout | One sampled transition used to construct training context. |
+| CoF | Self-rollout | Rollout | One sampled transition used to construct training context. |
 | CoF | Append + derive state | Context update | Appends the committed latent prefix and derives state from its decoded motion, explained in the caption. |
 | CoF | Generate next | Motion generator | Names the module that consumes the context. |
 | CoF inset | Fixed latent target | Target latent | The ground-truth motion encoding stays fixed. |
@@ -79,3 +79,17 @@ committed history, boundary state, and the reference/control interface. The meth
 figures retain one shared decoder, paired context updates, and a fixed rebasing
 target. Proper names and module acronyms remain unchanged. Only eight text nodes
 in the overview changed; its geometry, illustrations, and connections are intact.
+
+## Label-object correspondence and typography
+
+The residual displacement is now horizontal, with Detail directly above it.
+Structure sits beside the blue prototype and Latent beside the dark encoded
+point. The selected prototype is still the nearest visible point after the
+local geometric adjustment. The encoder's starting-state icon has its own
+label and an explicit input connection; it is no longer a detached pictogram.
+Two-headed links denote reconstruction comparisons, not generation of ground
+truth. The initial CoF context is visibly grouped, Commit/Discard brackets mark
+their exact spans, and Rollout and Context update labels sit beside their links.
+Module and objective headings remain prominent; secondary annotations use lighter
+weight and, where useful, smaller type. The figures are checked again at paper
+width rather than forced into one font size.

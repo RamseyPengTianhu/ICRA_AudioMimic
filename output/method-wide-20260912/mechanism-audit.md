@@ -16,7 +16,7 @@ native motion, native velocity, Cartesian positions and Cartesian velocities.
 Native selection and Cartesian landmark selection differ: arm joint variables
 are not interchangeable with wrist positions. The bands denote coordinate
 subsets across these blocks, not body parts. Both subsets are compared with
-ground truth for full-motion loss, while only the blue subset is compared for
+ground truth through double-headed links for full-motion loss, while only the blue subset is compared for
 structural loss. Faint orange coordinates still belong to the complete output.
 There is no independent detail-only loss. Band widths are schematic.
 
@@ -86,10 +86,20 @@ See `terminology-audit.md` for the complete active-figure wording review.
 ## Alignment follow-up
 
 CoF initial context, rollout tiles, updated context and generator now share one
-horizontal centerline. Row names are optically centered on each row. Operation
+horizontal centerline. Row names are optically centered on each row. Tile-group
 labels share a baseline; history/state headings and Commit/Discard headings are
 centered over their respective content. Boundary glyphs use their visible stroked
 bounds for centering instead of their padded viewport. Reconstruction brackets
 explicitly group both coordinate bands, and decoder arrows meet their midpoint.
 These relationships are checked in `review_wide_method_figures.py`, in addition
 to overlap tests and final manuscript inspection.
+
+The label-correspondence revision adjusts the codebook's local point positions
+while retaining nearest-prototype geometry. Each point label is adjacent to its
+own point, and Detail is centered above the corresponding horizontal offset.
+The boundary state is explicitly connected to the encoder as required by
+`encode_clean_components(motion, state)`, as well as to the shared decoder.
+The same glyph and state name identify these two uses. The initial CoF context
+has an enclosure matching the subsequent context, and Commit/Discard labels have
+span brackets. Connector labels use proximity to their own paths rather than a
+shared arbitrary text baseline. Font size and weight follow information priority.

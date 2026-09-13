@@ -144,10 +144,11 @@
       "audit": "Reviewed against current manuscript and frozen implementation; terminology-audit.md records decisions."
     },
     "structure-detail-training": {
-      "label_count": 23,
+      "label_count": 24,
       "labels": [
-        "Motion + state",
+        "Motion",
         "Encode",
+        "Boundary state",
         "Codebook",
         "Structure",
         "Detail",
@@ -182,7 +183,7 @@
         "Ground-truth motion",
         "Ground-truth",
         "context",
-        "Model rollout",
+        "Rollout",
         "Commit",
         "Discard",
         "Context update",

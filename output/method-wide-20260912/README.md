@@ -7,7 +7,7 @@ is `ForeDance.pdf` (eight pages).
 
 - **Representation:** retains the original long encoder, codebook, and shared
   decoder composition. Two simple blue/orange coordinate bands show comparison
-  with ground truth. Full-motion loss supervises both; structural loss selects
+  with ground truth. Double-headed links show comparison: full-motion loss supervises both; structural loss selects
   blue only. Both paths reconstruct complete motion. No supervision grids or
   repeated anatomical pictograms remain.
 - **Commit Forcing:** compares ground-truth and model-generated conditioning
@@ -31,3 +31,8 @@ previously authorized embedded raster illustrations and editable diagram objects
 See `terminology-audit.md`, `mechanism-audit.md`, `figure-label-audit.json` and
 `validation.json` for source evidence and checks. Prior raster references and
 prompts are preserved as design provenance, not presented as current figures.
+
+The final label refinement connects the encoder's boundary-state input, attaches
+codebook labels directly to their points and residual arrow, and groups the CoF
+initial context and Commit/Discard spans. Secondary labels use lighter type and
+sit by the corresponding connector. See the updated preview for these refinements.

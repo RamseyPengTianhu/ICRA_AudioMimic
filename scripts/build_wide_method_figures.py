@@ -44,9 +44,11 @@ def supervision_bands(f,y,full):
         f.raw(f'<g data-coordinates="{label.lower()}" opacity="{1 if full or j==0 else .28}">')
         for x in [1560,1848]:
             f.rect(x,yy,180,49,fill=c,r=6)
-            f.text(x+90,yy+35,label,29,anchor='middle',fill='white' if j==0 else 'ink',weight='bold')
+            f.text(x+90,yy+34,label,28,anchor='middle',fill='white' if j==0 else 'ink',weight='bold')
         if full or j==0:
-            f.line(1754,yy+24.5,1837,yy+24.5,stroke=c,sw=3.5,arrow=True)
+            f.raw(f'<path d="M1754 {yy+24.5}H1837" fill="none" '
+                  f'stroke="{"#0769F9" if j==0 else "#FF8A17"}" stroke-width="3.5" '
+                  f'marker-start="url(#arrow-{c})" marker-end="url(#arrow-{c})"/>')
         f.end()
     f.end()
 
@@ -56,28 +58,31 @@ def representation():
     original.OUT=OUT/'baseline'
     original.representation()
     svg=(original.OUT/'structure-detail-training.svg').read_text()
+    svg=re.sub(r'font-size="(?:26|27|28)"','font-size="29"',svg)
     svg=svg.replace('height="683"','height="600"').replace('viewBox="0 0 2048 683"','viewBox="0 0 2048 600"')
     f=new_content(); f.group('codebook-geometry')
     f.raw('<circle id="codebook-boundary" cx="798" cy="330" r="228" fill="#E1EFFF"/>')
-    others=[(665,220),(730,190),(817,190),(922,186),(637,330),
-            (665,442),(736,494),(823,500),(926,430),(972,350)]
-    q,z=(836,305),(900,264)
+    others=[(665,220),(730,190),(817,190),(922,186),(637,390),
+            (665,442),(736,494),(823,500),(926,455),(972,430)]
+    q,z=(790,320),(910,320)
     assert math.dist(q,z)<min(math.dist(p,z) for p in others)
     for x,y in others:f.raw(f'<circle class="prototype" cx="{x}" cy="{y}" r="8.6" fill="#0769F9"/>')
-    f.text(798,144,'Codebook',29,anchor='middle',weight='bold')
+    f.text(798,144,'Codebook',31,anchor='middle',weight='bold')
     dx,dy=z[0]-q[0],z[1]-q[1];length=math.hypot(dx,dy)
     f.line(q[0]+19*dx/length,q[1]+19*dy/length,z[0]-19*dx/length,z[1]-19*dy/length,stroke='orange',sw=4.8,arrow=True)
-    f.raw('<circle id="selected-prototype" cx="836" cy="305" r="15.4" fill="#0769F9"/>')
-    f.raw('<circle id="encoded-latent" cx="900" cy="264" r="15.4" fill="#080F2D"/>')
-    f.text(811,316,'Structure',28,anchor='end',weight='bold')
-    f.text(811,273,'Detail',28,anchor='end',weight='bold',fill='orange')
-    f.text(900,236,'Latent',28,anchor='middle',weight='bold')
+    f.raw('<circle id="selected-prototype" cx="790" cy="320" r="15.4" fill="#0769F9"/>')
+    f.raw('<circle id="encoded-latent" cx="910" cy="320" r="15.4" fill="#080F2D"/>')
+    f.text(764,330,'Structure',28,anchor='end',fill='blue')
+    f.text(850,296,'Detail',28,anchor='middle',fill='orange')
+    f.text(936,330,'Latent',28,anchor='start')
     f.end()
     a=svg.index('<g id="codebook-geometry">');b=svg.index('<g id="two-passes-one-decoder">')
     svg=svg[:a]+content(f)+'\n'+svg[b:]
     svg=svg.replace('M541 327L590 327','M541 327L563 327')
-    svg=svg.replace('M761 348C871 382 918 472 1098 475','M849 319C922 385 958 472 1098 475')
-    svg=svg.replace('>Input motion</text>','>Motion + state</text>')
+    svg=svg.replace('M761 348C871 382 918 472 1098 475','M799 337C848 423 958 472 1098 475')
+    svg=svg.replace('M916 263C1020 269 1054 157 1191 200C1231 208 1251 219 1289 226',
+                    'M910 300C934 217 1108 151 1289 226')
+    svg=svg.replace('>Input motion</text>','>Motion</text>')
     # Replace the legacy pose-plus-wave cue with the overview's single glyph.
     begin=svg.index('<g transform="translate(1085 277)')
     end=svg.index('<text x="1124"',begin)
@@ -88,11 +93,13 @@ def representation():
     svg=svg.replace('translate(1356 357)','translate(1351.76 357)')
     f=new_content();f.group('input-starting-state-cue')
     draw_boundary_state_centered(f,183,515,80)
+    f.text(183,580,'Boundary state',28,anchor='middle',fill='purple')
+    f.path('M218 515H477V397',stroke='purple',sw=3.5,arrow=True)
     f.end()
     svg=svg.replace('<g id="codebook-geometry">',content(f)+'\n<g id="codebook-geometry">')
     f=new_content();f.group('full-and-structural-supervision')
-    f.text(1650,139,'Reconstruction',29,anchor='middle')
-    f.text(1938,139,'Ground truth',29,anchor='middle')
+    f.text(1650,139,'Reconstruction',27,anchor='middle')
+    f.text(1938,139,'Ground truth',27,anchor='middle')
     for yy,title,full in [(169,'Full-motion loss',True),(407,'Structural loss',False)]:
         f.text(1794,100 if full else 354,title,31,anchor='middle',weight='bold')
         supervision_bands(f,yy,full)
@@ -101,7 +108,9 @@ def representation():
     svg=svg[:a]+content(f)+'\n</svg>'
     # Reproducible reference points to the preserved long design, not a later draft.
     svg=svg.replace(str(original.OUT/'representation-candidate-v6.png'),str(OUT/'structure-detail-training-long-reference.png'))
-    svg=re.sub(r'font-size="(?:26|27|28)"','font-size="29"',svg)
+    for label in ['Structure + detail','Structure only','Boundary state']:
+        svg=re.sub(r'<text\b[^>]*>'+re.escape(label)+r'</text>',
+                   lambda m:m[0].replace('font-size="29"','font-size="28"').replace('font-weight="bold"','font-weight="normal"'),svg)
     export(svg,OUT/'structure-detail-training')
 
 
@@ -124,31 +133,34 @@ def commit():
     f.text(1342,58,'Conditioning context',38,anchor='middle',weight='bold')
     # TF reads a recorded segment. It never enters the self-rollout operation.
     f.group('teacher-forcing-recorded-source')
-    f.text(495,112,'Ground-truth motion',34,anchor='middle',weight='bold')
+    f.text(495,112,'Ground-truth motion',34,anchor='middle')
     for i,x in enumerate([260,370,480]):motion_pose(f,x,207,.9,i,'input')
     for i in range(4):tile(f,570+i*47,168,43,72,[1,0,2,3][i],i*.6)
     f.path('M766 204H1100',sw=3.5,arrow=True)
     f.end()
     # CoF starts from a recorded seed, samples one horizon, commits the prefix.
     f.group('commit-forcing-self-rollout')
-    f.text(235,353,'Ground-truth',34,anchor='middle',weight='bold')
-    f.text(235,395,'context',34,anchor='middle',weight='bold')
+    f.text(236.5,358,'Ground-truth',32,anchor='middle')
+    f.text(236.5,395,'context',32,anchor='middle')
+    f.rect(142,409,189,104,fill='pale_purple',r=12)
     for i in range(2):tile(f,157+i*40,426.5,36,69,i,i*.6)
     draw_boundary_state_centered(f,290,461,76)
-    f.text(439,395,'Model rollout',34,anchor='middle',weight='bold')
+    f.text(439,432,'Rollout',32,anchor='middle')
     f.path('M346 461H532',sw=3.5,arrow=True)
     f.text(634,395,'Commit',34,anchor='middle',weight='bold')
     f.text(834,395,'Discard',34,anchor='middle',fill='gray')
+    f.path('M536 415V408H732V415',stroke='purple',sw=2.3)
+    f.path('M736 415V408H932V415',stroke='gray',sw=2.3,opacity=.6)
     for i in range(8):
         tile(f,536+i*50,424,46,74,[1,3,0,2,0,2,1,3][i],i*.6+1.2,1 if i<4 else .18)
     f.path('M536 507V516H732V507',stroke='purple',sw=2.3)
     # Only the committed prefix supplies BOTH members of the next context.
     f.path('M634 516V539Q634 551 646 551H1048Q1060 551 1060 539V473Q1060 461 1072 461H1100',stroke='purple',sw=3.6,arrow=True)
-    f.text(847,619,'Context update',34,anchor='middle',fill='purple')
+    f.text(847,590,'Context update',32,anchor='middle',fill='purple')
     f.end()
     f.group('matched-generation-contexts')
-    f.text(1275,112,'History',34,anchor='middle',weight='bold')
-    f.text(1530,112,'Boundary state',34,anchor='middle',weight='bold')
+    f.text(1275,112,'History',34,anchor='middle')
+    f.text(1530,112,'Boundary state',34,anchor='middle')
     for yy,generated in [(161,False),(418,True)]:
         f.rect(1102,yy-14,480,114,fill='pale_purple',r=12)
         for i in range(2):tile(f,1118+i*38,yy+7,34,72,i,i*.6,.6)
@@ -173,14 +185,14 @@ def commit():
     for name,p,c,r in [('sampled-origin',sampled,'#0769F9',17),('recorded-origin',recorded,'#0769F9',17),('fixed-latent-target',target,'#009EAC',20)]:
         f.raw(f'<circle id="{name}" cx="{p[0]}" cy="{p[1]}" r="{r}" fill="{c}"/>')
     f.text(2213,160,'Target latent',34,anchor='middle',fill='teal',weight='bold')
-    f.text(2000,340,'Rebased',34,anchor='middle',fill='orange')
-    f.text(2000,386,'residual',34,anchor='middle',fill='orange')
-    f.text(2323,350,'Target',34,anchor='middle',fill='orange')
-    f.text(2323,394,'residual',34,anchor='middle',fill='orange')
-    f.text(1958,579,'Sampled',34,anchor='middle',weight='bold')
-    f.text(1958,625,'embedding',34,anchor='middle',weight='bold')
-    f.text(2283,579,'Target',34,anchor='middle',weight='bold')
-    f.text(2283,625,'embedding',34,anchor='middle',weight='bold')
+    f.text(2000,340,'Rebased',32,anchor='middle',fill='orange')
+    f.text(2000,382,'residual',32,anchor='middle',fill='orange')
+    f.text(2323,350,'Target',32,anchor='middle',fill='orange')
+    f.text(2323,392,'residual',32,anchor='middle',fill='orange')
+    f.text(1958,577,'Sampled',32,anchor='middle')
+    f.text(1958,619,'embedding',32,anchor='middle')
+    f.text(2283,577,'Target',32,anchor='middle')
+    f.text(2283,619,'embedding',32,anchor='middle')
     f.end();f.save(OUT/'cof-terminology')
 
 

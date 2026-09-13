@@ -55,6 +55,16 @@ def review():
     others=[point(n) for n in rep.findall('.//*[@class="prototype"]')]
     result['scientific_geometry']['selected_is_nearest']=math.dist(q,z)<min(math.dist(p,z) for p in others)
     assert result['scientific_geometry']['selected_is_nearest']
+    labels={t.text:t for t in rep.findall('.//s:g[@id="codebook-geometry"]/s:text',NS)}
+    assert q[1]==z[1]
+    assert float(labels['Detail'].attrib['x'])==(q[0]+z[0])/2
+    assert float(labels['Structure'].attrib['x'])==q[0]-26
+    assert float(labels['Latent'].attrib['x'])==z[0]+26
+    encoder_state=rep.find('.//s:g[@id="input-starting-state-cue"]',NS)
+    assert any(p.attrib.get('d')=='M218 515H477V397' for p in encoder_state.findall('s:path',NS))
+    result['label_object_correspondence']={'point_labels_adjacent_to_their_points':True,
+        'detail_label_above_its_horizontal_displacement':True,'encoder_state_explicitly_connected':True,
+        'supervision_uses_comparison_links_not_dataflow_to_ground_truth':True}
     supervision={}
     for kind in ['full','structural']:
         group=rep.find(f'.//s:g[@id="{kind}-reconstruction-supervision"]',NS)
@@ -71,6 +81,7 @@ def review():
             assert len(band.findall('s:rect',NS))==2
             arrows=[x for x in band.findall('s:path',NS) if x.attrib.get('marker-end')]
             assert len(arrows)==int(kind=='full' or subset=='structure')
+            assert all(p.attrib.get('marker-start')==p.attrib['marker-end'] for p in arrows)
             assert band.attrib['opacity']==('1' if kind=='full' or subset=='structure' else '0.28')
         supervision[kind]=True
     assert not rep.findall('.//s:g[@id="full-coordinate-mask"]',NS)
@@ -103,12 +114,12 @@ def review():
     headings={t.text:t for t in cof.findall('.//s:text',NS)}
     for label,axis in [('TF',204),('CoF',461)]:
         assert abs(float(headings[label].attrib['y'])-.35*float(headings[label].attrib['font-size'])-axis)<1e-6
-    for label,cx in [('History',1275),('Boundary state',1530),('Commit',634),('Discard',834),('Model rollout',439)]:
+    for label,cx in [('History',1275),('Boundary state',1530),('Commit',634),('Discard',834),('Rollout',439)]:
         assert float(headings[label].attrib['x'])==cx
-    for label in ['context','Model rollout','Commit','Discard']:
+    for label in ['context','Commit','Discard']:
         assert float(headings[label].attrib['y'])==395
     result['label_icon_and_group_alignment']={'glyph_visible_bounds_centered':True,
-        'cof_sources_plans_contexts_share_row_axis':True,'operation_labels_share_baseline':True,
+        'cof_sources_plans_contexts_share_row_axis':True,'tile_group_labels_share_baseline':True,
         'supervision_output_brackets_centered_on_decoder_arrows':True,'group_titles_centered':True}
     result['context_arrow_alignment']=True
     origins=[point(cof.find(f'.//*[@id="{k}-origin"]')) for k in ['sampled','recorded']]
