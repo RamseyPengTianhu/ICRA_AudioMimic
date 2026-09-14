@@ -151,15 +151,14 @@ boundary state, so latent equality does not imply identical decoded motion.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/foredance/cof-terminology.pdf}
-\caption{\textbf{Constructing generation contexts with Commit Forcing.}
-TF uses ground-truth history and its boundary state. CoF samples a motion plan
-conditioned on ground-truth context, appends its committed prefix to history, and derives the
-paired boundary state from the decoded committed motion. The discarded tail
-does not enter the next context. At right, residual rebasing retains the
-ground-truth motion latent while replacing the target codebook embedding with
-the sampled embedding as the residual's origin. Tile counts and
-geometry are schematic.}
+\includegraphics[width=\textwidth]{figures/foredance/cof-terminology_refined_v1.pdf}
+\caption{\textbf{Constructing continuation contexts with Commit Forcing.}
+TF uses ground-truth history and boundary state. CoF constructs one commit
+transition under stop-gradient: committed latents update history, and decoded
+motion determines the paired boundary state for continuation learning.
+Residual rebasing keeps $z^*$ fixed and forms
+$r^*_{\rm rebased}=z^*-e(\hat q)$ without re-encoding ground-truth motion at the
+generated boundary. G1 poses, tile counts, and geometry are schematic.}
 \label{fig:cof}
 \label{fig:cof_training_detail}
 \end{figure*}
