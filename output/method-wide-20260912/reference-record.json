@@ -30,5 +30,34 @@
       "align module arrows with enough shaft clearance"
     ],
     "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
+  },
+  "terminology_revision": {
+    "baseline_commit": "ec53c1892ca1fa31b349f1d19ff10c0b319ea03d",
+    "edits": [
+      "academic labels in all three active figures and associated captions",
+      "simple paired coordinate bands replace supervision grids; no duplicate anatomy",
+      "source-faithful full versus structural loss distinction"
+    ],
+    "boundary_state_master_sha256": "b83470d3f50d091e915213f1a7fe8e88ab87674a092a6a9dd584cd3f50d07c7b"
+  },
+  "alignment_revision": {
+    "baseline_commit": "bc18cad",
+    "edits": [
+      "align CoF initial context, sampled plan and updated context on one row axis",
+      "center row names, group headings and boundary glyphs",
+      "group both reconstructed coordinate bands and align decoder arrow to bracket center",
+      "align latent point labels and shared-decoder flame"
+    ]
+  },
+  "semantic_label_revision": {
+    "baseline_commit": "8b94b3dec26ae658a540396baec6654f200d8716",
+    "edits": [
+      "labels attached to their codebook points and a horizontal residual displacement",
+      "explicit labeled boundary-state input to the encoder",
+      "double-headed supervision comparisons instead of causal arrows into ground truth",
+      "ground-truth context enclosure and Commit/Discard span brackets",
+      "connector labels next to their own links",
+      "different sizes and weights for modules versus annotations"
+    ]
   }
 }

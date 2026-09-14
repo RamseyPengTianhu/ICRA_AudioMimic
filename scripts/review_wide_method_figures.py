@@ -24,6 +24,10 @@ def review():
         icons=root.findall('.//s:g[@data-icon="boundary-state"]',NS)
         assert len(icons)==(2 if name=='structure-detail-training' else 3)
         assert all(ET.tostring(icon.find('s:g',NS))==ET.tostring(master) for icon in icons)
+        for icon in icons:
+            x,y,scale=map(float,re.findall(r'-?\d+(?:\.\d+)?',icon.attrib['transform']))
+            assert abs(x+10.2*scale-float(icon.attrib['data-center-x']))<1e-6
+            assert abs(y+14.075*scale-float(icon.attrib['data-center-y']))<1e-6
         glyph_counts[name]=len(icons)
         page=fitz.open(OUT/f'{name}.pdf')[0]
         assert not page.get_images()
@@ -51,18 +55,40 @@ def review():
     others=[point(n) for n in rep.findall('.//*[@class="prototype"]')]
     result['scientific_geometry']['selected_is_nearest']=math.dist(q,z)<min(math.dist(p,z) for p in others)
     assert result['scientific_geometry']['selected_is_nearest']
-    masks={}
+    labels={t.text:t for t in rep.findall('.//s:g[@id="codebook-geometry"]/s:text',NS)}
+    assert q[1]==z[1]
+    assert float(labels['Detail'].attrib['x'])==(q[0]+z[0])/2
+    assert float(labels['Structure'].attrib['x'])==q[0]-26
+    assert float(labels['Latent'].attrib['x'])==z[0]+26
+    encoder_state=rep.find('.//s:g[@id="input-starting-state-cue"]',NS)
+    assert any(p.attrib.get('d')=='M218 515H477V397' for p in encoder_state.findall('s:path',NS))
+    result['label_object_correspondence']={'point_labels_adjacent_to_their_points':True,
+        'detail_label_above_its_horizontal_displacement':True,'encoder_state_explicitly_connected':True,
+        'supervision_uses_comparison_links_not_dataflow_to_ground_truth':True}
+    supervision={}
     for kind in ['full','structural']:
-        cells=rep.findall(f'.//s:g[@id="{kind}-coordinate-mask"]/s:rect',NS)
-        assert len(cells)==32
-        rows=sorted(set(x.attrib['y'] for x in cells))
-        assert len(rows)==4
-        for y in rows:
-            row=[x for x in cells if x.attrib['y']==y]
-            active=sum(x.attrib['fill']=='#0769F9' for x in row)
-            assert active==8 if kind=='full' else 0<active<8
-        masks[kind]=True
-    result['scientific_geometry']['four_view_supervision_masks']=masks
+        group=rep.find(f'.//s:g[@id="{kind}-reconstruction-supervision"]',NS)
+        assert group is not None
+        bracket=group.find('s:path',NS)
+        y=169 if kind=='full' else 407
+        assert bracket.attrib['d']==f'M1554 {y}H1548V{y+112}H1554'
+        # Both decoder outputs target the center of the complete coordinate pair.
+        axis=y+56
+        assert any(p.attrib['d']==f'M1448 {int(axis)}L1540 {int(axis)}'
+                   for p in rep.findall('.//s:path',NS))
+        for subset in ['structure','detail']:
+            band=group.find(f's:g[@data-coordinates="{subset}"]',NS)
+            assert len(band.findall('s:rect',NS))==2
+            arrows=[x for x in band.findall('s:path',NS) if x.attrib.get('marker-end')]
+            assert len(arrows)==int(kind=='full' or subset=='structure')
+            assert all(p.attrib.get('marker-start')==p.attrib['marker-end'] for p in arrows)
+            assert band.attrib['opacity']==('1' if kind=='full' or subset=='structure' else '0.28')
+        supervision[kind]=True
+    assert not rep.findall('.//s:g[@id="full-coordinate-mask"]',NS)
+    result['scientific_geometry']['full_and_structural_coordinate_matching']=supervision
+    headings={t.text:t for t in rep.findall('.//s:text',NS)}
+    for title in ['Full-motion loss','Structural loss']:
+        assert float(headings[title].attrib['x'])==(1560+2028)/2
     cof=ET.parse(OUT/'cof-terminology.svg').getroot()
     result['shared_boundary_state_icon']={'identical_to_overview':True,'counts':glyph_counts}
     # Check connector alignment against the drawn context edges, including
@@ -76,6 +102,25 @@ def review():
         assert abs(y-(float(band.attrib['y'])+float(band.attrib['height'])/2))<1e-6
         assert x>float(band.attrib['x'])+float(band.attrib['width'])
         assert end-x>5*float(arrow.attrib['stroke-width'])+20
+    group=cof.find('.//s:g[@id="commit-forcing-self-rollout"]',NS)
+    for tile in group.findall('s:g[@opacity]',NS):
+        rects=tile.findall('s:rect',NS)
+        assert len(rects)==2
+        top=min(float(r.attrib['y']) for r in rects)
+        bottom=max(float(r.attrib['y'])+float(r.attrib['height']) for r in rects)
+        assert abs((top+bottom)/2-461)<1e-6
+    assert any(p.attrib['d']=='M346 461H532' for p in group.findall('s:path',NS))
+    assert all(float(i.attrib['data-center-y'])==461 for i in group.findall('s:g[@data-icon]',NS))
+    headings={t.text:t for t in cof.findall('.//s:text',NS)}
+    for label,axis in [('TF',204),('CoF',461)]:
+        assert abs(float(headings[label].attrib['y'])-.35*float(headings[label].attrib['font-size'])-axis)<1e-6
+    for label,cx in [('History',1275),('Boundary state',1530),('Commit',634),('Discard',834),('Rollout',439)]:
+        assert float(headings[label].attrib['x'])==cx
+    for label in ['context','Commit','Discard']:
+        assert float(headings[label].attrib['y'])==395
+    result['label_icon_and_group_alignment']={'glyph_visible_bounds_centered':True,
+        'cof_sources_plans_contexts_share_row_axis':True,'tile_group_labels_share_baseline':True,
+        'supervision_output_brackets_centered_on_decoder_arrows':True,'group_titles_centered':True}
     result['context_arrow_alignment']=True
     origins=[point(cof.find(f'.//*[@id="{k}-origin"]')) for k in ['sampled','recorded']]
     target=point(cof.find('.//*[@id="fixed-latent-target"]'))
