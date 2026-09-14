@@ -92,14 +92,16 @@ and exact partitions remain in Appendix~\ref{app:training}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/foredance/structure-detail-training.pdf}
-\caption{\textbf{Learning complementary structure and detail.} The codebook
-anchor and continuous residual form the motion latent. Both paths share one
-state-conditioned decoder and reconstruct complete motion. Blue and orange bands
-denote structural and complementary kinematic coordinates, including velocities.
-Double-headed links indicate comparison with ground truth: the full-motion loss constrains
-both subsets; the structural loss constrains only blue. Faint orange coordinates
-remain in the output. Band widths are schematic; flames mark learned modules.}
+\includegraphics[width=\textwidth]{figures/foredance/structure-detail-training_refined_v3.pdf}
+\caption{\textbf{Learning complementary structure and detail.} Core paired
+reconstruction objectives. The encoder maps robot-native motion and its boundary
+state to a latent composed of codebook embedding $e(q)$ and continuous residual $r$.
+The shared decoder is evaluated twice with the same boundary state, using
+$e(q)+r$ and $e(q)$. Both paths reconstruct complete motion. Blue and orange bands
+denote structural and complementary kinematic coordinates, including velocities;
+comparison links indicate which subsets enter each loss. Full-motion supervision
+constrains both subsets, whereas structural supervision constrains only blue.
+G1 poses, codebook geometry, and band widths are schematic; flames mark learned modules.}
 \label{fig:dc}
 \end{figure*}
 
