@@ -14,8 +14,9 @@ $m^{\rm pred}=F(a_{\leq\tau})$, and the generator samples
 (q_{1:H},r_{1:H})\sim p_\theta(q,r\mid h,b,m^{\rm pred}).
 \label{eq:conditional}
 \end{equation}
-Here $q$ is discrete structure and $r$ is continuous detail. Their sum decodes
-to native G1 motion. Both streams commit the same first $C<H$ steps; the
+Here $q$ denotes discrete code indices and $r$ continuous residuals.
+The codebook embeddings $e(q)$ are added to $r$ and decoded into
+native G1 motion, conditioned on $b$. Both streams commit the same first $C<H$ steps; the
 remaining plan is discarded. We use $H=8$ and $C=4$ at 15 latent steps per
 second, yielding 16 planned and eight committed frames at 30\,Hz.
 
@@ -74,10 +75,17 @@ We train two reconstructions with the same decoder and starting state:
 x_f=D_\psi(e(q)+r,b),\qquad x_s=D_\psi(e(q),b).
 \label{eq:paired_paths}
 \end{equation}
-The full path preserves complete movement, while the structure-only path
-gives the discrete anchor an explicit kinematic responsibility
-(Fig.~\ref{fig:overview}(c)). Codebook and commitment losses train the quantized
-representation; Appendix~\ref{app:training} specifies the gradient routes.
+Both paths reconstruct complete motion through the same decoder.
+The full-motion loss supervises all kinematic coordinates,
+whereas the structure-only path uses only $e(q)$ as its motion
+latent and is supervised on designated structural coordinates
+(Fig.~\ref{fig:dc}).
+For the full reconstruction, encoder gradients flow through $r$,
+with $e(q)$ detached.
+The structure-only reconstruction uses a straight-through estimator.
+Both reconstruction losses update the shared decoder.
+Codebook and commitment losses train the quantized representation;
+Appendix~\ref{app:training} specifies the gradient routes.
 
 The full loss supervises native coordinates, native velocities,
 forward-kinematics positions, and geometry velocities. Each block is
@@ -135,9 +143,15 @@ the same commitment. Each supplied training example constructs one such
 transition independently; the first pass is not a recursive long rollout.
 
 \paragraph{Keep the target, change its residual coordinates}
+A second, gradient-enabled pass learns continuation conditioned
+on the selected history--state pair.
+The ground-truth motion for the next segment remains unchanged.
 The ground-truth structural target $q^*$ and motion latent
-$z^*=e(q^*)+r^*$ remain fixed. The next structure model is supervised against
-$q^*$, while its sampled structure $\hat q$ conditions residual denoising.
+$z^*=e(q^*)+r^*$ remain fixed.
+The structure planner is supervised against $q^*$.
+Its sampled code indices $\hat q$ are treated as constants
+when conditioning residual denoising and constructing
+the rebased residual target.
 We express the residual target relative to that sampled embedding:
 \begin{equation}
 r^*_{\rm rebased}=z^*-e(\hat q),\qquad
