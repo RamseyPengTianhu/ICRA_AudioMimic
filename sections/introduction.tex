@@ -30,7 +30,7 @@ the movement already committed?
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{figures/foredance/overview.pdf}
+    \includegraphics[width=\textwidth]{figures/foredance/overview_framework_h8_v9.pdf}
     \caption{
     \textbf{Overview of \method{}.}
     \textbf{(a)} Frozen MRT-2 forecasts upcoming music states from
@@ -43,9 +43,10 @@ the movement already committed?
     control. Committed latent codes update the generator history,
     and decoded motion determines its next reference boundary state.
     Measured robot state feeds back only to the controller.
-    \textbf{(c)} Retargeted FineDance motion supports D+C learning
-    through full-motion and structural-view reconstruction with
-    a shared decoder and complementary kinematic supervision.
+    \textbf{(c)} SMPL-format human dance data is retargeted to G1
+    before training. The resulting robot-native motion data supports
+    D+C learning through full-motion and structural-view reconstruction
+    with a shared decoder and complementary kinematic supervision.
     \textbf{(d)} Commit Forcing constructs a generated
     history--state pair under stop-gradient and trains continuation
     using recorded next-segment targets.
