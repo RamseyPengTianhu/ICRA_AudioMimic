@@ -33,9 +33,9 @@ the movement already committed?
     \includegraphics[width=\textwidth]{figures/foredance/overview_framework_h8_v9.pdf}
     \caption{
     \textbf{Overview of \method{}.}
-    \textbf{(a)} Frozen MRT-2 forecasts upcoming music states from
+    Frozen MRT-2 forecasts upcoming music states from
     arrived audio.
-    \textbf{(b)} Forecast conditions modulate the discrete planner
+    Forecast conditions modulate the discrete planner
     and residual diffusion model through FiLM; sampled structure
     also conditions residual generation.
     A shared decoder produces robot-native references, whose
@@ -43,11 +43,11 @@ the movement already committed?
     control. Committed latent codes update the generator history,
     and decoded motion determines its next reference boundary state.
     Measured robot state feeds back only to the controller.
-    \textbf{(c)} SMPL-format human dance data is retargeted to G1
+    SMPL-format human dance data is retargeted to G1
     before training. The resulting robot-native motion data supports
     D+C learning through full-motion and structure-only reconstruction
     with a shared decoder and complementary kinematic supervision.
-    \textbf{(d)} Commit Forcing constructs a generated
+    Commit Forcing constructs a generated
     history--state pair under stop-gradient and trains continuation
     using ground-truth future-motion targets.
     Robot poses illustrate the method and are not hardware results.

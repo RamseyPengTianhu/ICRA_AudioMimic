@@ -1,0 +1,46 @@
+{
+  "paper_pages": 9,
+  "review_annotations": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "panel_badges_removed": true,
+  "film_label_count": 1,
+  "inline_arrow_labels": [
+    "Embed + Add",
+    "Latent Prefix"
+  ],
+  "caption_panel_letters_removed": true,
+  "training_panel_bottom": 1024,
+  "visually_checked_pages": [
+    2,
+    5
+  ],
+  "inline_label_backgrounds_removed": true,
+  "inline_label_clearance_adjusted": true,
+  "second_review_completed": [
+    "generator title smaller at upper right",
+    "orange and purple routes separated",
+    "sum circle radius reduced",
+    "boundary label closer to black route",
+    "headers flush with panels"
+  ],
+  "phase_sections": "Two unified rounded cards with integrated blue headers and subtle internal dividers",
+  "latent_prefix_junction": {
+    "x": 720,
+    "y": 489,
+    "all_three_routes_aligned": true,
+    "magnified_pdf_checked": true
+  },
+  "pdf_page_count": 9,
+  "artifacts": {
+    "ForeDance.pdf": "210f56803cbcf96b4d989b6c811b6eaaddee137e9ac596f8d7afa07856a7941d",
+    "figures/foredance/overview_framework_h8_v9.svg": "2987c8aadab9215a3d6b39830fd26bb2ea5dac56c9fd675e61be6d89568e203a",
+    "figures/foredance/overview_framework_h8_v9.pdf": "d7da4b0ba0b3616cf53fe12bd6611e527eaf366b279745e903cd884c0591f21b",
+    "figures/foredance/cof-terminology_refined_v1.svg": "c1b0b0f582afc4756ec449dde7a5f02471ee9ffef8de560b66758385df221669",
+    "figures/foredance/cof-terminology_refined_v1.pdf": "8876f01cce0f5dff01d4c0354309c06eeadebe74c64cb7cf8f6cfff34ca2666b"
+  },
+  "overview_contains_embedded_illustrations": true
+}
